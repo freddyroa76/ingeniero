@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cálculo de Propiedades del Gas Natural</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+  --bg-gradient: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+  --bg-card: rgba(255, 255, 255, 0.95);
+  --text-primary: #333;
+  --text-secondary: #555;
+  --accent-primary: #0d47a1;
+  --accent-secondary: #1976d2;
+  --success: #28a745;
+  --warning: #ff9800;
+  --danger: #dc3545;
+  --border: #ddd;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  --transition: all 0.3s ease;
+  --radius: 10px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg-gradient);
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+header {
+  padding: 1.5rem 1rem 0.5rem;
+  text-align: center;
+  background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
+  color: white;
+  border-radius: var(--radius);
+  margin: 20px auto;
+  max-width: 1400px;
+  box-shadow: var(--shadow);
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+  font-weight: 700;
+  padding: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+h1 i {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.sub {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: clamp(0.8rem, 2.5vw, 0.95rem);
+  max-width: 800px;
+  margin: 0.5rem auto 0;
+  padding-bottom: 10px;
+}
+
+.wrap {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+.card:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 2px solid var(--accent-primary);
+}
+
+.card h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--accent-primary);
+}
+
+.card h2 i {
+  color: var(--accent-primary);
+}
+
+.scroll {
+  max-height: 50vh;
+  overflow: auto;
+  padding-right: 0.5rem;
+}
+
+.composition-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.8rem;
+}
+
+.comp-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.6rem;
+  background: rgba(237, 244, 252, 0.7);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  transition: var(--transition);
+}
+
+.comp-row:hover {
+  background: rgba(237, 244, 252, 0.9);
+  border-color: var(--accent-secondary);
+}
+
+.comp-row label {
+  flex: 1;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.comp-row input {
+  width: 90px;
+  background: white;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.5rem 0.8rem;
+  text-align: right;
+  font-size: 0.95rem;
+  transition: var(--transition);
+}
+
+.comp-row input:focus {
+  border-color: var(--accent-primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.2);
+}
+
+.comp-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  padding: 0.8rem;
+  background: rgba(237, 244, 252, 0.7);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: 1px solid var(--border);
+}
+
+.sum-value {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.sum-valid {
+  color: var(--success);
+}
+
+.sum-invalid {
+  color: var(--danger);
+}
+
+.operational-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.8rem;
+  margin-bottom: 1.2rem;
+}
+
+.op-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.op-row label {
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.op-row input {
+  background: white;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.7rem;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.op-row input:focus {
+  border-color: var(--accent-primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.2);
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+  justify-content: center;
+}
+
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 6px;
+  padding: 0.8rem 1.5rem;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+#btnCalc {
+  background: linear-gradient(to right, #28a745, #218838);
+}
+
+#btnClear {
+  background: linear-gradient(to right, #dc3545, #c82333);
+}
+
+#btnPaste {
+  background: linear-gradient(to right, #0d47a1, #1976d2);
+}
+
+.results-container {
+  margin-top: 1.5rem;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0.8rem;
+}
+
+.stat {
+  background: rgba(237, 244, 252, 0.7);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  transition: var(--transition);
+  border-left: 3px solid var(--accent-primary);
+}
+
+.stat:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.stat .k {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.3rem;
+}
+
+.stat .v {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+}
+
+.stat .unit {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-left: 0.3rem;
+  font-weight: normal;
+}
+
+.chart-container {
+  margin-top: 1.5rem;
+  background: rgba(237, 244, 252, 0.7);
+  border-radius: 8px;
+  padding: 1rem;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.chart-placeholder {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 1rem;
+}
+
+.chart-bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  width: 100%;
+  height: 100%;
+  gap: 0.5rem;
+  padding: 0 1rem;
+}
+
+.chart-bar {
+  width: 30px;
+  background: linear-gradient(to top, var(--accent-primary), var(--accent-secondary));
+  border-radius: 4px 4px 0 0;
+  position: relative;
+  transition: height 0.5s ease;
+}
+
+.chart-label {
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.gas-quality {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+}
+
+.quality-high {
+  background: rgba(40, 167, 69, 0.15);
+  color: #28a745;
+}
+
+.quality-medium {
+  background: rgba(255, 152, 0, 0.15);
+  color: #ff9800;
+}
+
+.quality-low {
+  background: rgba(220, 53, 69, 0.15);
+  color: #dc3545;
+}
+
+.footer {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.85rem;
+  padding: 1.5rem 0;
+  margin-top: 1rem;
+  background: rgba(13, 71, 161, 0.8);
+  border-radius: var(--radius);
+  max-width: 1400px;
+  margin: 20px auto;
+  box-shadow: var(--shadow);
+}
+
+.badge {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  padding: 0.2rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-left: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Responsive design */
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .composition-grid, .operational-grid, .results-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .wrap {
+    padding: 1rem;
+  }
+  
+  .card {
+    padding: 1.2rem;
+  }
+  
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  button {
+    width: 100%;
+  }
+  
+  h1 {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+/* Animation for validation */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+.pulse {
+  animation: pulse 0.5s ease;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(237, 244, 252, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(13, 71, 161, 0.4);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-primary);
+}
+
+#err, #errComp {
+  color: var(--danger);
+  font-size: 13px;
+  padding: 6px 0 0 2px;
+  font-weight: 500;
+}
+</style>
+</head>
+<body>
+  <header>
+    <h1><i class="fas fa-fire"></i> Cálculo de Propiedades del Gas Natural <span class="badge"><i class="fas fa-code"></i> HTML + JS</span></h1>
+    <div class="sub">Composición multicomponente, correcciones CKB, Z por Katz, y propiedades Cp/Cv/k por mezcla.</div>
+  </header>
+
+  <div class="wrap">
+    <div class="grid">
+      <!-- Composición -->
+      <section class="card">
+        <div class="card-header">
+          <h2><i class="fas fa-flask"></i> Composición del Gas</h2>
+          <div class="comp-summary">
+            <span>Suma de fracciones molares:</span>
+            <span id="sumValue" class="sum-value">0.000000</span>
+          </div>
+        </div>
+        <div id="errComp" class="err" aria-live="polite"></div>
+        <div class="composition-grid" id="compList">
+          <!-- filas generadas por JS -->
+        </div>
+      </section>
+
+      <!-- Operación + Resultados -->
+      <section class="card">
+        <div class="card-header">
+          <h2><i class="fas fa-sliders-h"></i> Variables Operacionales</h2>
+        </div>
+        
+        <div class="operational-grid">
+          <div class="op-row">
+            <label for="pOp"><i class="fas fa-tachometer-alt"></i> Presión de Operación (psig)</label>
+            <input id="pOp" type="text" inputmode="decimal" placeholder="Ej: 500" />
+          </div>
+          <div class="op-row">
+            <label for="pAtm"><i class="fas fa-cloud"></i> Presión Atmosférica (psia)</label>
+            <input id="pAtm" type="text" inputmode="decimal" placeholder="Ej: 14.7" value="14.7" />
+          </div>
+          <div class="op-row">
+            <label for="tOp"><i class="fas fa-thermometer-half"></i> Temperatura de Operación (°F)</label>
+            <input id="tOp" type="text" inputmode="decimal" placeholder="Ej: 60" />
+          </div>
+          <div class="op-row">
+            <label for="qMMSCFD"><i class="fas fa-wind"></i> Flujo (MMSCFD)</label>
+            <input id="qMMSCFD" type="text" inputmode="decimal" placeholder="Ej: 10" />
+          </div>
+        </div>
+
+        <div class="controls">
+          <button id="btnCalc"><i class="fas fa-calculator"></i> Calcular Propiedades</button>
+          <button id="btnClear"><i class="fas fa-eraser"></i> Borrar Todo</button>
+          <button id="btnPaste"><i class="fas fa-paste"></i> Pegar Datos</button>
+        </div>
+
+        <div class="results-container">
+          <div class="card-header">
+            <h2><i class="fas fa-chart-bar"></i> Resultados Calculados</h2>
+          </div>
+          <div id="err" class="err" aria-live="polite"></div>
+          <div class="results-grid" id="results">
+            <!-- stats -->
+          </div>
+          
+          <div class="chart-container">
+            <div class="chart-placeholder">
+              <i class="fas fa-chart-pie"></i> Gráfico de composición disponible después del cálculo
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div>(C) 2025. Creado Por Freddy Roa Monsalvo | Ingeniero Mecánico</div>
+    <div style="margin-top: 0.5rem; font-size: 0.8rem;">
+      <i class="fas fa-info-circle"></i> Metodología: Carr-Kobayashi-Burrows para correcciones, Katz para Z-factor
+    </div>
+  </div>
+
+<script>
+// ===== Datos base (del script Tkinter) =====
+const gasProperties = {
+  "CH4": {"nombre":"Metano","Pc":666.40,"Tc":343.00,"MW":0.03536871866},
+  "N2": {"nombre":"Nitrógeno","Pc":493.00,"Tc":227.6,"MW":0.06175802006},
+  "CO2":{"nombre":"Dióxido de carbono","Pc":1071.00,"Tc":547.9,"MW":0.0970253262},
+  "C2H6":{"nombre":"Etano","Pc":706.50,"Tc":549.6,"MW":0.0662929234},
+  "C3H8":{"nombre":"Propano","Pc":616.00,"Tc":665.70,"MW":0.09721712814},
+  "H2O":{"nombre":"Vapor de agua","Pc":3208.00,"Tc":1164.77,"MW":0.03971694},
+  "H2S":{"nombre":"Sulfuro de hidrógeno","Pc":1296.20,"Tc":672.30,"MW":0.07513795},
+  "H2": {"nombre":"Hidrógeno","Pc":188.11,"Tc":59.94,"MW":0.004444519},
+  "CO": {"nombre":"Monóxido de carbono","Pc":507.63,"Tc":239.22,"MW":0.06175148},
+  "O2": {"nombre":"Oxígeno","Pc":731.43,"Tc":278.64,"MW":0.07054572},
+  "nC4H10":{"nombre":"n-Butano","Pc":550.71,"Tc":765.36,"MW":0.12813912826},
+  "iC4H10":{"nombre":"Isobutano","Pc":527.90,"Tc":734.10,"MW":0.12813912826},
+  "nC5H12":{"nombre":"n-Pentano","Pc":488.60,"Tc":845.50,"MW":0.159063333},
+  "iC5H12":{"nombre":"Isopentano","Pc":490.40,"Tc":828.80,"MW":0.159063333},
+  "nC6H14":{"nombre":"Hexano","Pc":436.90,"Tc":913.30,"MW":0.18998753774},
+  "nC7H16":{"nombre":"Heptano","Pc":396.80,"Tc":972.47,"MW":0.2209252},
+  "nC8H18":{"nombre":"Octano","Pc":360.60,"Tc":1023.89,"MW":0.251834},
+  "nC9H20":{"nombre":"Nonano","Pc":334.46,"Tc":1072.26,"MW":0.28263262},
+  "C10H22":{"nombre":"Decano","Pc":307.92,"Tc":1113.30,"MW":0.313695753},
+  "He": {"nombre":"Helio","Pc":32.92,"Tc":9.34,"MW":0.00882422251},
+  "Ar": {"nombre":"Argón","Pc":710.00,"Tc":271.55,"MW":0.0880702645}
+};
+
+const cpCoeffs = {
+  "CH4":{"a":19.89,"b":5.024E-02,"c":1.269E-05,"d":-1.101E-08},
+  "N2":{"a":28.9,"b":-1.571E-03,"c":8.081E-06,"d":-2.873E-09},
+  "CO2":{"a":22.26,"b":5.981E-02,"c":-3.501E-05,"d":7.469E-09},
+  "C2H6":{"a":6.9,"b":1.727E-01,"c":-6.406E-05,"d":7.285E-09},
+  "C3H8":{"a":-4.04,"b":3.048E-01,"c":-1.572E-04,"d":3.174E-08},
+  "H2O":{"a":32.24,"b":1.923E-03,"c":1.055E-05,"d":-4.187E-09},
+  "H2":{"a":29.11,"b":-1.916E-03,"c":4.003E-06,"d":-8.704E-10},
+  "CO":{"a":28.16,"b":1.675E-03,"c":5.372E-06,"d":-2.222E-09},
+  "O2":{"a":25.48,"b":1.520E-02,"c":-7.155E-06,"d":1.312E-09},
+  "nC4H10":{"a":3.96,"b":3.715E-01,"c":-1.834E-04,"d":3.500E-08},
+  "iC4H10":{"a":-7.913,"b":4.160E-01,"c":-2.301E-04,"d":4.991E-08},
+  "nC5H12":{"a":6.774,"b":4.543E-01,"c":-2.246E-04,"d":4.229E-08},
+  "iC5H12":{"a":6.74,"b":4.540E-01,"c":-2.246E-04,"d":4.229E-08},
+  "nC6H14":{"a":6.938,"b":5.522E-01,"c":-2.865E-04,"d":5.769E-08}
+};
+
+const R_AIR = 0.06385130675;  // (lbm/lbmol) ? usado como MW aire equivalente en script original
+const R_gas = 10.7316;        // psia·ft³/(lbmol·°R)
+const R_univ = 8.314;         // J/mol·K
+
+// ===== Utilidades =====
+const id = s => document.getElementById(s);
+const numberize = s => {
+  if (typeof s !== "string") return Number(s);
+  const t = s.trim().replace(/,/g, ".");
+  if (t === "") return NaN;
+  return Number(t);
+};
+const to4 = x => (isFinite(x) ? x.toFixed(4) : "—");
+const to2 = x => (isFinite(x) ? x.toFixed(2) : "—");
+const to1 = x => (isFinite(x) ? x.toFixed(1) : "—");
+
+// Fahrenheit -> Kelvin
+const F_to_K = Tf => (Tf + 459.67) * 5/9;
+
+// Cp (kJ/kmol·K) para especie a T[K]
+function Cp_species(Tk, key){
+  const c = cpCoeffs[key];
+  if(!c) return NaN;
+  return c.a + c.b*Tk + c.c*Tk*Tk + c.d*Tk*Tk*Tk;
+}
+
+// Mezcla Cp, Cv, k a T[°F]
+function mix_CpCvK(Tf, y){
+  const Tk = F_to_K(Tf);
+  const ysum = Object.values(y).reduce((a,b)=>a+b,0);
+  if(ysum<=0) return {Cp:NaN, Cv:NaN, k:NaN};
+  const yn = {};
+  for(const g in y){ yn[g] = y[g]/ysum; }
+
+  let Cp = 0;
+  for(const g in yn){
+    if(yn[g]>0 && cpCoeffs[g]) Cp += yn[g]*Cp_species(Tk, g);
+  }
+  // R_univ en kJ/mol·K = 0.008314, pero Cp aquí está en kJ/kmol·K.
+  // Consistente con unidades kmol: R = 8.314 kJ/kmol·K
+  const Rkmol = 8.314;
+  const Cv = Cp - Rkmol;
+  const k = (Cv>0) ? (Cp/Cv) : NaN;
+  return {Cp, Cv, k};
+}
+
+// Katz Z(Pr, Tr)
+function Z_Katz(Pr, Tr){
+  const A = 1.39*Math.sqrt(Tr-0.92) - 0.36*Tr - 0.101;
+  const B = (0.62 - 0.23*Tr)*Pr + (((0.066/(Tr-0.86)) - 0.037)*Pr*Pr) + (0.32*Pr*Pr)/Math.pow(10, 9*(Tr-1));
+  const C = 0.132 - 0.32*Math.log10(Tr);
+  const D = Math.pow(10, 0.3016 - 0.497*Tr + 0.1824*Tr*Tr);
+  return A + ((1 - A)/Math.exp(B)) + C*Math.pow(Pr, D);
+}
+
+// Calcular calidad del gas basada en composición
+function gasQuality(y) {
+  const methane = y["CH4"] || 0;
+  const inerts = (y["N2"] || 0) + (y["CO2"] || 0);
+  
+  if (methane > 0.85 && inerts < 0.05) return {label: "Alta", class: "quality-high"};
+  if (methane > 0.7 && inerts < 0.15) return {label: "Media", class: "quality-medium"};
+  return {label: "Baja", class: "quality-low"};
+}
+
+// Crear gráfico de composición
+function createCompositionChart(y) {
+  const chartContainer = document.querySelector('.chart-container');
+  chartContainer.innerHTML = '<div class="chart-bars"></div>';
+  const chartBars = chartContainer.querySelector('.chart-bars');
+  
+  // Filtrar componentes con fracción > 0.01
+  const significantComponents = Object.entries(y)
+    .filter(([key, value]) => value > 0.01)
+    .sort((a, b) => b[1] - a[1]);
+  
+  // Si no hay componentes significativos
+  if (significantComponents.length === 0) {
+    chartContainer.innerHTML = '<div class="chart-placeholder">No hay componentes significativos para mostrar</div>';
+    return;
+  }
+  
+  // Calcular altura máxima (100% = 160px)
+  const maxValue = Math.max(...significantComponents.map(c => c[1]));
+  
+  significantComponents.forEach(([key, value]) => {
+    const barHeight = (value / maxValue) * 160;
+    const bar = document.createElement('div');
+    bar.className = 'chart-bar';
+    bar.style.height = `${barHeight}px`;
+    
+    const label = document.createElement('div');
+    label.className = 'chart-label';
+    label.textContent = `${key}: ${(value*100).toFixed(1)}%`;
+    
+    bar.appendChild(label);
+    chartBars.appendChild(bar);
+  });
+}
+
+// Construir UI de composición
+function buildCompositionUI(){
+  const compList = id("compList");
+  compList.innerHTML = '';
+  
+  for(const key of Object.keys(gasProperties)){
+    const row = document.createElement("div");
+    row.className = "comp-row";
+    
+    const lab = document.createElement("label");
+    lab.textContent = `${key} (${gasProperties[key].nombre})`;
+    lab.title = `${key} (${gasProperties[key].nombre})`;
+    
+    const inp = document.createElement("input");
+    inp.type = "text"; 
+    inp.inputMode = "decimal"; 
+    inp.placeholder = "0.0000";
+    inp.dataset.key = key;
+    
+    row.appendChild(lab); 
+    row.appendChild(inp);
+    compList.appendChild(row);
+  }
+  
+  // Agregar evento de entrada para actualizar la suma
+  const inputs = compList.querySelectorAll('input');
+  inputs.forEach(input => {
+    input.addEventListener('input', updateCompositionSum);
+  });
+}
+
+// Actualizar suma de composición
+function updateCompositionSum() {
+  let sum = 0;
+  document.querySelectorAll('#compList input').forEach(inp => {
+    const val = numberize(inp.value);
+    sum += isNaN(val) ? 0 : val;
+  });
+  
+  const sumValue = id("sumValue");
+  sumValue.textContent = sum.toFixed(6);
+  
+  if (Math.abs(sum - 1) < 1e-6) {
+    sumValue.classList.remove('sum-invalid');
+    sumValue.classList.add('sum-valid');
+    id("errComp").textContent = "";
+  } else {
+    sumValue.classList.remove('sum-valid');
+    sumValue.classList.add('sum-invalid');
+  }
+}
+
+function clearAll(){
+  document.querySelectorAll("input").forEach(el => {
+    if (el.id !== "pAtm") el.value = "";
+  });
+  id("err").textContent = "";
+  id("errComp").textContent = "";
+  id("results").innerHTML = "";
+  id("sumValue").textContent = "0.000000";
+  id("sumValue").classList.remove('sum-valid', 'sum-invalid');
+  document.querySelector('.chart-container').innerHTML = `
+    <div class="chart-placeholder">
+      <i class="fas fa-chart-pie"></i> Gráfico de composición disponible después del cálculo
+    </div>
+  `;
+}
+
+function pasteFromClipboard(){
+  if(!navigator.clipboard){ 
+    id("err").textContent = "Clipboard API no disponible en este navegador."; 
+    return; 
+  }
+  
+  navigator.clipboard.readText().then(text => {
+    if(!text){ 
+      id("err").textContent = "El portapapeles está vacío."; 
+      return; 
+    }
+    
+    id("err").textContent = "";
+    const vals = text.split(/[\t\n]/).filter(v => v.trim() !== '');
+    const inputs = [...document.querySelectorAll('#compList input')];
+    
+    // Pegar fracciones
+    for(let i = 0; i < inputs.length && i < vals.length; i++){
+      const v = vals[i].trim().replace(/,/g,".");
+      inputs[i].value = v;
+    }
+    
+    // Actualizar suma
+    updateCompositionSum();
+    
+    // Variables operacionales si hay más datos
+    const idx = inputs.length;
+    const fields = [id("pOp"), id("pAtm"), id("tOp"), id("qMMSCFD")];
+    
+    for(let j = 0; j < fields.length; j++){
+      const ix = idx + j;
+      if(ix < vals.length){
+        fields[j].value = vals[ix].trim().replace(/,/g,".");
+      }
+    }
+  }).catch(() => {
+    id("err").textContent = "No se pudo leer del portapapeles. Asegúrese de haber concedido los permisos necesarios.";
+  });
+}
+
+function calc(){
+  id("err").textContent = "";
+  id("errComp").textContent = "";
+
+  // Leer composición
+  const y = {};
+  let sum = 0;
+  document.querySelectorAll('#compList input').forEach(inp => {
+    const v = numberize(inp.value);
+    const val = isNaN(v) ? 0 : v;
+    y[inp.dataset.key] = val;
+    sum += val;
+  });
+
+  // Validar suma = 1
+  if(Math.abs(sum - 1) > 1e-6){
+    id("errComp").textContent = "La suma de las fracciones molares debe ser 1.000000";
+    id("results").innerHTML = "";
+    document.querySelector('.chart-container').innerHTML = `
+      <div class="chart-placeholder">Complete la composición correctamente para ver resultados</div>
+    `;
+    return;
+  }
+
+  // Variables operacionales
+  const pOp = numberize(id("pOp").value);
+  const pAtm = numberize(id("pAtm").value);
+  const tOp = numberize(id("tOp").value);
+  const q = numberize(id("qMMSCFD").value);
+
+  if([pOp, pAtm, tOp, q].some(v => !isFinite(v))){
+    id("err").textContent = "Complete todos los campos operacionales con números válidos.";
+    id("results").innerHTML = "";
+    return;
+  }
+
+  // PM, G
+  let PM = 0, Psc = 0, Tsc = 0;
+  for(const g in gasProperties){
+    const yi = y[g]||0;
+    PM += yi * gasProperties[g].MW;
+    Psc += yi * gasProperties[g].Pc;
+    Tsc += yi * gasProperties[g].Tc;
+  }
+  const G = PM / R_AIR;
+
+  // Carr, Kobayashi y Burrows
+  const yCO2 = y["CO2"]||0;
+  const yH2S = y["H2S"]||0;
+  const yN2  = y["N2"] ||0;
+  const Tsc_corr = Tsc - 80*yCO2 + 130*yH2S - 250*yN2;
+  const Psc_corr = Psc + 440*yCO2 + 600*yH2S - 170*yN2;
+
+  // Pr, Tr
+  const Pop = pOp, Patm = pAtm, Top = tOp;
+  const Pabs = Pop + Patm;
+  const Pr = Pabs / Psc_corr;
+  const Tr = (Top + 459.67) / Tsc_corr;
+
+  // Z Katz
+  const Z = Z_Katz(Pr, Tr);
+
+  // Densidad (lb/ft3) — misma forma del script original
+  const densidad = (28.9644 * G * Pabs) / (Z * 10.73159 * (Top + 459.67));
+
+  // Flujo ACFM desde MMSCFD
+  const scfm = (q * 1_000_000) / (24*60);
+  const ajusteT = (459.67 + Top) / (459.67 + 60);
+  const Pstd = 14.65;
+  const ajusteP = Pabs / (Pstd * Z);
+  const acfm = scfm * ajusteT / ajusteP;
+
+  // k a 50°F, 300°F y T_op
+  const k50  = mix_CpCvK(50, y);
+  const k300 = mix_CpCvK(300, y);
+  const kop  = mix_CpCvK(Top, y);
+
+  // Calcular calidad del gas
+  const quality = gasQuality(y);
+  
+  // Pintar resultados
+  const out = [
+    {k: "Peso Molecular", v: PM, unit: "lb/mol", icon: "fas fa-weight"},
+    {k: "Gravedad Específica", v: G, unit: "-", icon: "fas fa-balance-scale"},
+    {k: "Factor de Compresibilidad (Z)", v: Z, unit: "-", icon: "fas fa-compress"},
+    {k: "Densidad", v: densidad, unit: "lb/ft³", icon: "fas fa-tint"},
+    {k: "Pseudocrítica Psc", v: Psc_corr, unit: "psia", icon: "fas fa-arrow-up"},
+    {k: "Pseudocrítica Tsc", v: Tsc_corr, unit: "°R", icon: "fas fa-thermometer-full"},
+    {k: "Presión Pseudoreducida", v: Pr, unit: "-", icon: "fas fa-chart-line"},
+    {k: "Temperatura Pseudoreducida", v: Tr, unit: "-", icon: "fas fa-chart-line"},
+    {k: "Flujo Actual", v: acfm, unit: "ACFM", icon: "fas fa-fan"},
+    {k: "Calor Específico Cp", v: kop.Cp, unit: "kJ/kmol·K", icon: "fas fa-fire"},
+    {k: "Calor Específico Cv", v: kop.Cv, unit: "kJ/kmol·K", icon: "fas fa-fire"},
+    {k: "Relación k (Cp/Cv) @ 50°F", v: k50.k, unit: "-", icon: "fas fa-ratio"},
+    {k: "Relación k (Cp/Cv) @ 300°F", v: k300.k, unit: "-", icon: "fas fa-ratio"},
+    {k: "Relación k (Cp/Cv) @ T_op", v: kop.k, unit: "-", icon: "fas fa-ratio"},
+    {k: "Calidad del Gas", v: quality.label, unit: "", icon: "fas fa-star", extra: `<span class="${quality.class} gas-quality">${quality.label}</span>`}
+  ];
+
+  const frag = document.createDocumentFragment();
+  out.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "stat";
+    
+    const key = document.createElement("div");
+    key.className = "k";
+    key.innerHTML = `<i class="${item.icon}"></i> ${item.k}`;
+    
+    const val = document.createElement("div");
+    val.className = "v";
+    
+    if (item.extra) {
+      val.innerHTML = `${item.extra}`;
+    } else if (item.v !== undefined) {
+      const formattedValue = ["Psc", "Tsc"].some(term => item.k.includes(term)) ? 
+                            to1(item.v) : 
+                            to4(item.v);
+      val.innerHTML = `${formattedValue} <span class="unit">${item.unit}</span>`;
+    } else {
+      val.textContent = "—";
+    }
+    
+    div.appendChild(key);
+    div.appendChild(val);
+    frag.appendChild(div);
+  });
+  
+  const cont = id("results");
+  cont.innerHTML = "";
+  cont.appendChild(frag);
+  cont.classList.add('pulse');
+  
+  // Crear gráfico de composición
+  createCompositionChart(y);
+  
+  // Scroll a resultados
+  setTimeout(() => {
+    document.querySelector('.results-container').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 300);
+}
+
+// Inicializar UI
+document.addEventListener('DOMContentLoaded', () => {
+  buildCompositionUI();
+  id("btnClear").addEventListener("click", clearAll);
+  id("btnCalc").addEventListener("click", calc);
+  id("btnPaste").addEventListener("click", pasteFromClipboard);
+
+  // Soporte de pegar con Ctrl+V sobre cualquier campo (pega en orden)
+  document.addEventListener("paste", (ev) => {
+    const text = (ev.clipboardData || window.clipboardData)?.getData("text");
+    if(!text) return;
+    
+    const vals = text.split(/[\t\n]/).filter(v => v.trim() !== '');
+    const inputs = [...document.querySelectorAll('#compList input')];
+    
+    // Pegar fracciones
+    for(let i = 0; i < inputs.length && i < vals.length; i++){
+      const v = vals[i].trim().replace(/,/g,".");
+      inputs[i].value = v;
+    }
+    
+    // Actualizar suma
+    updateCompositionSum();
+    
+    // Variables operacionales si hay más datos
+    const idx = inputs.length;
+    const fields = [id("pOp"), id("pAtm"), id("tOp"), id("qMMSCFD")];
+    
+    for(let j = 0; j < fields.length; j++){
+      const ix = idx + j;
+      if(ix < vals.length){
+        fields[j].value = vals[ix].trim().replace(/,/g,".");
+      }
+    }
+    
+    // Prevenir el comportamiento predeterminado
+    ev.preventDefault();
+  });
+  
+  // Validación inicial
+  updateCompositionSum();
+});
+</script>
+</body>
+</html>

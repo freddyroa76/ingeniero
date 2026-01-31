@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Existencia en Línea de Gas Natural (Versión Final)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: #333;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .title-box {
+            background: linear-gradient(to right, #0d47a1, #1976d2);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .title {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .column {
+            flex: 1;
+            min-width: 350px;
+        }
+        
+        .section {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-title {
+            font-weight: bold;
+            color: #0d47a1;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1976d2;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .input-label {
+            width: 220px;
+            font-size: 15px;
+            color: #444;
+            font-weight: 500;
+        }
+        
+        select, input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 15px;
+            transition: border-color 0.3s;
+        }
+        
+        select:focus, input[type="number"]:focus, input[type="text"]:focus {
+            border-color: #1976d2;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+        }
+        
+        input[readonly] {
+            background-color: #f5f9ff;
+            color: #0d47a1;
+            font-weight: 600;
+        }
+        
+        .units {
+            font-size: 13px;
+            color: #666;
+            margin-left: 5px;
+            font-weight: normal;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        
+        .calc-button {
+            padding: 14px 30px;
+            font-size: 17px;
+            font-weight: bold;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            max-width: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .calc-button i {
+            margin-right: 8px;
+        }
+        
+        .calc-button.calculate {
+            background: linear-gradient(to right, #28a745, #218838);
+        }
+        
+        .calc-button.calculate:hover {
+            background: linear-gradient(to right, #218838, #1e7e34);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .calc-button.clear {
+            background: linear-gradient(to right, #dc3545, #c82333);
+        }
+        
+        .calc-button.clear:hover {
+            background: linear-gradient(to right, #c82333, #bd2130);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .calc-button.paste {
+            background: linear-gradient(to right, #17a2b8, #138496);
+        }
+        
+        .calc-button.paste:hover {
+            background: linear-gradient(to right, #138496, #117a8b);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: linear-gradient(to right, #0d47a1, #1976d2);
+            color: white;
+            font-style: italic;
+            font-size: 14px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .results-section {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background: #f9f9f9;
+            display: none;
+        }
+        
+        .results-title {
+            font-weight: bold;
+            color: #0d47a1;
+            margin-bottom: 20px;
+            font-size: 24px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1976d2;
+            text-align: center;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .result-item {
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #1976d2;
+            text-align: center;
+        }
+        
+        .result-label {
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .result-value {
+            font-weight: bold;
+            color: #0d47a1;
+            font-size: 20px;
+        }
+        
+        .result-unit {
+            font-size: 14px;
+            color: #666;
+            margin-left: 3px;
+        }
+        
+        .composition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+        }
+        
+        .composition-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .composition-item label {
+            font-weight: normal;
+            margin-bottom: 2px;
+            font-size: 14px;
+        }
+        
+        .total-composition {
+            margin-top: 10px;
+            font-weight: 600;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        
+        .error {
+            display: none;
+            background-color: #f8d7da;
+            border: 1px solid #f1aeb5;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .validation-error {
+            border-color: #dc3545 !important;
+        }
+
+        .equation-box {
+            background: #e3f2fd; 
+            padding: 15px; 
+            border-radius: 8px; 
+            font-family: 'Courier New', monospace; 
+            text-align: center; 
+            margin: 10px 0; 
+            border: 1px dashed #90caf9;
+            font-size: 16px;
+        }
+        
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+            margin-left: 5px;
+            color: #1976d2;
+            border-bottom: 1px dotted #1976d2;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -125px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 13px;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        @media (max-width: 900px) {
+            .main-content { flex-direction: column; }
+            .column { width: 100%; }
+            .button-group { flex-direction: column; align-items: center; }
+            .calc-button { max-width: 100%; width: 100%; }
+            .input-label { width: 150px; }
+            .results-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title-box">
+            <h1 class="title">Calculadora de Existencia en Línea de Gas Natural</h1>
+            <div class="subtitle">Cálculo de volumen y masa de gas natural existente en la linea</div>
+        </div>
+        
+        <div class="main-content">
+            <div class="column">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-flask"></i> Composición del Gas
+                    </div>
+                    
+                    <div class="composition-grid" id="composition-container">
+                        <!-- Las filas de composición se generarán con JavaScript -->
+                    </div>
+                    
+                    <div class="total-composition" id="total-composition">
+                        Suma total: 0.0000
+                    </div>
+                    <div class="error" id="composition-error">
+                        Error: La suma de las fracciones molares debe ser igual a 1.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="column">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-pipe"></i> Parámetros de Tubería
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Diámetro nominal</label>
+                        <select id="pipe-nominal">
+                            <option value="">Seleccione el diámetro nominal</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Schedule/Clase
+                            <span class="tooltip">?<span class="tooltiptext">El "Schedule" define el espesor de la pared de la tubería para un diámetro nominal dado, determinando su resistencia a la presión.</span></span>
+                        </label>
+                        <select id="pipe-schedule" disabled>
+                            <option value="">Primero seleccione el diámetro</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Longitud de la Tubería <span class="units">(m)</span></label>
+                        <input type="number" id="pipe-length" min="0" step="0.01" value="" placeholder="Ej: 83820">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Diámetro exterior, OD <span class="units">(pulg)</span></label>
+                        <input type="number" id="outside-diameter" readonly step="0.001">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Espesor de pared, t <span class="units">(pulg)</span></label>
+                        <input type="number" id="wall-thickness" readonly step="0.001">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Diámetro interior, ID <span class="units">(pulg)</span></label>
+                        <input type="number" id="inside-diameter" readonly step="0.001">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="column">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-sliders-h"></i> Condiciones de Operación
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Presión Atmosférica <span class="units">(psia)</span></label>
+                        <input type="number" id="atmospheric-pressure" min="0" step="0.01" value="" placeholder="Ej: 14.7">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Presión de Entrada P1 <span class="units">(psig)</span></label>
+                        <input type="number" id="inlet-pressure" min="0" step="0.01" value="" placeholder="Ej: 550">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Presión de Salida P2 <span class="units">(psig)</span></label>
+                        <input type="number" id="outlet-pressure" min="0" step="0.01" value="" placeholder="Ej: 350">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Temperatura de Entrada <span class="units">(°F)</span></label>
+                        <input type="number" id="inlet-temperature" step="0.01" value="" placeholder="Ej: 120">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Temperatura de Salida <span class="units">(°F)</span></label>
+                        <input type="number" id="outlet-temperature" step="0.01" value="" placeholder="Ej: 60">
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="calc-button calculate" onclick="calculate()">
+                        <i class="fas fa-calculator"></i> Calcular
+                    </button>
+                    <button class="calc-button clear" onclick="clearForm()">
+                        <i class="fas fa-broom"></i> Limpiar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="results-section" class="results-section">
+            <div class="results-title">
+                <i class="fas fa-chart-bar"></i> Resultados del Cálculo
+            </div>
+            
+            <div class="results-grid">
+                <div class="result-item">
+                    <div class="result-label">Volumen Estándar</div>
+                    <div class="result-value" id="result-std-volume-scf">-</div>
+                    <span class="result-unit">SCF</span>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-label">Volumen Estándar</div>
+                    <div class="result-value" id="result-std-volume-m3">-</div>
+                    <span class="result-unit">m³</span>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-label">Masa de Gas</div>
+                    <div class="result-value" id="result-mass-lbm">-</div>
+                    <span class="result-unit">lbm</span>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-label">Masa de Gas</div>
+                    <div class="result-value" id="result-mass-kg">-</div>
+                    <span class="result-unit">kg</span>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-label">Presión Promedio</div>
+                    <div class="result-value" id="result-avg-pressure">-</div>
+                    <span class="result-unit">psig</span>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-label">Temperatura Promedio</div>
+                    <div class="result-value" id="result-avg-temperature">-</div>
+                    <span class="result-unit">°F</span>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-label">Factor de Compresibilidad (Z)
+                        <span class="tooltip">?<span class="tooltiptext">Factor que corrige la ley de los gases ideales para el comportamiento de un gas real. Z=1 para un gas ideal.</span></span>
+                    </div>
+                    <div class="result-value" id="result-z-factor">-</div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-label">Densidad del Gas (Estándar)</div>
+                    <div class="result-value" id="result-gas-density">-</div>
+                    <span class="result-unit">lbm/ft³</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">
+                <i class="fas fa-info-circle"></i> Información Técnica
+            </div>
+            <p><strong>Fórmula de volumen estándar:</strong></p>
+            <div class="equation-box">
+                V<sub>std</sub> = V<sub>geom</sub> * (P<sub>prom</sub> / P<sub>std</sub>) * (T<sub>std</sub> / T<sub>prom</sub>) * (1 / Z)
+            </div>
+            <p>Donde:<br>
+            V<sub>std</sub> = Volumen a condiciones estándar (SCF)<br>
+            V<sub>geom</sub> = Volumen geométrico de la tubería (ft³)<br>
+            T<sub>std</sub> = Temperatura estándar (520 °R)<br>
+            T<sub>prom</sub> = Temperatura promedio del gas (°R)<br>
+            P<sub>prom</sub> = Presión promedio del gas (psia)<br>
+            P<sub>std</sub> = Presión estándar (14.7 psia)<br>
+            Z = Factor de compresibilidad</p>
+            
+            <p><strong>Fórmula de presión promedio (Corregida):</strong></p>
+            <div class="equation-box">
+                P<sub>prom</sub> = (2/3) * (P<sub>1</sub> + P<sub>2</sub> - (P<sub>1</sub>*P<sub>2</sub>)/(P<sub>1</sub>+P<sub>2</sub>))
+            </div>
+            <p>Donde:<br>
+            P<sub>1</sub> = Presión de entrada (psig)<br>
+            P<sub>2</sub> = Presión de salida (psig)</p>
+        </div>
+        
+        <div class="footer">
+            (C) 2025. Creado Por Freddy Roa Monsalvo | Ingeniero Mecánico
+        </div>
+    </div>
+
+    <script>
+        const gasComponents = [
+            {id: "ch4", name: "Metano", formula: "CH4", percentage: 0.0},
+            {id: "c2h6", name: "Etano", formula: "C2H6", percentage: 0.0},
+            {id: "c3h8", name: "Propano", formula: "C3H8", percentage: 0.0},
+            {id: "n2", name: "Nitrógeno", formula: "N2", percentage: 0.0},
+            {id: "co2", name: "Dióxido de Carbono", formula: "CO2", percentage: 0.0},
+            {id: "h2o", name: "Agua", formula: "H2O", percentage: 0.0},
+            {id: "h2s", name: "Sulfuro de Hidrógeno", formula: "H2S", percentage: 0.0},
+            {id: "h2", name: "Hidrógeno", formula: "H2", percentage: 0.0},
+            {id: "co", name: "Monóxido de Carbono", formula: "CO", percentage: 0.0},
+            {id: "o2", name: "Oxígeno", formula: "O2", percentage: 0.0},
+            {id: "nc4h10", name: "n-Butano", formula: "nC4H10", percentage: 0.0},
+            {id: "ic4h10", name: "iso-Butano", formula: "iC4H10", percentage: 0.0},
+            {id: "nc5h12", name: "n-Pentano", formula: "nC5H12", percentage: 0.0},
+            {id: "ic5h12", name: "iso-Pentano", formula: "iC5H12", percentage: 0.0},
+            {id: "nc6h14", name: "n-Hexano", formula: "nC6H14", percentage: 0.0},
+            {id: "nc7h16", name: "n-Heptano", formula: "nC7H16", percentage: 0.0},
+            {id: "nc8h18", name: "n-Octano", formula: "nC8H18", percentage: 0.0},
+            {id: "nc9h20", name: "n-Nonano", formula: "nC9H20", percentage: 0.0},
+            {id: "nc10h22", name: "n-Decano", formula: "C10H22", percentage: 0.0},
+            {id: "he", name: "Helio", formula: "He", percentage: 0.0},
+            {id: "ar", name: "Argón", formula: "Ar", percentage: 0.0}
+        ];
+
+        const pipeData = {
+            "1/8": { outerDiameter: 0.405, schedules: { "10S": 0.049, "40": 0.068, "STD": 0.068, "80": 0.095, "XS": 0.095 } },
+            "1/4": { outerDiameter: 0.54, schedules: { "10S": 0.065, "40": 0.088, "STD": 0.088, "80": 0.119, "XS": 0.119 } },
+            "3/8": { outerDiameter: 0.675, schedules: { "10S": 0.065, "40": 0.091, "STD": 0.091, "80": 0.126, "XS": 0.126 } },
+            "1/2": { outerDiameter: 0.84, schedules: { "5S": 0.065, "10S": 0.083, "40": 0.109, "STD": 0.109, "80": 0.147, "XS": 0.147, "160": 0.188, "XXS": 0.294 } },
+            "3/4": { outerDiameter: 1.05, schedules: { "5S": 0.065, "10S": 0.083, "40": 0.113, "STD": 0.113, "80": 0.154, "XS": 0.154, "160": 0.219, "XXS": 0.308 } },
+            "1": { outerDiameter: 1.315, schedules: { "5S": 0.065, "10S": 0.109, "40": 0.133, "STD": 0.133, "80": 0.179, "XS": 0.179, "160": 0.25, "XXS": 0.358 } },
+            "1 1/4": { outerDiameter: 1.66, schedules: { "5S": 0.065, "10S": 0.109, "40": 0.14, "STD": 0.14, "80": 0.191, "XS": 0.191, "160": 0.25, "XXS": 0.382 } },
+            "1 1/2": { outerDiameter: 1.9, schedules: { "5S": 0.065, "10S": 0.109, "40": 0.145, "STD": 0.145, "80": 0.2, "XS": 0.2, "160": 0.281, "XXS": 0.4 } },
+            "2": { outerDiameter: 2.375, schedules: { "5S": 0.065, "10S": 0.109, "40": 0.154, "STD": 0.154, "80": 0.218, "XS": 0.218, "160": 0.344, "XXS": 0.436 } },
+            "2 1/2": { outerDiameter: 2.875, schedules: { "5S": 0.083, "10S": 0.12, "40": 0.203, "STD": 0.203, "80": 0.276, "XS": 0.276, "160": 0.375, "XXS": 0.552 } },
+            "3": { outerDiameter: 3.5, schedules: { "5S": 0.083, "10S": 0.12, "40": 0.216, "STD": 0.216, "80": 0.3, "XS": 0.3, "160": 0.438, "XXS": 0.6 } },
+            "3 1/2": { outerDiameter: 4, schedules: { "5S": 0.083, "10S": 0.12, "40": 0.226, "STD": 0.226, "80": 0.318, "XS": 0.318, "XXS": 0.636 } },
+            "4": { outerDiameter: 4.5, schedules: { "5S": 0.083, "10S": 0.12, "40": 0.237, "STD": 0.237, "80": 0.337, "XS": 0.337, "120": 0.438, "160": 0.531, "XXS": 0.674 } },
+            "5": { outerDiameter: 5.563, schedules: { "5S": 0.109, "10S": 0.134, "40": 0.258, "STD": 0.258, "80": 0.375, "XS": 0.375, "120": 0.5, "160": 0.625, "XXS": 0.75 } },
+            "6": { outerDiameter: 6.625, schedules: { "5S": 0.109, "10S": 0.134, "40": 0.28, "STD": 0.28, "80": 0.432, "XS": 0.432, "120": 0.562, "160": 0.719, "XXS": 0.864 } },
+            "8": { outerDiameter: 8.625, schedules: { "5S": 0.109, "10S": 0.148, "20": 0.25, "30": 0.277, "40": 0.322, "STD": 0.322, "60": 0.406, "80": 0.5, "XS": 0.5, "100": 0.594, "120": 0.719, "140": 0.812, "160": 0.906, "XXS": 1 } },
+            "10": { outerDiameter: 10.75, schedules: { "5S": 0.134, "10S": 0.165, "20": 0.25, "30": 0.307, "40": 0.365, "STD": 0.365, "60": 0.5, "80": 0.594, "XS": 0.5, "100": 0.719, "120": 0.844, "140": 1, "160": 1.125, "XXS": 1.125 } },
+            "12": { outerDiameter: 12.75, schedules: { "5S": 0.156, "10S": 0.18, "20": 0.25, "30": 0.33, "40": 0.406, "STD": 0.375, "60": 0.562, "80": 0.688, "XS": 0.5, "100": 0.844, "120": 1, "140": 1.125, "160": 1.312, "XXS": 1.375 } },
+            "14": { outerDiameter: 14, schedules: { "10S": 0.188, "20": 0.25, "30": 0.312, "40": 0.375, "STD": 0.375, "60": 0.594, "80": 0.75, "XS": 0.5, "100": 0.938, "120": 1.094, "140": 1.25, "160": 1.406 } },
+            "16": { outerDiameter: 16, schedules: { "10S": 0.188, "20": 0.25, "30": 0.312, "40": 0.375, "STD": 0.375, "60": 0.594, "80": 0.844, "XS": 0.5, "100": 1.031, "120": 1.219, "140": 1.438, "160": 1.594 } },
+            "18": { outerDiameter: 18, schedules: { "10S": 0.188, "20": 0.25, "30": 0.312, "40": 0.438, "STD": 0.375, "60": 0.75, "80": 0.938, "XS": 0.5, "100": 1.156, "120": 1.375, "140": 1.562, "160": 1.781 } },
+            "20": { outerDiameter: 20, schedules: { "10S": 0.218, "20": 0.25, "30": 0.375, "40": 0.5, "STD": 0.375, "60": 0.812, "80": 1.031, "XS": 0.5, "100": 1.281, "120": 1.5, "140": 1.75, "160": 1.969 } },
+            "22": { outerDiameter: 22, schedules: { "20": 0.25, "30": 0.375, "STD": 0.375, "XS": 0.5 } },
+            "24": { outerDiameter: 24, schedules: { "10S": 0.25, "20": 0.312, "30": 0.438, "40": 0.562, "STD": 0.375, "60": 0.969, "80": 1.219, "XS": 0.5, "100": 1.531, "120": 1.812, "140": 2.062, "160": 2.344 } },
+            "26": { outerDiameter: 26, schedules: { "STD": 0.375, "XS": 0.5 } },
+            "28": { outerDiameter: 28, schedules: { "STD": 0.375, "XS": 0.5 } },
+            "30": { outerDiameter: 30, schedules: { "20": 0.312, "STD": 0.375, "XS": 0.5 } },
+            "32": { outerDiameter: 32, schedules: { "STD": 0.375, "XS": 0.5 } },
+            "34": { outerDiameter: 34, schedules: { "STD": 0.375, "XS": 0.5 } },
+            "36": { outerDiameter: 36, schedules: { "STD": 0.375, "XS": 0.5 } },
+            "42": { outerDiameter: 42, schedules: { "STD": 0.375, "XS": 0.5 } },
+        };
+
+        const criticalProperties = {
+            "CH4": { Tc: 343.0, Pc: 667.8, MW: 16.043 }, "C2H6": { Tc: 549.8, Pc: 707.8, MW: 30.070 }, "C3H8": { Tc: 665.7, Pc: 616.3, MW: 44.097 },
+            "N2": { Tc: 227.2, Pc: 492.5, MW: 28.013 }, "CO2": { Tc: 547.6, Pc: 1070.6, MW: 44.010 }, "H2O": { Tc: 1165.0, Pc: 3199.0, MW: 18.015 },
+            "H2S": { Tc: 672.4, Pc: 1306.0, MW: 34.080 }, "H2": { Tc: 60.0, Pc: 187.05, MW: 2.016 }, "CO": { Tc: 239.4, Pc: 507.6, MW: 28.010 },
+            "O2": { Tc: 277.8, Pc: 730.8, MW: 31.999 }, "nC4H10": { Tc: 765.0, Pc: 551.0, MW: 58.123 }, "iC4H10": { Tc: 734.7, Pc: 529.1, MW: 58.123 },
+            "nC5H12": { Tc: 845.0, Pc: 489.0, MW: 72.150 }, "iC5H12": { Tc: 829.0, Pc: 491.0, MW: 72.150 }, "nC6H14": { Tc: 913.0, Pc: 437.0, MW: 86.177 },
+            "nC7H16": { Tc: 972.0, Pc: 397.0, MW: 100.204 }, "nC8H18": { Tc: 1024.0, Pc: 361.0, MW: 114.231 }, "nC9H20": { Tc: 1075.0, Pc: 332.0, MW: 128.258 },
+            "C10H22": { Tc: 1115.0, Pc: 305.0, MW: 142.285 }, "He": { Tc: 9.5, Pc: 33.2, MW: 4.003 }, "Ar": { Tc: 271.4, Pc: 705.8, MW: 39.948 }
+        };
+
+        let compositionInputs = {};
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const compositionContainer = document.getElementById('composition-container');
+            gasComponents.forEach(component => {
+                const div = document.createElement('div');
+                div.className = 'composition-item';
+                div.innerHTML = `<label for="${component.id}">${component.name} (${component.formula}):</label>
+                                 <input type="number" id="${component.id}" class="composition-input" min="0" max="1" step="0.000001" value="" data-formula="${component.formula}">`;
+                compositionContainer.appendChild(div);
+                compositionInputs[component.formula] = document.getElementById(component.id);
+                document.getElementById(component.id).addEventListener('input', updateCompositionTotal);
+            });
+
+            const pipeNominalSelect = document.getElementById('pipe-nominal');
+            for (const size in pipeData) {
+                const option = document.createElement('option');
+                option.value = size;
+                option.textContent = size + '"';
+                pipeNominalSelect.appendChild(option);
+            }
+            pipeNominalSelect.addEventListener('change', updateSchedules);
+            document.getElementById('pipe-schedule').addEventListener('change', updateWallThickness);
+            
+            updateSchedules();
+            updateCompositionTotal();
+
+            // Event listener para capturar el pegado (Ctrl+V)
+            document.addEventListener('paste', handlePasteEvent);
+        });
+
+        // Función para manejar el evento de pegado
+        function handlePasteEvent(event) {
+            const compositionContainer = document.getElementById('composition-container');
+            
+            // Verificar si el evento ocurrió dentro del contenedor de composición
+            if (compositionContainer.contains(event.target)) {
+                event.preventDefault();
+                
+                // Obtener datos del portapapeles
+                const clipboardData = event.clipboardData || window.clipboardData;
+                const pastedData = clipboardData.getData('text');
+                
+                // Procesar datos pegados
+                processPastedCompositionData(pastedData);
+            }
+        }
+
+        // Función para procesar datos de composición pegados
+        function processPastedCompositionData(data) {
+            // Reemplazar comas por puntos y dividir por espacios, tabulaciones o saltos de línea
+            const textoSaneado = data.replace(/,/g, '.');
+            const valores = textoSaneado.trim().split(/\s+/);
+            
+            // Verificar si tenemos suficientes valores
+            if (valores.length < gasComponents.length) {
+                alert(`Se han proporcionado ${valores.length} valores, pero se necesitan ${gasComponents.length}. Por favor, verifique los datos.`);
+                return;
+            }
+            
+            if (valores.length > gasComponents.length) {
+                alert(`Se han proporcionado ${valores.length} valores, pero solo se necesitan ${gasComponents.length}. Se usarán los primeros ${gasComponents.length} valores.`);
+            }
+            
+            // Asignar valores a los campos de composición
+            for (let i = 0; i < gasComponents.length; i++) {
+                if (i < valores.length) {
+                    const valor = parseFloat(valores[i]);
+                    if (!isNaN(valor)) {
+                        compositionInputs[gasComponents[i].formula].value = valor;
+                    }
+                }
+            }
+            
+            // Actualizar el total y validar
+            updateCompositionTotal();
+        }
+
+        function updateSchedules() {
+            const nominalSize = document.getElementById('pipe-nominal').value;
+            const scheduleSelect = document.getElementById('pipe-schedule');
+            const odField = document.getElementById('outside-diameter');
+            scheduleSelect.innerHTML = '<option value="">Seleccionar Schedule</option>';
+            if (nominalSize && pipeData[nominalSize]) {
+                const pipe = pipeData[nominalSize];
+                odField.value = pipe.outerDiameter.toFixed(3);
+                for (const schedule in pipe.schedules) {
+                    const option = document.createElement('option');
+                    option.value = schedule;
+                    option.textContent = schedule;
+                    scheduleSelect.appendChild(option);
+                }
+                scheduleSelect.disabled = false;
+                updateWallThickness();
+            } else {
+                odField.value = '';
+                scheduleSelect.disabled = true;
+                updateWallThickness(); // Clear dependent fields
+            }
+        }
+
+        function updateWallThickness() {
+            const nominalSize = document.getElementById('pipe-nominal').value;
+            const schedule = document.getElementById('pipe-schedule').value;
+            const wallField = document.getElementById('wall-thickness');
+            const idField = document.getElementById('inside-diameter');
+            const odField = document.getElementById('outside-diameter');
+            if (nominalSize && schedule && pipeData[nominalSize] && pipeData[nominalSize].schedules[schedule]) {
+                const pipe = pipeData[nominalSize];
+                const wallThickness = pipe.schedules[schedule];
+                wallField.value = wallThickness.toFixed(3);
+                const od = parseFloat(odField.value);
+                const id = od - (2 * wallThickness);
+                idField.value = id > 0 ? id.toFixed(3) : '0.000';
+            } else {
+                wallField.value = '';
+                idField.value = '';
+            }
+        }
+
+        function updateCompositionTotal() {
+            let total = 0;
+            for (const formula in compositionInputs) {
+                total += parseFloat(compositionInputs[formula].value) || 0;
+            }
+            document.getElementById('total-composition').textContent = `Suma total: ${total.toFixed(4)}`;
+            const errorElement = document.getElementById('composition-error');
+            if (Math.abs(total - 1) > 0.0001) {
+                errorElement.style.display = 'block';
+            } else {
+                errorElement.style.display = 'none';
+            }
+        }
+
+        function clearForm() {
+            // Limpiar todos los campos de composición
+            for (const formula in compositionInputs) {
+                compositionInputs[formula].value = '';
+            }
+            
+            // Limpiar campos de tubería
+            document.getElementById('pipe-nominal').value = "";
+            document.getElementById('pipe-schedule').value = "";
+            document.getElementById('pipe-schedule').disabled = true;
+            document.getElementById('pipe-length').value = '';
+            document.getElementById('outside-diameter').value = '';
+            document.getElementById('wall-thickness').value = '';
+            document.getElementById('inside-diameter').value = '';
+            
+            // Limpiar condiciones de operación
+            document.getElementById('atmospheric-pressure').value = '';
+            document.getElementById('inlet-pressure').value = '';
+            document.getElementById('outlet-pressure').value = '';
+            document.getElementById('inlet-temperature').value = '';
+            document.getElementById('outlet-temperature').value = '';
+            
+            // Ocultar resultados
+            document.getElementById('results-section').style.display = 'none';
+            
+            // Actualizar total de composición
+            updateCompositionTotal();
+        }
+
+        function calculateAveragePressure(P1, P2) {
+            if (P1 === P2) return P1;
+            if (P1 + P2 === 0) return 0; // Avoid division by zero
+            return (2/3) * (P1 + P2 - (P1 * P2) / (P1 + P2));
+        }
+
+        function calculatePseudocritical(composition) {
+            let Tpc = 0, Ppc = 0, molecularWeight = 0;
+            for (const formula in composition) {
+                if (composition[formula] > 0 && criticalProperties[formula]) {
+                    Tpc += composition[formula] * criticalProperties[formula].Tc;
+                    Ppc += composition[formula] * criticalProperties[formula].Pc;
+                    molecularWeight += composition[formula] * criticalProperties[formula].MW;
+                }
+            }
+            return { Tpc, Ppc, molecularWeight };
+        }
+
+        function calculateCompressibilityFactor(Tpr, Ppr) {
+            const t = 1 / Tpr;
+            const A = 0.06125 * t * Math.exp(-1.2 * Math.pow(1 - t, 2));
+            const B = t * (14.76 - 9.76 * t + 4.58 * t * t);
+            const C = t * (90.7 - 242.2 * t + 42.4 * t * t);
+            let y = 0.001; // Initial guess
+            for (let i = 0; i < 100; i++) {
+                const f = -A * Ppr + (y + y*y + y*y*y - y*y*y*y) / Math.pow(1 - y, 3) - B * y*y + C * Math.pow(y, 2.18 + 2.82 * t);
+                const df = (1 + 4*y + 4*y*y - 4*y*y*y + y*y*y*y) / Math.pow(1 - y, 4) - 2 * B * y + C * (2.18 + 2.82 * t) * Math.pow(y, 1.18 + 2.82 * t);
+                if (Math.abs(df) < 1e-10) break;
+                const yNew = y - f/df;
+                if (Math.abs(yNew - y) < 1e-10) { y = yNew; break; }
+                y = yNew;
+            }
+            return (A * Ppr) / y;
+        }
+
+        function calculatePipeVolume(innerDiameterInches, lengthMeters) {
+            const innerDiameterFeet = innerDiameterInches / 12;
+            const lengthFeet = lengthMeters * 3.28084;
+            return Math.PI * Math.pow(innerDiameterFeet / 2, 2) * lengthFeet;
+        }
+
+        function calculateStandardVolume(volume, avgTemperature, avgPressure, Z) {
+            const Tstd = 520; // 60°F in °R
+            const Pstd = 14.7; // psia
+            const Tavg = avgTemperature + 459.67; // °R
+            const Pavg = avgPressure; // psia
+            return volume * (Tstd / Tavg) * (Pavg / Pstd) * (1 / Z);
+        }
+
+        function calculateGasDensity(molecularWeight) {
+            const R = 10.731; // ft³·psia/(lbmol·°R)
+            const Tstd = 520; // 60°F in °R
+            const Pstd = 14.7; // psia
+            return (molecularWeight * Pstd) / (R * Tstd);
+        }
+
+        function calculate() {
+            try {
+                let total = 0;
+                let composition = {};
+                for (const formula in compositionInputs) {
+                    const value = parseFloat(compositionInputs[formula].value) || 0;
+                    composition[formula] = value;
+                    total += value;
+                }
+                if (Math.abs(total - 1) > 0.0001) {
+                    alert(`La suma de las fracciones molares (${total.toFixed(4)}) debe ser igual a 1.`);
+                    return;
+                }
+                
+                const length = parseFloat(document.getElementById('pipe-length').value);
+                const innerDiameter = parseFloat(document.getElementById('inside-diameter').value);
+                if (!length || length <= 0 || !innerDiameter || innerDiameter <= 0) {
+                    alert("Por favor, verifique los parámetros de la tubería. La longitud y el diámetro interior deben ser válidos.");
+                    return;
+                }
+
+                const atmosphericPressure = parseFloat(document.getElementById('atmospheric-pressure').value);
+                const inletPressure = parseFloat(document.getElementById('inlet-pressure').value);
+                const outletPressure = parseFloat(document.getElementById('outlet-pressure').value);
+                const inletTemperature = parseFloat(document.getElementById('inlet-temperature').value);
+                const outletTemperature = parseFloat(document.getElementById('outlet-temperature').value);
+
+                if (isNaN(atmosphericPressure) || isNaN(inletPressure) || isNaN(outletPressure) || isNaN(inletTemperature) || isNaN(outletTemperature)) {
+                    alert("Por favor, ingrese valores numéricos válidos para todas las condiciones de operación.");
+                    return;
+                }
+
+                if (outletPressure > inletPressure) {
+                    if (!confirm("Advertencia: La presión de salida es mayor que la de entrada. ¿Desea continuar con el cálculo?")) {
+                        return; // Stop calculation if user cancels
+                    }
+                }
+                
+                const avgPressureMan = calculateAveragePressure(inletPressure, outletPressure);
+                const avgPressureAbs = avgPressureMan + atmosphericPressure;
+                const avgTemperature = (inletTemperature + outletTemperature) / 2;
+                
+                const { Tpc, Ppc, molecularWeight } = calculatePseudocritical(composition);
+                
+                const Tpr = (avgTemperature + 459.67) / Tpc;
+                const Ppr = avgPressureAbs / Ppc;
+                
+                const Z = calculateCompressibilityFactor(Tpr, Ppr);
+                
+                const volume = calculatePipeVolume(innerDiameter, length);
+                const stdVolumeSCF = calculateStandardVolume(volume, avgTemperature, avgPressureAbs, Z);
+                const stdVolumeM3 = stdVolumeSCF * 0.0283168;
+                
+                const density = calculateGasDensity(molecularWeight);
+                const massLBM = stdVolumeSCF * density;
+                const massKG = massLBM * 0.453592;
+                
+                showResults(stdVolumeSCF, stdVolumeM3, massLBM, massKG, avgPressureMan, avgTemperature, Z, density);
+                
+            } catch (error) {
+                alert('Error en el cálculo: ' + error.message);
+                console.error(error);
+            }
+        }
+
+        function showResults(stdVolumeSCF, stdVolumeM3, massLBM, massKG, avgPressure, avgTemperature, Z, density) {
+            document.getElementById('result-std-volume-scf').textContent = Math.round(stdVolumeSCF).toLocaleString('es-ES');
+            document.getElementById('result-std-volume-m3').textContent = Math.round(stdVolumeM3).toLocaleString('es-ES');
+            document.getElementById('result-mass-lbm').textContent = Math.round(massLBM).toLocaleString('es-ES');
+            document.getElementById('result-mass-kg').textContent = Math.round(massKG).toLocaleString('es-ES');
+            document.getElementById('result-avg-pressure').textContent = avgPressure.toFixed(1);
+            document.getElementById('result-avg-temperature').textContent = avgTemperature.toFixed(1);
+            document.getElementById('result-z-factor').textContent = Z.toFixed(4);
+            document.getElementById('result-gas-density').textContent = density.toFixed(6);
+            
+            const resultsSection = document.getElementById('results-section');
+            resultsSection.style.display = 'block';
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

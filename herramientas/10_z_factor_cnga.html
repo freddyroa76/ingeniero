@@ -1,0 +1,557 @@
+﻿<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gas Compressibility Factor (Z) - CNGA & Standing-Katz</title>
+    <!-- Professional Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Professional Compiled CSS -->
+    <link rel="stylesheet" href="../dist/output.css" />
+    <script src="js/common.js"></script>
+  </head>
+  <body class="bg-gray-50 uppercase-labels">
+    <!-- Header -->
+    <header
+      class="fixed top-0 left-0 right-0 z-50 bg-[#006097] shadow-lg border-b border-[#005080]"
+    >
+      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-20">
+          <div class="flex-shrink-0">
+            <a
+              href="../index.html"
+              class="text-2xl font-extrabold text-white hover:opacity-90 transition-opacity"
+            >
+              Freddy Roa M.
+            </a>
+          </div>
+
+          <!-- Desktop Navigation -->
+          <div class="hidden md:flex items-baseline space-x-4">
+            <a
+              href="../index.html"
+              class="text-white hover:opacity-80 px-3 py-2 rounded-md text-sm font-medium transition-colors relative group"
+            >
+              Inicio
+              <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            
+            <!-- Herramientas Dropdown -->
+            <div class="relative group">
+              <a
+                href="../herramientas.html"
+                class="text-white px-3 py-2 rounded-md text-sm font-bold transition-colors relative flex items-center gap-1 group-link"
+              >
+                Herramientas
+                <svg class="w-4 h-4 fill-current transition-transform group-hover:rotate-180" viewBox="0 0 20 20">
+                  <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                </svg>
+                <span class="absolute bottom-0 left-0 w-full h-0.5 bg-white transition-all duration-300"></span>
+              </a>
+
+              <!-- Dropdown Menu -->
+              <div class="absolute left-0 mt-0 w-72 bg-white rounded-md shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[100] border border-gray-100 py-2">
+                <a href="00_mawp_calculator.html" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal">Calculadora MAWP</a>
+                <a href="01_pipe_thickness.html" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal">Espesores de Tubería</a>
+                <a href="02_hoop_stress.html" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal">Esfuerzo Circunferencial</a>
+                <a href="03_max_design_pressure.html" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal">Presión Máxima Diseño</a>
+                <a href="05_flow_std_to_actual.html" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal">Flujo Estándar a Actual</a>
+                <a href="06_gas_properties.html" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal">Propiedades de Gases</a>
+                <a href="07_velocidad_erosional_-_eng_esp.html" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal">Velocidad Erosional</a>
+                <a href="08_gas_compression.html" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal">Compresión de Gas</a>
+                <a href="09_tank_volume.html" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal">Volumen de Tanques</a>
+                <a href="10_z_factor_cnga.html" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal">Factor Z (CNGA)</a>
+                <a href="11_line_pack.html" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal">Line Pack</a>
+                <a href="12_pipe_weight.html" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] font-normal">Peso de Tuberías</a>
+              </div>
+            </div>
+
+            <a href="../index.html#expertise" class="text-white hover:opacity-80 px-3 py-2 rounded-md text-sm font-medium transition-colors relative group">
+              Expertise
+              <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="../index.html#contact" class="bg-white text-[#006097] px-5 py-2.5 rounded-md text-sm font-bold hover:bg-gray-100 transition-all shadow-md ml-4">
+              Contactar
+            </a>
+          </div>
+
+          <!-- Mobile Menu Button -->
+          <div class="flex items-center md:hidden">
+            <button
+              id="mobile-menu-button"
+              type="button"
+              class="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-[#005080] focus:outline-none transition-colors"
+              aria-controls="mobile-menu"
+              aria-expanded="false"
+            >
+              <span class="sr-only">Abrir menú</span>
+              <svg id="menu-icon" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+              <svg id="close-icon" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Mobile Menu -->
+      <div id="mobile-menu" class="hidden md:hidden bg-[#006097] border-t border-[#005080] overflow-y-auto max-h-[calc(100vh-80px)]">
+        <div class="px-2 pt-2 pb-3 space-y-1">
+          <a href="../index.html" class="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-[#005080]">Inicio</a>
+          
+          <!-- Mobile Accordion -->
+          <div>
+            <button
+              id="mobile-tools-toggle"
+              class="w-full flex items-center justify-between text-white px-3 py-2 rounded-md text-base font-medium hover:bg-[#005080] transition-colors"
+            >
+              Herramientas
+              <svg id="mobile-tools-arrow" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div id="mobile-tools-menu" class="hidden pl-4 space-y-1 bg-[#005080]/50 rounded-md mt-1">
+              <a href="00_mawp_calculator.html" class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]">Calculadora MAWP</a>
+              <a href="01_pipe_thickness.html" class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]">Espesores de Tubería</a>
+              <a href="02_hoop_stress.html" class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]">Esfuerzo Circunferencial</a>
+              <a href="03_max_design_pressure.html" class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]">Presión Máxima Diseño</a>
+              <a href="05_flow_std_to_actual.html" class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]">Flujo Estándar a Actual</a>
+              <a href="06_gas_properties.html" class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]">Propiedades de Gases</a>
+              <a href="07_velocidad_erosional_-_eng_esp.html" class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]">Velocidad Erosional</a>
+              <a href="08_gas_compression.html" class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]">Compresión de Gas</a>
+              <a href="09_tank_volume.html" class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]">Volumen de Tanques</a>
+              <a href="10_z_factor_cnga.html" class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]">Factor Z (CNGA)</a>
+              <a href="11_line_pack.html" class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]">Line Pack</a>
+              <a href="12_pipe_weight.html" class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]">Peso de Tuberías</a>
+            </div>
+          </div>
+
+          <a href="../index.html#expertise" class="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-[#005080]">Expertise</a>
+          <a href="../index.html#projects" class="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-[#005080]">Proyectos</a>
+          <a href="../index.html#contact" class="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-[#005080]">Contacto</a>
+          <div class="pt-2">
+            <a href="../index.html#contact" class="w-full text-center block bg-white text-[#006097] px-5 py-3 rounded-md text-base font-bold hover:bg-gray-100">
+              Contactar
+            </a>
+          </div>
+        </div>
+      </div>
+      </nav>
+    </header>
+
+    <div class="container pt-24 pb-12">
+      <!-- Breadcrumb -->
+      <nav
+        class="flex mb-6 text-xs font-medium text-gray-400 uppercase-none"
+        aria-label="Breadcrumb"
+      >
+        <ol class="inline-flex items-center space-x-2">
+          <li>
+            <a
+              href="../index.html"
+              class="text-gray-600 hover:text-primary transition-colors"
+              >Inicio</a
+            >
+          </li>
+          <li><span class="mx-2">/</span></li>
+          <li>
+            <a
+              href="../herramientas.html"
+              class="text-gray-600 hover:text-primary transition-colors"
+              >Herramientas</a
+            >
+          </li>
+          <li><span class="mx-2">/</span></li>
+          <li class="text-gray-900 font-bold">Factor Z (CNGA)</li>
+        </ol>
+      </nav>
+
+      <div class="title-box">
+        <h1 class="text-3xl font-bold">
+          Natural Gas Z-Factor Calculator (CNGA)
+        </h1>
+        <p class="text-gray-100 mt-1">
+          California Natural Gas Association (CNGA) — High Pressure Correlation
+        </p>
+      </div>
+
+      <div class="card">
+        <h2>Input Parameters</h2>
+        <div class="input-row">
+          <div class="input-group">
+            <label for="gasGravity" class="required">Gas Gravity (G):</label>
+            <input
+              type="number"
+              id="gasGravity"
+              step="0.001"
+              placeholder="e.g. 0.65"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label for="pressure" class="required"
+              >Gas Pressure (P) <span class="units">(psig)</span>:</label
+            >
+            <input
+              type="number"
+              id="pressure"
+              step="any"
+              placeholder="e.g. 1000"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label for="temperature" class="required"
+              >Gas Temperature (T) <span class="units">(°F)</span>:</label
+            >
+            <input
+              type="number"
+              id="temperature"
+              step="any"
+              placeholder="e.g. 60"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="input-row">
+          <div class="input-group">
+            <label for="sk-method" class="required"
+              >Standing-Katz Correlation:</label
+            >
+            <select id="sk-method" required>
+              <option value="DPR">Dranchuk–Purvis–Robinson (Standard)</option>
+              <option value="DAK">Dranchuk–Abou‑Kassem</option>
+              <option value="HY">Hall–Yarborough</option>
+            </select>
+          </div>
+          <div class="input-group"></div>
+          <!-- Spacer -->
+          <div class="input-group"></div>
+          <!-- Spacer -->
+        </div>
+
+        <div class="flex gap-4 mt-4">
+          <button class="flex-1" onclick="calculateZ()">
+            Calculate Factors
+          </button>
+          <button class="bg-gray-500 hover:bg-gray-600" onclick="clearFields()">
+            Clear
+          </button>
+        </div>
+      </div>
+
+      <div class="card" id="results" style="display: none">
+        <h2>Calculation Results</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <h3>Principal Results</h3>
+            <div class="factors-info" style="border-left-color: var(--primary)">
+              <p>
+                <strong>Factor Z (CNGA):</strong>
+                <span
+                  id="z_cnga"
+                  class="factor-value text-2xl"
+                  style="color: var(--primary)"
+                  >-</span
+                >
+              </p>
+            </div>
+            <div
+              class="factors-info"
+              style="border-left-color: var(--secondary)"
+            >
+              <p>
+                <strong>Factor Z (Standing-Katz):</strong>
+                <span
+                  id="z_sk"
+                  class="factor-value text-2xl"
+                  style="color: var(--secondary)"
+                  >-</span
+                >
+              </p>
+            </div>
+          </div>
+          <div>
+            <h3>Pseudocritical Properties</h3>
+            <div class="grid grid-cols-1 gap-2 text-sm">
+              <p>
+                <strong>Ppc (Pseudocritical Pressure):</strong>
+                <span id="ppc_val" class="factor-value">-</span>
+              </p>
+              <p>
+                <strong>Tpc (Pseudocritical Temp):</strong>
+                <span id="tpc_val" class="factor-value">-</span>
+              </p>
+              <p>
+                <strong>Ppr (Reduced Pressure):</strong>
+                <span id="ppr_val" class="factor-value">-</span>
+              </p>
+              <p>
+                <strong>Tpr (Reduced Temp):</strong>
+                <span id="tpr_val" class="factor-value">-</span>
+              </p>
+              <p>
+                <strong>pr (Reduced Density):</strong>
+                <span id="densidad_reducida_val" class="factor-value">-</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card bg-blue-50 border-blue-200">
+        <h2 class="text-blue-800">Technical Note</h2>
+        <div class="text-sm space-y-2 text-blue-900">
+          <p>
+            The <strong>Z Factor</strong> measures the deviation of a real gas
+            from ideal behavior. Z=1 is ideal.
+          </p>
+          <p>
+            <strong>Standing–Katz</strong> is the industry standard based on
+            pseudocritical properties. Correlations like DPR provide high
+            accuracy across wide ranges.
+          </p>
+          <p>
+            <strong>CNGA</strong> is an empirical method best for 100-3000 psig
+            and pipeline operating temperatures (40-100°F). It is less accurate
+            in extreme conditions or with high CO₂/H₂S content.
+          </p>
+        </div>
+      </div>
+
+      <footer>
+        <p>(C) 2025. Creado Por Freddy Roa Monsalvo | Ingeniero Mecánico</p>
+      </footer>
+    </div>
+
+    <script>
+      function clamp(x, lo, hi) {
+        return Math.max(lo, Math.min(hi, x));
+      }
+      function toFixed(x, n) {
+        if (!isFinite(x)) return "—";
+        return Number(x).toFixed(n);
+      }
+
+      function calculateZ_CNGA(P_psig, T_F, G) {
+        const Tf = T_F + 460.0;
+        const Pavg = P_psig;
+        if (Pavg < 100) return 1.0;
+        const num = Pavg * 344400.0 * Math.pow(10.0, 1.785 * G);
+        const den = Math.pow(Tf, 3.825);
+        return 1.0 / (1.0 + num / den);
+      }
+
+      function calculateZ_SK(P_psig, T_F, G, method = "DPR") {
+        const P = P_psig + 14.7;
+        const T = T_F + 460.0;
+        const Ppc = 756.8 - 131.0 * G - 3.6 * G * G;
+        const Tpc = 169.2 + 349.5 * G - 74.0 * G * G;
+        const Ppr = P / Ppc;
+        const Tpr = T / Tpc;
+
+        let y = 0;
+        if (method === "DPR") {
+          const A = [
+            0.31506237, -1.0467099, -0.5783272, 0.53530771, -0.61232032,
+            -0.10488813, 0.68157001, 0.68446549,
+          ];
+          const T1 = A[0] + A[1] / Tpr + A[2] / Tpr ** 3;
+          const T2 = A[3] + A[4] / Tpr;
+          const T3 = (A[4] * A[5]) / Tpr;
+          const T4 = A[6] / Tpr ** 3;
+          const T5 = (0.27 * Ppr) / Tpr;
+          let yi = clamp(T5, 1e-6, 10.0);
+          y = yi;
+          for (let i = 0; i < 60; i++) {
+            const y2 = y * y,
+              y5 = y2 * y2 * y;
+            const expT = Math.exp(-A[7] * y2);
+            const f =
+              T4 * y2 * (1 + A[7] * y2) * expT +
+              1 +
+              T1 * y +
+              T2 * y2 +
+              T3 * y5 +
+              T5 / y;
+            const eps = 1e-8 * (1 + Math.abs(y));
+            const ye = y + eps,
+              y2e = ye * ye,
+              y5e = y2e * y2e * ye;
+            const fe =
+              T4 * y2e * (1 + A[7] * y2e) * Math.exp(-A[7] * y2e) +
+              1 +
+              T1 * ye +
+              T2 * y2e +
+              T3 * y5e +
+              T5 / ye;
+            const df = (fe - f) / eps;
+            const step = f / df;
+            y -= step;
+            if (!isFinite(y) || y <= 0) y = yi;
+            if (Math.abs(step) < 1e-10) break;
+          }
+        } else if (method === "DAK") {
+          const A = [
+            0, 0.3265, -1.07, -0.5339, 0.01569, -0.05165, 0.5475, 0.7361,
+            0.1844, 0.1056, 0.6134, 0.721,
+          ];
+          const R1 =
+            A[1] +
+            A[2] / Tpr +
+            A[3] / Tpr ** 3 +
+            A[4] / Tpr ** 4 +
+            A[5] / Tpr ** 5;
+          const R2 = (0.27 * Ppr) / Tpr;
+          const R3 = A[6] + A[7] / Tpr + A[8] / Tpr ** 2;
+          const R4 = A[9] * (A[7] / Tpr + A[8] / Tpr ** 2);
+          const R5 = A[10] / Tpr ** 3;
+          let yi = clamp(R2, 1e-6, 10.0);
+          y = yi;
+          for (let i = 0; i < 60; i++) {
+            const y2 = y * y,
+              y5 = y2 * y2 * y;
+            const f =
+              R5 * y2 * (1 + A[11] * y2) * Math.exp(-A[11] * y2) +
+              R1 * y -
+              R2 / y +
+              R3 * y2 -
+              R4 * y5 +
+              1;
+            const eps = 1e-8 * (1 + Math.abs(y));
+            const yp = y + eps,
+              y2p = yp * yp,
+              y5p = y2p * y2p * yp;
+            const fp =
+              R5 * y2p * (1 + A[11] * y2p) * Math.exp(-A[11] * y2p) +
+              R1 * yp -
+              R2 / yp +
+              R3 * y2p -
+              R4 * y5p +
+              1;
+            const df = (fp - f) / eps;
+            const step = f / df;
+            y -= step;
+            if (!isFinite(y) || y <= 0) y = yi;
+            if (Math.abs(step) < 1e-10) break;
+          }
+        } else if (method === "HY") {
+          const t = 1.0 / Tpr;
+          const A1 = 0.06125 * t * Math.exp(-1.2 * (1 - t) * (1 - t));
+          const A2 = 14.76 * t - 9.76 * t ** 2 + 4.58 * t ** 3;
+          const A3 = 90.7 * t - 242.2 * t ** 2 + 42.4 * t ** 3;
+          const A4 = 2.18 + 2.82 * t;
+          const f = (y) =>
+            -A1 * Ppr +
+            (y + y ** 2 + y ** 3) -
+            y ** 4 / (1 - y) ** 3 -
+            A2 * y ** 2 +
+            A3 * y ** A4;
+          let yi = clamp(A1 * Ppr, 1e-6, 0.8);
+          y = yi;
+          for (let i = 0; i < 80; i++) {
+            const eps = 1e-8 * (1 + Math.abs(y));
+            const f0 = f(y),
+              f1 = f(y + eps);
+            const df = (f1 - f0) / eps;
+            const step = f0 / df;
+            y -= step;
+            y = clamp(y, 1e-6, 0.99);
+            if (!isFinite(y)) y = yi;
+            if (Math.abs(step) < 1e-10) break;
+          }
+        }
+        const Z = (0.27 * Ppr) / (y * Tpr);
+        return { Z, Ppc, Tpc, Ppr, Tpr, densidad_reducida: y };
+      }
+
+      function calculateZ() {
+        const G = parseFloat(document.getElementById("gasGravity").value);
+        const P = parseFloat(document.getElementById("pressure").value);
+        const T = parseFloat(document.getElementById("temperature").value);
+        const method = document.getElementById("sk-method").value;
+
+        if (isNaN(G) || isNaN(P) || isNaN(T)) {
+          alert("Please enter valid numeric values for all fields.");
+          return;
+        }
+
+        const z_cnga = calculateZ_CNGA(P, T, G);
+        const sk = calculateZ_SK(P, T, G, method);
+
+        document.getElementById("results").style.display = "block";
+        document.getElementById("z_cnga").textContent = toFixed(z_cnga, 4);
+        document.getElementById("z_sk").textContent = toFixed(sk.Z, 4);
+        document.getElementById("ppc_val").textContent =
+          toFixed(sk.Ppc, 2) + " psia";
+        document.getElementById("tpc_val").textContent =
+          toFixed(sk.Tpc, 2) + " °R";
+        document.getElementById("ppr_val").textContent = toFixed(sk.Ppr, 4);
+        document.getElementById("tpr_val").textContent = toFixed(sk.Tpr, 4);
+        document.getElementById("densidad_reducida_val").textContent = toFixed(
+          sk.densidad_reducida,
+          4,
+        );
+
+        document
+          .getElementById("results")
+          .scrollIntoView({ behavior: "smooth" });
+      }
+
+      function clearFields() {
+        document.querySelectorAll("input").forEach((i) => (i.value = ""));
+        document.getElementById("results").style.display = "none";
+      }
+      document.addEventListener("DOMContentLoaded", () => {
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
+        const menuIcon = document.getElementById("menu-icon");
+        const closeIcon = document.getElementById("close-icon");
+        const mobileToolsToggle = document.getElementById("mobile-tools-toggle");
+        const mobileToolsMenu = document.getElementById("mobile-tools-menu");
+        const mobileToolsArrow = document.getElementById("mobile-tools-arrow");
+
+        if (mobileMenuButton && mobileMenu) {
+          mobileMenuButton.addEventListener("click", () => {
+            const isExpanded = mobileMenuButton.getAttribute("aria-expanded") === "true";
+            mobileMenu.classList.toggle("hidden");
+            menuIcon.classList.toggle("hidden");
+            closeIcon.classList.toggle("hidden");
+            mobileMenuButton.setAttribute("aria-expanded", !isExpanded);
+          });
+
+          // Mobile Tools Accordion
+          if (mobileToolsToggle && mobileToolsMenu) {
+            mobileToolsToggle.addEventListener("click", (e) => {
+              e.preventDefault();
+              mobileToolsMenu.classList.toggle("hidden");
+              if (mobileToolsArrow) mobileToolsArrow.classList.toggle("rotate-180");
+            });
+          }
+
+          // Close menu when clicking a link (except tools toggle)
+          const mobileLinks = mobileMenu.querySelectorAll("a");
+          mobileLinks.forEach(link => {
+            if (link.id !== "mobile-tools-toggle") {
+              link.addEventListener("click", () => {
+                mobileMenu.classList.add("hidden");
+                menuIcon.classList.remove("hidden");
+                closeIcon.classList.add("hidden");
+                mobileMenuButton.setAttribute("aria-expanded", "false");
+              });
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

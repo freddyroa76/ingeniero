@@ -1,0 +1,1085 @@
+﻿<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Maximum Design Pressure Calculator - ASME B31.8</title>
+    <!-- Professional Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Professional Compiled CSS -->
+    <link rel="stylesheet" href="../dist/output.css" />
+    <script src="js/common.js"></script>
+  </head>
+  <body class="bg-gray-50">
+    <!-- Header -->
+    <header
+      class="fixed top-0 left-0 right-0 z-50 bg-[#006097] shadow-lg border-b border-[#005080]"
+    >
+      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-20">
+          <div class="flex-shrink-0">
+            <a
+              href="../index.html"
+              class="text-2xl font-extrabold text-white hover:opacity-90 transition-opacity"
+            >
+              Freddy Roa M.
+            </a>
+          </div>
+
+          <!-- Desktop Navigation -->
+          <div class="hidden md:flex items-center space-x-4">
+            <a
+              href="../index.html"
+              class="text-white hover:opacity-80 px-3 py-2 rounded-md text-sm font-medium transition-colors relative group"
+            >
+              Inicio
+              <span
+                class="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"
+              ></span>
+            </a>
+
+            <!-- Herramientas Dropdown -->
+            <div class="relative group">
+              <a
+                href="../herramientas.html"
+                class="text-white px-3 py-2 rounded-md text-sm font-bold transition-colors relative flex items-center gap-1 group-link"
+              >
+                Herramientas
+                <svg
+                  class="w-4 h-4 fill-current transition-transform group-hover:rotate-180"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  />
+                </svg>
+                <span
+                  class="absolute bottom-0 left-0 w-full h-0.5 bg-white transition-all duration-300"
+                ></span>
+              </a>
+
+              <!-- Dropdown Menu -->
+              <div
+                class="absolute left-0 mt-0 w-72 bg-white rounded-md shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[100] border border-gray-100 py-2"
+              >
+                <a
+                  href="00_mawp_calculator.html"
+                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  >Calculadora MAWP</a
+                >
+                <a
+                  href="01_pipe_thickness.html"
+                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  >Espesores de Tubería</a
+                >
+                <a
+                  href="02_hoop_stress.html"
+                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  >Esfuerzo Circunferencial</a
+                >
+                <a
+                  href="03_max_design_pressure.html"
+                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  >Presión Máxima Diseño</a
+                >
+                <a
+                  href="05_flow_std_to_actual.html"
+                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  >Flujo Estándar a Actual</a
+                >
+                <a
+                  href="06_gas_properties.html"
+                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  >Propiedades de Gases</a
+                >
+                <a
+                  href="07_velocidad_erosional_-_eng_esp.html"
+                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  >Velocidad Erosional</a
+                >
+                <a
+                  href="08_gas_compression.html"
+                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  >Compresión de Gas</a
+                >
+                <a
+                  href="09_tank_volume.html"
+                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  >Volumen de Tanques</a
+                >
+                <a
+                  href="10_z_factor_cnga.html"
+                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  >Factor Z (CNGA)</a
+                >
+                <a
+                  href="11_line_pack.html"
+                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  >Line Pack</a
+                >
+                <a
+                  href="12_pipe_weight.html"
+                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] font-normal"
+                  >Peso de Tuberías</a
+                >
+              </div>
+            </div>
+
+            <a
+              href="../index.html#expertise"
+              class="text-white hover:opacity-80 px-3 py-2 rounded-md text-sm font-medium transition-colors relative group"
+            >
+              Expertise
+              <span
+                class="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"
+              ></span>
+            </a>
+            <a
+              href="../index.html#contact"
+              class="bg-white text-[#006097] px-5 py-2.5 rounded-md text-sm font-bold hover:bg-gray-100 transition-all shadow-md ml-4"
+            >
+              Contactar
+            </a>
+          </div>
+
+          <!-- Mobile Menu Button -->
+          <div class="flex items-center md:hidden">
+            <button
+              id="mobile-menu-button"
+              type="button"
+              class="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-[#005080] focus:outline-none transition-colors"
+              aria-controls="mobile-menu"
+              aria-expanded="false"
+            >
+              <span class="sr-only">Abrir menú</span>
+              <svg
+                id="menu-icon"
+                class="block h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+              <svg
+                id="close-icon"
+                class="hidden h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Mobile Menu -->
+      <div
+        id="mobile-menu"
+        class="hidden md:hidden bg-[#006097] border-t border-[#005080] overflow-y-auto max-h-[calc(100vh-80px)]"
+      >
+        <div class="px-2 pt-2 pb-3 space-y-1">
+          <a
+            href="../index.html"
+            class="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-[#005080]"
+            >Inicio</a
+          >
+
+          <!-- Mobile Accordion -->
+          <div>
+            <button
+              id="mobile-tools-toggle"
+              class="w-full flex items-center justify-between text-white px-3 py-2 rounded-md text-base font-medium hover:bg-[#005080] transition-colors"
+            >
+              Herramientas
+              <svg
+                id="mobile-tools-arrow"
+                class="w-4 h-4 transition-transform duration-200"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+            <div
+              id="mobile-tools-menu"
+              class="hidden pl-4 space-y-1 bg-[#005080]/50 rounded-md mt-1"
+            >
+              <a
+                href="00_mawp_calculator.html"
+                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                >Calculadora MAWP</a
+              >
+              <a
+                href="01_pipe_thickness.html"
+                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                >Espesores de Tubería</a
+              >
+              <a
+                href="02_hoop_stress.html"
+                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                >Esfuerzo Circunferencial</a
+              >
+              <a
+                href="03_max_design_pressure.html"
+                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                >Presión Máxima Diseño</a
+              >
+              <a
+                href="05_flow_std_to_actual.html"
+                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                >Flujo Estándar a Actual</a
+              >
+              <a
+                href="06_gas_properties.html"
+                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                >Propiedades de Gases</a
+              >
+              <a
+                href="07_velocidad_erosional_-_eng_esp.html"
+                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                >Velocidad Erosional</a
+              >
+              <a
+                href="08_gas_compression.html"
+                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                >Compresión de Gas</a
+              >
+              <a
+                href="09_tank_volume.html"
+                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                >Volumen de Tanques</a
+              >
+              <a
+                href="10_z_factor_cnga.html"
+                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                >Factor Z (CNGA)</a
+              >
+              <a
+                href="11_line_pack.html"
+                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                >Line Pack</a
+              >
+              <a
+                href="12_pipe_weight.html"
+                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                >Peso de Tuberías</a
+              >
+            </div>
+          </div>
+
+          <a
+            href="../index.html#expertise"
+            class="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-[#005080]"
+            >Expertise</a
+          >
+          <a
+            href="../index.html#projects"
+            class="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-[#005080]"
+            >Proyectos</a
+          >
+          <a
+            href="../index.html#contact"
+            class="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-[#005080]"
+            >Contacto</a
+          >
+          <div class="pt-2">
+            <a
+              href="../index.html#contact"
+              class="w-full text-center block bg-white text-[#006097] px-5 py-3 rounded-md text-base font-bold hover:bg-gray-100"
+            >
+              Contactar
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="container pt-24 pb-12">
+      <!-- Breadcrumb -->
+      <nav
+        class="flex mb-6 text-xs font-medium text-gray-400"
+        aria-label="Breadcrumb"
+      >
+        <ol class="inline-flex items-center space-x-2">
+          <li>
+            <a
+              href="../index.html"
+              class="text-gray-600 hover:text-primary transition-colors"
+              >Inicio</a
+            >
+          </li>
+          <li><span class="mx-2">/</span></li>
+          <li>
+            <a
+              href="../herramientas.html"
+              class="text-gray-600 hover:text-primary transition-colors"
+              >Herramientas</a
+            >
+          </li>
+          <li><span class="mx-2">/</span></li>
+          <li class="text-gray-900 font-bold">Presión Máxima Diseño</li>
+        </ol>
+      </nav>
+
+      <header class="mb-8 font-inter">
+        <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">
+          Maximum Design Pressure Calculator
+        </h1>
+        <p class="text-gray-600 mt-2">
+          ASME B31.8-2022 — Steel Pipe Design Pressure
+        </p>
+      </header>
+
+      <div class="card">
+        <h2>Pipe Dimensions & Grade</h2>
+        <div class="input-row">
+          <div class="input-group">
+            <label for="pipeSize" class="required"
+              >Nominal Pipe Size (NPS):</label
+            >
+            <select id="pipeSize" onchange="updatePipeDimensions()" required>
+              <option value="">Select size</option>
+              <option value="0.5">NPS 1/2 (DN 15)</option>
+              <option value="0.75">NPS 3/4 (DN 20)</option>
+              <option value="1">NPS 1 (DN 25)</option>
+              <option value="1.25">NPS 1 1/4 (DN 32)</option>
+              <option value="1.5">NPS 1 1/2 (DN 40)</option>
+              <option value="2">NPS 2 (DN 50)</option>
+              <option value="2.5">NPS 2 1/2 (DN 65)</option>
+              <option value="3">NPS 3 (DN 80)</option>
+              <option value="3.5">NPS 3 1/2 (DN 90)</option>
+              <option value="4">NPS 4 (DN 100)</option>
+              <option value="5">NPS 5 (DN 125)</option>
+              <option value="6">NPS 6 (DN 150)</option>
+              <option value="8">NPS 8 (DN 200)</option>
+              <option value="10">NPS 10 (DN 250)</option>
+              <option value="12">NPS 12 (DN 300)</option>
+              <option value="14">NPS 14 (DN 350)</option>
+              <option value="16">NPS 16 (DN 400)</option>
+              <option value="18">NPS 18 (DN 450)</option>
+              <option value="20">NPS 20 (DN 500)</option>
+              <option value="22">NPS 22 (DN 550)</option>
+              <option value="24">NPS 24 (DN 600)</option>
+              <option value="30">NPS 30 (DN 750)</option>
+              <option value="32">NPS 32 (DN 800)</option>
+              <option value="34">NPS 34 (DN 850)</option>
+              <option value="36">NPS 36 (DN 900)</option>
+              <option value="42">NPS 42 (DN 1050)</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label for="schedule" class="required">Schedule:</label>
+            <select
+              id="schedule"
+              onchange="updateWallThickness()"
+              disabled
+              required
+            >
+              <option value="">Select size first</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label for="pipeGrade" class="required">Pipe Grade:</label>
+            <select id="pipeGrade" onchange="updateSMYS()" required>
+              <option value="">Select grade</option>
+              <option value="A">API Grade A</option>
+              <option value="B">API Grade B</option>
+              <option value="X42">API Grade X42</option>
+              <option value="X52">API Grade X52</option>
+              <option value="X60">API Grade X60</option>
+              <option value="X65">API Grade X65</option>
+              <option value="X70">API Grade X70</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="input-row">
+          <div class="input-group">
+            <label>Outside Diameter (D):</label>
+            <input
+              type="text"
+              id="outsideDiameter"
+              readonly
+              placeholder='0.000"'
+            />
+          </div>
+          <div class="input-group">
+            <label>Wall Thickness (t):</label>
+            <input
+              type="text"
+              id="wallThickness"
+              readonly
+              placeholder='0.000"'
+            />
+          </div>
+          <div class="input-group">
+            <label>SMYS (S):</label>
+            <input type="text" id="pipeSMYS" readonly placeholder="0 psi" />
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Design Factors</h2>
+        <div class="input-row">
+          <div class="input-group">
+            <label for="jointFactor" class="required">Joint Factor (E):</label>
+            <select id="jointFactor" required>
+              <option value="1.0">1.0 (Seamless, EFW, SAW)</option>
+              <option value="0.8">0.8 (Furnace Buttweld)</option>
+              <option value="0.6">0.6 (Others)</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label for="tempFactor" class="required">Temp Factor (T):</label>
+            <select id="tempFactor" required>
+              <option value="1.0">1.0 (≤250°F / 121°C)</option>
+              <option value="0.967">0.967 (300°F / 149°C)</option>
+              <option value="0.933">0.933 (350°F / 177°C)</option>
+              <option value="0.900">0.900 (400°F / 204°C)</option>
+              <option value="0.867">0.867 (450°F / 232°C)</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label for="locationClass" class="required">Location Class:</label>
+            <select id="locationClass" onchange="updateDesignFactor()" required>
+              <option value="">Select class</option>
+              <option value="1-div1">Class 1 Division 1</option>
+              <option value="1-div2">Class 1 Division 2</option>
+              <option value="2">Class 2</option>
+              <option value="3">Class 3</option>
+              <option value="4">Class 4</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="input-row">
+          <div class="input-group">
+            <label>Design Factor (F):</label>
+            <input type="text" id="designFactor" readonly placeholder="0.00" />
+          </div>
+          <div class="input-group"></div>
+          <!-- Spacer -->
+          <div class="input-group"></div>
+          <!-- Spacer -->
+        </div>
+
+        <div class="calculation-formula">
+          <strong>Formula:</strong> P = (2 · t · S · F · E · T) / D <br />where
+          P = max design pressure (psi), t = wall thickness (in), S = SMYS
+          (psi), F = design factor, E = joint factor, T = temp factor, D =
+          outside diameter (in).
+        </div>
+
+        <div class="flex gap-4">
+          <button class="flex-1" onclick="calculatePressure()">
+            Calculate Design Pressure
+          </button>
+          <button class="bg-gray-500 hover:bg-gray-600" onclick="clearFields()">
+            Clear
+          </button>
+        </div>
+      </div>
+
+      <div class="card" id="resultsCard" style="display: none">
+        <h2>Calculation Results</h2>
+        <div class="factors-info" style="border-left-color: var(--primary)">
+          <p style="font-size: 1.1rem">
+            Maximum Design Pressure (P):
+            <span
+              id="maxPressureValue"
+              class="factor-value"
+              style="font-size: 2rem; color: var(--danger)"
+              >0</span
+            >
+            <span style="font-size: 1.2rem; color: var(--danger)">psi</span>
+          </p>
+        </div>
+
+        <div class="factors-info">
+          <h3>Applied Values</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
+            <p>
+              <strong>Wall Thickness (t):</strong>
+              <span id="wallThicknessResult" class="factor-value">-</span>
+            </p>
+            <p>
+              <strong>SMYS (S):</strong>
+              <span id="smysResult" class="factor-value">-</span>
+            </p>
+            <p>
+              <strong>Design Factor (F):</strong>
+              <span id="designFactorResult" class="factor-value">-</span>
+            </p>
+            <p>
+              <strong>Joint Factor (E):</strong>
+              <span id="jointFactorResult" class="factor-value">-</span>
+            </p>
+            <p>
+              <strong>Temp Factor (T):</strong>
+              <span id="tempFactorResult" class="factor-value">-</span>
+            </p>
+            <p>
+              <strong>Diameter (D):</strong>
+              <span id="diameterResult" class="factor-value">-</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="calculation-formula" id="formulaDetails">
+          <!-- Formula details will be inserted here -->
+        </div>
+      </div>
+
+      <footer>
+        <p>
+          Based on ASME B31.8-2022 — Gas Transmission and Distribution Piping
+          Systems.
+        </p>
+        <p>(C) 2025. Creado Por Freddy Roa Monsalvo | Ingeniero Mecánico</p>
+      </footer>
+    </div>
+
+    <script>
+      // Pipe dimension database (ASME B36.10M / API 5L)
+      const pipeDimensions = {
+        0.5: {
+          OD: 0.84,
+          schedules: {
+            STD: 0.109,
+            40: 0.109,
+            XS: 0.147,
+            80: 0.147,
+            160: 0.187,
+            XXS: 0.294,
+          },
+        },
+        0.75: {
+          OD: 1.05,
+          schedules: {
+            STD: 0.113,
+            40: 0.113,
+            XS: 0.154,
+            80: 0.154,
+            160: 0.219,
+            XXS: 0.308,
+          },
+        },
+        1: {
+          OD: 1.315,
+          schedules: {
+            STD: 0.133,
+            40: 0.133,
+            XS: 0.179,
+            80: 0.179,
+            160: 0.25,
+            XXS: 0.358,
+          },
+        },
+        1.25: {
+          OD: 1.66,
+          schedules: {
+            STD: 0.14,
+            40: 0.14,
+            XS: 0.191,
+            80: 0.191,
+            160: 0.25,
+            XXS: 0.382,
+          },
+        },
+        1.5: {
+          OD: 1.9,
+          schedules: {
+            STD: 0.145,
+            40: 0.145,
+            XS: 0.2,
+            80: 0.2,
+            160: 0.281,
+            XXS: 0.4,
+          },
+        },
+        2: {
+          OD: 2.375,
+          schedules: {
+            STD: 0.154,
+            40: 0.154,
+            XS: 0.218,
+            80: 0.218,
+            160: 0.344,
+            XXS: 0.436,
+          },
+        },
+        2.5: {
+          OD: 2.875,
+          schedules: {
+            STD: 0.203,
+            40: 0.203,
+            XS: 0.276,
+            80: 0.276,
+            160: 0.375,
+            XXS: 0.552,
+          },
+        },
+        3: {
+          OD: 3.5,
+          schedules: {
+            STD: 0.216,
+            40: 0.216,
+            XS: 0.3,
+            80: 0.3,
+            160: 0.438,
+            XXS: 0.6,
+          },
+        },
+        3.5: {
+          OD: 4.0,
+          schedules: { STD: 0.226, 40: 0.226, XS: 0.318, 80: 0.318 },
+        },
+        4: {
+          OD: 4.5,
+          schedules: {
+            STD: 0.237,
+            40: 0.237,
+            XS: 0.337,
+            80: 0.337,
+            120: 0.438,
+            160: 0.531,
+            XXS: 0.674,
+          },
+        },
+        5: {
+          OD: 5.563,
+          schedules: {
+            STD: 0.258,
+            40: 0.258,
+            XS: 0.375,
+            80: 0.375,
+            120: 0.5,
+            160: 0.625,
+            XXS: 0.75,
+          },
+        },
+        6: {
+          OD: 6.625,
+          schedules: {
+            STD: 0.28,
+            40: 0.28,
+            XS: 0.432,
+            80: 0.432,
+            120: 0.562,
+            160: 0.719,
+            XXS: 0.864,
+          },
+        },
+        8: {
+          OD: 8.625,
+          schedules: {
+            10: 0.25,
+            20: 0.277,
+            STD: 0.322,
+            40: 0.322,
+            60: 0.406,
+            XS: 0.5,
+            80: 0.5,
+            100: 0.594,
+            120: 0.719,
+            140: 0.812,
+            160: 0.906,
+            XXS: 0.875,
+          },
+        },
+        10: {
+          OD: 10.75,
+          schedules: {
+            10: 0.25,
+            20: 0.25,
+            30: 0.307,
+            STD: 0.365,
+            40: 0.365,
+            60: 0.5,
+            XS: 0.5,
+            80: 0.594,
+            100: 0.719,
+            120: 0.844,
+            140: 1.0,
+            160: 1.125,
+            XXS: 1.0,
+          },
+        },
+        12: {
+          OD: 12.75,
+          schedules: {
+            10: 0.25,
+            20: 0.25,
+            30: 0.33,
+            STD: 0.375,
+            40: 0.406,
+            60: 0.562,
+            XS: 0.5,
+            80: 0.688,
+            100: 0.844,
+            120: 1.0,
+            140: 1.125,
+            160: 1.312,
+            XXS: 1.0,
+          },
+        },
+        14: {
+          OD: 14.0,
+          schedules: {
+            10: 0.25,
+            20: 0.312,
+            30: 0.375,
+            STD: 0.375,
+            40: 0.438,
+            60: 0.594,
+            XS: 0.5,
+            80: 0.75,
+            100: 0.938,
+            120: 1.094,
+            140: 1.25,
+            160: 1.406,
+          },
+        },
+        16: {
+          OD: 16.0,
+          schedules: {
+            10: 0.25,
+            20: 0.312,
+            30: 0.375,
+            STD: 0.375,
+            40: 0.5,
+            60: 0.656,
+            XS: 0.5,
+            80: 0.844,
+            100: 1.031,
+            120: 1.219,
+            140: 1.438,
+            160: 1.594,
+          },
+        },
+        18: {
+          OD: 18.0,
+          schedules: {
+            10: 0.25,
+            20: 0.312,
+            30: 0.438,
+            STD: 0.375,
+            40: 0.562,
+            60: 0.75,
+            XS: 0.5,
+            80: 0.938,
+            100: 1.156,
+            120: 1.375,
+            140: 1.562,
+            160: 1.781,
+          },
+        },
+        20: {
+          OD: 20.0,
+          schedules: {
+            10: 0.25,
+            20: 0.375,
+            30: 0.5,
+            STD: 0.375,
+            40: 0.594,
+            60: 0.812,
+            XS: 0.5,
+            80: 1.031,
+            100: 1.281,
+            120: 1.5,
+            140: 1.75,
+            160: 1.969,
+          },
+        },
+        22: {
+          OD: 22.0,
+          schedules: {
+            10: 0.25,
+            20: 0.375,
+            30: 0.5,
+            STD: 0.375,
+            60: 0.875,
+            XS: 0.5,
+            80: 1.125,
+            100: 1.375,
+            120: 1.625,
+            140: 1.875,
+            160: 2.125,
+          },
+        },
+        24: {
+          OD: 24.0,
+          schedules: {
+            10: 0.25,
+            20: 0.375,
+            30: 0.562,
+            STD: 0.375,
+            40: 0.688,
+            60: 0.969,
+            XS: 0.5,
+            80: 1.219,
+            100: 1.531,
+            120: 1.812,
+            140: 2.062,
+            160: 2.344,
+          },
+        },
+        30: {
+          OD: 30.0,
+          schedules: { 10: 0.312, 20: 0.5, 30: 0.625, STD: 0.375, XS: 0.5 },
+        },
+        32: {
+          OD: 32.0,
+          schedules: { 10: 0.312, 20: 0.5, 30: 0.625, STD: 0.375, 40: 0.688 },
+        },
+        34: {
+          OD: 34.0,
+          schedules: { 10: 0.312, 20: 0.5, 30: 0.625, STD: 0.375, 40: 0.688 },
+        },
+        36: {
+          OD: 36.0,
+          schedules: { 10: 0.312, 20: 0.5, 30: 0.625, STD: 0.375, 40: 0.75 },
+        },
+        42: {
+          OD: 42.0,
+          schedules: { 20: 0.5, 30: 0.625, STD: 0.375, 40: 0.75 },
+        },
+      };
+
+      const materialGrades = {
+        A: 30000,
+        B: 35000,
+        X42: 42000,
+        X52: 52000,
+        X60: 60000,
+        X65: 65000,
+        X70: 70000,
+      };
+      const designFactors = {
+        "1-div1": 0.72,
+        "1-div2": 0.6,
+        2: 0.5,
+        3: 0.4,
+        4: 0.4,
+      };
+
+      function updatePipeDimensions() {
+        const pipeSize = document.getElementById("pipeSize").value;
+        const scheduleSelect = document.getElementById("schedule");
+        const odField = document.getElementById("outsideDiameter");
+
+        scheduleSelect.innerHTML = '<option value="">Select Schedule</option>';
+
+        if (pipeSize && pipeDimensions[pipeSize]) {
+          const pipe = pipeDimensions[pipeSize];
+          odField.value = pipe.OD.toFixed(3) + '"';
+
+          const scheduleOrder = [
+            "5",
+            "10",
+            "20",
+            "30",
+            "STD",
+            "40",
+            "60",
+            "XS",
+            "80",
+            "100",
+            "120",
+            "140",
+            "160",
+            "XXS",
+          ];
+          scheduleOrder.forEach((schedule) => {
+            if (pipe.schedules[schedule]) {
+              const option = document.createElement("option");
+              option.value = schedule;
+              option.textContent = schedule;
+              scheduleSelect.appendChild(option);
+            }
+          });
+          scheduleSelect.disabled = false;
+        } else {
+          odField.value = "";
+          scheduleSelect.disabled = true;
+        }
+        document.getElementById("wallThickness").value = "";
+      }
+
+      function updateWallThickness() {
+        const pipeSize = document.getElementById("pipeSize").value;
+        const schedule = document.getElementById("schedule").value;
+        const wallField = document.getElementById("wallThickness");
+        if (
+          pipeSize &&
+          schedule &&
+          pipeDimensions[pipeSize] &&
+          pipeDimensions[pipeSize].schedules[schedule]
+        ) {
+          wallField.value =
+            pipeDimensions[pipeSize].schedules[schedule].toFixed(3) + '"';
+        } else {
+          wallField.value = "";
+        }
+      }
+
+      function updateSMYS() {
+        const grade = document.getElementById("pipeGrade").value;
+        const smysField = document.getElementById("pipeSMYS");
+        if (grade && materialGrades[grade]) {
+          smysField.value = materialGrades[grade].toLocaleString() + " psi";
+        } else {
+          smysField.value = "";
+        }
+      }
+
+      function updateDesignFactor() {
+        const locationClass = document.getElementById("locationClass").value;
+        const designFactorField = document.getElementById("designFactor");
+        if (locationClass && designFactors[locationClass]) {
+          designFactorField.value = designFactors[locationClass].toFixed(2);
+        } else {
+          designFactorField.value = "";
+        }
+      }
+
+      function calculatePressure() {
+        const pipeSize = document.getElementById("pipeSize").value;
+        const grade = document.getElementById("pipeGrade").value;
+        const locClass = document.getElementById("locationClass").value;
+        const schedule = document.getElementById("schedule").value;
+
+        if (!pipeSize || !grade || !locClass || !schedule) {
+          alert("Please complete all required fields.");
+          return;
+        }
+
+        const t = pipeDimensions[pipeSize].schedules[schedule];
+        const D = pipeDimensions[pipeSize].OD;
+        const S = materialGrades[grade];
+        const F = designFactors[locClass];
+        const E = parseFloat(document.getElementById("jointFactor").value);
+        const T = parseFloat(document.getElementById("tempFactor").value);
+
+        const P_max = (2 * t * S * F * E * T) / D;
+
+        document.getElementById("resultsCard").style.display = "block";
+        document.getElementById("maxPressureValue").textContent =
+          Math.round(P_max).toLocaleString();
+        document.getElementById("wallThicknessResult").textContent =
+          t.toFixed(3) + '"';
+        document.getElementById("smysResult").textContent =
+          S.toLocaleString() + " psi";
+        document.getElementById("designFactorResult").textContent =
+          F.toFixed(2);
+        document.getElementById("jointFactorResult").textContent = E.toFixed(2);
+        document.getElementById("tempFactorResult").textContent = T.toFixed(3);
+        document.getElementById("diameterResult").textContent =
+          D.toFixed(3) + '"';
+
+        document.getElementById("formulaDetails").innerHTML = `
+                <strong>Calculation Walkthrough:</strong><br>
+                P = (2 · ${t.toFixed(4)} · ${S} · ${F} · ${E} · ${T}) / ${D.toFixed(3)}<br>
+                P = ${(2 * t * S * F * E * T).toFixed(2)} / ${D.toFixed(3)}<br>
+                <strong>P = ${Math.round(P_max).toLocaleString()} psi</strong>
+            `;
+
+        document
+          .getElementById("resultsCard")
+          .scrollIntoView({ behavior: "smooth" });
+      }
+
+      function clearFields() {
+        document
+          .querySelectorAll("select")
+          .forEach((s) => (s.selectedIndex = 0));
+        updatePipeDimensions();
+        updateSMYS();
+        updateDesignFactor();
+        document.getElementById("resultsCard").style.display = "none";
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        updatePipeDimensions();
+        updateSMYS();
+        updateDesignFactor();
+
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
+        const menuIcon = document.getElementById("menu-icon");
+        const closeIcon = document.getElementById("close-icon");
+        const mobileToolsToggle = document.getElementById(
+          "mobile-tools-toggle",
+        );
+        const mobileToolsMenu = document.getElementById("mobile-tools-menu");
+        const mobileToolsArrow = document.getElementById("mobile-tools-arrow");
+
+        if (mobileMenuButton && mobileMenu) {
+          mobileMenuButton.addEventListener("click", () => {
+            const isExpanded =
+              mobileMenuButton.getAttribute("aria-expanded") === "true";
+            mobileMenu.classList.toggle("hidden");
+            menuIcon.classList.toggle("hidden");
+            closeIcon.classList.toggle("hidden");
+            mobileMenuButton.setAttribute("aria-expanded", !isExpanded);
+          });
+
+          // Mobile Tools Accordion
+          if (mobileToolsToggle && mobileToolsMenu) {
+            mobileToolsToggle.addEventListener("click", (e) => {
+              e.preventDefault();
+              mobileToolsMenu.classList.toggle("hidden");
+              if (mobileToolsArrow)
+                mobileToolsArrow.classList.toggle("rotate-180");
+            });
+          }
+
+          // Close menu when clicking a link (except tools toggle)
+          const mobileLinks = mobileMenu.querySelectorAll("a");
+          mobileLinks.forEach((link) => {
+            if (link.id !== "mobile-tools-toggle") {
+              link.addEventListener("click", () => {
+                mobileMenu.classList.add("hidden");
+                menuIcon.classList.remove("hidden");
+                closeIcon.classList.add("hidden");
+                mobileMenuButton.setAttribute("aria-expanded", "false");
+              });
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

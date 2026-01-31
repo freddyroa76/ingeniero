@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Compresión de Gas | Ingeniería de Petróleo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .header .icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .input-section, .output-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: #3498db;
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #fafbfc;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #3498db;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-group .unit {
+            position: absolute;
+            right: 15px;
+            top: 38px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-calculate {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .btn-calculate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+        }
+
+        .btn-clear {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-clear:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        /* Results */
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+            transition: all 0.3s ease;
+        }
+
+        .result-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .result-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #27ae60;
+        }
+
+        /* Technical Info */
+        .info-section {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #f1f2f6 0%, #dfe4ea 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .info-section h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info-section li {
+            margin: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #34495e;
+        }
+
+        .info-section li::before {
+            content: '•';
+            color: #3498db;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        /* Footer */
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <i class="fas fa-cogs icon"></i>
+                <h1>Calculadora de Compresión de Gas</h1>
+                <p>Ingeniería de Petróleo y Gas Natural | Cálculos Termodinámicos Avanzados</p>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Input Section -->
+            <div class="input-section">
+                <h2 class="section-title">
+                    <i class="fas fa-edit"></i>
+                    Datos de Entrada
+                </h2>
+
+                <form id="compressionForm">
+                    <div class="form-group">
+                        <label for="gasFlow">Flujo de Gas (Q)</label>
+                        <input type="number" id="gasFlow" step="0.001" placeholder="Ingrese el flujo de gas">
+                        <span class="unit">MMSCFD</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="heatRatio">Relación de Calores Específicos (γ)</label>
+                        <input type="number" id="heatRatio" step="0.001" placeholder="Ingrese γ">
+                        <span class="unit">-</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="suctionPressure">Presión de Succión (P₁)</label>
+                        <input type="number" id="suctionPressure" step="0.1" placeholder="Ingrese presión de succión">
+                        <span class="unit">Psig</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dischargePressure">Presión de Descarga (P₂)</label>
+                        <input type="number" id="dischargePressure" step="0.1" placeholder="Ingrese presión de descarga">
+                        <span class="unit">Psig</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="suctionTemp">Temperatura de Succión (T₁)</label>
+                        <input type="number" id="suctionTemp" step="0.1" placeholder="Ingrese temperatura de succión">
+                        <span class="unit">°F</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="z1">Factor de Compresibilidad Succión (Z₁)</label>
+                        <input type="number" id="z1" step="0.001" placeholder="Ingrese Z₁">
+                        <span class="unit">-</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="z2">Factor de Compresibilidad Descarga (Z₂)</label>
+                        <input type="number" id="z2" step="0.001" placeholder="Ingrese Z₂">
+                        <span class="unit">-</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="adiabaticEff">Eficiencia Adiabática (ηₐ)</label>
+                        <input type="number" id="adiabaticEff" step="0.001" min="0" max="1" placeholder="Ingrese eficiencia (0.0 - 1.0)">
+                        <span class="unit">decimal</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mechanicalEff">Eficiencia Mecánica (ηₘ)</label>
+                        <input type="number" id="mechanicalEff" step="0.001" min="0" max="1" placeholder="Ingrese eficiencia (0.0 - 1.0)">
+                        <span class="unit">decimal</span>
+                    </div>
+                </form>
+
+                <div class="button-group">
+                    <button type="button" class="btn btn-calculate" onclick="calculateCompression()">
+                        <i class="fas fa-calculator"></i>
+                        Calcular
+                    </button>
+                    <button type="button" class="btn btn-clear" onclick="clearForm()">
+                        <i class="fas fa-trash"></i>
+                        Limpiar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Output Section -->
+            <div class="output-section">
+                <h2 class="section-title">
+                    <i class="fas fa-chart-line"></i>
+                    Resultados
+                </h2>
+
+                <div id="results">
+                    <div class="result-item">
+                        <span class="result-label">Eficiencia Completa (ηₒ)</span>
+                        <span class="result-value" id="overallEff">- </span>
+                    </div>
+
+                    <div class="result-item">
+                        <span class="result-label">Potencia Calculada</span>
+                        <span class="result-value" id="calcPower">- HP</span>
+                    </div>
+
+                    <div class="result-item">
+                        <span class="result-label">Break Horse Power (BHP)</span>
+                        <span class="result-value" id="bhp">- HP</span>
+                    </div>
+
+                    <div class="result-item">
+                        <span class="result-label">Temperatura de Descarga (T₂)</span>
+                        <span class="result-value" id="dischargeTemp">- °F</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Information -->
+            <div class="info-section">
+                <h3><i class="fas fa-info-circle"></i>Información Técnica</h3>
+                <ul>
+                    <li><strong>Ecuación de Estado:</strong> Gas real con factores de compresibilidad Z₁ y Z₂</li>
+                    <li><strong>Proceso:</strong> Compresión politrópica con eficiencia adiabática</li>
+                    <li><strong>Fórmula GPSA:</strong> HP = T₁ × Z_avg / 11.66 × γ/(γ-1) × SQ/ηₐ × [(P₂/P₁)^((γ-1)/γ) - 1]</li>
+                    <li><strong>Donde SQ:</strong> Flujo volumétrico en MMSCFD</li>
+                    <li><strong>Constante 11.66:</strong> Factor de conversión para unidades inglesas en gas natural</li>
+                    <li><strong>Z_avg:</strong> Factor de compresibilidad promedio = (Z₁ + Z₂)/2</li>
+                    <li><strong>Temperatura de Descarga:</strong> T₂ = T₁ + (T_ideal - T₁) / ηₐ</li>
+                    <li><strong>Donde T_ideal:</strong> T₁ × (P₂/P₁)^((γ-1)/γ) × (Z₁/Z₂)</li>
+                    <li><strong>Aplicación:</strong> Compresores centrífugos y reciprocantes en la industria del petróleo y gas</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Loading Animation -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025. Creado Por Freddy Roa Monsalvo | Ingeniero Mecánico</p>
+        </footer>
+    </div>
+
+    <script>
+        function calculateCompression() {
+            // Show loading animation
+            document.getElementById('loading').style.display = 'block';
+            
+            setTimeout(() => {
+                try {
+                    // Get input values
+                    const Q = parseFloat(document.getElementById('gasFlow').value);
+                    const gamma = parseFloat(document.getElementById('heatRatio').value);
+                    const P1_psig = parseFloat(document.getElementById('suctionPressure').value);
+                    const P2_psig = parseFloat(document.getElementById('dischargePressure').value);
+                    const T1_F = parseFloat(document.getElementById('suctionTemp').value);
+                    const Z1 = parseFloat(document.getElementById('z1').value);
+                    const Z2 = parseFloat(document.getElementById('z2').value);
+                    const eta_a = parseFloat(document.getElementById('adiabaticEff').value);
+                    const eta_m = parseFloat(document.getElementById('mechanicalEff').value);
+
+                    // Validation
+                    if (isNaN(Q) || isNaN(gamma) || isNaN(P1_psig) || isNaN(P2_psig) || 
+                        isNaN(T1_F) || isNaN(Z1) || isNaN(Z2) || isNaN(eta_a) || isNaN(eta_m)) {
+                        alert('Por favor, complete todos los campos con valores numéricos válidos.');
+                        return;
+                    }
+
+                    // Additional validation for efficiencies
+                    if (eta_a <= 0 || eta_a > 1 || eta_m <= 0 || eta_m > 1) {
+                        alert('Las eficiencias deben estar entre 0.0 y 1.0 (valores decimales).');
+                        return;
+                    }
+
+                    // Convert units
+                    const P1_psia = P1_psig + 14.696;
+                    const P2_psia = P2_psig + 14.696;
+                    const T1_R = T1_F + 459.67;
+
+                    // Thermodynamic calculations
+                    const pressure_ratio = P2_psia / P1_psia;
+                    const compression_exponent = (gamma - 1) / gamma;
+                    const compression_ratio = Math.pow(pressure_ratio, compression_exponent);
+                    
+                    // Overall efficiency
+                    const eta_overall = eta_a * eta_m;
+
+                    // Discharge temperature calculation - PipeEng Method
+                    // This method considers the actual work done and efficiency
+                    // T2 = T1 + (T_ideal - T1) / eta_adiabatic
+                    const T_ideal_isentropic = T1_R * compression_ratio * (Z1 / Z2);
+                    const T2_R = T1_R + (T_ideal_isentropic - T1_R) / eta_a;
+                    const T2_F = T2_R - 459.67;
+
+                    // GPSA Method for Power Calculation
+                    // HP = T1 * Zavg / 11.66 * k/(k-1) * SQ/nisen * [(p2/p1)^((k-1)/k) - 1]
+                    // Where SQ is MMSCFD and T1 is in °R
+                    
+                    // Average compressibility factor (approximation)
+                    const Z_avg = (Z1 + Z2) / 2;
+                    
+                    // GPSA formula for natural gas compression (HP)
+                    // This is the standard formula used in the gas industry
+                    const isentropic_hp = (T1_R * Z_avg / 11.66) * 
+                                         (gamma / (gamma - 1)) * 
+                                         (Q / eta_a) * 
+                                         (compression_ratio - 1);
+                    
+                    // Actual power required (considering adiabatic efficiency)
+                    const actual_power_hp = isentropic_hp;
+                    
+                    // Brake Horse Power (considering mechanical efficiency)
+                    const bhp = actual_power_hp / eta_m;
+
+                    // Display results with proper formatting
+                    document.getElementById('overallEff').textContent = eta_overall.toFixed(3);
+                    document.getElementById('calcPower').textContent = actual_power_hp.toFixed(0) + ' HP';
+                    document.getElementById('bhp').textContent = bhp.toFixed(0) + ' HP';
+                    document.getElementById('dischargeTemp').textContent = T2_F.toFixed(1) + ' °F';
+
+                    // Add animation to results
+                    const results = document.getElementById('results');
+                    results.classList.add('fade-in');
+
+                    // Success message
+                    showNotification('Cálculos completados exitosamente', 'success');
+
+                } catch (error) {
+                    console.error('Error in calculations:', error);
+                    showNotification('Error en los cálculos. Verifique los datos ingresados.', 'error');
+                } finally {
+                    // Hide loading animation
+                    document.getElementById('loading').style.display = 'none';
+                }
+            }, 1000);
+        }
+
+        function clearForm() {
+            // Clear all input fields
+            document.getElementById('compressionForm').reset();
+            
+            // Clear results
+            document.getElementById('overallEff').textContent = '- ';
+            document.getElementById('calcPower').textContent = '- HP';
+            document.getElementById('bhp').textContent = '- HP';
+            document.getElementById('dischargeTemp').textContent = '- °F';
+
+            showNotification('Formulario limpiado', 'info');
+        }
+
+        function showNotification(message, type) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            // Style the notification
+            Object.assign(notification.style, {
+                position: 'fixed',
+                top: '20px',
+                right: '20px',
+                padding: '15px 25px',
+                borderRadius: '10px',
+                color: 'white',
+                fontWeight: 'bold',
+                zIndex: '1001',
+                opacity: '0',
+                transform: 'translateY(-20px)',
+                transition: 'all 0.3s ease'
+            });
+
+            // Set background color based on type
+            switch (type) {
+                case 'success':
+                    notification.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
+                    break;
+                case 'error':
+                    notification.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
+                    break;
+                case 'info':
+                    notification.style.background = 'linear-gradient(135deg, #3498db, #2980b9)';
+                    break;
+            }
+
+            document.body.appendChild(notification);
+
+            // Animate in
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateY(0)';
+            }, 100);
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateY(-20px)';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Add input validation and formatting
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input[type="number"]');
+            
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentNode.style.transform = 'scale(1.02)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentNode.style.transform = 'scale(1)';
+                });
+            });
+        });
+
+        // Enable Enter key to calculate
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                calculateCompression();
+            }
+        });
+    </script>
+</body>
+</html>

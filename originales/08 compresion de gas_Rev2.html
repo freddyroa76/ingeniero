@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Avanzada de Compresión de Gas | Ingeniería de Petróleo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .header .icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            padding: 0;
+            border-radius: 0;
+            overflow: hidden;
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: #ecf0f1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            box-shadow: 0 0 15px rgba(52, 152, 219, 0.5);
+        }
+
+        .tab:not(.active):hover {
+            background: rgba(52, 152, 219, 0.2);
+        }
+
+        .tab i {
+            margin-right: 8px;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .input-section, .output-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: #3498db;
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #fafbfc;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #3498db;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-group .unit {
+            position: absolute;
+            right: 15px;
+            top: 38px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        /* Composition Table */
+        .composition-section {
+            grid-column: 1 / -1;
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            margin-top: 20px;
+        }
+
+        .composition-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .composition-table th {
+            background: #f1f2f6;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #2c3e50;
+            border-bottom: 2px solid #dfe4ea;
+        }
+
+        .composition-table td {
+            padding: 10px 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .composition-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .composition-table tr:hover {
+            background-color: #e9f7fe;
+        }
+
+        .composition-table input {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            background: #fafbfc;
+            transition: all 0.2s ease;
+        }
+
+        .composition-table input:focus {
+            border-color: #3498db;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            outline: none;
+        }
+
+        .composition-summary {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .composition-summary .total {
+            color: #2c3e50;
+        }
+
+        .composition-summary .sum {
+            color: #27ae60;
+            font-size: 1.1rem;
+        }
+
+        .composition-summary .error {
+            color: #e74c3c;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-calculate {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .btn-calculate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+        }
+
+        .btn-clear {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-clear:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        /* Results */
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+            transition: all 0.3s ease;
+        }
+
+        .result-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .result-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #27ae60;
+        }
+
+        .z-factor {
+            border-left: 4px solid #9b59b6;
+        }
+
+        /* Technical Info */
+        .info-section {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #f1f2f6 0%, #dfe4ea 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .info-section h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info-section li {
+            margin: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #34495e;
+        }
+
+        .info-section li::before {
+            content: '•';
+            color: #3498db;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        /* Footer */
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .composition-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Collapsible sections */
+        .collapsible {
+            background: #f1f2f6;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .collapsible:hover {
+            background: #e2e7f0;
+        }
+        
+        .collapsible-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .collapsible.active .collapsible-content {
+            max-height: 1000px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <i class="fas fa-cogs icon"></i>
+                <h1>Calculadora Avanzada de Compresión de Gas</h1>
+                <p>Ingeniería de Petróleo y Gas Natural | Cálculos Termodinámicos Avanzados</p>
+            </div>
+        </header>
+        
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" data-tab="basic">
+                <i class="fas fa-sliders-h"></i> Datos Básicos
+            </div>
+            <div class="tab" data-tab="composition">
+                <i class="fas fa-atom"></i> Composición del Gas
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- Input Section -->
+            <div class="input-section">
+                <h2 class="section-title">
+                    <i class="fas fa-edit"></i>
+                    Datos de Entrada
+                </h2>
+
+                <form id="compressionForm">
+                    <div class="form-group">
+                        <label for="gasFlow">Flujo de Gas (Q)</label>
+                        <input type="text" id="gasFlow" placeholder="Ej: 100" required>
+                        <span class="unit">MMSCFD</span>
+                        <div class="error-message" id="gasFlowError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="heatRatio">Relación de Calores Específicos (γ)</label>
+                        <input type="text" id="heatRatio" placeholder="Ej: 1.4" required>
+                        <span class="unit">-</span>
+                        <div class="error-message" id="heatRatioError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="suctionPressure">Presión de Succión (P₁)</label>
+                        <input type="text" id="suctionPressure" placeholder="Ej: 700" required>
+                        <span class="unit">Psig</span>
+                        <div class="error-message" id="suctionPressureError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dischargePressure">Presión de Descarga (P₂)</label>
+                        <input type="text" id="dischargePressure" placeholder="Ej: 1200" required>
+                        <span class="unit">Psig</span>
+                        <div class="error-message" id="dischargePressureError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="suctionTemp">Temperatura de Succión (T₁)</label>
+                        <input type="text" id="suctionTemp" placeholder="Ej: 100" required>
+                        <span class="unit">°F</span>
+                        <div class="error-message" id="suctionTempError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="adiabaticEff">Eficiencia Adiabática (ηₐ)</label>
+                        <input type="text" id="adiabaticEff" placeholder="Ej: 0.9" required>
+                        <span class="unit">decimal</span>
+                        <div class="error-message" id="adiabaticEffError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mechanicalEff">Eficiencia Mecánica (ηₘ)</label>
+                        <input type="text" id="mechanicalEff" placeholder="Ej: 0.9" required>
+                        <span class="unit">decimal</span>
+                        <div class="error-message" id="mechanicalEffError"></div>
+                    </div>
+                </form>
+
+                <div class="button-group">
+                    <button type="button" class="btn btn-calculate" onclick="calculateCompression()">
+                        <i class="fas fa-calculator"></i>
+                        Calcular
+                    </button>
+                    <button type="button" class="btn btn-clear" onclick="clearForm()">
+                        <i class="fas fa-trash"></i>
+                        Limpiar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Output Section -->
+            <div class="output-section">
+                <h2 class="section-title">
+                    <i class="fas fa-chart-line"></i>
+                    Resultados
+                </h2>
+
+                <div id="results">
+                    <div class="result-item z-factor">
+                        <span class="result-label">Factor de Compresibilidad Succión (Z₁)</span>
+                        <span class="result-value" id="z1Result">- </span>
+                    </div>
+                    
+                    <div class="result-item z-factor">
+                        <span class="result-label">Factor de Compresibilidad Descarga (Z₂)</span>
+                        <span class="result-value" id="z2Result">- </span>
+                    </div>
+                    
+                    <div class="result-item">
+                        <span class="result-label">Eficiencia Completa (ηₒ)</span>
+                        <span class="result-value" id="overallEff">- </span>
+                    </div>
+
+                    <div class="result-item">
+                        <span class="result-label">Potencia Calculada</span>
+                        <span class="result-value" id="calcPower">- HP</span>
+                    </div>
+
+                    <div class="result-item">
+                        <span class="result-label">Break Horse Power (BHP)</span>
+                        <span class="result-value" id="bhp">- HP</span>
+                    </div>
+
+                    <div class="result-item">
+                        <span class="result-label">Temperatura de Descarga (T₂)</span>
+                        <span class="result-value" id="dischargeTemp">- °F</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Composition Section -->
+            <div class="composition-section">
+                <h2 class="section-title">
+                    <i class="fas fa-flask"></i>
+                    Composición del Gas Natural
+                </h2>
+                <p>Ingrese las fracciones molares de cada componente (la suma debe ser 1.000):</p>
+                
+                <div class="composition-summary">
+                    <span class="total">Suma total:</span>
+                    <span id="compositionSum" class="sum">0.000</span>
+                    <span id="compositionError" class="error"></span>
+                </div>
+                
+                <table class="composition-table">
+                    <thead>
+                        <tr>
+                            <th>Componente</th>
+                            <th>Fórmula</th>
+                            <th>Fracción Molar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="compositionBody">
+                        <!-- Rows will be generated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Technical Information -->
+            <div class="info-section">
+                <h3><i class="fas fa-info-circle"></i>Información Técnica</h3>
+                
+                <div class="collapsible" id="methodCollapse">
+                    <div class="collapsible-header">
+                        <span><i class="fas fa-book"></i> Método de Standing-Katz para Factor Z</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="collapsible-content">
+                        <ul>
+                            <li><strong>Propiedades Pseudocríticas:</strong> T_pc = Σ(y_i * T_c,i), P_pc = Σ(y_i * P_c,i)</li>
+                            <li><strong>Propiedades Pseudorreducidas:</strong> T_pr = T / T_pc, P_pr = P / P_pc</li>
+                            <li><strong>Correlación Dranchuk-AbouKassem:</strong> Se utiliza para calcular Z a partir de T_pr y P_pr</li>
+                            <li><strong>Ecuación:</strong> Z = 1 + (A1 + A2/Tpr + A3/Tpr³) * ρ_r + (A4 + A5/Tpr) * ρ_r² + A5*A6 * ρ_r⁵ / Tpr + (A7 * ρ_r² / Tpr³) * (1 + A8 * ρ_r²) * exp(-A8 * ρ_r²)</li>
+                            <li><strong>Donde:</strong> ρ_r = 0.27 * P_pr / (Z * T_pr)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="collapsible" id="calcCollapse">
+                    <div class="collapsible-header">
+                        <span><i class="fas fa-calculator"></i> Cálculos de Compresión</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="collapsible-content">
+                        <ul>
+                            <li><strong>Ecuación de Estado:</strong> Gas real con factores de compresibilidad Z₁ y Z₂ calculados</li>
+                            <li><strong>Proceso:</strong> Compresión politrópica con eficiencia adiabática</li>
+                            <li><strong>Fórmula GPSA:</strong> HP = T₁ × Z_avg / 11.66 × γ/(γ-1) × SQ/ηₐ × [(P₂/P₁)^((γ-1)/γ) - 1]</li>
+                            <li><strong>Donde SQ:</strong> Flujo volumétrico en MMSCFD</li>
+                            <li><strong>Z_avg:</strong> Factor de compresibilidad promedio = (Z₁ + Z₂)/2</li>
+                            <li><strong>Temperatura de Descarga:</strong> T₂ = T₁ + (T_ideal - T₁) / ηₐ</li>
+                            <li><strong>Donde T_ideal:</strong> T₁ × (P₂/P₁)^((γ-1)/γ) × (Z₁/Z₂)</li>
+                            <li><strong>Aplicación:</strong> Compresores centrífugos y reciprocantes en la industria del petróleo y gas</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Animation -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025. Creado Por Freddy Roa Monsalvo | Ingeniero Mecánico</p>
+        </footer>
+    </div>
+
+    <script>
+        // Component properties (Tc in °R, Pc in psia)
+        const COMPONENTS = [
+            { name: "Metano", formula: "CH4", id: "ch4", tc: 343.0, pc: 667.8 },
+            { name: "Nitrógeno", formula: "N2", id: "n2", tc: 227.6, pc: 492.8 },
+            { name: "Dióxido de Carbono", formula: "CO2", id: "co2", tc: 547.6, pc: 1071.0 },
+            { name: "Etano", formula: "C2H6", id: "c2h6", tc: 549.8, pc: 707.8 },
+            { name: "Propano", formula: "C3H8", id: "c3h8", tc: 665.7, pc: 616.3 },
+            { name: "Agua", formula: "H2O", id: "h2o", tc: 1165.1, pc: 3200.1 },
+            { name: "Sulfuro de Hidrógeno", formula: "H2S", id: "h2s", tc: 672.4, pc: 1300.0 },
+            { name: "Hidrógeno", formula: "H2", id: "h2", tc: 59.9, pc: 188.1 },
+            { name: "Monóxido de Carbono", formula: "CO", id: "co", tc: 239.0, pc: 507.0 },
+            { name: "Oxígeno", formula: "O2", id: "o2", tc: 278.0, pc: 730.0 },
+            { name: "n-Butano", formula: "nC4H10", id: "nc4h10", tc: 765.3, pc: 550.7 },
+            { name: "iso-Butano", formula: "iC4H10", id: "ic4h10", tc: 734.7, pc: 529.1 },
+            { name: "n-Pentano", formula: "nC5H12", id: "nc5h12", tc: 845.6, pc: 488.8 },
+            { name: "iso-Pentano", formula: "iC5H12", id: "ic5h12", tc: 829.1, pc: 490.4 },
+            { name: "n-Hexano", formula: "nC6H14", id: "nc6h14", tc: 913.4, pc: 436.9 },
+            { name: "n-Heptano", formula: "nC7H16", id: "nc7h16", tc: 972.4, pc: 396.8 },
+            { name: "n-Octano", formula: "nC8H18", id: "nc8h18", tc: 1024.0, pc: 360.7 },
+            { name: "n-Nonano", formula: "nC9H20", id: "nc9h20", tc: 1060.0, pc: 330.0 },
+            { name: "n-Decano", formula: "C10H22", id: "c10h22", tc: 1110.0, pc: 304.0 },
+            { name: "Helio", formula: "He", id: "he", tc: 9.5, pc: 33.2 },
+            { name: "Argón", formula: "Ar", id: "ar", tc: 272.0, pc: 705.0 }
+        ];
+
+        // Helper function to parse numbers with comma or dot
+        function parseNumber(str) {
+            // Handle empty string
+            if (!str) return NaN;
+            
+            // Replace comma with dot for decimal separator
+            const cleanedStr = str.replace(',', '.');
+            
+            // Parse as float
+            return parseFloat(cleanedStr);
+        }
+
+        // Initialize composition table
+        function initCompositionTable() {
+            const tableBody = document.getElementById('compositionBody');
+            
+            COMPONENTS.forEach(component => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${component.name}</td>
+                    <td>${component.formula}</td>
+                    <td>
+                        <input type="text" id="${component.id}" 
+                               class="composition-input" 
+                               value="0" 
+                               oninput="updateCompositionSum()">
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+            
+            // Set default values for testing
+            document.getElementById('ch4').value = '0.9';
+            document.getElementById('n2').value = '0.1';
+            updateCompositionSum();
+        }
+
+        // Update composition sum
+        function updateCompositionSum() {
+            let sum = 0;
+            let hasError = false;
+            
+            COMPONENTS.forEach(component => {
+                const input = document.getElementById(component.id);
+                const value = parseNumber(input.value);
+                
+                if (isNaN(value)) {
+                    hasError = true;
+                } else {
+                    sum += value;
+                }
+            });
+            
+            const sumElement = document.getElementById('compositionSum');
+            const errorElement = document.getElementById('compositionError');
+            
+            sumElement.textContent = sum.toFixed(3);
+            
+            if (hasError || Math.abs(sum - 1) > 0.001) {
+                sumElement.classList.remove('sum');
+                sumElement.classList.add('error');
+                errorElement.textContent = hasError ? 
+                    "Error: Valores no numéricos" : 
+                    "Error: La suma debe ser 1.000";
+            } else {
+                sumElement.classList.remove('error');
+                sumElement.classList.add('sum');
+                errorElement.textContent = "";
+            }
+        }
+
+        // Calculate Z factor using Dranchuk-AbouKassem method
+        function calculateZfactor(T, P, Tpc, Ppc) {
+            const Tpr = T / Tpc;
+            const Ppr = P / Ppc;
+            
+            // Constants for Dranchuk-AbouKassem equation
+            const A1 = 0.3265;
+            const A2 = -1.0700;
+            const A3 = -0.5339;
+            const A4 = 0.01569;
+            const A5 = -0.05165;
+            const A6 = 0.5475;
+            const A7 = -0.7361;
+            const A8 = 0.1844;
+            
+            // Initial guess for Z
+            let Z = 0.9;
+            let iter = 0;
+            const maxIter = 100;
+            const tolerance = 1e-8;
+            let dZ = 0;
+            
+            do {
+                const rho_r = 0.27 * Ppr / (Z * Tpr);
+                
+                // Calculate function f(Z)
+                const term1 = (A1 + A2/Tpr + A3/Math.pow(Tpr, 3)) * rho_r;
+                const term2 = (A4 + A5/Tpr) * Math.pow(rho_r, 2);
+                const term3 = (A5 * A6 * Math.pow(rho_r, 5)) / Tpr;
+                const term4 = (A7 * Math.pow(rho_r, 2) / Math.pow(Tpr, 3)) * 
+                             (1 + A8 * Math.pow(rho_r, 2)) * Math.exp(-A8 * Math.pow(rho_r, 2));
+                
+                const fZ = Z - (1 + term1 + term2 + term3 + term4);
+                
+                // Derivative calculation
+                const h = 0.0001;
+                const Z_plus = Z + h;
+                const rho_r_plus = 0.27 * Ppr / (Z_plus * Tpr);
+                
+                const term1_plus = (A1 + A2/Tpr + A3/Math.pow(Tpr, 3)) * rho_r_plus;
+                const term2_plus = (A4 + A5/Tpr) * Math.pow(rho_r_plus, 2);
+                const term3_plus = (A5 * A6 * Math.pow(rho_r_plus, 5)) / Tpr;
+                const term4_plus = (A7 * Math.pow(rho_r_plus, 2) / Math.pow(Tpr, 3)) * 
+                                  (1 + A8 * Math.pow(rho_r_plus, 2)) * Math.exp(-A8 * Math.pow(rho_r_plus, 2));
+                
+                const fZ_plus = Z_plus - (1 + term1_plus + term2_plus + term3_plus + term4_plus);
+                
+                const dfZ = (fZ_plus - fZ) / h;
+                
+                // Avoid division by zero
+                if (Math.abs(dfZ) < 1e-10) break;
+                
+                // Newton-Raphson iteration
+                dZ = fZ / dfZ;
+                Z -= dZ;
+                
+                // Prevent Z from going out of bounds
+                if (Z < 0.2) Z = 0.2;
+                if (Z > 1.5) Z = 1.5;
+                
+                iter++;
+            } while (iter < maxIter && Math.abs(dZ) > tolerance);
+            
+            return Z;
+        }
+
+        // Calculate pseudocritical properties from composition
+        function calculatePseudocritical() {
+            let Tpc = 0;
+            let Ppc = 0;
+            
+            COMPONENTS.forEach(component => {
+                const input = document.getElementById(component.id);
+                const yi = parseNumber(input.value) || 0;
+                Tpc += yi * component.tc;
+                Ppc += yi * component.pc;
+            });
+            
+            return { Tpc, Ppc };
+        }
+
+        // Validate all inputs
+        function validateInputs() {
+            let isValid = true;
+            
+            // Main inputs
+            const inputs = [
+                'gasFlow', 'heatRatio', 'suctionPressure', 
+                'dischargePressure', 'suctionTemp', 
+                'adiabaticEff', 'mechanicalEff'
+            ];
+            
+            inputs.forEach(id => {
+                const element = document.getElementById(id);
+                const value = parseNumber(element.value);
+                const errorElement = document.getElementById(`${id}Error`);
+                
+                if (isNaN(value)) {
+                    errorElement.textContent = "Valor numérico requerido";
+                    errorElement.style.display = 'block';
+                    element.style.borderColor = '#e74c3c';
+                    isValid = false;
+                } else {
+                    errorElement.style.display = 'none';
+                    element.style.borderColor = '#e1e8ed';
+                    
+                    // Additional validation for efficiencies
+                    if ((id === 'adiabaticEff' || id === 'mechanicalEff') && (value < 0.5 || value > 1)) {
+                        errorElement.textContent = "Debe estar entre 0.5 y 1.0";
+                        errorElement.style.display = 'block';
+                        element.style.borderColor = '#e74c3c';
+                        isValid = false;
+                    }
+                    
+                    // Additional validation for gamma
+                    if (id === 'heatRatio' && (value <= 1 || value > 1.8)) {
+                        errorElement.textContent = "Debe estar entre 1.01 y 1.80";
+                        errorElement.style.display = 'block';
+                        element.style.borderColor = '#e74c3c';
+                        isValid = false;
+                    }
+                }
+            });
+            
+            // Validate composition sum
+            const compositionSum = parseNumber(document.getElementById('compositionSum').textContent);
+            const compositionError = document.getElementById('compositionError');
+            
+            if (Math.abs(compositionSum - 1) > 0.001) {
+                compositionError.textContent = "La suma debe ser 1.000";
+                compositionError.classList.add('error');
+                isValid = false;
+            } else {
+                compositionError.textContent = "";
+            }
+            
+            return isValid;
+        }
+
+        // Main calculation function
+        function calculateCompression() {
+            // Hide previous results
+            document.getElementById('results').classList.remove('fade-in');
+            
+            // Validate inputs
+            if (!validateInputs()) {
+                showNotification('Por favor corrija los errores en el formulario', 'error');
+                return;
+            }
+            
+            // Show loading animation
+            document.getElementById('loading').style.display = 'block';
+            
+            setTimeout(() => {
+                try {
+                    // Get input values
+                    const Q = parseNumber(document.getElementById('gasFlow').value);
+                    const gamma = parseNumber(document.getElementById('heatRatio').value);
+                    const P1_psig = parseNumber(document.getElementById('suctionPressure').value);
+                    const P2_psig = parseNumber(document.getElementById('dischargePressure').value);
+                    const T1_F = parseNumber(document.getElementById('suctionTemp').value);
+                    const eta_a = parseNumber(document.getElementById('adiabaticEff').value);
+                    const eta_m = parseNumber(document.getElementById('mechanicalEff').value);
+                    
+                    // Convert units
+                    const P1_psia = P1_psig + 14.696;
+                    const P2_psia = P2_psig + 14.696;
+                    const T1_R = T1_F + 459.67;  // Convert °F to °R
+                    
+                    // Calculate pseudocritical properties
+                    const { Tpc, Ppc } = calculatePseudocritical();
+                    
+                    // Calculate Z factors
+                    const Z1 = calculateZfactor(T1_R, P1_psia, Tpc, Ppc);
+                    
+                    // Estimate discharge temperature for Z2 calculation
+                    const pressure_ratio = P2_psia / P1_psia;
+                    const compression_exponent = (gamma - 1) / gamma;
+                    const compression_ratio = Math.pow(pressure_ratio, compression_exponent);
+                    
+                    // Initial estimate for discharge temperature
+                    const T2_initial_R = T1_R * Math.pow(pressure_ratio, compression_exponent);
+                    
+                    // Calculate Z2 using initial temperature estimate
+                    const Z2 = calculateZfactor(T2_initial_R, P2_psia, Tpc, Ppc);
+                    
+                    // Recalculate discharge temperature with updated Z factors
+                    const T_ideal_isentropic = T1_R * compression_ratio * (Z1 / Z2);
+                    const T2_R = T1_R + (T_ideal_isentropic - T1_R) / eta_a;
+                    const T2_F = T2_R - 459.67;  // Convert back to °F
+                    
+                    // Overall efficiency
+                    const eta_overall = eta_a * eta_m;
+                    
+                    // GPSA Method for Power Calculation
+                    // Average compressibility factor
+                    const Z_avg = (Z1 + Z2) / 2;
+                    
+                    // GPSA formula for natural gas compression (HP)
+                    const isentropic_hp = (T1_R * Z_avg / 11.66) * 
+                                         (gamma / (gamma - 1)) * 
+                                         (Q / eta_a) * 
+                                         (compression_ratio - 1);
+                    
+                    // Actual power required (considering adiabatic efficiency)
+                    const actual_power_hp = isentropic_hp;
+                    
+                    // Brake Horse Power (considering mechanical efficiency)
+                    const bhp = actual_power_hp / eta_m;
+                    
+                    // Display results with proper formatting
+                    document.getElementById('z1Result').textContent = Z1.toFixed(4);
+                    document.getElementById('z2Result').textContent = Z2.toFixed(4);
+                    document.getElementById('overallEff').textContent = eta_overall.toFixed(3);
+                    document.getElementById('calcPower').textContent = actual_power_hp.toFixed(0) + ' HP';
+                    document.getElementById('bhp').textContent = bhp.toFixed(0) + ' HP';
+                    document.getElementById('dischargeTemp').textContent = T2_F.toFixed(1) + ' °F';
+                    
+                    // Add animation to results
+                    const results = document.getElementById('results');
+                    results.classList.add('fade-in');
+                    
+                    // Success message
+                    showNotification('Cálculos completados exitosamente', 'success');
+                    
+                } catch (error) {
+                    console.error('Error in calculations:', error);
+                    showNotification('Error en los cálculos. Verifique los datos ingresados.', 'error');
+                } finally {
+                    // Hide loading animation
+                    document.getElementById('loading').style.display = 'none';
+                }
+            }, 1000);
+        }
+
+        function clearForm() {
+            // Clear all input fields
+            document.getElementById('compressionForm').reset();
+            
+            // Clear composition inputs
+            COMPONENTS.forEach(component => {
+                document.getElementById(component.id).value = '0';
+            });
+            
+            // Update composition sum
+            updateCompositionSum();
+            
+            // Clear results
+            document.getElementById('z1Result').textContent = '- ';
+            document.getElementById('z2Result').textContent = '- ';
+            document.getElementById('overallEff').textContent = '- ';
+            document.getElementById('calcPower').textContent = '- HP';
+            document.getElementById('bhp').textContent = '- HP';
+            document.getElementById('dischargeTemp').textContent = '- °F';
+            
+            // Reset errors
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            document.querySelectorAll('input').forEach(input => {
+                input.style.borderColor = '#e1e8ed';
+            });
+            
+            showNotification('Formulario limpiado', 'info');
+        }
+
+        function showNotification(message, type) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            // Style the notification
+            Object.assign(notification.style, {
+                position: 'fixed',
+                top: '20px',
+                right: '20px',
+                padding: '15px 25px',
+                borderRadius: '10px',
+                color: 'white',
+                fontWeight: 'bold',
+                zIndex: '1001',
+                opacity: '0',
+                transform: 'translateY(-20px)',
+                transition: 'all 0.3s ease'
+            });
+            
+            // Set background color based on type
+            switch (type) {
+                case 'success':
+                    notification.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
+                    break;
+                case 'error':
+                    notification.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
+                    break;
+                case 'info':
+                    notification.style.background = 'linear-gradient(135deg, #3498db, #2980b9)';
+                    break;
+            }
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateY(0)';
+            }, 100);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateY(-20px)';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+        
+        // Collapsible sections functionality
+        function setupCollapsibles() {
+            const collapsibles = document.querySelectorAll('.collapsible');
+            
+            collapsibles.forEach(collapsible => {
+                collapsible.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const icon = this.querySelector('.fa-chevron-down');
+                    if (icon) {
+                        icon.classList.toggle('fa-rotate-180');
+                    }
+                });
+            });
+        }
+        
+        // Tab switching functionality
+        function setupTabs() {
+            const tabs = document.querySelectorAll('.tab');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Scroll to section
+                    const tabType = this.getAttribute('data-tab');
+                    if (tabType === 'composition') {
+                        document.querySelector('.composition-section').scrollIntoView({behavior: 'smooth'});
+                    } else {
+                        document.querySelector('.input-section').scrollIntoView({behavior: 'smooth'});
+                    }
+                });
+            });
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initCompositionTable();
+            updateCompositionSum();
+            setupCollapsibles();
+            setupTabs();
+            
+            // Set default values for testing
+            document.getElementById('gasFlow').value = '100';
+            document.getElementById('heatRatio').value = '1.4';
+            document.getElementById('suctionPressure').value = '700';
+            document.getElementById('dischargePressure').value = '1200';
+            document.getElementById('suctionTemp').value = '100';
+            document.getElementById('adiabaticEff').value = '0.9';
+            document.getElementById('mechanicalEff').value = '0.9';
+        });
+    </script>
+</body>
+</html>

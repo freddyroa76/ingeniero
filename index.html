@@ -1,0 +1,1944 @@
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Freddy Roa Monsalvo | Ingeniero Mecánico</title>
+    <!-- Professional Fonts: Inter for a clean LinkedIn-style UI -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Compiled Professional CSS -->
+    <link rel="stylesheet" href="dist/output.css" />
+  </head>
+  <body class="bg-background text-text-primary">
+    <!-- Header -->
+    <header
+      class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-[#006097] shadow-lg"
+    >
+      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-20">
+          <div class="flex-shrink-0">
+            <a
+              href="#"
+              class="text-2xl font-extrabold text-white hover:opacity-90 transition-opacity"
+            >
+              Freddy Roa M.
+            </a>
+          </div>
+
+          <!-- Desktop Navigation -->
+          <div class="hidden md:flex items-center space-x-4">
+            <a
+              href="#home"
+              class="text-white hover:opacity-80 px-3 py-2 rounded-md text-sm font-medium transition-colors relative group"
+            >
+              Inicio
+              <span
+                class="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"
+              ></span>
+            </a>
+
+            <!-- Herramientas Dropdown -->
+            <div class="relative group">
+              <a
+                href="herramientas.html"
+                class="text-white hover:opacity-80 px-3 py-2 rounded-md text-sm font-medium transition-colors relative flex items-center gap-1 group-link"
+              >
+                Herramientas
+                <svg
+                  class="w-4 h-4 fill-current transition-transform group-hover:rotate-180"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  />
+                </svg>
+                <span
+                  class="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"
+                ></span>
+              </a>
+
+              <!-- Dropdown Menu -->
+              <div
+                class="absolute left-0 mt-0 w-72 bg-white rounded-md shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[100] border border-gray-100 py-2"
+              >
+                <a
+                  href="herramientas/00_mawp_calculator.html"
+                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  >Calculadora MAWP</a
+                >
+                <a
+                  href="herramientas/01_pipe_thickness.html"
+                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  >Espesores de Tubería</a
+                >
+                <a
+                  href="herramientas/02_hoop_stress.html"
+                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  >Esfuerzo Circunferencial</a
+                >
+                <a
+                  href="herramientas/03_max_design_pressure.html"
+                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  >Presión Máxima Diseño</a
+                >
+                <a
+                  href="herramientas/05_flow_std_to_actual.html"
+                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  >Flujo Estándar a Actual</a
+                >
+                <a
+                  href="herramientas/06_gas_properties.html"
+                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  >Propiedades de Gases</a
+                >
+                <a
+                  href="herramientas/07_velocidad_erosional_-_eng_esp.html"
+                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  >Velocidad Erosional</a
+                >
+                <a
+                  href="herramientas/08_gas_compression.html"
+                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  >Compresión de Gas</a
+                >
+                <a
+                  href="herramientas/09_tank_volume.html"
+                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  >Volumen de Tanques</a
+                >
+                <a
+                  href="herramientas/10_z_factor_cnga.html"
+                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  >Factor Z (CNGA)</a
+                >
+                <a
+                  href="herramientas/11_line_pack.html"
+                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  >Line Pack</a
+                >
+                <a
+                  href="herramientas/12_pipe_weight.html"
+                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] font-normal"
+                  >Peso de Tuberías</a
+                >
+              </div>
+            </div>
+
+            <a
+              href="#expertise"
+              class="text-white hover:opacity-80 px-3 py-2 rounded-md text-sm font-medium transition-colors relative group"
+            >
+              Expertise
+              <span
+                class="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"
+              ></span>
+            </a>
+            <a
+              href="#projects"
+              class="text-white hover:opacity-80 px-3 py-2 rounded-md text-sm font-medium transition-colors relative group"
+            >
+              Proyectos
+              <span
+                class="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"
+              ></span>
+            </a>
+            <a
+              href="#experience"
+              class="text-white hover:opacity-80 px-3 py-2 rounded-md text-sm font-medium transition-colors relative group"
+            >
+              Experiencia
+              <span
+                class="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"
+              ></span>
+            </a>
+            <a
+              href="#contact"
+              class="bg-white text-[#006097] px-5 py-2.5 rounded-md text-sm font-bold hover:bg-gray-100 transition-all shadow-md ml-4"
+            >
+              Contactar
+            </a>
+          </div>
+
+          <!-- Mobile Menu Button -->
+          <div class="flex items-center md:hidden">
+            <button
+              id="mobile-menu-button"
+              type="button"
+              class="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-[#005080] focus:outline-none transition-colors"
+              aria-controls="mobile-menu"
+              aria-expanded="false"
+            >
+              <span class="sr-only">Abrir menú</span>
+              <svg
+                id="menu-icon"
+                class="block h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+              <svg
+                id="close-icon"
+                class="hidden h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Mobile Menu -->
+      <div
+        id="mobile-menu"
+        class="hidden md:hidden bg-[#006097] border-t border-[#005080] overflow-y-auto max-h-[calc(100vh-80px)]"
+      >
+        <div class="px-2 pt-2 pb-3 space-y-1">
+          <a
+            href="#home"
+            class="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-[#005080]"
+            >Inicio</a
+          >
+
+          <!-- Mobile Accordion -->
+          <div>
+            <button
+              id="mobile-tools-toggle"
+              class="w-full flex items-center justify-between text-white px-3 py-2 rounded-md text-base font-medium hover:bg-[#005080] transition-colors"
+            >
+              Herramientas
+              <svg
+                id="mobile-tools-arrow"
+                class="w-4 h-4 transition-transform duration-200"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+            <div
+              id="mobile-tools-menu"
+              class="hidden pl-4 space-y-1 bg-[#005080]/50 rounded-md mt-1"
+            >
+              <a
+                href="herramientas/00_mawp_calculator.html"
+                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                >Calculadora MAWP</a
+              >
+              <a
+                href="herramientas/01_pipe_thickness.html"
+                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                >Espesores de Tubería</a
+              >
+              <a
+                href="herramientas/02_hoop_stress.html"
+                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                >Esfuerzo Circunferencial</a
+              >
+              <a
+                href="herramientas/03_max_design_pressure.html"
+                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                >Presión Máxima Diseño</a
+              >
+              <a
+                href="herramientas/05_flow_std_to_actual.html"
+                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                >Flujo Estándar a Actual</a
+              >
+              <a
+                href="herramientas/06_gas_properties.html"
+                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                >Propiedades de Gases</a
+              >
+              <a
+                href="herramientas/07_velocidad_erosional_-_eng_esp.html"
+                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                >Velocidad Erosional</a
+              >
+              <a
+                href="herramientas/08_gas_compression.html"
+                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                >Compresión de Gas</a
+              >
+              <a
+                href="herramientas/09_tank_volume.html"
+                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                >Volumen de Tanques</a
+              >
+              <a
+                href="herramientas/10_z_factor_cnga.html"
+                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                >Factor Z (CNGA)</a
+              >
+              <a
+                href="herramientas/11_line_pack.html"
+                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                >Line Pack</a
+              >
+              <a
+                href="herramientas/12_pipe_weight.html"
+                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                >Peso de Tuberías</a
+              >
+            </div>
+          </div>
+
+          <a
+            href="#expertise"
+            class="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-[#005080]"
+            >Expertise</a
+          >
+          <a
+            href="#projects"
+            class="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-[#005080]"
+            >Proyectos</a
+          >
+          <a
+            href="#experience"
+            class="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-[#005080]"
+            >Experiencia</a
+          >
+          <a
+            href="#contact"
+            class="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-[#005080]"
+            >Contacto</a
+          >
+          <div class="pt-2">
+            <a
+              href="#contact"
+              class="w-full text-center block bg-white text-[#006097] px-5 py-3 rounded-md text-base font-bold hover:bg-gray-100"
+            >
+              Contactar
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero Section -->
+      <section
+        id="home"
+        class="bg-surface pt-32 pb-20 md:pt-48 md:pb-32 relative overflow-hidden"
+      >
+        <!-- Decoration Background -->
+        <div
+          class="absolute inset-0 z-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"
+        ></div>
+
+        <div class="container mx-auto px-6 lg:px-8 relative z-10">
+          <div class="max-w-4xl text-center mx-auto">
+            <h1
+              class="text-4xl md:text-6xl font-black text-text-primary tracking-tight leading-tight mb-6"
+            >
+              Freddy Roa Monsalvo <br />
+              <span
+                class="text-primary bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent"
+                >Ingeniero Senior en Proyectos Oil & Gas y gestión de activos</span
+              >
+            </h1>
+            <h2
+              class="text-xl md:text-2xl font-medium text-text-secondary tracking-tight mb-8"
+            >
+              Optimización, Confiabilidad y Diseño de Estaciones Compresoras
+              ASME B31.8
+            </h2>
+            <p
+              class="text-lg text-text-secondary max-w-2xl mx-auto mb-10 leading-relaxed"
+            >
+              Más de dos décadas impulsando la infraestructura energética y
+              optimizando activos críticos en industrias de alto impacto como
+              Oil & Gas y Cementera. Especialista en turbomaquinaria y
+              confiabilidad (RCM2).
+            </p>
+            <div
+              class="flex flex-col sm:flex-row items-center justify-center gap-4"
+            >
+              <a href="#tools-cta" class="btn-primary w-full sm:w-auto">
+                Herramientas de Cálculo
+              </a>
+              <a
+                href="/cv_freddy_roa.pdf"
+                download="CV_Freddy_Roa_Ingeniero.pdf"
+                class="w-full sm:w-auto bg-transparent border-2 border-primary text-primary font-semibold py-3 px-8 rounded-lg hover:bg-primary hover:text-white transition-all duration-300 flex items-center justify-center gap-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                Descargar CV
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Profile Section -->
+      <section id="profile" class="py-20 bg-background overflow-hidden">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div
+            class="bg-surface rounded-3xl shadow-2xl overflow-hidden border border-gray-100 animate-on-scroll"
+          >
+            <!-- Top Profile Branding -->
+            <div class="bg-primary p-8 md:p-12 text-center text-white relative">
+              <div
+                class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-32 bg-white/5 rounded-full blur-3xl"
+              ></div>
+              <h3 class="text-3xl md:text-4xl font-black mb-4 relative z-10">
+                Perfil Profesional
+              </h3>
+              <div class="w-20 h-1.5 bg-accent mx-auto mb-6 relative z-10"></div>
+              <p class="text-blue-100 text-xl max-w-2xl mx-auto relative z-10 leading-relaxed font-medium">
+                Experto Senior en Ingeniería de Proyectos, Gestión de Activos y Confiabilidad Operacional en la industria energética.
+              </p>
+            </div>
+
+            <!-- Content Body -->
+            <div class="p-8 md:p-16">
+              <div class="max-w-3xl mx-auto text-center mb-12">
+                <p class="text-2xl md:text-3xl text-primary leading-tight font-extrabold italic">
+                  "Con más de 20 años de trayectoria, mi enfoque se centra en garantizar la integridad y eficiencia de activos críticos, liderando la construcción y optimización de infraestructura estratégica de gas bajo los más altos estándares globales."
+                </p>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-12 text-text-secondary">
+                <div class="space-y-4">
+                  <div class="flex items-start gap-4">
+                    <div class="mt-1 p-2 bg-primary/10 rounded-lg shrink-0">
+                       <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    </div>
+                    <p class="leading-relaxed text-lg text-text-primary">
+                      Especialista en el diseño, construcción y comisionamiento de <strong>estaciones de compresión y transporte de gas (ASME B31.8 / B31.3)</strong>, con un dominio avanzado en turbomaquinaria y sistemas de compresión de alta criticidad.
+                    </p>
+                  </div>
+                </div>
+                <div class="space-y-4">
+                  <div class="flex items-start gap-4">
+                    <div class="mt-1 p-2 bg-primary/10 rounded-lg shrink-0">
+                       <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <p class="leading-relaxed text-lg text-text-primary">
+                      Liderazgo estratégico en la implementación de ecosistemas de mantenimiento digital (<strong>SAP PM</strong>) y metodologías de clase mundial (<strong>RCM2, RCA, LCC</strong>) para maximizar la vida útil del activo y la rentabilidad del negocio.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Stats Section -->
+      <section class="bg-background py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="bg-surface rounded-xl shadow-lg p-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+              <div
+                class="text-center animate-on-scroll"
+                style="transition-delay: 0ms"
+              >
+                <span
+                  class="block text-4xl md:text-5xl font-extrabold text-primary"
+                  >20+</span
+                >
+                <span
+                  class="block mt-2 text-sm font-semibold text-text-secondary uppercase tracking-wider"
+                  >Años de Experiencia en Oil & Gas e Industria</span
+                >
+              </div>
+              <div
+                class="text-center animate-on-scroll"
+                style="transition-delay: 100ms"
+              >
+                <span
+                  class="block text-4xl md:text-5xl font-extrabold text-primary"
+                  >15+</span
+                >
+                <span
+                  class="block mt-2 text-sm font-semibold text-text-secondary uppercase tracking-wider"
+                  >Proyectos en Estaciones compresoras de gas y LNG</span
+                >
+              </div>
+              <div
+                class="text-center animate-on-scroll"
+                style="transition-delay: 200ms"
+              >
+                <span
+                  class="block text-4xl md:text-5xl font-extrabold text-primary"
+                  >2,000+</span
+                >
+                <span
+                  class="block mt-2 text-sm font-semibold text-text-secondary uppercase tracking-wider"
+                  >Activos analizados bajo la metodología RCM2</span
+                >
+              </div>
+              <div
+                class="text-center animate-on-scroll"
+                style="transition-delay: 300ms"
+              >
+                <span
+                  class="block text-4xl md:text-5xl font-extrabold text-primary"
+                  >500+</span
+                >
+                <span
+                  class="block mt-2 text-sm font-semibold text-text-secondary uppercase tracking-wider"
+                  >MPCD Capacidad de compresión y transporte de gas</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Companies Section -->
+      <section class="bg-background py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-16">
+            <h2
+              class="text-sm font-semibold text-primary uppercase tracking-wide"
+            >
+              Credibilidad y Confianza
+            </h2>
+            <p
+              class="mt-2 text-3xl lg:text-4xl font-extrabold text-text-primary tracking-tight"
+            >
+              Trayectoria en Empresas Líderes
+            </p>
+            <p class="mt-4 max-w-3xl mx-auto text-lg text-text-secondary">
+              He tenido el privilegio de colaborar y aportar valor a empresas
+              líderes en diversos sectores, desde energía hasta construcción y
+              tecnología.
+            </p>
+          </div>
+          <div class="flex flex-wrap justify-center items-center gap-4">
+            <div class="animate-on-scroll" style="transition-delay: 0ms">
+              <span
+                class="bg-surface text-text-secondary px-5 py-2.5 rounded-full shadow-sm border border-gray-200 font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-md hover:text-primary hover:border-primary/30 cursor-default"
+                >Promigas</span
+              >
+            </div>
+            <div class="animate-on-scroll" style="transition-delay: 50ms">
+              <span
+                class="bg-surface text-text-secondary px-5 py-2.5 rounded-full shadow-sm border border-gray-200 font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-md hover:text-primary hover:border-primary/30 cursor-default"
+                >Promisol</span
+              >
+            </div>
+            <div class="animate-on-scroll" style="transition-delay: 100ms">
+              <span
+                class="bg-surface text-text-secondary px-5 py-2.5 rounded-full shadow-sm border border-gray-200 font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-md hover:text-primary hover:border-primary/30 cursor-default"
+                >Gases del Caribe</span
+              >
+            </div>
+            <div class="animate-on-scroll" style="transition-delay: 150ms">
+              <span
+                class="bg-surface text-text-secondary px-5 py-2.5 rounded-full shadow-sm border border-gray-200 font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-md hover:text-primary hover:border-primary/30 cursor-default"
+                >FLSmidth</span
+              >
+            </div>
+            <div class="animate-on-scroll" style="transition-delay: 200ms">
+              <span
+                class="bg-surface text-text-secondary px-5 py-2.5 rounded-full shadow-sm border border-gray-200 font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-md hover:text-primary hover:border-primary/30 cursor-default"
+                >Bureau Veritas</span
+              >
+            </div>
+            <div class="animate-on-scroll" style="transition-delay: 250ms">
+              <span
+                class="bg-surface text-text-secondary px-5 py-2.5 rounded-full shadow-sm border border-gray-200 font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-md hover:text-primary hover:border-primary/30 cursor-default"
+                >Applus Norcontrol</span
+              >
+            </div>
+            <div class="animate-on-scroll" style="transition-delay: 300ms">
+              <span
+                class="bg-surface text-text-secondary px-5 py-2.5 rounded-full shadow-sm border border-gray-200 font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-md hover:text-primary hover:border-primary/30 cursor-default"
+                >Solutec Ingeniería</span
+              >
+            </div>
+            <div class="animate-on-scroll" style="transition-delay: 350ms">
+              <span
+                class="bg-surface text-text-secondary px-5 py-2.5 rounded-full shadow-sm border border-gray-200 font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-md hover:text-primary hover:border-primary/30 cursor-default"
+                >INGECAF</span
+              >
+            </div>
+            <div class="animate-on-scroll" style="transition-delay: 400ms">
+              <span
+                class="bg-surface text-text-secondary px-5 py-2.5 rounded-full shadow-sm border border-gray-200 font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-md hover:text-primary hover:border-primary/30 cursor-default"
+                >Cementos Argos</span
+              >
+            </div>
+            <div class="animate-on-scroll" style="transition-delay: 450ms">
+              <span
+                class="bg-surface text-text-secondary px-5 py-2.5 rounded-full shadow-sm border border-gray-200 font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-md hover:text-primary hover:border-primary/30 cursor-default"
+                >SOBOCE</span
+              >
+            </div>
+            <div class="animate-on-scroll" style="transition-delay: 500ms">
+              <span
+                class="bg-surface text-text-secondary px-5 py-2.5 rounded-full shadow-sm border border-gray-200 font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-md hover:text-primary hover:border-primary/30 cursor-default"
+                >Philips Lighting</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Expertise Section -->
+      <section id="expertise" class="py-20 bg-background">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-12">
+            <h2
+              class="text-sm font-semibold text-primary uppercase tracking-wide"
+            >
+              ÁREAS DE ESPECIALIZACIÓN
+            </h2>
+            <p
+              class="mt-2 text-3xl lg:text-4xl font-extrabold text-text-primary tracking-tight"
+            >
+              Mi Expertise Técnico Integral
+            </p>
+            <p class="mt-4 max-w-2xl mx-auto text-lg text-text-secondary">
+              Desde el diseño conceptual hasta la optimización operacional, mi
+              experiencia abarca el ciclo de vida completo de la infraestructura
+              de gas.
+            </p>
+          </div>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Expertise Card 1 -->
+            <div
+              class="bg-surface rounded-lg shadow-lg p-8 border-l-4 border-primary transition-all duration-500 ease-out transform hover:-translate-y-2 hover:shadow-2xl animate-on-scroll"
+              style="transition-delay: 0ms"
+            >
+              <div class="flex items-start gap-6">
+                <div
+                  class="flex-shrink-0 bg-primary rounded-xl w-16 h-16 flex items-center justify-center"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="w-8 h-8 text-white"
+                  >
+                    <path
+                      d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"
+                    />
+                    <path d="M17 18h1" />
+                    <path d="M12 18h1" />
+                    <path d="M7 18h1" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-xl font-bold text-text-primary mb-2">
+                    Construcción de Estaciones Compresoras
+                  </h3>
+                  <p class="text-text-secondary mb-4">
+                    Liderazgo técnico en la construcción de estaciones
+                    greenfield y ampliaciones. Gestión integral de proyectos
+                    desde ingeniería de detalle hasta el comisionamiento y
+                    puesta en marcha.
+                  </p>
+                  <div class="flex flex-wrap gap-2">
+                    <span
+                      class="bg-blue-100 text-primary text-xs font-semibold px-2.5 py-1 rounded-full"
+                      >ASME B31.8</span
+                    >
+                    <span
+                      class="bg-blue-100 text-primary text-xs font-semibold px-2.5 py-1 rounded-full"
+                      >Greenfield</span
+                    >
+                    <span
+                      class="bg-blue-100 text-primary text-xs font-semibold px-2.5 py-1 rounded-full"
+                      >Proyectos EPC</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Expertise Card 2 -->
+            <div
+              class="bg-surface rounded-lg shadow-lg p-8 border-l-4 border-primary transition-all duration-500 ease-out transform hover:-translate-y-2 hover:shadow-2xl animate-on-scroll"
+              style="transition-delay: 100ms"
+            >
+              <div class="flex items-start gap-6">
+                <div
+                  class="flex-shrink-0 bg-primary rounded-xl w-16 h-16 flex items-center justify-center"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="w-8 h-8 text-white"
+                  >
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
+                    <path d="m9 12 2 2 4-4" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-xl font-bold text-text-primary mb-2">
+                    Confiabilidad de Activos (RCM)
+                  </h3>
+                  <p class="text-text-secondary mb-4">
+                    Implementación de Mantenimiento Centrado en Confiabilidad
+                    (RCM2) en activos críticos, liderando su aplicación exitosa
+                    en las estaciones compresoras de Promigas. Experto en
+                    Análisis Causa Raíz (RCA) y Costo de Ciclo de Vida (LCC).
+                  </p>
+                  <div class="flex flex-wrap gap-2">
+                    <span
+                      class="bg-blue-100 text-primary text-xs font-semibold px-2.5 py-1 rounded-full"
+                      >RCM2</span
+                    >
+                    <span
+                      class="bg-blue-100 text-primary text-xs font-semibold px-2.5 py-1 rounded-full"
+                      >RCA</span
+                    >
+                    <span
+                      class="bg-blue-100 text-primary text-xs font-semibold px-2.5 py-1 rounded-full"
+                      >LCC</span
+                    >
+                    <span
+                      class="bg-blue-100 text-primary text-xs font-semibold px-2.5 py-1 rounded-full"
+                      >KPIs de Mantenimiento</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Expertise Card 3 -->
+            <div
+              class="bg-surface rounded-lg shadow-lg p-8 border-l-4 border-primary transition-all duration-500 ease-out transform hover:-translate-y-2 hover:shadow-2xl animate-on-scroll"
+              style="transition-delay: 200ms"
+            >
+              <div class="flex items-start gap-6">
+                <div
+                  class="flex-shrink-0 bg-primary rounded-xl w-16 h-16 flex items-center justify-center"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="w-8 h-8 text-white"
+                  >
+                    <path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z" />
+                    <path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
+                    <path d="M12 2v2" />
+                    <path d="M12 22v-2" />
+                    <path d="m17 20.66-1-1.73" />
+                    <path d="M11 10.27 7 3.34" />
+                    <path d="m20.66 17-1.73-1" />
+                    <path d="m3.34 7 1.73 1" />
+                    <path d="M14 12h8" />
+                    <path d="M2 12h2" />
+                    <path d="m20.66 7-1.73 1" />
+                    <path d="m3.34 17 1.73-1" />
+                    <path d="m17 3.34-1 1.73" />
+                    <path d="M11 13.73 7 20.66" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-xl font-bold text-text-primary mb-2">
+                    Diseño y Especificaciones Técnicas
+                  </h3>
+                  <p class="text-text-secondary mb-4">
+                    Diseño de sistemas de transporte de gas, piping de proceso y
+                    selección de equipos de compresión (turbo y
+                    moto-compresores) bajo normativas ASME B31.8 y B31.3.
+                  </p>
+                  <div class="flex flex-wrap gap-2">
+                    <span
+                      class="bg-blue-100 text-primary text-xs font-semibold px-2.5 py-1 rounded-full"
+                      >ASME B31.3</span
+                    >
+                    <span
+                      class="bg-blue-100 text-primary text-xs font-semibold px-2.5 py-1 rounded-full"
+                      >Hysis</span
+                    >
+                    <span
+                      class="bg-blue-100 text-primary text-xs font-semibold px-2.5 py-1 rounded-full"
+                      >Selección de Equipos</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Expertise Card 4 -->
+            <div
+              class="bg-surface rounded-lg shadow-lg p-8 border-l-4 border-primary transition-all duration-500 ease-out transform hover:-translate-y-2 hover:shadow-2xl animate-on-scroll"
+              style="transition-delay: 300ms"
+            >
+              <div class="flex items-start gap-6">
+                <div
+                  class="flex-shrink-0 bg-primary rounded-xl w-16 h-16 flex items-center justify-center"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="w-8 h-8 text-white"
+                  >
+                    <ellipse cx="12" cy="5" rx="9" ry="3" />
+                    <path d="M3 5V19A9 3 0 0 0 21 19V5" />
+                    <path d="M3 12A9 3 0 0 0 21 12" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-xl font-bold text-text-primary mb-2">
+                    Implementación y Dominio de SAP-PM
+                  </h3>
+                  <p class="text-text-secondary mb-4">
+                    Experiencia comprobada en la implementación y gestión del
+                    módulo SAP Plant Maintenance para el control total del
+                    mantenimiento en las estaciones compresoras de Promigas,
+                    desde la configuración inicial hasta la optimización de
+                    procesos.
+                  </p>
+                  <div class="flex flex-wrap gap-2">
+                    <span
+                      class="bg-blue-100 text-primary text-xs font-semibold px-2.5 py-1 rounded-full"
+                      >SAP PM</span
+                    >
+                    <span
+                      class="bg-blue-100 text-primary text-xs font-semibold px-2.5 py-1 rounded-full"
+                      >Gestión de Mantenimiento</span
+                    >
+                    <span
+                      class="bg-blue-100 text-primary text-xs font-semibold px-2.5 py-1 rounded-full"
+                      >Work Orders</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Expertise Card 5 -->
+            <div
+              class="bg-surface rounded-lg shadow-lg p-8 border-l-4 border-primary transition-all duration-500 ease-out transform hover:-translate-y-2 hover:shadow-2xl animate-on-scroll"
+              style="transition-delay: 400ms"
+            >
+              <div class="flex items-start gap-6">
+                <div
+                  class="flex-shrink-0 bg-primary rounded-xl w-16 h-16 flex items-center justify-center"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="w-8 h-8 text-white"
+                  >
+                    <rect width="8" height="4" x="8" y="2" rx="1" ry="1" />
+                    <path
+                      d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+                    />
+                    <path d="m9 14 2 2 4-4" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-xl font-bold text-text-primary mb-2">
+                    Ingeniería de Propuestas y Procura Estratégica
+                  </h3>
+                  <p class="text-text-secondary mb-4">
+                    Elaboración de especificaciones técnicas para licitaciones
+                    complejas y evaluación rigurosa de ofertas
+                    técnico-económicas, asegurando la selección de la mejor
+                    tecnología y el socio adecuado, alineados con los más altos
+                    estándares del sector.
+                  </p>
+                  <div class="flex flex-wrap gap-2">
+                    <span
+                      class="bg-blue-100 text-primary text-xs font-semibold px-2.5 py-1 rounded-full"
+                      >Procura Estratégica</span
+                    >
+                    <span
+                      class="bg-blue-100 text-primary text-xs font-semibold px-2.5 py-1 rounded-full"
+                      >Licitaciones</span
+                    >
+                    <span
+                      class="bg-blue-100 text-primary text-xs font-semibold px-2.5 py-1 rounded-full"
+                      >Análisis de Ofertas</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Expertise Card 6 -->
+            <div
+              class="bg-surface rounded-lg shadow-lg p-8 border-l-4 border-primary transition-all duration-500 ease-out transform hover:-translate-y-2 hover:shadow-2xl animate-on-scroll"
+              style="transition-delay: 500ms"
+            >
+              <div class="flex items-start gap-6">
+                <div
+                  class="flex-shrink-0 bg-primary rounded-xl w-16 h-16 flex items-center justify-center"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="w-8 h-8 text-white"
+                  >
+                    <path
+                      d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                    />
+                    <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+                    <path d="M10 9H8" />
+                    <path d="M16 13H8" />
+                    <path d="M16 17H8" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-xl font-bold text-text-primary mb-2">
+                    Gestión de Proyectos Oil & Gas
+                  </h3>
+                  <p class="text-text-secondary mb-4">
+                    Dirección integral de proyectos de infraestructura,
+                    coordinando interfaces entre diseñadores, constructores e
+                    interventoría. Enfoque en cumplimiento de alcance, tiempo y
+                    presupuesto.
+                  </p>
+                  <div class="flex flex-wrap gap-2">
+                    <span
+                      class="bg-blue-100 text-primary text-xs font-semibold px-2.5 py-1 rounded-full"
+                      >PMI</span
+                    >
+                    <span
+                      class="bg-blue-100 text-primary text-xs font-semibold px-2.5 py-1 rounded-full"
+                      >CAPEX/OPEX</span
+                    >
+                    <span
+                      class="bg-blue-100 text-primary text-xs font-semibold px-2.5 py-1 rounded-full"
+                      >Gestión de Contratos</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tools CTA Section -->
+      <section id="tools-cta" class="py-20 bg-primary relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+          <svg
+            class="h-full w-full"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+          >
+            <path d="M0 100 C 20 0 50 0 100 100 Z" fill="white" />
+          </svg>
+        </div>
+        <div
+          class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center"
+        >
+          <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6">
+            Herramientas Técnicas Especializadas
+          </h2>
+          <p class="text-xl text-blue-100 max-w-3xl mx-auto mb-10">
+            He desarrollado una suite de 12 calculadoras y herramientas técnicas
+            basadas en normativas ASME y API para facilitar sus proyectos de
+            ingeniería.
+          </p>
+          <a
+            href="herramientas.html"
+            class="inline-flex items-center px-8 py-4 border border-transparent text-lg font-bold rounded-lg text-primary bg-white hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 shadow-lg"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+              />
+            </svg>
+            Acceder a las Herramientas
+          </a>
+        </div>
+      </section>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- Projects Section -->
+      <section id="projects" class="py-20 bg-surface">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-12">
+            <h2
+              class="text-sm font-semibold text-primary uppercase tracking-wide"
+            >
+              Experiencia Comprobada
+            </h2>
+            <p
+              class="mt-2 text-3xl lg:text-4xl font-extrabold text-text-primary tracking-tight"
+            >
+              Proyectos de Alto Impacto
+            </p>
+            <p class="mt-4 max-w-2xl mx-auto text-lg text-text-secondary">
+              Una selección de proyectos que demuestran mi capacidad para
+              liderar y ejecutar iniciativas complejas en el sector energético.
+            </p>
+          </div>
+          <div class="grid md:grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Project Cards will be dynamically inserted here by a template if needed, or listed manually -->
+            <div
+              class="bg-surface rounded-xl shadow-lg overflow-hidden border border-gray-200 transition-all duration-500 ease-out transform hover:shadow-2xl hover:-translate-y-2 animate-on-scroll"
+              style="transition-delay: 0ms"
+            >
+              <div class="p-6">
+                <div class="flex justify-between items-start mb-4">
+                  <div>
+                    <span
+                      class="inline-block bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider"
+                      >EN EJECUCIÓN</span
+                    >
+                    <h3 class="text-xl font-bold text-text-primary mt-2">
+                      Bidireccionalidad Gasoducto 170 MPCD
+                    </h3>
+                    <p class="text-sm font-semibold text-accent">
+                      Promigas S.A. E.S.P.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="flex flex-wrap text-sm text-text-secondary gap-x-4 gap-y-1 mb-4"
+                >
+                  <span><strong>Rol:</strong> Ing. de Proyectos Senior</span>
+                  <span><strong>Duración:</strong> 2024 - Presente</span>
+                </div>
+                <p class="text-text-secondary mb-5">
+                  Liderazgo en frentes clave del proyecto estratégico de
+                  Bidireccionalidad. Responsable de la ampliación de la estación
+                  Caracolí y la colaboración técnica en proyectos paralelos para
+                  asegurar la capacidad y flexibilidad del sistema.
+                </p>
+                <div class="bg-background p-4 rounded-lg">
+                  <h4 class="font-bold text-text-primary mb-2">
+                    Logros y Responsabilidades Clave:
+                  </h4>
+                  <ul class="space-y-2">
+                    <li class="flex items-start">
+                      <svg
+                        class="w-5 h-5 text-green-500 flex-shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 13l4 4L19 7"
+                        ></path></svg
+                      ><span class="ml-2 text-sm text-text-secondary"
+                        >Gestión de la ingeniería y construcción para la
+                        ampliación de la estación Caracolí.</span
+                      >
+                    </li>
+                    <li class="flex items-start">
+                      <svg
+                        class="w-5 h-5 text-green-500 flex-shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 13l4 4L19 7"
+                        ></path></svg
+                      ><span class="ml-2 text-sm text-text-secondary"
+                        >Coordinación técnica con el proyecto ETC en la estación
+                        Ballena.</span
+                      >
+                    </li>
+                    <li class="flex items-start">
+                      <svg
+                        class="w-5 h-5 text-green-500 flex-shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 13l4 4L19 7"
+                        ></path></svg
+                      ><span class="ml-2 text-sm text-text-secondary"
+                        >Supervisión del cambio de trampas en el tramo
+                        Ballena-Caracolí.</span
+                      >
+                    </li>
+                    <li class="flex items-start">
+                      <svg
+                        class="w-5 h-5 text-green-500 flex-shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 13l4 4L19 7"
+                        ></path></svg
+                      ><span class="ml-2 text-sm text-text-secondary"
+                        >Coordinación integral
+                        diseñador-constructor-interventoría.</span
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="bg-surface rounded-xl shadow-lg overflow-hidden border border-gray-200 transition-all duration-500 ease-out transform hover:shadow-2xl hover:-translate-y-2 animate-on-scroll"
+              style="transition-delay: 100ms"
+            >
+              <div class="p-6">
+                <div class="flex justify-between items-start mb-4">
+                  <div>
+                    <span
+                      class="inline-block bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider"
+                      >CONSTRUCCIÓN MAYOR</span
+                    >
+                    <h3 class="text-xl font-bold text-text-primary mt-2">
+                      Estación Turbocompresora Filadelfia
+                    </h3>
+                    <p class="text-sm font-semibold text-accent">
+                      Promigas S.A. E.S.P.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="flex flex-wrap text-sm text-text-secondary gap-x-4 gap-y-1 mb-4"
+                >
+                  <span><strong>Rol:</strong> Ing. de Proyectos</span>
+                  <span><strong>Duración:</strong> 2022 - 2024</span>
+                </div>
+                <p class="text-text-secondary mb-5">
+                  Construcción greenfield de una nueva estación turbocompresora
+                  para reforzar la red de transporte de gas, aplicando lecciones
+                  aprendidas de proyectos anteriores para optimizar la
+                  ejecución.
+                </p>
+                <div class="bg-background p-4 rounded-lg">
+                  <h4 class="font-bold text-text-primary mb-2">
+                    Logros y Responsabilidades Clave:
+                  </h4>
+                  <ul class="space-y-2">
+                    <li class="flex items-start">
+                      <svg
+                        class="w-5 h-5 text-green-500 flex-shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 13l4 4L19 7"
+                        ></path></svg
+                      ><span class="ml-2 text-sm text-text-secondary"
+                        >Liderazgo técnico desde la ingeniería de detalle hasta
+                        el comisionamiento.</span
+                      >
+                    </li>
+                    <li class="flex items-start">
+                      <svg
+                        class="w-5 h-5 text-green-500 flex-shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 13l4 4L19 7"
+                        ></path></svg
+                      ><span class="ml-2 text-sm text-text-secondary"
+                        >Instalación de unidad turbocompresora de última
+                        generación.</span
+                      >
+                    </li>
+                    <li class="flex items-start">
+                      <svg
+                        class="w-5 h-5 text-green-500 flex-shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 13l4 4L19 7"
+                        ></path></svg
+                      ><span class="ml-2 text-sm text-text-secondary"
+                        >Aseguramiento de cumplimiento con normativa ASME
+                        B31.8.</span
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="bg-surface rounded-xl shadow-lg overflow-hidden border border-gray-200 transition-all duration-500 ease-out transform hover:shadow-2xl hover:-translate-y-2 animate-on-scroll"
+              style="transition-delay: 200ms"
+            >
+              <div class="p-6">
+                <div class="flex justify-between items-start mb-4">
+                  <div>
+                    <span
+                      class="inline-block bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider"
+                      >AMPLIACIÓN ESTRATÉGICA</span
+                    >
+                    <h3 class="text-xl font-bold text-text-primary mt-2">
+                       Ampliación Palomino (3er Paquete)
+                    </h3>
+                    <p class="text-sm font-semibold text-accent">
+                      Promigas S.A. E.S.P.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="flex flex-wrap text-sm text-text-secondary gap-x-4 gap-y-1 mb-4"
+                >
+                  <span><strong>Rol:</strong> Ing. de Proyectos</span>
+                  <span><strong>Duración:</strong> 2019 - 2023</span>
+                </div>
+                <p class="text-text-secondary mb-5">
+                  Ejecución del tercer paquete de ampliación en la estación
+                  Palomino bajo el marco del proyecto de Estabilidad Jurídica,
+                  un proyecto de alta visibilidad y criticidad regulatoria.
+                </p>
+                <div class="bg-background p-4 rounded-lg">
+                  <h4 class="font-bold text-text-primary mb-2">
+                    Logros y Responsabilidades Clave:
+                  </h4>
+                  <ul class="space-y-2">
+                    <li class="flex items-start">
+                      <svg
+                        class="w-5 h-5 text-green-500 flex-shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 13l4 4L19 7"
+                        ></path></svg
+                      ><span class="ml-2 text-sm text-text-secondary"
+                        >Incremento de la capacidad de compresión según los
+                        requerimientos del acuerdo.</span
+                      >
+                    </li>
+                    <li class="flex items-start">
+                      <svg
+                        class="w-5 h-5 text-green-500 flex-shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 13l4 4L19 7"
+                        ></path></svg
+                      ><span class="ml-2 text-sm text-text-secondary"
+                        >Gestión de la construcción cumpliendo con hitos
+                        contractuales y regulatorios.</span
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="bg-surface rounded-xl shadow-lg overflow-hidden border border-gray-200 transition-all duration-500 ease-out transform hover:shadow-2xl hover:-translate-y-2 animate-on-scroll"
+              style="transition-delay: 300ms"
+            >
+              <div class="p-6">
+                <div class="flex justify-between items-start mb-4">
+                  <div>
+                    <span
+                      class="inline-block bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider"
+                      >ESTRATEGIA DE CONFIABILIDAD</span
+                    >
+                    <h3 class="text-xl font-bold text-text-primary mt-2">
+                      Implementación RCM2 Estaciones Compresoras
+                    </h3>
+                    <p class="text-sm font-semibold text-accent">
+                      Promigas S.A. E.S.P.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="flex flex-wrap text-sm text-text-secondary gap-x-4 gap-y-1 mb-4"
+                >
+                  <span><strong>Rol:</strong> Líder de Confiabilidad</span>
+                  <span><strong>Duración:</strong> 2010 - 2014</span>
+                </div>
+                <p class="text-text-secondary mb-5">
+                  Liderazgo en la implementación de RCM2 en las 5 estaciones
+                  compresoras del gasoducto troncal de Promigas, estableciendo
+                  la estrategia de mantenimiento para maximizar la
+                  disponibilidad.
+                </p>
+                <div class="bg-background p-4 rounded-lg">
+                  <h4 class="font-bold text-text-primary mb-2">
+                    Logros y Responsabilidades Clave:
+                  </h4>
+                  <ul class="space-y-2">
+                    <li class="flex items-start">
+                      <svg
+                        class="w-5 h-5 text-green-500 flex-shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 13l4 4L19 7"
+                        ></path></svg
+                      ><span class="ml-2 text-sm text-text-secondary"
+                        >Análisis de Modos de Falla y Efectos (FMEA) para
+                        equipos críticos.</span
+                      >
+                    </li>
+                    <li class="flex items-start">
+                      <svg
+                        class="w-5 h-5 text-green-500 flex-shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 13l4 4L19 7"
+                        ></path></svg
+                      ><span class="ml-2 text-sm text-text-secondary"
+                        >Integración de la estrategia de mantenimiento con el
+                        módulo SAP-PM.</span
+                      >
+                    </li>
+                    <li class="flex items-start">
+                      <svg
+                        class="w-5 h-5 text-green-500 flex-shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 13l4 4L19 7"
+                        ></path></svg
+                      ><span class="ml-2 text-sm text-text-secondary"
+                        >Reducción de fallas imprevistas y optimización de
+                        costos de mantenimiento.</span
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Professional Journey Section (Recovered from CV) -->
+      <section id="experience" class="py-24 bg-background overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-16">
+            <h2
+              class="text-sm font-semibold text-primary uppercase tracking-wide"
+            >
+              TRAYECTORIA PROFESIONAL
+            </h2>
+            <p
+              class="mt-2 text-3xl lg:text-4xl font-extrabold text-text-primary tracking-tight"
+            >
+              Dos Décadas de Ingeniería de Clase Mundial
+            </p>
+            <p class="mt-4 max-w-2xl mx-auto text-lg text-text-secondary">
+              Evolución continua y liderazgo técnico en la gestión de activos y
+              proyectos de infraestructura crítica.
+            </p>
+          </div>
+
+          <div class="relative">
+            <!-- Timeline decorative line -->
+            <div class="absolute left-8 md:left-1/2 transform md:-translate-x-1/2 h-full w-0.5 bg-gradient-to-b from-primary/30 via-primary/10 to-transparent hidden md:block"></div>
+
+            <div class="space-y-16">
+              <!-- Timeline Item 1: Salgado Melendez / Applus / Complementos -->
+              <div class="relative flex flex-col md:flex-row items-center animate-on-scroll">
+                <div class="md:w-1/2 md:pr-16 md:text-right w-full pl-16 md:pl-0">
+                  <div class="bg-surface rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 group">
+                    <div class="flex flex-col md:items-end mb-4">
+                      <span class="inline-block bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-wider">2018 — 2026</span>
+                      <h3 class="text-2xl font-black text-text-primary group-hover:text-primary transition-colors">Ingeniero de Proyectos Senior</h3>
+                      <p class="text-accent font-bold text-lg leading-tight mt-1">Salgado Melendez / Applus Norcontrol / Complementos Humanos</p>
+                    </div>
+                    <p class="text-text-secondary leading-relaxed mb-6">
+                      Liderazgo técnico en la construcción de infraestructura de energía a gran escala. Especialista en cumplimiento <strong>ASME B31.8</strong> y gestión integral de interfaces técnico-administrativas en proyectos de alta complejidad.
+                    </p>
+                    <div class="flex flex-wrap gap-2 md:justify-end">
+                      <span class="bg-gray-100 text-text-secondary text-[10px] font-bold px-2 py-1 rounded uppercase">Bidireccionalidad</span>
+                      <span class="bg-gray-100 text-text-secondary text-[10px] font-bold px-2 py-1 rounded uppercase">Estaciones Turbocompresoras</span>
+                      <span class="bg-gray-100 text-text-secondary text-[10px] font-bold px-2 py-1 rounded uppercase">PMI</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Central Marker -->
+                <div class="absolute left-8 md:left-1/2 transform -translate-x-1/2 flex items-center justify-center z-10">
+                  <div class="w-4 h-4 rounded-full bg-primary border-4 border-white shadow-md"></div>
+                </div>
+                <!-- Right details -->
+                <div class="md:w-1/2 md:pl-16 w-full pl-16 mt-6 md:mt-0">
+                  <div class="bg-primary/5 rounded-2xl p-6 border border-primary/10">
+                    <ul class="space-y-3">
+                      <li class="flex items-start gap-3">
+                        <div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0"></div>
+                        <span class="text-sm text-text-primary font-medium">Ejecución proyectos de bidireccionalidad (100 y 170 MPCD).</span>
+                      </li>
+                      <li class="flex items-start gap-3">
+                        <div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0"></div>
+                        <span class="text-sm text-text-primary font-medium">Construcción Estación Paiva y Ampliación Filadelfia.</span>
+                      </li>
+                      <li class="flex items-start gap-3">
+                        <div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0"></div>
+                        <span class="text-sm text-text-primary font-medium">Automatización Estación Heroica y adecuación Palomino.</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Timeline Item 2: FLSmidth -->
+              <div class="relative flex flex-col md:flex-row-reverse items-center animate-on-scroll">
+                <div class="md:w-1/2 md:pl-16 w-full pl-16">
+                  <div class="bg-surface rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 group">
+                    <div class="flex flex-col mb-4">
+                      <span class="inline-block bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-wider">2015 — 2017</span>
+                      <h3 class="text-2xl font-black text-text-primary group-hover:text-primary transition-colors">Ingeniero de Confiabilidad</h3>
+                      <p class="text-accent font-bold text-lg leading-tight mt-1">FLSmidth (Industrias Argos & SOBOCE)</p>
+                    </div>
+                    <p class="text-text-secondary leading-relaxed mb-6">
+                      Implementación de metodología <strong>RCM2</strong> para la gestión de activos críticos en plantas cementeras. Optimización de disponibilidad operacional y reducción de fallas catastróficas.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                       <span class="bg-gray-100 text-text-secondary text-[10px] font-bold px-2 py-1 rounded uppercase">Gestión de Activos</span>
+                       <span class="bg-gray-100 text-text-secondary text-[10px] font-bold px-2 py-1 rounded uppercase">RCM2</span>
+                       <span class="bg-gray-100 text-text-secondary text-[10px] font-bold px-2 py-1 rounded uppercase">Latinoamérica</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Central Marker -->
+                <div class="absolute left-8 md:left-1/2 transform -translate-x-1/2 flex items-center justify-center z-10">
+                  <div class="w-4 h-4 rounded-full bg-primary border-4 border-white shadow-md"></div>
+                </div>
+                <!-- Left details -->
+                <div class="md:w-1/2 md:pr-16 w-full pl-16 mt-6 md:mt-0 text-right">
+                  <div class="bg-primary/5 rounded-2xl p-6 border border-primary/10">
+                    <ul class="space-y-3">
+                      <li class="flex md:flex-row-reverse items-start gap-3">
+                        <div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0"></div>
+                        <span class="text-sm text-text-primary font-medium text-left md:text-right">Definición de planes para más de 2000 activos críticos.</span>
+                      </li>
+                      <li class="flex md:flex-row-reverse items-start gap-3">
+                        <div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0"></div>
+                        <span class="text-sm text-text-primary font-medium text-left md:text-right">Gestión en Zona Franca Cartagena y La Paz (Bolivia).</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Timeline Item 3: Solutec -->
+              <div class="relative flex flex-col md:flex-row items-center animate-on-scroll">
+                <div class="md:w-1/2 md:pr-16 md:text-right w-full pl-16 md:pl-0">
+                  <div class="bg-surface rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 group">
+                    <div class="flex flex-col md:items-end mb-4">
+                      <span class="inline-block bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-wider">2014 — 2015</span>
+                      <h3 class="text-2xl font-black text-text-primary group-hover:text-primary transition-colors">Ingeniero Director de Proyectos</h3>
+                      <p class="text-accent font-bold text-lg leading-tight mt-1">Solutec Ingeniería / Gases del Caribe</p>
+                    </div>
+                    <p class="text-text-secondary leading-relaxed mb-6">
+                      Dirección técnica del diseño y desarrollo de estaciones moto-compresoras. Aseguramiento de estándares <strong>API</strong> y <strong>ASME</strong> en sistemas de 20 MPCD.
+                    </p>
+                    <div class="flex flex-wrap gap-2 md:justify-end">
+                      <span class="bg-gray-100 text-text-secondary text-[10px] font-bold px-2 py-1 rounded uppercase">Engineering Design</span>
+                      <span class="bg-gray-100 text-text-secondary text-[10px] font-bold px-2 py-1 rounded uppercase">API Standards</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Central Marker -->
+                <div class="absolute left-8 md:left-1/2 transform -translate-x-1/2 flex items-center justify-center z-10">
+                  <div class="w-4 h-4 rounded-full bg-primary border-4 border-white shadow-md"></div>
+                </div>
+                <!-- Right details -->
+                <div class="md:w-1/2 md:pl-16 w-full pl-16 mt-6 md:mt-0">
+                  <div class="bg-primary/5 rounded-2xl p-6 border border-primary/10">
+                    <ul class="space-y-3">
+                      <li class="flex items-start gap-3">
+                        <div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0"></div>
+                        <span class="text-sm text-text-primary font-medium">Diseño de estaciones moto-compresoras La Paz (Cesar).</span>
+                      </li>
+                      <li class="flex items-start gap-3">
+                        <div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0"></div>
+                        <span class="text-sm text-text-primary font-medium">Selección técnica de turbomaquinaria y equipos auxiliares.</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Timeline Item 4: INGECAF / Promigas -->
+              <div class="relative flex flex-col md:flex-row-reverse items-center animate-on-scroll">
+                <div class="md:w-1/2 md:pl-16 w-full pl-16">
+                  <div class="bg-surface rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 group">
+                    <div class="flex flex-col mb-4">
+                      <span class="inline-block bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-wider">2007 — 2014</span>
+                      <h3 class="text-2xl font-black text-text-primary group-hover:text-primary transition-colors">Ing. de Confiabilidad y SAP-PM</h3>
+                      <p class="text-accent font-bold text-lg leading-tight mt-1">INGECAF LTDA / Promigas</p>
+                    </div>
+                    <p class="text-text-secondary leading-relaxed mb-6">
+                      Liderazgo en mantenimiento estratégico y digitalización. Implementación del módulo <strong>SAP PM</strong> y taxonomía de activos para toda la red de estaciones.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                      <span class="bg-gray-100 text-text-secondary text-[10px] font-bold px-2 py-1 rounded uppercase">SAP PM Expert</span>
+                      <span class="bg-gray-100 text-text-secondary text-[10px] font-bold px-2 py-1 rounded uppercase">Asset Taxonomy</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Central Marker -->
+                <div class="absolute left-8 md:left-1/2 transform -translate-x-1/2 flex items-center justify-center z-10">
+                  <div class="w-4 h-4 rounded-full bg-primary border-4 border-white shadow-md"></div>
+                </div>
+                <!-- Left details -->
+                <div class="md:w-1/2 md:pr-16 w-full pl-16 mt-6 md:mt-0 text-right">
+                  <div class="bg-primary/5 rounded-2xl p-6 border border-primary/10">
+                    <ul class="space-y-3">
+                      <li class="flex md:flex-row-reverse items-start gap-3">
+                        <div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0"></div>
+                        <span class="text-sm text-text-primary font-medium text-left md:text-right">Implementación exitosa desde cero del módulo SAP PM.</span>
+                      </li>
+                      <li class="flex md:flex-row-reverse items-start gap-3">
+                        <div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0"></div>
+                        <span class="text-sm text-text-primary font-medium text-left md:text-right">Gestión Capex/Opex para proyectos estratégicos Promigas.</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Timeline Item 5: Philips -->
+              <div class="relative flex flex-col md:flex-row items-center animate-on-scroll">
+                <div class="md:w-1/2 md:pr-16 md:text-right w-full pl-16 md:pl-0">
+                  <div class="bg-surface rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 group">
+                    <div class="flex flex-col md:items-end mb-4">
+                      <span class="inline-block bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-wider">1997 — 2000</span>
+                      <h3 class="text-2xl font-black text-text-primary group-hover:text-primary transition-colors">Líder Técnico de Mantenimiento</h3>
+                      <p class="text-accent font-bold text-lg leading-tight mt-1">Philips Lighting Colombia</p>
+                    </div>
+                    <p class="text-text-secondary leading-relaxed mb-6">
+                      Gestión de disponibilidad en líneas de fabricación industrial de alta precisión. Coordinación de mantenimiento preventivo para asegurar la continuidad de negocio.
+                    </p>
+                    <div class="flex flex-wrap gap-2 md:justify-end">
+                      <span class="bg-gray-100 text-text-secondary text-[10px] font-bold px-2 py-1 rounded uppercase">Manufacturing</span>
+                      <span class="bg-gray-100 text-text-secondary text-[10px] font-bold px-2 py-1 rounded uppercase">Industrial Maintenance</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Central Marker -->
+                <div class="absolute left-8 md:left-1/2 transform -translate-x-1/2 flex items-center justify-center z-10">
+                  <div class="w-4 h-4 rounded-full bg-primary border-4 border-white shadow-md"></div>
+                </div>
+                <!-- Right details -->
+                <div class="md:w-1/2 md:pl-16 w-full pl-16 mt-6 md:mt-0">
+                  <div class="bg-primary/5 rounded-2xl p-6 border border-primary/10">
+                    <ul class="space-y-3">
+                      <li class="flex items-start gap-3">
+                        <div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0"></div>
+                        <span class="text-sm text-text-primary font-medium">Optimización de disponibilidad en alta precisión industrial.</span>
+                      </li>
+                      <li class="flex items-start gap-3">
+                        <div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0"></div>
+                        <span class="text-sm text-text-primary font-medium">Liderazgo de equipos técnicos operativos en planta.</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Personal Values & Teaching Passion Section -->
+      <section class="py-24 bg-surface relative overflow-hidden">
+        <!-- Subtle Background Decoration -->
+        <div
+          class="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/2 w-64 h-64 bg-primary/5 rounded-full blur-3xl"
+        ></div>
+        <div
+          class="absolute bottom-0 right-0 translate-y-1/2 translate-x-1/2 w-96 h-96 bg-accent/5 rounded-full blur-3xl"
+        ></div>
+
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div class="text-center animate-on-scroll">
+            <div class="inline-block p-4 bg-primary/10 rounded-2xl mb-8">
+              <svg
+                class="w-10 h-10 text-primary"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                ></path>
+              </svg>
+            </div>
+            <h2
+              class="text-sm font-semibold text-primary uppercase tracking-[0.2em] mb-4"
+            >
+              Misión Personal y Propósito
+            </h2>
+            <blockquote
+              class="text-2xl md:text-3xl lg:text-4xl font-extrabold text-text-primary leading-tight mb-10 italic"
+            >
+              "Mi vida personal gira en torno a mi familia, un compromiso que
+              nutre mis valores y me impulsa a buscar un balance genuino. Esa
+              misma vocación de cuidado, guía y paciencia que aplico en casa, la
+              traslado a mi pasión por la enseñanza."
+            </blockquote>
+            <div class="flex flex-col items-center">
+              <div class="w-16 h-1 bg-accent rounded-full mb-4"></div>
+              <p class="text-lg font-bold text-text-primary">Freddy Roa Monsalvo</p>
+              <p class="text-primary font-medium">Ingeniero & Mentor</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-secondary text-white">
+      <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 text-center">
+        <h3 class="text-2xl font-bold">Freddy Roa Monsalvo</h3>
+        <p class="mt-2 text-base text-gray-300">
+          Ingeniero Mecánico | Especialista en Confiabilidad y Estaciones
+          Compresoras de Gas Natural
+        </p>
+
+        <div class="mt-8 flex justify-center space-x-6">
+          <a
+            href="mailto:freddy.roa76@gmail.com"
+            class="text-gray-300 hover:text-white transition-colors"
+            aria-label="Correo electrónico"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="w-6 h-6"
+            >
+              <rect width="20" height="16" x="2" y="4" rx="2" />
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+            </svg>
+          </a>
+          <a
+            href="https://wa.me/573112531330"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-gray-300 hover:text-white transition-colors"
+            aria-label="WhatsApp"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="w-6 h-6"
+            >
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+              />
+            </svg>
+          </a>
+          <a
+            href="https://www.linkedin.com/in/freddyroa/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-gray-300 hover:text-white transition-colors"
+            aria-label="LinkedIn"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="w-6 h-6"
+            >
+              <path
+                d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+              />
+              <rect width="4" height="12" x="2" y="9" />
+              <circle cx="4" cy="4" r="2" />
+            </svg>
+          </a>
+        </div>
+
+        <div class="mt-8 border-t border-gray-700 pt-8">
+          <p class="text-base text-gray-400">
+            &copy; 2024 Freddy Roa Monsalvo. Todos los derechos reservados.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a
+      href="https://wa.me/573112531330"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Contactar por WhatsApp"
+      class="fixed bottom-6 right-6 z-50 bg-green-500 text-white rounded-full p-4 shadow-lg hover:bg-green-600 transition-transform transform hover:scale-110"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="28"
+        height="28"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        class="w-7 h-7"
+      >
+        <path
+          d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"
+        />
+      </svg>
+    </a>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Header scroll effect
+        const header = document.querySelector("header");
+        if (header) {
+          window.addEventListener("scroll", () => {
+            if (window.scrollY > 10) {
+              header.classList.add("bg-surface", "shadow-md");
+              header.classList.remove("bg-transparent");
+            } else {
+              header.classList.remove("bg-surface", "shadow-md");
+              header.classList.add("bg-transparent");
+            }
+          });
+        }
+
+        // Fade-in animation on scroll
+        const animatedElements =
+          document.querySelectorAll(".animate-on-scroll");
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          {
+            threshold: 0.1,
+          },
+        );
+
+        animatedElements.forEach((el) => {
+          // Set initial state via style for cleaner JS
+          el.style.opacity = "0";
+          el.style.transform = "translateY(20px)";
+          el.style.transition =
+            "opacity 0.7s ease-out, transform 0.7s ease-out";
+          observer.observe(el);
+        });
+
+        // Add a style rule for the visible state
+        const style = document.createElement("style");
+        style.innerHTML = `
+                .animate-on-scroll.is-visible {
+                    opacity: 1 !important;
+                    transform: translateY(0) !important;
+                }
+            `;
+        document.head.appendChild(style);
+
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
+        const menuIcon = document.getElementById("menu-icon");
+        const closeIcon = document.getElementById("close-icon");
+        const mobileToolsToggle = document.getElementById(
+          "mobile-tools-toggle",
+        );
+        const mobileToolsMenu = document.getElementById("mobile-tools-menu");
+        const mobileToolsArrow = document.getElementById("mobile-tools-arrow");
+
+        if (mobileMenuButton && mobileMenu) {
+          mobileMenuButton.addEventListener("click", () => {
+            const isExpanded =
+              mobileMenuButton.getAttribute("aria-expanded") === "true";
+            mobileMenu.classList.toggle("hidden");
+            menuIcon.classList.toggle("hidden");
+            closeIcon.classList.toggle("hidden");
+            mobileMenuButton.setAttribute("aria-expanded", !isExpanded);
+          });
+
+          // Mobile Tools Accordion
+          if (mobileToolsToggle && mobileToolsMenu) {
+            mobileToolsToggle.addEventListener("click", (e) => {
+              e.preventDefault();
+              mobileToolsMenu.classList.toggle("hidden");
+              if (mobileToolsArrow)
+                mobileToolsArrow.classList.toggle("rotate-180");
+            });
+          }
+
+          // Close menu when clicking a link (except tools toggle)
+          const mobileLinks = mobileMenu.querySelectorAll("a");
+          mobileLinks.forEach((link) => {
+            if (link.id !== "mobile-tools-toggle") {
+              link.addEventListener("click", () => {
+                mobileMenu.classList.add("hidden");
+                menuIcon.classList.remove("hidden");
+                closeIcon.classList.add("hidden");
+                mobileMenuButton.setAttribute("aria-expanded", "false");
+              });
+            }
+          });
+        }
+
+        // Update copyright year
+        const yearSpan = document.querySelector(".copyright-year");
+        if (yearSpan) {
+          yearSpan.textContent = new Date().getFullYear();
+        }
+      });
+    </script>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

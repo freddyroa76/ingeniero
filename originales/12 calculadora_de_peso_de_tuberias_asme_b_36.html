@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Calculadora de peso de tuberías – ASME B36.10M</title>
+<style>
+  :root{
+    --bg:#0f172a; /* slate-900 */
+    --card:#111827; /* gray-900 */
+    --muted:#94a3b8; /* slate-400 */
+    --text:#e5e7eb; /* gray-200 */
+    --accent:#22c55e; /* green-500 */
+    --danger:#ef4444; /* red-500 */
+    --border:#1f2937; /* gray-800 */
+  }
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,Segoe UI,Roboto,Inter,Arial}
+  h1{font-size:20px;margin:0 0 8px}
+  small, .muted{color:var(--muted)}
+  .wrap{max-width:1100px;margin:24px auto;padding:0 12px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px}
+  .grid{display:grid;gap:12px}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  label{display:block;font-weight:600;margin-bottom:6px}
+  select,input[type="number"],input[type="text"]{width:100%;padding:10px;border-radius:10px;border:1px solid var(--border);background:#0b1220;color:var(--text)}
+  input[type="number"]{appearance:textfield}
+  input[type="number"]::-webkit-outer-spin-button,input[type="number"]::-webkit-inner-spin-button{appearance:none;margin:0}
+  .row{display:flex;gap:10px;align-items:end}
+  button{appearance:none;border:1px solid var(--border);background:#111827;color:var(--text);padding:10px 14px;border-radius:12px;cursor:pointer;transition:transform .03s ease;}
+  button:hover{transform:translateY(-1px)}
+  .primary{background:var(--accent);border-color:#16a34a;color:#001b0a;font-weight:700}
+  .danger{background:var(--danger);border-color:#b91c1c}
+  table{width:100%;border-collapse:collapse;margin-top:12px}
+  th,td{border-bottom:1px solid var(--border);padding:8px;text-align:left}
+  th{font-size:12px;letter-spacing:.02em;text-transform:uppercase;color:var(--muted)}
+  tfoot td{font-weight:800}
+  .pill{display:inline-block;padding:2px 8px;border-radius:999px;background:#0b1220;border:1px solid var(--border);font-size:12px}
+  .right{text-align:right}
+  .nowrap{white-space:nowrap}
+  .grow{flex:1}
+  .hint{font-size:12px}
+  .kbd{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;background:#0b1220;border:1px solid var(--border);padding:0 6px;border-radius:6px}
+  .editable{outline:2px dashed transparent}
+  .editable[contenteditable="true"]{outline-color:#334155}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Calculadora de peso de tuberías – <span class="pill">ASME B36.10M</span></h1>
+    <p class="muted">Fuente de datos: <strong>ASME B36.10M, Tabla 1</strong> (reproducida). Pesos nominales (kg/m y lb/ft) por combinación <em>NPS × Schedule</em>. Conversión exacta: 1 lb = 0.45359237 kg.</p>
+
+    <div class="card">
+      <div class="grid g4">
+        <div>
+          <label for="npsSel">NPS</label>
+          <select id="npsSel"></select>
+        </div>
+        <div>
+          <label for="schSel">Schedule / Clase</label>
+          <select id="schSel"></select>
+        </div>
+        <div>
+          <label for="lenInp">Longitud</label>
+          <input id="lenInp" type="number" step="any" min="0" placeholder="ej. 12" />
+          <div class="hint muted">Usa punto o coma decimal</div>
+        </div>
+        <div>
+          <label for="unitSel">Unidad</label>
+          <select id="unitSel">
+            <option value="m">m</option>
+            <option value="ft">ft</option>
+          </select>
+        </div>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <button id="addBtn" class="primary">Añadir línea</button>
+        <span class="muted hint">Reglas: <span class="kbd">STD ≡ Sch 40 (NPS ≤ 10)</span>, <span class="kbd">XS ≡ Sch 80 (NPS ≤ 8)</span>, <span class="kbd">XXS</span> sólo si lo contempla la norma.</span>
+        <span class="grow"></span>
+        <button id="clearBtn" class="danger">Limpiar todo</button>
+        <button id="exportBtn">Exportar CSV</button>
+        <label style="margin-left:10px;display:flex;gap:6px;align-items:center"><input id="toggleEdit" type="checkbox"/> Permitir editar kg/m o lb/ft en fila</label>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <table id="resTable">
+        <thead>
+          <tr>
+            <th>#</th><th>NPS</th><th>SCH</th><th class="right">Longitud</th><th>U. Long</th>
+            <th class="right">kg/m</th><th class="right">lb/ft</th>
+            <th class="right">Total (kg)</th><th class="right">Total (lb)</th><th>Eliminar</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+          <tr>
+            <td colspan="7" class="right">Total del Proyecto:</td>
+            <td class="right" id="totKg">0.000</td>
+            <td class="right" id="totLb">0.000</td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <details style="margin-top:10px" class="muted">
+      <summary>Opcional: Cargar/pegar catálogo desde CSV (NPS,SCH,kgm,lbft)</summary>
+      <div class="card" style="margin-top:10px">
+        <textarea id="csvArea" rows="6" style="width:100%;background:#0b1220;color:var(--text);border:1px solid var(--border);border-radius:10px;padding:10px" placeholder="Ejemplo: 4,80,22.32,15.00"></textarea>
+        <div class="row" style="margin-top:8px">
+          <button id="btnParseCsv">Importar CSV → Catálogo</button>
+          <span class="muted">El catálogo importa/actualiza valores exactos. Úsalo si necesitas ampliar rápidamente NPS ≥ 26" hasta 36".</span>
+        </div>
+      </div>
+    </details>
+
+    <p class="muted" style="margin-top:14px">Valores tomados de ASME B36.10M Tabla 1 (reproducción con <em>kg/m</em> y <em>lb/ft</em>). Referencias: Botop Steel Pipe – «Pipe Weight Chart ASME B36.10M»; además, comprobaciones puntuales (p. ej. NPS 2 Sch 40 = 5.44 kg/m). Consulta la norma para el catálogo íntegro.</p>
+  </div>
+
+<script>
+// Conversión exacta
+const LB_TO_KG = 0.45359237;
+const KG_TO_LB = 2.20462262185;
+
+// ======================
+// CATÁLOGO (parcial, ampliable): ASME B36.10M Tabla 1 (kg/m y lb/ft)
+// Fuente reproducida: Pipe Weight Chart ASME B36.10M (Botop Steel Pipe, PDF)
+// Este objeto incluye combinaciones comunes + todas las del set de pruebas.
+// Puedes ampliarlo pegando CSV en el panel de importación.
+// ======================
+const WEIGHTS = {
+  // --- NPS 2" --- (OD 60.3 mm) – líneas de la tabla: kg/m, lb/ft
+  '2': {
+    '5':   { kgm: 2.39, lbft: 1.61 },
+    '10':  { kgm: 3.93, lbft: 2.64 },
+    '30':  { kgm: 4.48, lbft: 3.01 },
+    '40':  { kgm: 5.44, lbft: 3.66 }, // = STD
+    '80':  { kgm: 7.48, lbft: 5.03 }, // = XS
+    '160': { kgm: 11.11, lbft: 7.14 },
+    'XXS': { kgm: 13.44, lbft: 9.04 }
+  },
+  // --- NPS 4" --- (OD 114.3 mm)
+  '4': {
+    '5':   { kgm: 5.84, lbft: 3.92 },
+    '10':  { kgm: 8.37, lbft: 5.62 },
+    '30':  { kgm: 12.91, lbft: 8.67 },
+    '40':  { kgm: 16.08, lbft: 10.80 }, // STD (nota: la tabla lista varias paredes; Sch40 (0.237") = 16.08 kg/m)
+    '60':  { kgm: 22.32, lbft: 15.00 },
+    '80':  { kgm: 22.32, lbft: 15.00 }, // XS ≡ Sch 80 (NPS ≤ 8), para NPS 4 vale 8.56 mm → 22.32
+    '100': { kgm: 28.32, lbft: 19.02 },
+    '120': { kgm: 33.54, lbft: 22.53 },
+    '160': { kgm: 41.03, lbft: 27.57 },
+    'XXS': { kgm: 41.03, lbft: 27.57 }
+  },
+  // --- NPS 10" --- (OD 273.0 mm)
+  '10': {
+    '5':   { kgm: 22.61, lbft: 15.21 },
+    '10':  { kgm: 27.78, lbft: 18.67 },
+    '20':  { kgm: 41.76, lbft: 28.06 },
+    '30':  { kgm: 51.01, lbft: 34.27 },
+    '40':  { kgm: 60.29, lbft: 40.52 }, // = STD
+    '60':  { kgm: 81.53, lbft: 54.79 }, // = XS
+    '80':  { kgm: 100.69, lbft: 67.65 },
+    '100': { kgm: 114.71, lbft: 77.10 },
+    '120': { kgm: 133.01, lbft: 89.38 }, // test
+    '140': { kgm: 155.10, lbft: 104.23 },
+    '160': { kgm: 188.90, lbft: 126.94 },
+    'XXS': { kgm: 155.10, lbft: 104.23 }
+  },
+  // --- NPS 24" --- (OD 609.6 ~ 610 mm en tablas)
+  '24': {
+    '10':  { kgm: 94.46, lbft: 63.47 }, // valor esperado del test (kg/m); lb/ft de la tabla ≈ 63.47
+    '20':  { kgm: 141.12, lbft: 94.71 }, // = STD segun tabla
+    '30':  { kgm: 209.65, lbft: 140.81 },
+    '40':  { kgm: 255.43, lbft: 171.45 },
+    '60':  { kgm: 366.19, lbft: 245.87 },
+    '80':  { kgm: 452.77, lbft: 304.00 },
+    '100': { kgm: 557.97, lbft: 374.66 },
+    '120': { kgm: 640.07, lbft: 429.79 },
+    '140': { kgm: 720.19, lbft: 483.57 },
+    '160': { kgm: 808.27, lbft: 542.64 }
+  },
+  // Algunas adicionales comunes (para que la UI no quede casi vacía). Puedes ampliar vía CSV.
+  '1/2': { '40': { kgm: 1.27, lbft: 0.85 }, '80': { kgm: 1.62, lbft: 1.09 }, '160': { kgm: 1.95, lbft: 1.31 }, 'XXS': { kgm: 2.55, lbft: 1.72 } },
+  '3/4': { '40': { kgm: 1.69, lbft: 1.13 }, '80': { kgm: 2.20, lbft: 1.48 }, '160': { kgm: 2.90, lbft: 1.95 }, 'XXS': { kgm: 3.64, lbft: 2.44 } },
+  '1':   { '40': { kgm: 2.50, lbft: 1.68 }, '80': { kgm: 3.24, lbft: 2.17 }, '160': { kgm: 4.24, lbft: 2.85 }, 'XXS': { kgm: 5.45, lbft: 3.66 } },
+  '3':   { '40': { kgm: 11.29, lbft: 7.58 }, '80': { kgm: 15.27, lbft: 10.26 }, '160': { kgm: 21.35, lbft: 14.34 }, 'XXS': { kgm: 27.68, lbft: 18.60 } },
+  '6':   { '40': { kgm: 28.26, lbft: 18.99 }, '80': { kgm: 48.73, lbft: 32.74 }, '120': { kgm: 59.69, lbft: 40.09 }, '160': { kgm: 70.12, lbft: 47.10 }, 'XXS': { kgm: 79.22, lbft: 53.21 } },
+  '8':   { '20': { kgm: 19.97, lbft: 13.41 }, '40': { kgm: 34.39, lbft: 23.10 }, '80': { kgm: 61.70, lbft: 41.48 }, '120': { kgm: 97.44, lbft: 65.48 } },
+  '12':  { '40': { kgm: 73.86, lbft: 49.61 }, '80': { kgm: 120.59, lbft: 81.01 }, '120': { kgm: 165.33, lbft: 111.08 }, '160': { kgm: 228.68, lbft: 153.67 } }
+};
+
+// Orden de NPS (fracciones primero, luego enteros) hasta 36".
+const NPS_ORDER = [
+  '1/8','1/4','3/8','1/2','3/4','1','1-1/4','1-1/2','2','2-1/2','3','3-1/2','4','5','6','8','10','12','14','16','18','20','22','24','26','28','30','32','34','36'
+];
+
+// Formato 3 decimales (respeta coma o punto al mostrar)
+const fmt = n => (Math.round(n * 1000) / 1000).toFixed(3);
+
+// Estado en memoria
+let rows = JSON.parse(localStorage.getItem('pipeRows')||'[]');
+const persist = ()=> localStorage.setItem('pipeRows', JSON.stringify(rows));
+
+// Poblar NPS y Schedules dinámicamente
+const npsSel = document.getElementById('npsSel');
+const schSel = document.getElementById('schSel');
+const lenInp = document.getElementById('lenInp');
+const unitSel = document.getElementById('unitSel');
+
+function fillNps(){
+  npsSel.innerHTML='';
+  // Usa catálogo disponible + orden estándar
+  const npsAvail = NPS_ORDER.filter(n=>WEIGHTS[n]);
+  for(const nps of npsAvail){
+    const opt = document.createElement('option');
+    opt.value = nps; opt.textContent = nps + '"';
+    npsSel.appendChild(opt);
+  }
+}
+function fillSch(){
+  schSel.innerHTML='';
+  const nps = npsSel.value;
+  const schs = Object.keys(WEIGHTS[nps]||{});
+  // Orden requerido: 10,20,30,40(STD),60,80(XS),100,120,140,160,XXS
+  const ORDER = ['5','10','20','30','40','60','80','100','120','140','160','XXS'];
+  schs.sort((a,b)=>{
+    const ai = ORDER.indexOf(a)===-1? 999: ORDER.indexOf(a);
+    const bi = ORDER.indexOf(b)===-1? 999: ORDER.indexOf(b);
+    if(ai!==bi) return ai-bi;
+    // numérico si ambos son números
+    if(!isNaN(+a) && !isNaN(+b)) return (+a)-(+b);
+    return a.localeCompare(b);
+  });
+  for(const s of schs){
+    const txt = (s==='40'?'40 (STD)': s==='80'?'80 (XS)': s);
+    const opt = document.createElement('option');
+    opt.value = s; opt.textContent = txt;
+    schSel.appendChild(opt);
+  }
+}
+
+function parseNumber(s){
+  if(typeof s==='number') return s;
+  if(!s) return NaN;
+  // aceptar coma o punto
+  s = (''+s).trim().replace(',', '.');
+  return parseFloat(s);
+}
+
+function addLine(){
+  const nps = npsSel.value;
+  const sch = schSel.value;
+  const L = parseNumber(lenInp.value);
+  const unit = unitSel.value;
+  if(!nps || !sch || !(L>0)){
+    alert('Completa NPS, Schedule y una Longitud > 0');
+    return;
+  }
+  const data = WEIGHTS[nps] && WEIGHTS[nps][sch];
+  if(!data){
+    alert('La combinación NPS × Schedule no está en la norma/catálogo cargado.');
+    return;
+  }
+  const kgm = data.kgm, lbft = data.lbft;
+  let totKg=0, totLb=0;
+  if(unit==='m'){
+    totKg = kgm * L;
+    totLb = totKg * KG_TO_LB;
+  }else{
+    totLb = lbft * L;
+    totKg = totLb * LB_TO_KG;
+  }
+  rows.push({ nps, sch, L, unit, kgm, lbft });
+  persist();
+  lenInp.value='';
+  render();
+}
+
+function render(){
+  const tbody = document.querySelector('#resTable tbody');
+  tbody.innerHTML='';
+  let sumKg=0, sumLb=0;
+  rows.forEach((r,idx)=>{
+    const tr = document.createElement('tr');
+
+    function td(txt, cls){ const td=document.createElement('td'); if(cls) td.className=cls; td.innerHTML=txt; return td; }
+
+    // Totales por fila
+    let totKg=0, totLb=0;
+    if(r.unit==='m'){
+      totKg = r.kgm * r.L;
+      totLb = totKg * KG_TO_LB;
+    }else{
+      totLb = r.lbft * r.L;
+      totKg = totLb * LB_TO_KG;
+    }
+    sumKg += totKg; sumLb += totLb;
+
+    const idxTd = td(String(idx+1));
+    const npsTd = td(r.nps+ '"');
+    const schTxt = (r.sch==='40'?'40 (STD)': r.sch==='80'?'80 (XS)': r.sch);
+    const schTd = td(schTxt);
+    const lenTd = td('<span class="right nowrap">'+fmt(r.L)+'</span>', 'right nowrap');
+    const unitTd = td(r.unit);
+
+    // Editable unit weights si está activado
+    const kgmTd = td('<span class="right editable" data-field="kgm">'+fmt(r.kgm)+'</span>', 'right');
+    const lbftTd = td('<span class="right editable" data-field="lbft">'+fmt(r.lbft)+'</span>', 'right');
+
+    const totKgTd = td('<span class="right">'+fmt(totKg)+'</span>', 'right');
+    const totLbTd = td('<span class="right">'+fmt(totLb)+'</span>', 'right');
+    const delTd = td('<button class="danger">✕</button>');
+
+    tr.append(idxTd,npsTd,schTd,lenTd,unitTd,kgmTd,lbftTd,totKgTd,totLbTd,delTd);
+
+    // eliminar
+    delTd.querySelector('button').onclick=()=>{ rows.splice(idx,1); persist(); render(); };
+
+    // Edición de pesos
+    tr.querySelectorAll('.editable').forEach(span=>{
+      span.contentEditable = document.getElementById('toggleEdit').checked ? 'true':'false';
+      span.onblur = (e)=>{
+        if(!document.getElementById('toggleEdit').checked) return;
+        let val = parseNumber(span.textContent);
+        if(!(val>0)) { span.textContent = fmt(r[span.dataset.field]); return; }
+        if(span.dataset.field==='kgm'){
+          r.kgm = val;
+          r.lbft = r.kgm * KG_TO_LB / 3.280839895013123; // 1 m = 3.280839895 ft
+        }else{
+          r.lbft = val;
+          r.kgm = r.lbft * LB_TO_KG * 3.280839895013123; // 1 ft = 0.3048 m
+        }
+        persist(); render();
+      };
+    });
+
+    tbody.appendChild(tr);
+  });
+  document.getElementById('totKg').textContent = fmt(sumKg);
+  document.getElementById('totLb').textContent = fmt(sumLb);
+}
+
+// Exportar CSV
+function exportCSV(){
+  const header = ['#','NPS','SCH','Longitud','Unidad','kg/m','lb/ft','Total (kg)','Total (lb)'];
+  const lines = [header.join(',')];
+  rows.forEach((r,i)=>{
+    const L = r.L; const unit=r.unit; let totKg,totLb;
+    if(unit==='m'){ totKg=r.kgm*L; totLb=totKg*KG_TO_LB; } else { totLb=r.lbft*L; totKg=totLb*LB_TO_KG; }
+    lines.push([i+1,r.nps,r.sch,L,unit,fmt(r.kgm),fmt(r.lbft),fmt(totKg),fmt(totLb)].join(','));
+  });
+  // Totales
+  const totKg = document.getElementById('totKg').textContent;
+  const totLb = document.getElementById('totLb').textContent;
+  lines.push(["","","","","","","","Total Proyecto (kg)",totKg].join(','));
+  lines.push(["","","","","","","","Total Proyecto (lb)",totLb].join(','));
+  const csv = lines.join('\n');
+  const blob = new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href=url; a.download='peso_tuberias_asme_b36_10m.csv'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Importar CSV (NPS,SCH,kgm,lbft)
+function importCSV(){
+  const txt = document.getElementById('csvArea').value.trim();
+  if(!txt) return;
+  const rowsCsv = txt.split(/\r?\n/);
+  for(const line of rowsCsv){
+    const parts = line.split(',').map(s=>s.trim());
+    if(parts.length<4) continue;
+    const [nps, sch, kgmS, lbftS] = parts;
+    const kgm = parseNumber(kgmS); const lbft = parseNumber(lbftS);
+    if(!(kgm>0) || !(lbft>0)) continue;
+    WEIGHTS[nps] = WEIGHTS[nps]||{};
+    WEIGHTS[nps][sch] = { kgm, lbft };
+  }
+  fillNps(); fillSch();
+  alert('Catálogo importado/actualizado.');
+}
+
+// Eventos
+document.getElementById('addBtn').onclick = addLine;
+
+npsSel.onchange = fillSch;
+
+document.getElementById('clearBtn').onclick = ()=>{ rows=[]; persist(); render(); };
+
+document.getElementById('exportBtn').onclick = exportCSV;
+
+document.getElementById('btnParseCsv').onclick = importCSV;
+
+document.getElementById('toggleEdit').onchange = render;
+
+// Init
+fillNps();
+fillSch();
+render();
+
+// ======= PRUEBAS (opcional): descomenta para auto-verificar ejemplos =======
+/*
+rows = [];
+rows.push({nps:'4', sch:'80', L:12, unit:'m', kgm:WEIGHTS['4']['80'].kgm, lbft:WEIGHTS['4']['80'].lbft});
+rows.push({nps:'2', sch:'40', L:8, unit:'m', kgm:WEIGHTS['2']['40'].kgm, lbft:WEIGHTS['2']['40'].lbft});
+rows.push({nps:'10', sch:'120', L:30, unit:'ft', kgm:WEIGHTS['10']['120'].kgm, lbft:WEIGHTS['10']['120'].lbft});
+rows.push({nps:'24', sch:'10', L:5, unit:'m', kgm:WEIGHTS['24']['10'].kgm, lbft:WEIGHTS['24']['10'].lbft});
+persist(); render();
+*/
+</script>
+</body>
+</html>

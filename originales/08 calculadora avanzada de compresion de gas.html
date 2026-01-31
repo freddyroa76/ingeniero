@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Avanzada de Compresión de Gas | Ingeniería de Petróleo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .header .icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        .tabs {
+            display: flex;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            padding: 0;
+            border-radius: 0;
+            overflow: hidden;
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: #ecf0f1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            box-shadow: 0 0 15px rgba(52, 152, 219, 0.5);
+        }
+
+        .tab:not(.active):hover {
+            background: rgba(52, 152, 219, 0.2);
+        }
+
+        .tab i {
+            margin-right: 8px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .input-section, .output-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: #3498db;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .efficiency-notes {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #fafbfc;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #3498db;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-group .unit {
+            position: absolute;
+            right: 15px;
+            top: 38px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .composition-section {
+            grid-column: 1 / -1;
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            margin-top: 20px;
+        }
+
+        .composition-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .composition-table th {
+            background: #f1f2f6;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #2c3e50;
+            border-bottom: 2px solid #dfe4ea;
+        }
+
+        .composition-table td {
+            padding: 10px 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .composition-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .composition-table tr:hover {
+            background-color: #e9f7fe;
+        }
+
+        .composition-table input {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            background: #fafbfc;
+            transition: all 0.2s ease;
+        }
+
+        .composition-table input:focus {
+            border-color: #3498db;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            outline: none;
+        }
+
+        .composition-summary {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .composition-summary .total {
+            color: #2c3e50;
+        }
+
+        .composition-summary .sum {
+            color: #27ae60;
+            font-size: 1.1rem;
+        }
+
+        .composition-summary .error {
+            color: #e74c3c;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-calculate {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .btn-calculate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+        }
+
+        .btn-clear {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-clear:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+            transition: all 0.3s ease;
+        }
+
+        .result-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .result-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #27ae60;
+        }
+
+        .z-factor {
+            border-left: 4px solid #9b59b6;
+        }
+        
+        .calculated-result {
+            border-left: 4px solid #f39c12;
+        }
+
+        .head-result {
+            border-left: 4px solid #8e44ad;
+        }
+
+        .flow-result {
+            border-left: 4px solid #16a085;
+        }
+
+        .info-section {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #f1f2f6 0%, #dfe4ea 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .info-section h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-section ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 10px;
+        }
+
+        .info-section li {
+            margin: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #34495e;
+        }
+
+        .info-section li::before {
+            content: '•';
+            color: #3498db;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 900px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .composition-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+
+        .loading {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .collapsible {
+            background: #f1f2f6;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .collapsible:hover {
+            background: #e2e7f0;
+        }
+        
+        .collapsible-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .collapsible.active .collapsible-content {
+            max-height: 1000px;
+            margin-top: 15px;
+        }
+        
+        .paste-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            z-index: 1001;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+        
+        .paste-notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .paste-notification.error {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+        
+        .paste-notification.success {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+        }
+
+        .warning-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <i class="fas fa-cogs icon"></i>
+                <h1>Calculadora Avanzada de Compresión de Gas</h1>
+                <p>Ingeniería de Petróleo y Gas Natural | Cálculos Termodinámicos Avanzados</p>
+            </div>
+        </header>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="basic">
+                <i class="fas fa-sliders-h"></i> Datos Básicos
+            </div>
+            <div class="tab" data-tab="composition">
+                <i class="fas fa-atom"></i> Composición del Gas
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="input-section">
+                <h2 class="section-title">
+                    <i class="fas fa-edit"></i>
+                    Datos de Entrada
+                </h2>
+
+                <form id="compressionForm">
+                    <div class="form-group">
+                        <label for="gasFlow">Flujo de Gas (Q)</label>
+                        <input type="text" id="gasFlow" placeholder="Ej: 100" required>
+                        <span class="unit">MMSCFD</span>
+                        <div class="error-message" id="gasFlowError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="suctionPressure">Presión de Succión (P₁)</label>
+                        <input type="text" id="suctionPressure" placeholder="Ej: 700" required>
+                        <span class="unit">Psia</span>
+                        <div class="error-message" id="suctionPressureError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dischargePressure">Presión de Descarga (P₂)</label>
+                        <input type="text" id="dischargePressure" placeholder="Ej: 1200" required>
+                        <span class="unit">Psia</span>
+                        <div class="error-message" id="dischargePressureError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="suctionTemp">Temperatura de Succión (T₁)</label>
+                        <input type="text" id="suctionTemp" placeholder="Ej: 100" required>
+                        <span class="unit">°F</span>
+                        <div class="error-message" id="suctionTempError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="adiabaticEff">Eficiencia Adiabática (ηₐ)</label>
+                        <input type="text" id="adiabaticEff" required value="0.75">
+                        <span class="unit">decimal</span>
+                        <div class="error-message" id="adiabaticEffError"></div>
+                        <p class="efficiency-notes">Reciprocantes: 0.75-0.90 | Centrífugos: 0.70-0.85</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mechanicalEff">Eficiencia Mecánica (ηₘ)</label>
+                        <input type="text" id="mechanicalEff" required value="0.95">
+                        <span class="unit">decimal</span>
+                        <div class="error-message" id="mechanicalEffError"></div>
+                        <p class="efficiency-notes">Típica para ambos tipos: 0.90-0.98</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="compressorType">Tipo de Compresor</label>
+                        <select id="compressorType">
+                            <option value="centrifugal">Centrífugo</option>
+                            <option value="reciprocating">Reciprocante</option>
+                        </select>
+                    </div>
+                </form>
+
+                <div class="warning-box">
+                    <strong>Nota:</strong> Los cálculos se basan en la composición del gas ingresada en la pestaña "Composición del Gas". 
+                    Si no se proporciona composición, se utilizarán valores por defecto para gas natural.
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn btn-calculate" onclick="calculateCompression()">
+                        <i class="fas fa-calculator"></i>
+                        Calcular
+                    </button>
+                    <button type="button" class="btn btn-clear" onclick="clearForm()">
+                        <i class="fas fa-trash"></i>
+                        Limpiar
+                    </button>
+                </div>
+            </div>
+
+            <div class="output-section">
+                <h2 class="section-title">
+                    <i class="fas fa-chart-line"></i>
+                    Resultados
+                </h2>
+
+                <div id="results">
+                    <div class="result-item calculated-result">
+                        <span class="result-label">Peso Molecular (MW)</span>
+                        <span class="result-value" id="mwResult">- lb/lb-mol</span>
+                    </div>
+
+                    <div class="result-item calculated-result">
+                        <span class="result-label">Gravedad Específica (SG)</span>
+                        <span class="result-value" id="sgResult">- </span>
+                    </div>
+
+                    <div class="result-item calculated-result">
+                        <span class="result-label">Relación de Calores Específicos (γ)</span>
+                        <span class="result-value" id="heatRatioResult">- </span>
+                    </div>
+
+                    <div class="result-item calculated-result">
+                        <span class="result-label">k₁ (Succión)</span>
+                        <span class="result-value" id="k1Result">- </span>
+                    </div>
+
+                    <div class="result-item calculated-result">
+                        <span class="result-label">k₂ (Descarga)</span>
+                        <span class="result-value" id="k2Result">- </span>
+                    </div>
+                    
+                    <div class="result-item z-factor">
+                        <span class="result-label">Factor de Compresibilidad Succión (Z₁)</span>
+                        <span class="result-value" id="z1Result">- </span>
+                    </div>
+                    
+                    <div class="result-item z-factor">
+                        <span class="result-label">Factor de Compresibilidad Descarga (Z₂)</span>
+                        <span class="result-value" id="z2Result">- </span>
+                    </div>
+
+                    <div class="result-item flow-result">
+                        <span class="result-label">Flujo Volumétrico (ACFM)</span>
+                        <span class="result-value" id="acfmResult">- ACFM</span>
+                    </div>
+                    
+                    <div class="result-item">
+                        <span class="result-label">Eficiencia Completa (ηₒ)</span>
+                        <span class="result-value" id="overallEff">- </span>
+                    </div>
+
+                    <div class="result-item head-result">
+                        <span class="result-label">Cabeza Isentrópica</span>
+                        <span class="result-value" id="isentropicHead">- ft-lbf/lbm</span>
+                    </div>
+
+                    <div class="result-item">
+                        <span class="result-label">Potencia en el eje del compresor</span>
+                        <span class="result-value" id="calcPower">- HP</span>
+                    </div>
+
+                    <div class="result-item">
+                        <span class="result-label">Potencia del Driver (BHP)</span>
+                        <span class="result-value" id="bhp">- HP</span>
+                    </div>
+
+                    <div class="result-item">
+                        <span class="result-label">Temperatura de Descarga (T₂)</span>
+                        <span class="result-value" id="dischargeTemp">- °F</span>
+                    </div>
+
+                    <div class="result-item">
+                        <span class="result-label">Relación de Presión</span>
+                        <span class="result-value" id="pressureRatio">- </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="composition-section" id="compositionSection">
+                <h2 class="section-title">
+                    <i class="fas fa-flask"></i>
+                    Composición del Gas Natural
+                </h2>
+                <p>Ingrese las fracciones molares de cada componente (la suma debe ser 1.000):</p>
+                
+                <div class="composition-summary">
+                    <span class="total">Suma total:</span>
+                    <span id="compositionSum" class="sum">0.000</span>
+                    <span id="compositionError" class="error"></span>
+                </div>
+                
+                <table class="composition-table">
+                    <thead>
+                        <tr>
+                            <th>Componente</th>
+                            <th>Fórmula</th>
+                            <th>Fracción Molar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="compositionBody">
+                        </tbody>
+                </table>
+
+                <div class="button-group">
+                    <button type="button" class="btn btn-calculate" onclick="setDefaultComposition()">
+                        <i class="fas fa-magic"></i>
+                        Usar Composición por Defecto (Gas Natural)
+                    </button>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h3><i class="fas fa-info-circle"></i>Información Técnica</h3>
+                
+                <div class="collapsible" id="methodCollapse">
+                    <div class="collapsible-header">
+                        <span><i class="fas fa-book"></i> Método de Standing-Katz para Factor Z</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="collapsible-content">
+                        <ul>
+                            <li><strong>Propiedades Pseudocríticas:</strong> T_pc = Σ(y_i * T_c,i), P_pc = Σ(y_i * P_c,i)</li>
+                            <li><strong>Propiedades Pseudorreducidas:</strong> T_pr = T / T_pc, P_pr = P / P_pc</li>
+                            <li><strong>Correlación Dranchuk-AbouKassem:</strong> Se utiliza para calcular Z a partir de T_pr y P_pr</li>
+                            <li><strong>Ecuación:</strong> Z = 1 + (A1 + A2/Tpr + A3/Tpr³) * ρ_r + (A4 + A5/Tpr) * ρ_r² + A5*A6 * ρ_r⁵ / Tpr + (A7 * ρ_r² / Tpr³) * (1 + A8 * ρ_r²) * exp(-A8 * ρ_r²)</li>
+                            <li><strong>Donde:</strong> ρ_r = 0.27 * P_pr / (Z * T_pr)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="collapsible" id="calcCollapse">
+                    <div class="collapsible-header">
+                        <span><i class="fas fa-calculator"></i> Cálculos de Compresión</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="collapsible-content">
+                        <ul>
+                            <li><strong>Ecuación de Estado:</strong> Gas real con factores de compresibilidad Z₁ and Z₂ calculados</li>
+                            <li><strong>Proceso:</strong> Compresión politrópica con eficiencia adiabática</li>
+                            <li><strong>Fórmula GPSA:</strong> HP = T₁ × Z_avg / 11.66 × γ/(γ-1) × SQ/ηₐ × [(P₂/P₁)^((γ-1)/γ) - 1]</li>
+                            <li><strong>Donde SQ:</strong> Flujo volumétrico en MMSCFD</li>
+                            <li><strong>Z_avg:</strong> Factor de compresibilidad promedio = (Z₁ + Z₂)/2</li>
+                            <li><strong>Temperatura de Descarga:</strong> T₂ = T₁ + (T_ideal - T₁) / ηₐ</li>
+                            <li><strong>Donde T_ideal:</strong> T₁ × (P₂/P₁)^((γ-1)/γ) × (Z₁/Z₂)</li>
+                            <li><strong>Relación de Calores Específicos:</strong> La relación (γ) se calcula internamente a partir de la composición del gas.</li>
+                            <li><strong>Aplicación:</strong> Compresores centrífugos y reciprocantes en la industria del petróleo y gas</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; 2025. Creado Por Freddy Roa Monsalvo | Ingeniero Mecánico</p>
+        </footer>
+    </div>
+
+    <div id="pasteNotification" class="paste-notification"></div>
+
+    <script>
+        // Component properties (Tc in °R, Pc in psia)
+        const COMPONENTS = [
+            { name: "Metano", formula: "CH4", id: "ch4", tc: 343.00, pc: 666.40, mw: 16.043, 
+              cp_coeffs: { a: 4.881, b: 0.00762, c: 0, d: 0 } },
+            { name: "Nitrógeno", formula: "N2", id: "n2", tc: 227.60, pc: 493.00, mw: 28.013, 
+              cp_coeffs: { a: 6.786, b: 0.00062, c: 0, d: 0 } },
+            { name: "Dióxido de Carbono", formula: "CO2", id: "co2", tc: 547.90, pc: 1071.00, mw: 44.010, 
+              cp_coeffs: { a: 8.653, b: 0.00551, c: 0, d: 0 } },
+            { name: "Etano", formula: "C2H6", id: "c2h6", tc: 549.60, pc: 706.50, mw: 30.070, 
+              cp_coeffs: { a: 2.247, b: 0.03831, c: -0.0000108, d: 0 } },
+            { name: "Propano", formula: "C3H8", id: "c3h8", tc: 665.70, pc: 616.00, mw: 44.097, 
+              cp_coeffs: { a: 2.21, b: 0.063, c: -0.000028, d: 0 } },
+            { name: "n-Butano", formula: "nC4H10", id: "nc4h10", tc: 765.36, pc: 550.71, mw: 58.12, 
+              cp_coeffs: { a: -0.763, b: 0.088, c: -0.00003, d: 0 } },
+            { name: "iso-Butano", formula: "iC4H10", id: "ic4h10", tc: 734.10, pc: 527.90, mw: 58.12, 
+              cp_coeffs: { a: 2.2, b: 0.068, c: -0.00003, d: 0 } },
+            { name: "n-Pentano", formula: "nC5H12", id: "nc5h12", tc: 845.50, pc: 488.60, mw: 72.15, 
+              cp_coeffs: { a: 0.443, b: 0.122, c: -0.00006, d: 0 } },
+            { name: "iso-Pentano", formula: "iC5H12", id: "ic5h12", tc: 828.80, pc: 490.40, mw: 72.15, 
+              cp_coeffs: { a: -1.78, b: 0.137, c: -0.000067, d: 0 } },
+            { name: "Hexano", formula: "nC6H14", id: "nc6h14", tc: 913.30, pc: 436.90, mw: 86.18, 
+              cp_coeffs: { a: 0, b: 0, c: 0, d: 0 } },
+            { name: "Heptano", formula: "nC7H16", id: "nc7h16", tc: 972.47, pc: 396.80, mw: 100.21, 
+              cp_coeffs: { a: 0, b: 0, c: 0, d: 0 } },
+            { name: "Octano", formula: "nC8H18", id: "nc8h18", tc: 1023.89, pc: 360.60, mw: 114.23, 
+              cp_coeffs: { a: 0, b: 0, c: 0, d: 0 } },
+            { name: "Nonano", formula: "nC9H20", id: "nc9h20", tc: 1072.26, pc: 334.46, mw: 128.26, 
+              cp_coeffs: { a: 0, b: 0, c: 0, d: 0 } },
+            { name: "Decano", formula: "C10H22", id: "c10h22", tc: 1113.30, pc: 307.92, mw: 142.29, 
+              cp_coeffs: { a: 0, b: 0, c: 0, d: 0 } },
+            { name: "Hidrógeno", formula: "H2", id: "h2", tc: 59.94, pc: 188.11, mw: 2.016, 
+              cp_coeffs: { a: 6.786, b: 0.00062, c: 0, d: 0 } },
+            { name: "Oxígeno", formula: "O2", id: "o2", tc: 278.64, pc: 731.43, mw: 32.00, 
+              cp_coeffs: { a: 6.786, b: 0.00062, c: 0, d: 0 } },
+            { name: "Monóxido de Carbono", formula: "CO", id: "co", tc: 239.22, pc: 507.63, mw: 28.01, 
+              cp_coeffs: { a: 6.786, b: 0.00062, c: 0, d: 0 } },
+            { name: "Agua", formula: "H2O", id: "h2o", tc: 1164.77, pc: 3208.00, mw: 18.015, 
+              cp_coeffs: { a: 7.256, b: 0.002298, c: 0, d: 0 } },
+            { name: "Sulfuro de Hidrógeno", formula: "H2S", id: "h2s", tc: 672.30, pc: 1296.20, mw: 34.08, 
+              cp_coeffs: { a: 7.256, b: 0.002298, c: 0, d: 0 } },
+            { name: "Helio", formula: "He", id: "he", tc: 9.34, pc: 32.92, mw: 4.00, 
+              cp_coeffs: { a: 0, b: 0, c: 0, d: 0 } },
+            { name: "Argón", formula: "Ar", id: "ar", tc: 271.55, pc: 710.00, mw: 39.95, 
+              cp_coeffs: { a: 0, b: 0, c: 0, d: 0 } }
+        ];
+        
+        const MW_AIR = 28.964;
+        const R_GAS_CONSTANT = 1.986; // BTU/lb-mol·°R
+        const R_UNIVERSAL = 1545.32; // ft-lbf/lbmol-°R
+        const T_STANDARD_R = 519.67; // 60°F en °R
+        const P_STANDARD = 14.7; // psia
+
+        // Helper function to parse numbers with comma or dot
+        function parseNumber(str) {
+            if (!str) return NaN;
+            const cleanedStr = str.replace(',', '.').replace(/\s/g, '');
+            return parseFloat(cleanedStr);
+        }
+
+        // Initialize composition table
+        function initCompositionTable() {
+            const tableBody = document.getElementById('compositionBody');
+            
+            COMPONENTS.forEach(component => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${component.name}</td>
+                    <td>${component.formula}</td>
+                    <td>
+                        <input type="text" id="${component.id}" 
+                               class="composition-input" 
+                               value="" 
+                               oninput="updateCompositionSum()">
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Set default natural gas composition
+        function setDefaultComposition() {
+            // Typical natural gas composition (approximate)
+            document.getElementById('ch4').value = '0.95';
+            document.getElementById('n2').value = '0.01';
+            document.getElementById('co2').value = '0.02';
+            document.getElementById('c2h6').value = '0.015';
+            document.getElementById('c3h8').value = '0.005';
+            
+            // Set others to 0
+            COMPONENTS.forEach(component => {
+                if (!['ch4', 'n2', 'co2', 'c2h6', 'c3h8'].includes(component.id)) {
+                    document.getElementById(component.id).value = '0';
+                }
+            });
+            
+            updateCompositionSum();
+            showNotification('Composición por defecto cargada (Gas Natural típico)', 'success');
+        }
+
+        // Update composition sum
+        function updateCompositionSum() {
+            let sum = 0;
+            let hasError = false;
+            
+            COMPONENTS.forEach(component => {
+                const input = document.getElementById(component.id);
+                const value = parseNumber(input.value);
+                
+                if (isNaN(value)) {
+                    hasError = true;
+                } else {
+                    sum += value;
+                }
+            });
+            
+            const sumElement = document.getElementById('compositionSum');
+            const errorElement = document.getElementById('compositionError');
+            
+            sumElement.textContent = sum.toFixed(3);
+            
+            if (hasError || Math.abs(sum - 1) > 0.001) {
+                sumElement.classList.remove('sum');
+                sumElement.classList.add('error');
+                errorElement.textContent = hasError ? 
+                    "Error: Valores no numéricos" : 
+                    "Error: La suma debe ser 1.000";
+            } else {
+                sumElement.classList.remove('error');
+                sumElement.classList.add('sum');
+                errorElement.textContent = "";
+            }
+        }
+
+        // Function to handle paste event
+        function handlePasteEvent(e) {
+            // Get pasted data from clipboard
+            const clipboardData = e.clipboardData || window.clipboardData;
+            const pastedData = clipboardData.getData('text');
+            
+            // Prevent default paste behavior
+            e.preventDefault();
+            
+            // Process the pasted data
+            const rows = pastedData.split(/\r\n|\n|\r/);
+            const values = [];
+            
+            // Extract values from each row
+            rows.forEach(row => {
+                const rowValues = row.split(/\t/);
+                rowValues.forEach(val => {
+                    if (val.trim() !== '') {
+                        values.push(val.trim());
+                    }
+                });
+            });
+            
+            // Check if we have the right number of values
+            if (values.length > COMPONENTS.length) {
+                showPasteNotification(`Se han pegado ${values.length} valores, pero solo hay ${COMPONENTS.length} componentes. Los valores adicionales serán ignorados.`, 'error');
+            } else if (values.length < COMPONENTS.length) {
+                showPasteNotification(`Se han pegado ${values.length} valores, pero se esperaban ${COMPONENTS.length}. Los valores faltantes permanecerán sin cambios.`, 'error');
+            } else {
+                showPasteNotification('Datos pegados correctamente.', 'success');
+            }
+            
+            // Update the input fields with the pasted values
+            COMPONENTS.forEach((component, index) => {
+                if (index < values.length) {
+                    // Convert comma to dot for decimal normalization
+                    const normalizedValue = values[index].replace(',', '.');
+                    document.getElementById(component.id).value = normalizedValue;
+                }
+            });
+            
+            // Update the composition sum
+            updateCompositionSum();
+        }
+
+        // Show paste notification
+        function showPasteNotification(message, type) {
+            const notification = document.getElementById('pasteNotification');
+            notification.textContent = message;
+            notification.className = 'paste-notification show ' + type;
+            
+            setTimeout(() => {
+                notification.className = 'paste-notification';
+            }, 3000);
+        }
+
+        // Calculate Z factor using Dranchuk-AbouKassem method
+        function calculateZfactor(T, P, Tpc, Ppc) {
+            const Tpr = T / Tpc;
+            const Ppr = P / Ppc;
+            
+            // Constants for Dranchuk-AbouKassem equation
+            const A1 = 0.3265;
+            const A2 = -1.0700;
+            const A3 = -0.5339;
+            const A4 = 0.01569;
+            const A5 = -0.05165;
+            const A6 = 0.5475;
+            const A7 = -0.7361;
+            const A8 = 0.1844;
+            
+            let Z = 0.9;
+            let iter = 0;
+            const maxIter = 100;
+            const tolerance = 1e-8;
+            let dZ = 0;
+            
+            do {
+                const rho_r = 0.27 * Ppr / (Z * Tpr);
+                
+                const term1 = (A1 + A2/Tpr + A3/Math.pow(Tpr, 3)) * rho_r;
+                const term2 = (A4 + A5/Tpr) * Math.pow(rho_r, 2);
+                const term3 = (A5 * A6 * Math.pow(rho_r, 5)) / Tpr;
+                const term4 = (A7 * Math.pow(rho_r, 2) / Math.pow(Tpr, 3)) * (1 + A8 * Math.pow(rho_r, 2)) * Math.exp(-A8 * Math.pow(rho_r, 2));
+                
+                const fZ = Z - (1 + term1 + term2 + term3 + term4);
+                
+                const h = 0.0001;
+                const Z_plus = Z + h;
+                const rho_r_plus = 0.27 * Ppr / (Z_plus * Tpr);
+                
+                const term1_plus = (A1 + A2/Tpr + A3/Math.pow(Tpr, 3)) * rho_r_plus;
+                const term2_plus = (A4 + A5/Tpr) * Math.pow(rho_r_plus, 2);
+                const term3_plus = (A5 * A6 * Math.pow(rho_r_plus, 5)) / Tpr;
+                const term4_plus = (A7 * Math.pow(rho_r_plus, 2) / Math.pow(Tpr, 3)) * (1 + A8 * Math.pow(rho_r_plus, 2)) * Math.exp(-A8 * Math.pow(rho_r_plus, 2));
+                
+                const fZ_plus = Z_plus - (1 + term1_plus + term2_plus + term3_plus + term4_plus);
+                
+                const dfZ = (fZ_plus - fZ) / h;
+                
+                if (Math.abs(dfZ) < 1e-10) break;
+                
+                dZ = fZ / dfZ;
+                Z -= dZ;
+                
+                if (Z < 0.2) Z = 0.2;
+                if (Z > 1.5) Z = 1.5;
+                
+                iter++;
+            } while (iter < maxIter && Math.abs(dZ) > tolerance);
+            
+            return Z;
+        }
+
+        // Calculate heat capacity ratio (k) for a gas mixture at given temperature
+        function calculateHeatCapacityRatio(components, moleFractions, temperature) {
+            let totalCp = 0;
+            let totalCv = 0;
+            
+            components.forEach((component, index) => {
+                const y = moleFractions[index] || 0;
+                if (y > 0) {
+                    // Calculate Cp for this component at the given temperature
+                    const T_R = temperature + 459.67; // Convert to Rankine
+                    const cp = component.cp_coeffs.a + 
+                              component.cp_coeffs.b * T_R + 
+                              component.cp_coeffs.c * Math.pow(T_R, 2) + 
+                              component.cp_coeffs.d * Math.pow(T_R, 3);
+                    
+                    // Cv = Cp - R (for ideal gas)
+                    const cv = cp - R_GAS_CONSTANT;
+                    
+                    totalCp += y * cp;
+                    totalCv += y * cv;
+                }
+            });
+            
+            return totalCp / totalCv;
+        }
+
+        // Calculate pseudocritical properties and other mix properties from composition
+        function calculateMixProperties(T_F) {
+            let Tpc = 0;
+            let Ppc = 0;
+            let MW_mix = 0;
+            let Cp_mix = 0;
+            let moleFractions = [];
+            
+            // Convert temperature to °R for Cp calculation
+            const T_R = T_F + 459.67;
+            
+            COMPONENTS.forEach(component => {
+                const input = document.getElementById(component.id);
+                const yi = parseNumber(input.value) || 0;
+                moleFractions.push(yi);
+                
+                if (yi > 0) {
+                    Tpc += yi * component.tc;
+                    Ppc += yi * component.pc;
+                    MW_mix += yi * component.mw;
+                    
+                    // Calculate Cp_i at temperature T_R
+                    const cp_i = component.cp_coeffs.a + 
+                                 component.cp_coeffs.b * T_R + 
+                                 component.cp_coeffs.c * Math.pow(T_R, 2) + 
+                                 component.cp_coeffs.d * Math.pow(T_R, 3);
+                                 
+                    Cp_mix += yi * cp_i;
+                }
+            });
+            
+            // If no composition provided, use default natural gas properties
+            if (MW_mix === 0) {
+                MW_mix = 18.5;
+                Tpc = 380;
+                Ppc = 670;
+                Cp_mix = 8.5; // Approximate Cp for natural gas
+            }
+            
+            const Cv_mix = Cp_mix - R_GAS_CONSTANT;
+            const gamma = Cp_mix / Cv_mix;
+            const sg = MW_mix / MW_AIR;
+            
+            // Calculate k at suction and discharge conditions
+            const k_suction = calculateHeatCapacityRatio(COMPONENTS, moleFractions, T_F);
+            
+            // Estimate discharge temperature for k calculation
+            const estimated_discharge_temp = T_F + 100; // Conservative estimate
+            const k_discharge = calculateHeatCapacityRatio(COMPONENTS, moleFractions, estimated_discharge_temp);
+            
+            return { Tpc, Ppc, MW_mix, Cp_mix, Cv_mix, gamma, sg, k_suction, k_discharge };
+        }
+
+        // Validate all inputs
+        function validateInputs() {
+            let isValid = true;
+            
+            const inputs = [
+                'gasFlow', 'suctionPressure', 
+                'dischargePressure', 'suctionTemp', 
+                'adiabaticEff', 'mechanicalEff'
+            ];
+            
+            inputs.forEach(id => {
+                const element = document.getElementById(id);
+                const value = parseNumber(element.value);
+                const errorElement = document.getElementById(`${id}Error`);
+                
+                if (isNaN(value)) {
+                    errorElement.textContent = "Valor numérico requerido";
+                    errorElement.style.display = 'block';
+                    element.style.borderColor = '#e74c3c';
+                    isValid = false;
+                } else {
+                    errorElement.style.display = 'none';
+                    element.style.borderColor = '#e1e8ed';
+                    
+                    if ((id === 'adiabaticEff' || id === 'mechanicalEff') && (value < 0.5 || value > 1)) {
+                        errorElement.textContent = "Debe estar entre 0.5 y 1.0";
+                        errorElement.style.display = 'block';
+                        element.style.borderColor = '#e74c3c';
+                        isValid = false;
+                    }
+                }
+            });
+            
+            return isValid;
+        }
+
+        // Main calculation function
+        function calculateCompression() {
+            document.getElementById('results').classList.remove('fade-in');
+            
+            if (!validateInputs()) {
+                showNotification('Por favor corrija los errores en el formulario', 'error');
+                return;
+            }
+            
+            document.getElementById('loading').style.display = 'block';
+            
+            setTimeout(() => {
+                try {
+                    const Q = parseNumber(document.getElementById('gasFlow').value);
+                    const P1 = parseNumber(document.getElementById('suctionPressure').value);
+                    const P2 = parseNumber(document.getElementById('dischargePressure').value);
+                    const T1_F = parseNumber(document.getElementById('suctionTemp').value);
+                    const eta_a = parseNumber(document.getElementById('adiabaticEff').value);
+                    const eta_m = parseNumber(document.getElementById('mechanicalEff').value);
+                    const compressorType = document.getElementById('compressorType').value;
+                    
+                    const T1_R = T1_F + 459.67;
+                    
+                    // Calculate properties from composition (or use defaults)
+                    const mixProperties = calculateMixProperties(T1_F);
+                    const { Tpc, Ppc, MW_mix, sg, gamma, k_suction, k_discharge } = mixProperties;
+                    
+                    // Calculate Z factors
+                    const Z1 = calculateZfactor(T1_R, P1, Tpc, Ppc);
+                    
+                    const pressure_ratio = P2 / P1;
+                    const compression_exponent = (gamma - 1) / gamma;
+                    const compression_ratio_factor = Math.pow(pressure_ratio, compression_exponent);
+                    
+                    // Iterative calculation for T2 and Z2
+                    let T2_R = T1_R * compression_ratio_factor; // Initial guess
+                    let Z2 = calculateZfactor(T2_R, P2, Tpc, Ppc);
+                    let iter = 0;
+                    const maxIter = 10;
+                    const tolerance = 0.1; // °R tolerance
+                    let T2_prev;
+                    
+                    do {
+                        T2_prev = T2_R;
+                        // Calculate ideal temperature with Z correction
+                        const T_ideal_isentropic = T1_R * Math.pow(pressure_ratio, compression_exponent) * (Z1 / Z2);
+                        T2_R = T1_R + (T_ideal_isentropic - T1_R) / eta_a;
+                        Z2 = calculateZfactor(T2_R, P2, Tpc, Ppc);
+                        iter++;
+                    } while (iter < maxIter && Math.abs(T2_R - T2_prev) > tolerance);
+                    
+                    const T2_F = T2_R - 459.67;
+                    
+                    const eta_overall = eta_a * eta_m;
+                    const Z_avg = (Z1 + Z2) / 2;
+                    
+                    // Calculate isentropic power using GPSA formula
+                    const isentropic_hp = (T1_R * Z_avg / 11.66) * (gamma / (gamma - 1)) * (Q / eta_a) * (compression_ratio_factor - 1);
+                    
+                    const actual_power_hp = isentropic_hp;
+                    const bhp = actual_power_hp / eta_m;
+                    
+                    // Calculate ACFM (Actual Cubic Feet per Minute)
+                    const SCFM = Q * 1000000 / 1440; // Standard cubic feet per minute
+                    const ACFM = SCFM * (T1_R / T_STANDARD_R) * (P_STANDARD / P1) * Z1;
+                    
+                    // Calculate isentropic head
+                    const isentropic_head = (gamma / (gamma - 1)) * (R_UNIVERSAL / MW_mix) * T1_R * 
+                                          (compression_ratio_factor - 1) * (Z1 + Z2)/2;
+                    
+                    // Display results
+                    document.getElementById('mwResult').textContent = MW_mix.toFixed(3) + ' lb/lb-mol';
+                    document.getElementById('sgResult').textContent = sg.toFixed(4);
+                    document.getElementById('heatRatioResult').textContent = gamma.toFixed(4);
+                    document.getElementById('k1Result').textContent = k_suction.toFixed(4);
+                    document.getElementById('k2Result').textContent = k_discharge.toFixed(4);
+                    document.getElementById('z1Result').textContent = Z1.toFixed(4);
+                    document.getElementById('z2Result').textContent = Z2.toFixed(4);
+                    document.getElementById('acfmResult').textContent = ACFM.toFixed(0) + ' ACFM';
+                    document.getElementById('overallEff').textContent = eta_overall.toFixed(3);
+                    document.getElementById('isentropicHead').textContent = isentropic_head.toFixed(0) + ' ft-lbf/lbm';
+                    document.getElementById('calcPower').textContent = actual_power_hp.toFixed(0) + ' HP';
+                    document.getElementById('bhp').textContent = bhp.toFixed(0) + ' HP';
+                    document.getElementById('dischargeTemp').textContent = T2_F.toFixed(1) + ' °F';
+                    document.getElementById('pressureRatio').textContent = pressure_ratio.toFixed(3);
+                    
+                    const results = document.getElementById('results');
+                    results.classList.add('fade-in');
+                    
+                    showNotification('Cálculos completados exitosamente', 'success');
+                    
+                } catch (error) {
+                    console.error('Error in calculations:', error);
+                    showNotification('Error en los cálculos. Verifique los datos ingresados.', 'error');
+                } finally {
+                    document.getElementById('loading').style.display = 'none';
+                }
+            }, 1000);
+        }
+
+        function clearForm() {
+            document.getElementById('compressionForm').reset();
+            COMPONENTS.forEach(component => {
+                document.getElementById(component.id).value = '';
+            });
+            updateCompositionSum();
+            
+            // Clear all results
+            document.getElementById('mwResult').textContent = '- lb/lb-mol';
+            document.getElementById('sgResult').textContent = '- ';
+            document.getElementById('heatRatioResult').textContent = '- ';
+            document.getElementById('k1Result').textContent = '- ';
+            document.getElementById('k2Result').textContent = '- ';
+            document.getElementById('z1Result').textContent = '- ';
+            document.getElementById('z2Result').textContent = '- ';
+            document.getElementById('acfmResult').textContent = '- ACFM';
+            document.getElementById('overallEff').textContent = '- ';
+            document.getElementById('isentropicHead').textContent = '- ft-lbf/lbm';
+            document.getElementById('calcPower').textContent = '- HP';
+            document.getElementById('bhp').textContent = '- HP';
+            document.getElementById('dischargeTemp').textContent = '- °F';
+            document.getElementById('pressureRatio').textContent = '- ';
+            
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            document.querySelectorAll('input').forEach(input => {
+                input.style.borderColor = '#e1e8ed';
+            });
+            
+            showNotification('Formulario limpiado', 'info');
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            Object.assign(notification.style, {
+                position: 'fixed',
+                top: '20px',
+                right: '20px',
+                padding: '15px 25px',
+                borderRadius: '10px',
+                color: 'white',
+                fontWeight: 'bold',
+                zIndex: '1001',
+                opacity: '0',
+                transform: 'translateY(-20px)',
+                transition: 'all 0.3s ease'
+            });
+            
+            switch (type) {
+                case 'success':
+                    notification.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
+                    break;
+                case 'error':
+                    notification.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
+                    break;
+                case 'info':
+                    notification.style.background = 'linear-gradient(135deg, #3498db, #2980b9)';
+                    break;
+            }
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateY(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateY(-20px)';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+        
+        function setupCollapsibles() {
+            const collapsibles = document.querySelectorAll('.collapsible');
+            collapsibles.forEach(collapsible => {
+                collapsible.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const icon = this.querySelector('.fa-chevron-down');
+                    if (icon) {
+                        icon.classList.toggle('fa-rotate-180');
+                    }
+                });
+            });
+        }
+        
+        function setupTabs() {
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    const tabType = this.getAttribute('data-tab');
+                    if (tabType === 'composition') {
+                        document.querySelector('.composition-section').scrollIntoView({behavior: 'smooth'});
+                    } else {
+                        document.querySelector('.input-section').scrollIntoView({behavior: 'smooth'});
+                    }
+                });
+            });
+        }
+
+        function setupPasteHandler() {
+            const compositionSection = document.getElementById('compositionSection');
+            compositionSection.addEventListener('paste', handlePasteEvent);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initCompositionTable();
+            updateCompositionSum();
+            setupCollapsibles();
+            setupTabs();
+            setupPasteHandler();
+            
+            // Set default composition on load
+            setDefaultComposition();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,350 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-text-primary antialiased;
+    font-feature-settings: "cv11", "ss01";
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading tracking-tight;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-semibold rounded-lg text-white bg-primary hover:bg-secondary transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary;
+  }
+
+  .card-pro {
+    @apply bg-surface rounded-xl shadow-glass border border-gray-100 p-6 transition-all duration-300 hover:shadow-float;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 outline-none;
+  }
+
+  .nav-link {
+    @apply text-text-secondary hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors relative group;
+  }
+
+  .nav-link-active {
+    @apply text-primary font-semibold;
+  }
+
+  .nav-link::after {
+    content: "";
+    @apply absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 opacity-0;
+  }
+
+  .nav-link:hover::after {
+    @apply w-full opacity-100;
+  }
+
+  /* Professional Design System for Calculators */
+  :root {
+    --primary: #005fa3;
+    --secondary: #004182;
+    --accent: #378fe9;
+    --light: #f8f9fa;
+    --danger: #dc3545;
+    --success: #28a745;
+    --warning: #ffc107;
+    --text-primary: #1a1a1a;
+    --text-secondary: #5e5e5e;
+    --border: #e0e0e0;
+  }
+
+  .container {
+    @apply max-w-[1600px] mx-auto p-5;
+  }
+
+  header {
+    background: linear-gradient(
+      135deg,
+      var(--primary) 0%,
+      var(--secondary) 100%
+    );
+    color: #fff;
+    @apply p-6 rounded-lg mb-6 text-center shadow-lg;
+  }
+
+  header h1 {
+    @apply text-3xl font-bold mb-2;
+  }
+  header p {
+    @apply text-base opacity-90;
+  }
+
+  .card {
+    @apply bg-white rounded-xl p-6 mb-6 shadow-md border border-gray-100;
+    transition: box-shadow 0.3s ease;
+  }
+
+  .card:hover {
+    @apply shadow-lg;
+  }
+
+  .card h2 {
+    @apply text-2xl font-bold mb-4 pb-3 border-b-2;
+    color: var(--primary);
+    border-color: var(--border);
+  }
+
+  .form-group {
+    @apply mb-4;
+  }
+
+  label {
+    @apply block mb-2 font-semibold text-sm;
+    color: var(--text-primary);
+  }
+
+  /* Modern Input Styling */
+  input:not([type="checkbox"]):not([type="radio"]),
+  select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 16px;
+    height: 44px;
+    line-height: 24px;
+    transition: all 0.2s ease;
+    background: #ffffff;
+  }
+
+  input:focus,
+  select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(0, 95, 163, 0.1);
+  }
+
+  input:hover:not(:focus),
+  select:hover:not(:focus) {
+    border-color: #b0b0b0;
+  }
+
+  /* Modern Button Styling */
+  button {
+    background: linear-gradient(
+      135deg,
+      var(--primary) 0%,
+      var(--secondary) 100%
+    );
+    color: #fff;
+    @apply border-0 py-3 px-6 rounded-lg cursor-pointer text-base font-semibold transition-all mt-3;
+    box-shadow: 0 4px 6px rgba(0, 95, 163, 0.2);
+  }
+
+  button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 95, 163, 0.3);
+  }
+
+  button:active {
+    transform: translateY(0);
+  }
+
+  button:disabled {
+    background: #95a5a6;
+    @apply cursor-not-allowed;
+    box-shadow: none;
+  }
+
+  .factors-info {
+    background: var(--light);
+    @apply p-5 rounded-lg mt-5 border-l-4;
+    border-color: var(--accent);
+  }
+
+  .factors-info h3 {
+    @apply text-lg font-bold mb-3;
+    color: var(--primary);
+  }
+
+  .factors-info p {
+    @apply mb-2 text-sm;
+  }
+
+  .table-container {
+    @apply overflow-x-auto mt-6 rounded-lg border border-gray-200;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  table {
+    @apply w-full border-collapse;
+  }
+
+  th,
+  td {
+    @apply p-3 text-center text-sm;
+    border: 1px solid var(--border);
+  }
+
+  th {
+    background: linear-gradient(
+      135deg,
+      var(--secondary) 0%,
+      var(--primary) 100%
+    );
+    color: #fff;
+    @apply sticky top-0 z-10 font-semibold;
+  }
+
+  tbody tr:nth-child(even) {
+    background: #f8f9fa;
+  }
+  tbody tr:hover {
+    background: #e3f2fd;
+    transition: background-color 0.2s ease;
+  }
+
+  /* Grade Color Coding - More Subtle */
+  .grade-A {
+    background-color: #e8f5e9;
+  }
+  .grade-B {
+    background-color: #e3f2fd;
+  }
+  .grade-X42 {
+    background-color: #fff3e0;
+  }
+  .grade-X52 {
+    background-color: #fce4ec;
+  }
+  .grade-X60 {
+    background-color: #f1f8e9;
+  }
+  .grade-X65 {
+    background-color: #e8eaf6;
+  }
+  .grade-X70 {
+    background-color: #fff8e1;
+  }
+
+  .pressure-ok {
+    background-color: #d4edda !important;
+    color: #155724;
+    @apply font-bold;
+  }
+
+  .pressure-fail {
+    background-color: #f8d7da !important;
+    color: #721c24;
+    @apply font-bold;
+  }
+
+  .footer {
+    @apply text-center mt-10 p-6 text-sm;
+    color: var(--text-secondary);
+  }
+
+  /* Responsive & Layout Logic */
+  .input-row {
+    @apply flex gap-4 mb-5 items-end;
+  }
+
+  @media (max-width: 1200px) {
+    .input-row {
+      @apply flex-col items-stretch;
+    }
+    .input-group {
+      @apply mr-0 mb-4;
+    }
+    th,
+    td {
+      @apply p-2 text-xs;
+    }
+  }
+
+  .input-group {
+    @apply flex-1;
+  }
+
+  .input-group label {
+    min-height: 40px;
+    @apply flex items-end;
+  }
+
+  /* Legend Styling */
+  .legend {
+    @apply flex flex-wrap gap-3 my-5 p-4 bg-gray-50 rounded-lg;
+  }
+
+  .legend-item {
+    @apply flex items-center text-sm font-medium;
+  }
+
+  .legend-color {
+    @apply w-5 h-5 mr-2 rounded border-2;
+    border-color: var(--border);
+  }
+
+  .sticky-header {
+    @apply sticky top-0 z-[100];
+    background: linear-gradient(
+      135deg,
+      var(--secondary) 0%,
+      var(--primary) 100%
+    );
+    color: #fff;
+  }
+
+  .factor-value {
+    @apply font-bold ml-2;
+    color: var(--primary);
+  }
+
+  .section-title {
+    @apply py-2 px-4 rounded-lg mt-5 mb-3 font-bold text-lg;
+    background: var(--light);
+    color: var(--primary);
+    border-left: 4px solid var(--primary);
+  }
+
+  .error-message {
+    color: var(--danger);
+    @apply text-sm mt-2 hidden font-medium;
+  }
+
+  .required::after {
+    content: " *";
+    color: var(--danger);
+  }
+
+  .calculation-formula {
+    @apply p-5 rounded-lg my-5 font-mono text-sm border-l-4;
+    background: #f8f9fa;
+    border-color: var(--accent);
+  }
+
+  .calculation-formula strong {
+    color: var(--primary);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Remove number input spinners */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+}

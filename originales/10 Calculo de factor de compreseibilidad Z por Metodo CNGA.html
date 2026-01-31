@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Factor de Compresibilidad (Z) - CNGA y Standing-Katz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: #333;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        .title-box {
+            background: linear-gradient(to right, #0d47a1, #1976d2);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .title {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+        .subtitle {
+            font-size: 18px;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+        .main-content {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .column {
+            flex: 1;
+            min-width: 350px;
+        }
+        .section {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        .section-title {
+            font-weight: bold;
+            color: #0d47a1;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1976d2;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .input-label {
+            width: 180px;
+            font-size: 15px;
+            color: #444;
+            font-weight: 500;
+        }
+        select, input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 15px;
+            transition: border-color 0.3s;
+        }
+        select:focus, input[type="number"]:focus {
+            border-color: #1976d2;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+        }
+        input[readonly] {
+            background-color: #f5f9ff;
+            color: #0d47a1;
+            font-weight: 600;
+        }
+        .result-field {
+            background-color: #e8f5e9;
+            border: 2px solid #28a745;
+            color: #2e7d32;
+            font-weight: bold;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .error {
+            background-color: #f8d7da;
+            border: 1px solid #f1aeb5;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .units {
+            font-size: 13px;
+            color: #666;
+            margin-left: 5px;
+            font-weight: normal;
+        }
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        .calc-button {
+            padding: 14px 30px;
+            font-size: 17px;
+            font-weight: bold;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            max-width: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .calc-button i {
+            margin-right: 8px;
+        }
+        .calc-button.calculate {
+            background: linear-gradient(to right, #28a745, #218838);
+        }
+        .calc-button.calculate:hover {
+            background: linear-gradient(to right, #218838, #1e7e34);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        .calc-button.clear {
+            background: linear-gradient(to right, #dc3545, #c82333);
+        }
+        .calc-button.clear:hover {
+            background: linear-gradient(to right, #c82333, #bd2130);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: linear-gradient(to right, #0d47a1, #1976d2);
+            color: white;
+            font-style: italic;
+            font-size: 14px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .equation-box {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            font-size: 17px;
+            margin-top: 15px;
+            border: 1px dashed #90caf9;
+        }
+        .info-text {
+            font-size: 12px;
+            color: #6c757d;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        .result-section {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+            display: none;
+        }
+        .result-title {
+            font-weight: bold;
+            color: #0d47a1;
+            margin-bottom: 10px;
+            font-size: 16px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #1976d2;
+        }
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+        .result-item {
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border-left: 3px solid #1976d2;
+        }
+        .result-label {
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+        .result-value {
+            font-weight: bold;
+            color: #0d47a1;
+            font-size: 16px;
+        }
+        .result-unit {
+            font-size: 13px;
+            color: #666;
+            margin-left: 3px;
+        }
+        @media (max-width: 900px) {
+            .main-content {
+                flex-direction: column;
+            }
+            .column {
+                width: 100%;
+            }
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            .calc-button {
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title-box">
+            <h1 class="title">Calculadora del Factor de Compresibilidad del Gas (Z)</h1>
+            <div class="subtitle">Método de California Natural Gas Association CNGA</div>
+        </div>
+        
+        <div class="main-content">
+            <div class="column">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-keyboard"></i> Entradas
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Gravedad Específica (G)</label>
+                        <input type="number" id="gasGravity" step="any" required>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Presión del gas (P) <span class="units">(psig)</span></label>
+                        <input type="number" id="pressure" step="any" required>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Temperatura del gas (T) <span class="units">(°F)</span></label>
+                        <input type="number" id="temperature" step="any" required>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Correlación Standing-Katz</label>
+                        <select id="sk-method">
+                            <option value="DPR">Dranchuk–Purvis–Robinson</option>
+                            <option value="DAK">Dranchuk–Abou‑Kassem</option>
+                            <option value="HY">Hall–Yarborough</option>
+                        </select>
+                    </div>
+                    <div class="button-group">
+                        <button class="calc-button calculate" onclick="calculateZ()">
+                            <i class="fas fa-calculator"></i> Calcular
+                        </button>
+                        <button class="calc-button clear" onclick="clearFields()">
+                            <i class="fas fa-broom"></i> Limpiar
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-info-circle"></i> Información Técnica
+                    </div>
+                    <p>El Factor de Compresibilidad del Gas (Z) mide la desviación de un gas real respecto al ideal; un Z=1 indica comportamiento ideal.</p>
+                    
+                    <p>El método de Standing–Katz es el estándar industrial, basado en propiedades pseudocríticas y pseudoreducidas, con correlaciones como Dranchuk–Purvis–Robinson (DPR) para obtener valores precisos en un amplio rango de presiones y temperaturas.</p>
+                    <p>El método de la CNGA es una correlación empírica práctica, válida principalmente para presiones de 100 a 3000 psig y temperaturas habituales de operación de gasoductos (aprox. 40–100 °F). Se recomienda para estimaciones rápidas de campo, aunque es menos exacto que Standing–Katz en condiciones extremas de presión o composiciones ricas en CO₂ y H₂S.</p>
+                </div>
+            </div>
+            
+            <div class="column">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-tachometer-alt"></i> Resultados
+                    </div>
+                    
+                    <div id="noResults" style="text-align: center; padding: 30px; color: #6c757d; display: block;">
+                        <i class="fas fa-tachometer-alt" style="font-size: 50px; margin-bottom: 15px;"></i>
+                        <p>Ingrese los parámetros y haga clic en "Calcular" para ver los resultados</p>
+                    </div>
+                    
+                    <div id="results" style="display: none;">
+                        <div class="result-grid">
+                            <div class="result-item">
+                                <div class="result-label">Factor Z (CNGA)</div>
+                                <div class="result-value" id="z_cnga"></div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">Factor Z (Standing-Katz)</div>
+                                <div class="result-value" id="z_sk"></div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">Presión Pseudocrítica (Ppc)</div>
+                                <div class="result-value" id="ppc_val"></div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">Temperatura Pseudocrítica (Tpc)</div>
+                                <div class="result-value" id="tpc_val"></div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">Presión Pseudoreducida (Ppr)</div>
+                                <div class="result-value" id="ppr_val"></div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">Temperatura Pseudoreducida (Tpr)</div>
+                                <div class="result-value" id="tpr_val"></div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">Densidad Reducida (pr)</div>
+                                <div class="result-value" id="densidad_reducida_val"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            (C) 2025. Creado Por Freddy Roa Monsalvo | Ingeniero Mecánico
+        </div>
+    </div>
+
+    <script>
+        // Funciones de cálculo numérico
+        function clamp(x, lo, hi){ return Math.max(lo, Math.min(hi, x)); }
+        function toFixed(x, n){ if(!isFinite(x)) return "—"; return Number(x).toFixed(n); }
+        
+        // CNGA
+        function calculateZ_CNGA(P_psig, T_F, G){
+            const Tf = T_F + 460.0;
+            const Pavg = P_psig;
+            if(Pavg < 100) return 1.0;
+            const num = Pavg * 344400.0 * Math.pow(10.0, 1.785*G);
+            const den = Math.pow(Tf, 3.825);
+            return 1.0 / (1.0 + num/den);
+        }
+
+        // Standing-Katz
+        function calculateZ_SK(P_psig, T_F, G, method="DPR"){
+            const P = P_psig + 14.7;
+            const T = T_F + 460.0;
+            const Ppc = 756.8 - 131.0*G - 3.6*G*G;
+            const Tpc = 169.2 + 349.5*G - 74.0*G*G;
+            const Ppr = P / Ppc;
+            const Tpr = T / Tpc;
+
+            let y;
+            if (method === "DPR") {
+                const A1=0.31506237, A2=-1.04670990, A3=-0.57832720, A4=0.53530771;
+                const A5=-0.61232032, A6=-0.10488813, A7=0.68157001, A8=0.68446549;
+                const T1 = A1 + A2/Tpr + A3/(Tpr*Tpr*Tpr);
+                const T2 = A4 + A5/Tpr;
+                const T3 = (A5*A6)/Tpr;
+                const T4 = A7/(Tpr*Tpr*Tpr);
+                const T5 = 0.27*Ppr/Tpr;
+                let y_initial = clamp(0.27*Ppr/Tpr, 1e-6, 10.0);
+                y = y_initial;
+                for(let i=0; i<60; i++){
+                    const y2 = y*y;
+                    const expTerm = Math.exp(-A8*y2);
+                    const f = T4*y2*(1 + A8*y2)*expTerm + 1 + T1*y + T2*y2 + T3*y2*y2*y + T5/y;
+                    const eps = 1e-8*(1+Math.abs(y));
+                    const ype = y + eps;
+                    const y2e = ype*ype;
+                    const fpe = T4*y2e*(1 + A8*y2e)*Math.exp(-A8*y2e) + 1 + T1*ype + T2*y2e + T3*y2e*y2e*ype + T5/ype;
+                    const df = (fpe - f)/eps;
+                    const step = f/df;
+                    y -= step;
+                    if(!isFinite(y) || y<=0){ y = y_initial; }
+                    if(Math.abs(step) < 1e-10) break;
+                }
+            } else if (method === "DAK") {
+                const A1=0.3265, A2=-1.0700, A3=-0.5339, A4=0.01569, A5=-0.05165;
+                const A6=0.5475, A7=0.7361, A8=0.1844, A9=0.1056, A10=0.6134, A11=0.7210;
+                const R1 = A1 + A2/Tpr + A3/(Tpr**3) + A4/(Tpr**4) + A5/(Tpr**5);
+                const R2 = 0.27*Ppr/Tpr;
+                const R3 = A6 + A7/Tpr + A8/(Tpr**2);
+                const R4 = A9*(A7/Tpr + A8/(Tpr**2));
+                const R5 = A10/(Tpr**3);
+                let y_initial = clamp(0.27*Ppr/Tpr, 1e-6, 10.0);
+                y = y_initial;
+                for(let i=0; i<60; i++){
+                    const y2 = y*y;
+                    const f = R5*y2*(1 + A11*y2)*Math.exp(-A11*y2) + R1*y - R2/y + R3*y2 - R4*y2*y2*y + 1;
+                    const eps = 1e-8*(1+Math.abs(y));
+                    const yp = y + eps;
+                    const y2p = yp*yp;
+                    const fp = R5*y2p*(1 + A11*y2p)*Math.exp(-A11*y2p) + R1*yp - R2/yp + R3*y2p - R4*y2p*y2p*yp + 1;
+                    const df = (fp - f)/eps;
+                    const step = f/df;
+                    y -= step;
+                    if(!isFinite(y) || y<=0){ y = y_initial; }
+                    if(Math.abs(step) < 1e-10) break;
+                }
+            } else if (method === "HY") {
+                const t = 1.0/Tpr;
+                const A1 = 0.06125 * t * Math.exp(-1.2*(1-t)*(1-t));
+                const A2 = 14.76*t - 9.76*t*t + 4.58*t*t*t;
+                const A3 = 90.7*t - 242.2*t*t + 42.4*t*t*t;
+                const A4 = 2.18 + 2.82*t;
+                const f = y => (-A1*Ppr) + (y + y*y + y*y*y) - (y**4)/((1-y)**3) - A2*y*y + A3*Math.pow(y, A4);
+                let y_initial = clamp(A1*Ppr, 1e-6, 0.8);
+                y = y_initial;
+                for(let i=0; i<80; i++){
+                    const eps = 1e-8*(1+Math.abs(y));
+                    const f0 = f(y);
+                    const f1 = f(y+eps);
+                    const df = (f1 - f0)/eps;
+                    const step = f0/df;
+                    y -= step;
+                    y = clamp(y, 1e-6, 0.99);
+                    if(!isFinite(y)) y = y_initial;
+                    if(Math.abs(step) < 1e-10) break;
+                }
+            }
+            const Z = 0.27 * Ppr / (y * Tpr);
+            return { Z, Ppc, Tpc, Ppr, Tpr, densidad_reducida: y };
+        }
+
+        function calculateZ() {
+            const G = parseFloat(document.getElementById('gasGravity').value);
+            const P = parseFloat(document.getElementById('pressure').value);
+            const T = parseFloat(document.getElementById('temperature').value);
+            const method = document.getElementById('sk-method').value;
+
+            const resultsDiv = document.getElementById('results');
+            const noResultsDiv = document.getElementById('noResults');
+
+            if (isNaN(G) || isNaN(P) || isNaN(T)) {
+                alert("Por favor, ingrese valores válidos en todos los campos.");
+                return;
+            }
+
+            // Calculo CNGA
+            const z_cnga = calculateZ_CNGA(P, T, G);
+            
+            // Calculo Standing-Katz
+            const sk_results = calculateZ_SK(P, T, G, method);
+
+            // Mostrar resultados
+            noResultsDiv.style.display = 'none';
+            resultsDiv.style.display = 'block';
+
+            document.getElementById('z_cnga').textContent = toFixed(z_cnga, 4);
+            document.getElementById('z_sk').textContent = toFixed(sk_results.Z, 4);
+            document.getElementById('ppc_val').textContent = `${toFixed(sk_results.Ppc, 2)} psia`;
+            document.getElementById('tpc_val').textContent = `${toFixed(sk_results.Tpc, 2)} °R`;
+            document.getElementById('ppr_val').textContent = toFixed(sk_results.Ppr, 4);
+            document.getElementById('tpr_val').textContent = toFixed(sk_results.Tpr, 4);
+            document.getElementById('densidad_reducida_val').textContent = toFixed(sk_results.densidad_reducida, 4);
+        }
+
+        function clearFields() {
+            document.getElementById('gasGravity').value = '';
+            document.getElementById('pressure').value = '';
+            document.getElementById('temperature').value = '';
+            document.getElementById('sk-method').value = 'DPR';
+
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('noResults').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

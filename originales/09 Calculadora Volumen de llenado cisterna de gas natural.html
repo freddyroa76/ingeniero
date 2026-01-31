@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Volumen de Gas Natural - Standing-Katz</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .title-box {
+            background: linear-gradient(to right, #0d47a1, #1976d2);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .title {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .column {
+            flex: 1;
+            min-width: 350px;
+        }
+        
+        .section {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-title {
+            font-weight: bold;
+            color: #0d47a1;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1976d2;
+            font-size: 20px;
+        }
+        
+        .composition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .composition-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .composition-label {
+            flex: 1;
+            font-size: 14px;
+            color: #444;
+        }
+        
+        .composition-input {
+            width: 100px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: right;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        .composition-input:focus {
+            border-color: #1976d2;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+        }
+        
+        .input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .input-label {
+            width: 180px;
+            font-size: 15px;
+            color: #444;
+        }
+        
+        .process-input {
+            width: 140px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: right;
+            font-size: 15px;
+            transition: border-color 0.3s;
+        }
+        
+        .process-input:focus {
+            border-color: #1976d2;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+        }
+        
+        .input-unit {
+            font-size: 14px;
+            color: #666;
+            margin-left: 10px;
+            width: 80px;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        
+        .calc-button {
+            padding: 14px 30px;
+            font-size: 17px;
+            font-weight: bold;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            max-width: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .calc-button i {
+            margin-right: 8px;
+        }
+        
+        .calc-button.calculate {
+            background: linear-gradient(to right, #28a745, #218838);
+        }
+        
+        .calc-button.calculate:hover {
+            background: linear-gradient(to right, #218838, #1e7e34);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .calc-button.clear {
+            background: linear-gradient(to right, #dc3545, #c82333);
+        }
+        
+        .calc-button.clear:hover {
+            background: linear-gradient(to right, #c82333, #bd2130);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: linear-gradient(to right, #0d47a1, #1976d2);
+            color: white;
+            font-style: italic;
+            font-size: 14px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            overflow: auto;
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 3% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 85%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .close {
+            color: #aaa;
+            position: absolute;
+            right: 25px;
+            top: 15px;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .close:hover {
+            color: #333;
+        }
+        
+        .result-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background: #f9f9f9;
+        }
+        
+        .result-title {
+            font-weight: bold;
+            color: #0d47a1;
+            margin-bottom: 15px;
+            font-size: 18px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #1976d2;
+        }
+        
+        .main-result {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(to right, #e3f2fd, #bbdefb);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #1976d2;
+        }
+        
+        .result-highlight {
+            color: #d32f2f;
+            font-size: 28px;
+            margin: 10px 0;
+            display: block;
+        }
+        
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .result-item {
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border-left: 3px solid #1976d2;
+        }
+        
+        .result-label {
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .result-value {
+            font-weight: bold;
+            color: #0d47a1;
+            font-size: 18px;
+        }
+        
+        .result-unit {
+            font-size: 14px;
+            color: #666;
+            margin-left: 3px;
+        }
+        
+        .equation-box {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            font-size: 17px;
+            margin-top: 15px;
+            border: 1px dashed #90caf9;
+        }
+        
+        .diagram-container {
+            text-align: center;
+            margin: 25px 0;
+            padding: 20px;
+            background: #f5f9ff;
+            border-radius: 10px;
+        }
+        
+        .diagram-title {
+            font-weight: bold;
+            color: #0d47a1;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .diagram {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .composition-summary {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+        
+        @media (max-width: 900px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .column {
+                width: 100%;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .calc-button {
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="title-box">
+            <h1 class="title">Calculadora de Volumen de Gas Natural</h1>
+            <div class="subtitle">Método Standing-Katz para cálculo de factor Z y volúmenes</div>
+        </div>
+        
+        <div class="main-content">
+            <!-- Columna Izquierda - Composición -->
+            <div class="column">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-flask"></i> Composición del Gas Natural (fracción molar)
+                    </div>
+                    <div class="composition-grid" id="composition-grid">
+                        <!-- Se llena dinámicamente con JavaScript -->
+                    </div>
+                    <div class="composition-summary">
+                        Suma de fracciones molares: <span id="mole-sum">0.0000</span>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-info-circle"></i> Información Técnica
+                    </div>
+                    <p><strong>Método Standing-Katz:</strong> Correlación ampliamente utilizada para estimar el factor de compresibilidad (Z) de mezclas de hidrocarburos.</p>
+                    <p><strong>Ecuación principal:</strong></p>
+                    <div class="equation-box">
+                        V₁ = V₂ × (P₂/P₁) × (Z₁/Z₂) × (T₁/T₂)
+                    </div>
+                    <p>Donde:<br>
+                    V₁ = Volumen en succión (pies³)<br>
+                    V₂ = Volumen en depósito (pies³)<br>
+                    P = Presión absoluta (psia)<br>
+                    T = Temperatura absoluta (°R)<br>
+                    Z = Factor de compresibilidad</p>
+                </div>
+            </div>
+            
+            <!-- Columna Derecha - Condiciones y Controles -->
+            <div class="column">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-cogs"></i> Condiciones del Proceso
+                    </div>
+                    
+                    <!-- Depósito -->
+                    <div class="process-section">
+                        <div class="process-title" style="font-weight: bold; color: #d32f2f; margin-bottom: 15px;">
+                            <i class="fas fa-tank-water"></i> Depósito (Aguas abajo del compresor)
+                        </div>
+                        <div class="input-group">
+                            <span class="input-label">Volumen (V₂):</span>
+                            <input type="number" class="process-input" id="v2" step="any" placeholder="Ej: 200000">
+                            <span class="input-unit">pies³</span>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-label">Presión (P₂):</span>
+                            <input type="number" class="process-input" id="p2" step="any" placeholder="Ej: 1200">
+                            <span class="input-unit">psig</span>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-label">Temperatura (T₂):</span>
+                            <input type="number" class="process-input" id="t2" step="any" placeholder="Ej: 100">
+                            <span class="input-unit">°F</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Succión -->
+                    <div class="process-section">
+                        <div class="process-title" style="font-weight: bold; color: #1976d2; margin-bottom: 15px;">
+                            <i class="fas fa-wind"></i> Succión (Aguas arriba del compresor)
+                        </div>
+                        <div class="input-group">
+                            <span class="input-label">Presión (P₁):</span>
+                            <input type="number" class="process-input" id="p1" step="any" placeholder="Ej: 100">
+                            <span class="input-unit">psig</span>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-label">Temperatura (T₁):</span>
+                            <input type="number" class="process-input" id="t1" step="any" placeholder="Ej: 80">
+                            <span class="input-unit">°F</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Botones -->
+                <div class="button-group">
+                    <button class="calc-button calculate" onclick="calculate()">
+                        <i class="fas fa-calculator"></i> Calcular
+                    </button>
+                    <button class="calc-button clear" onclick="clearFields()">
+                        <i class="fas fa-broom"></i> Borrar
+                    </button>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-project-diagram"></i> Diagrama del Proceso
+                    </div>
+                    <div class="diagram-container">
+                        <div class="diagram-title">Sistema compresor-depósito</div>
+                        <div class="equation-box" style="font-family: Arial, sans-serif;">
+                            [SUCCIÓN] → COMPRESOR → [DEPÓSITO]<br>
+                            P₁, T₁, Z₁ → Compresión → P₂, T₂, Z₂
+                        </div>
+                        <p>El volumen V₂ en el depósito es conocido.<br>Se calcula el volumen equivalente V₁ en succión.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            (C) 2025. Creado Por Freddy Roa Monsalvo | Ingeniero Mecánico
+        </div>
+    </div>
+
+    <!-- Modal para Resultados -->
+    <div id="resultsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div style="background: linear-gradient(to right, #0d47a1, #1976d2); color: white; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+                <h2 style="margin: 0; text-align: center; font-size: 28px;">
+                    <i class="fas fa-chart-bar"></i> RESULTADOS DEL CÁLCULO
+                </h2>
+            </div>
+            
+            <div id="results-content">
+                <!-- Se llena dinámicamente -->
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="calc-button clear" onclick="closeModal()" style="width: 200px;">
+                    <i class="fas fa-times"></i> Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Propiedades críticas de los componentes (Pc en psia, Tc en °R, MW en lb/lb-mol)
+        const criticalProps = {
+            'CH₄': {Pc: 667.8, Tc: 343.0, MW: 16.04},
+            'N₂': {Pc: 493.1, Tc: 227.16, MW: 28.01},
+            'CO₂': {Pc: 1071.0, Tc: 547.58, MW: 44.01},
+            'C₂H₆': {Pc: 707.8, Tc: 549.59, MW: 30.07},
+            'C₃H₈': {Pc: 616.3, Tc: 665.73, MW: 44.10},
+            'H₂O': {Pc: 3206.2, Tc: 1165.14, MW: 18.02},
+            'H₂S': {Pc: 1306.0, Tc: 672.35, MW: 34.08},
+            'H₂': {Pc: 188.0, Tc: 59.67, MW: 2.02},
+            'CO': {Pc: 507.5, Tc: 239.2, MW: 28.01},
+            'O₂': {Pc: 731.4, Tc: 278.6, MW: 32.00},
+            'n-C₄H₁₀': {Pc: 550.7, Tc: 765.29, MW: 58.12},
+            'i-C₄H₁₀': {Pc: 529.1, Tc: 734.13, MW: 58.12},
+            'n-C₅H₁₂': {Pc: 488.6, Tc: 845.47, MW: 72.15},
+            'i-C₅H₁₂': {Pc: 490.4, Tc: 828.77, MW: 72.15},
+            'n-C₆H₁₄': {Pc: 436.9, Tc: 913.4, MW: 86.18},
+            'n-C₇H₁₆': {Pc: 396.8, Tc: 972.4, MW: 100.20},
+            'n-C₈H₁₈': {Pc: 360.7, Tc: 1023.9, MW: 114.23},
+            'n-C₉H₂₀': {Pc: 332.0, Tc: 1070.4, MW: 128.26},
+            'C₁₀H₂₂': {Pc: 304.0, Tc: 1111.8, MW: 142.29},
+            'He': {Pc: 33.2, Tc: 9.5, MW: 4.00},
+            'Ar': {Pc: 705.0, Tc: 271.4, MW: 39.95}
+        };
+        
+        // Nombres de componentes en orden
+        const componentNames = [
+            'CH₄', 'N₂', 'CO₂', 'C₂H₆', 'C₃H₈', 'H₂O', 'H₂S', 'H₂', 'CO', 'O₂',
+            'n-C₄H₁₀', 'i-C₄H₁₀', 'n-C₅H₁₂', 'i-C₅H₁₂', 'n-C₆H₁₄', 'n-C₇H₁₆', 
+            'n-C₈H₁₈', 'n-C₉H₂₀', 'C₁₀H₂₂', 'He', 'Ar'
+        ];
+        
+        // Nombres descriptivos
+        const displayNames = {
+            'CH₄': 'CH4 (Metano)',
+            'N₂': 'N2 (Nitrógeno)',
+            'CO₂': 'CO2 (Dióxido de carbono)',
+            'C₂H₆': 'C2H6 (Etano)',
+            'C₃H₈': 'C3H8 (Propano)',
+            'H₂O': 'H2O (Vapor de agua)',
+            'H₂S': 'H2S (Sulfuro de hidrógeno)',
+            'H₂': 'H2 (Hidrógeno)',
+            'CO': 'CO (Monóxido de carbono)',
+            'O₂': 'O2 (Oxígeno)',
+            'n-C₄H₁₀': 'n-C4H10 (n-Butano)',
+            'i-C₄H₁₀': 'i-C4H10 (Isobutano)',
+            'n-C₅H₁₂': 'n-C5H12 (n-Pentano)',
+            'i-C₅H₁₂': 'i-C5H12 (Isopentano)',
+            'n-C₆H₁₄': 'n-C6H14 (Hexano)',
+            'n-C₇H₁₆': 'n-C7H16 (Heptano)',
+            'n-C₈H₁₈': 'n-C8H18 (Octano)',
+            'n-C₉H₂₀': 'n-C9H20 (Nonano)',
+            'C₁₀H₂₂': 'C10H22 (Decano)',
+            'He': 'He (Helio)',
+            'Ar': 'Ar (Argón)'
+        };
+        
+        // Inicializar la interfaz
+        function initializeInterface() {
+            const grid = document.getElementById('composition-grid');
+            
+            componentNames.forEach(component => {
+                const container = document.createElement('div');
+                container.className = 'composition-item';
+                
+                // Label
+                const label = document.createElement('span');
+                label.className = 'composition-label';
+                label.textContent = displayNames[component];
+                container.appendChild(label);
+                
+                // Input
+                const input = document.createElement('input');
+                input.type = 'number';
+                input.className = 'composition-input';
+                input.id = component;
+                input.step = '0.0001';
+                input.min = '0';
+                input.max = '1';
+                input.value = '0';
+                input.addEventListener('input', updateMoleSum);
+                container.appendChild(input);
+                
+                grid.appendChild(container);
+            });
+            
+            // Establecer valores por defecto para un gas típico
+            document.getElementById('CH₄').value = '0.85';
+            document.getElementById('C₂H₆').value = '0.09';
+            document.getElementById('C₃H₈').value = '0.04';
+            document.getElementById('N₂').value = '0.02';
+            updateMoleSum();
+        }
+        
+        // Actualizar suma de fracciones molares
+        function updateMoleSum() {
+            let total = 0;
+            
+            for (const component of componentNames) {
+                const input = document.getElementById(component);
+                const value = parseFloat(input.value) || 0;
+                total += value;
+            }
+            
+            document.getElementById('mole-sum').textContent = total.toFixed(4);
+            
+            // Cambiar color según la suma
+            const sumElement = document.getElementById('mole-sum');
+            if (Math.abs(total - 1.0) < 0.001) {
+                sumElement.style.color = '#2e7d32';
+            } else {
+                sumElement.style.color = '#d32f2f';
+            }
+        }
+        
+        // Validar composición
+        function validateComposition() {
+            let total = 0;
+            const composition = {};
+            
+            for (const component of componentNames) {
+                const input = document.getElementById(component);
+                const value = parseFloat(input.value) || 0;
+                
+                if (value < 0 || value > 1) {
+                    alert(`El valor para ${displayNames[component]} debe estar entre 0 y 1`);
+                    return null;
+                }
+                
+                composition[component] = value;
+                total += value;
+            }
+            
+            if (Math.abs(total - 1.0) > 0.001) {
+                alert(`La composición suma ${total.toFixed(4)} (debe ser 1.0000 ± 0.001)`);
+                return null;
+            }
+            
+            return composition;
+        }
+        
+        // Calcular propiedades pseudocríticas
+        function calculatePseudocriticalProps(composition) {
+            let ppc = 0;
+            let tpc = 0;
+            let mw = 0;
+            
+            for (const [component, fraction] of Object.entries(composition)) {
+                if (fraction > 0) {
+                    ppc += fraction * criticalProps[component].Pc;
+                    tpc += fraction * criticalProps[component].Tc;
+                    mw += fraction * criticalProps[component].MW;
+                }
+            }
+            
+            return {ppc, tpc, mw};
+        }
+        
+        // Calcular gravedad específica
+        function calculateSpecificGravity(mw) {
+            // Gravedad específica = MW_gas / MW_aire
+            // MW_aire = 28.97 lb/lb-mol
+            return mw / 28.97;
+        }
+        
+        // Factor Z de Standing-Katz
+        function standingKatzZFactor(pr, tr) {
+            let z;
+            
+            if (pr <= 0.5) {
+                z = 1.0 - (pr / tr) * (0.344 + 1.024 * Math.exp(-3.2 * pr));
+            } else if (pr <= 2.0) {
+                z = 1.0 + pr * (0.3647 - 0.8 * Math.exp(-0.6 * pr)) / tr;
+            } else {
+                const A = 1.39 * Math.pow(tr - 0.92, 0.5) - 0.36 * tr - 0.101;
+                const B = (0.62 - 0.23 * tr) * pr + (0.066 / (tr - 0.86) - 0.037) * Math.pow(pr, 2) + 
+                         0.32 * Math.pow(pr, 6) / Math.pow(10, 9 * (tr - 1));
+                const C = 0.132 - 0.32 * Math.log10(tr);
+                const D = Math.pow(10, 0.3106 - 0.49 * tr + 0.1824 * Math.pow(tr, 2));
+                
+                z = A + (1 - A) / Math.exp(B) + C * Math.pow(pr, D);
+            }
+            
+            return Math.max(0.2, Math.min(2.0, z));
+        }
+        
+        // Calcular volumen estándar (SCF)
+        function calculateStandardVolume(V, P, T, Z) {
+            // Condiciones estándar: 14.7 psia y 60°F (519.67°R)
+            const P_std = 14.7; // psia
+            const T_std = 519.67; // °R
+            
+            return V * (P / P_std) * (T_std / T) * (1 / Z);
+        }
+        
+        // Función principal de cálculo
+        function calculate() {
+            try {
+                // Validar composición
+                const composition = validateComposition();
+                if (!composition) return;
+                
+                // Obtener datos de entrada
+                const V2 = parseFloat(document.getElementById('v2').value);
+                const P2_psig = parseFloat(document.getElementById('p2').value);
+                const T2_f = parseFloat(document.getElementById('t2').value);
+                const P1_psig = parseFloat(document.getElementById('p1').value);
+                const T1_f = parseFloat(document.getElementById('t1').value);
+                
+                if (isNaN(V2) || isNaN(P2_psig) || isNaN(T2_f) || isNaN(P1_psig) || isNaN(T1_f)) {
+                    alert('Por favor, complete todos los campos de proceso');
+                    return;
+                }
+                
+                // Conversiones de unidades
+                const P1_psia = P1_psig + 14.7;
+                const P2_psia = P2_psig + 14.7;
+                const T1_r = T1_f + 459.67;
+                const T2_r = T2_f + 459.67;
+                
+                // Calcular propiedades pseudocríticas
+                const {ppc, tpc, mw} = calculatePseudocriticalProps(composition);
+                const sg = calculateSpecificGravity(mw);
+                
+                // Calcular propiedades reducidas
+                const Pr1 = P1_psia / ppc;
+                const Tr1 = T1_r / tpc;
+                const Pr2 = P2_psia / ppc;
+                const Tr2 = T2_r / tpc;
+                
+                // Calcular factores Z
+                const Z1 = standingKatzZFactor(Pr1, Tr1);
+                const Z2 = standingKatzZFactor(Pr2, Tr2);
+                
+                // Calcular V1
+                const V1 = V2 * (P2_psia / P1_psia) * (Z1 / Z2) * (T1_r / T2_r);
+                
+                // Calcular gravedades específicas en diferentes condiciones
+                const sg1 = sg / Z1;  // Gravedad específica en succión
+                const sg2 = sg / Z2;  // Gravedad específica en depósito
+                
+                // Calcular volumen estándar (SCF)
+                const V_std = calculateStandardVolume(V2, P2_psia, T2_r, Z2);
+                
+                // Mostrar resultados
+                showResults(V1, V_std, Z1, Z2, ppc, tpc, Pr1, Tr1, Pr2, Tr2, 
+                           P1_psia, P2_psia, T1_r, T2_r, V2, mw, sg, sg1, sg2, 
+                           P1_psig, T1_f, P2_psig, T2_f);
+                
+            } catch (error) {
+                alert('Error en el cálculo: ' + error.message);
+                console.error(error);
+            }
+        }
+        
+        // Mostrar resultados
+        function showResults(V1, V_std, Z1, Z2, ppc, tpc, Pr1, Tr1, Pr2, Tr2, 
+                            P1, P2, T1, T2, V2, mw, sg, sg1, sg2, 
+                            P1_psig, T1_f, P2_psig, T2_f) {
+            const modal = document.getElementById('resultsModal');
+            const content = document.getElementById('results-content');
+            
+            content.innerHTML = `
+                <div class="main-result">
+                    Volumen en condiciones de succión:<br>
+                    <span class="result-highlight">${V1.toLocaleString('es-ES', {maximumFractionDigits: 2})} pies³</span>
+                    <br>
+                    @ ${P1_psig} psig y ${T1_f} °F
+                    
+                    <div style="margin-top: 20px;">
+                        Volumen estándar (SCF):<br>
+                        <span class="result-highlight">${V_std.toLocaleString('es-ES', {maximumFractionDigits: 2})} pies³</span>
+                    </div>
+                </div>
+                
+                <div class="result-grid">
+                    <div class="result-item">
+                        <div class="result-label">Peso molecular del gas</div>
+                        <div class="result-value">${mw.toFixed(4)} <span class="result-unit">lb/lb-mol</span></div>
+                    </div>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Gravedad específica (condiciones estándar)</div>
+                        <div class="result-value">${sg.toFixed(4)}</div>
+                    </div>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Gravedad específica en succión</div>
+                        <div class="result-value">${sg1.toFixed(4)}</div>
+                    </div>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Gravedad específica en depósito</div>
+                        <div class="result-value">${sg2.toFixed(4)}</div>
+                    </div>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Factor Z en succión (Z₁)</div>
+                        <div class="result-value">${Z1.toFixed(4)}</div>
+                    </div>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Factor Z en depósito (Z₂)</div>
+                        <div class="result-value">${Z2.toFixed(4)}</div>
+                    </div>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Presión pseudocrítica (Ppc)</div>
+                        <div class="result-value">${ppc.toFixed(2)} <span class="result-unit">psia</span></div>
+                    </div>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Temperatura pseudocrítica (Tpc)</div>
+                        <div class="result-value">${tpc.toFixed(2)} <span class="result-unit">°R</span></div>
+                    </div>
+                </div>
+                
+                <div class="result-section">
+                    <div class="result-title">Propiedades Reducidas</div>
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <div class="result-label">Succión: Presión reducida (Pr₁)</div>
+                            <div class="result-value">${Pr1.toFixed(4)}</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Succión: Temperatura reducida (Tr₁)</div>
+                            <div class="result-value">${Tr1.toFixed(4)}</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Depósito: Presión reducida (Pr₂)</div>
+                            <div class="result-value">${Pr2.toFixed(4)}</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Depósito: Temperatura reducida (Tr₂)</div>
+                            <div class="result-value">${Tr2.toFixed(4)}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="result-section">
+                    <div class="result-title">Ecuación Utilizada</div>
+                    <div class="equation-box">
+                        V₁ = V₂ × (P₂/P₁) × (Z₁/Z₂) × (T₁/T₂)<br>
+                        V₁ = ${V2.toLocaleString('es-ES')} × (${P2.toFixed(1)}/${P1.toFixed(1)}) × 
+                        (${Z1.toFixed(4)}/${Z2.toFixed(4)}) × (${T1.toFixed(1)}/${T2.toFixed(1)})
+                    </div>
+                </div>
+                
+                <div class="result-section">
+                    <div class="result-title">Condiciones Convertidas</div>
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <div class="result-label">Succión: Presión absoluta</div>
+                            <div class="result-value">${P1.toFixed(1)} <span class="result-unit">psia</span></div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Succión: Temperatura absoluta</div>
+                            <div class="result-value">${T1.toFixed(1)} <span class="result-unit">°R</span></div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Depósito: Presión absoluta</div>
+                            <div class="result-value">${P2.toFixed(1)} <span class="result-unit">psia</span></div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Depósito: Temperatura absoluta</div>
+                            <div class="result-value">${T2.toFixed(1)} <span class="result-unit">°R</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 15px; font-size: 14px; color: #666; font-style: italic;">
+                    Cálculos basados en el método Standing-Katz para factor de compresibilidad<br>
+                    © Freddy Roa Monsalvo 2025
+                </div>
+            `;
+            
+            modal.style.display = 'block';
+        }
+        
+        // Cerrar modal
+        function closeModal() {
+            document.getElementById('resultsModal').style.display = 'none';
+        }
+        
+        // Limpiar campos - CORRECCIÓN APLICADA AQUÍ
+        function clearFields() {
+            // Limpiar composición
+            componentNames.forEach(component => {
+                document.getElementById(component).value = '';
+            });
+            
+            // Limpiar condiciones de proceso
+            document.getElementById('v2').value = '';
+            document.getElementById('p2').value = '';
+            document.getElementById('t2').value = '';
+            document.getElementById('p1').value = '';
+            document.getElementById('t1').value = '';
+            
+            // Actualizar la suma de fracciones molares
+            updateMoleSum();
+        }
+        
+        // Cerrar modal al hacer clic fuera de él
+        window.onclick = function(event) {
+            const modal = document.getElementById('resultsModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+        
+        // Inicializar cuando se carga la página
+        document.addEventListener('DOMContentLoaded', initializeInterface);
+    </script>
+</body>
+</html>

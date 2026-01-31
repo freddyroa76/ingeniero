@@ -1,0 +1,1916 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora de Velocidad Erosional - API RP14E</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+        color: #333;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1600px;
+        margin: 20px auto;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .title-box {
+        background: linear-gradient(to right, #0d47a1, #1976d2);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .title {
+        font-size: 32px;
+        font-weight: bold;
+        margin: 0;
+        letter-spacing: 1px;
+      }
+
+      .subtitle {
+        font-size: 18px;
+        margin-top: 10px;
+        opacity: 0.9;
+      }
+
+      .main-content {
+        display: flex;
+        gap: 30px;
+        flex-wrap: wrap;
+      }
+
+      .column {
+        flex: 1;
+        min-width: 350px;
+      }
+
+      .section {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 25px;
+        background: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      .section:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .section-title {
+        font-weight: bold;
+        color: #0d47a1;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #1976d2;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .input-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .input-label {
+        width: 220px;
+        font-size: 15px;
+        color: #444;
+        font-weight: 500;
+      }
+
+      select,
+      input[type="number"],
+      input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 15px;
+        transition: border-color 0.3s;
+      }
+
+      select:focus,
+      input[type="number"]:focus,
+      input[type="text"]:focus {
+        border-color: #1976d2;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+      }
+
+      input[readonly] {
+        background-color: #f5f9ff;
+        color: #0d47a1;
+        font-weight: 600;
+      }
+
+      .result-field {
+        background-color: #e8f5e9;
+        border: 2px solid #28a745;
+        color: #2e7d32;
+        font-weight: bold;
+      }
+
+      .warning {
+        background-color: #fff3cd;
+        border: 1px solid #ffeaa7;
+        color: #856404;
+        padding: 10px;
+        border-radius: 4px;
+        margin-top: 10px;
+      }
+
+      .error {
+        background-color: #f8d7da;
+        border: 1px solid #f1aeb5;
+        color: #721c24;
+        padding: 10px;
+        border-radius: 4px;
+        margin-top: 10px;
+      }
+
+      .units {
+        font-size: 13px;
+        color: #666;
+        margin-left: 5px;
+        font-weight: normal;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+        justify-content: center;
+      }
+
+      .calc-button {
+        padding: 14px 30px;
+        font-size: 17px;
+        font-weight: bold;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        flex: 1;
+        max-width: 220px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .calc-button i {
+        margin-right: 8px;
+      }
+
+      .calc-button.calculate {
+        background: linear-gradient(to right, #28a745, #218838);
+      }
+
+      .calc-button.calculate:hover {
+        background: linear-gradient(to right, #218838, #1e7e34);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+      }
+
+      .calc-button.clear {
+        background: linear-gradient(to right, #dc3545, #c82333);
+      }
+
+      .calc-button.clear:hover {
+        background: linear-gradient(to right, #c82333, #bd2130);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+      }
+
+      .footer {
+        text-align: center;
+        margin-top: 40px;
+        padding: 20px;
+        background: linear-gradient(to right, #0d47a1, #1976d2);
+        color: white;
+        font-style: italic;
+        font-size: 14px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .equation-box {
+        background: #e3f2fd;
+        padding: 20px;
+        border-radius: 8px;
+        font-family: "Courier New", monospace;
+        text-align: center;
+        font-size: 17px;
+        margin-top: 15px;
+        border: 1px dashed #90caf9;
+      }
+
+      .info-text {
+        font-size: 12px;
+        color: #6c757d;
+        font-style: italic;
+        margin-top: 5px;
+      }
+
+      .result-section {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background: #f9f9f9;
+        display: none;
+      }
+
+      .result-title {
+        font-weight: bold;
+        color: #0d47a1;
+        margin-bottom: 10px;
+        font-size: 16px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #1976d2;
+      }
+
+      .result-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 12px;
+        margin-top: 10px;
+      }
+
+      .result-item {
+        padding: 10px;
+        background: white;
+        border-radius: 6px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        border-left: 3px solid #1976d2;
+      }
+
+      .result-label {
+        font-weight: 600;
+        color: #444;
+        margin-bottom: 5px;
+        font-size: 13px;
+      }
+
+      .result-value {
+        font-weight: bold;
+        color: #0d47a1;
+        font-size: 16px;
+      }
+
+      .result-unit {
+        font-size: 13px;
+        color: #666;
+        margin-left: 3px;
+      }
+
+      .diagram-container {
+        text-align: center;
+        margin: 20px 0;
+        padding: 15px;
+        background: #f5f9ff;
+        border-radius: 8px;
+      }
+
+      .diagram-title {
+        font-weight: bold;
+        color: #0d47a1;
+        margin-bottom: 10px;
+        font-size: 16px;
+      }
+
+      .diagram {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .accept-design {
+        background-color: #d4edda !important;
+        border: 1px solid #c3e6cb !important;
+        color: #155724 !important;
+      }
+
+      .reject-design {
+        background-color: #f8d7da !important;
+        border: 1px solid #f1aeb5 !important;
+        color: #721c24 !important;
+      }
+
+      .thickness-display {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        padding: 15px;
+        background: linear-gradient(to right, #e3f2fd, #bbdefb);
+        border-radius: 10px;
+        margin: 15px 0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-left: 5px solid #1976d2;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 1000px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+      }
+
+      .results-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+      }
+
+      .results-table th,
+      .results-table td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+      }
+
+      .results-table th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+      }
+
+      .results-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+
+      .results-table tr:hover {
+        background-color: #f1f1f1;
+      }
+
+      .gas-composition {
+        max-height: 400px;
+        overflow-y: auto;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        background: #f9f9f9;
+      }
+
+      .gas-row {
+        display: flex;
+        margin-bottom: 10px;
+        align-items: center;
+      }
+
+      .gas-label {
+        width: 150px;
+        font-weight: 500;
+      }
+
+      .gas-input {
+        width: 100px;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+
+      .composition-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      /* Nuevos estilos para la validación de suma */
+      .sum-validation {
+        padding: 10px;
+        margin-top: 15px;
+        border-radius: 5px;
+        text-align: center;
+        font-weight: bold;
+      }
+
+      .sum-valid {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .sum-invalid {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      .notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 20px;
+        border-radius: 5px;
+        color: white;
+        font-weight: bold;
+        z-index: 1001;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transform: translateY(-20px);
+        transition:
+          opacity 0.3s,
+          transform 0.3s;
+      }
+
+      .notification.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .notification.success {
+        background-color: #28a745;
+      }
+
+      .notification.error {
+        background-color: #dc3545;
+      }
+
+      .notification.info {
+        background-color: #17a2b8;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          flex-direction: column;
+        }
+
+        .column {
+          width: 100%;
+        }
+
+        .button-group {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .calc-button {
+          max-width: 100%;
+          width: 100%;
+        }
+
+        .input-label {
+          width: 150px;
+        }
+
+        .gas-label {
+          width: 120px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="title-box">
+        <h1 class="title">Calculadora de Velocidad Erosional en Gas Natural</h1>
+        <div class="subtitle">API RP14E para diseño de sistemas de gas</div>
+      </div>
+
+      <div class="main-content">
+        <!-- Columna Izquierda - Composición del Gas -->
+        <div class="column">
+          <div class="section">
+            <div class="section-title">
+              <i class="fas fa-flask"></i> Composición del Gas (% molar)
+            </div>
+
+            <div class="composition-header">
+              <div>Componente</div>
+              <div>Fracción</div>
+            </div>
+
+            <div class="gas-composition" id="gasComposition">
+              <!-- Las filas de composición se generarán con JavaScript -->
+            </div>
+
+            <div id="sumValidation" class="sum-validation sum-invalid">
+              Suma de fracciones molares: <span id="sumValue">0.0000</span>
+            </div>
+
+            <div class="info-text">
+              Use Ctrl+V para pegar datos desde Excel. La suma debe ser igual a
+              1.
+            </div>
+          </div>
+        </div>
+
+        <!-- Columna Central - Parámetros Operacionales -->
+        <div class="column">
+          <div class="section">
+            <div class="section-title">
+              <i class="fas fa-sliders-h"></i> Parámetros Operacionales
+            </div>
+
+            <div class="input-group">
+              <label class="input-label"
+                >Presión de operación <span class="units">(psig)</span></label
+              >
+              <input
+                type="number"
+                id="presionOperacion"
+                step="0.1"
+                placeholder="Ingresar presión"
+              />
+            </div>
+
+            <div class="input-group">
+              <label class="input-label"
+                >Presión atmosférica <span class="units">(psia)</span></label
+              >
+              <input
+                type="number"
+                id="presionAtmosferica"
+                value="14.65"
+                step="0.01"
+              />
+            </div>
+
+            <div class="input-group">
+              <label class="input-label"
+                >Temperatura de operación <span class="units">(°F)</span></label
+              >
+              <input
+                type="number"
+                id="temperaturaOperacion"
+                step="0.1"
+                placeholder="Ingresar temperatura"
+              />
+            </div>
+
+            <div class="input-group">
+              <label class="input-label"
+                >Flujo de gas <span class="units">(MMSCFD)</span></label
+              >
+              <input
+                type="number"
+                id="flujoGas"
+                step="0.01"
+                placeholder="Ingresar flujo"
+              />
+            </div>
+
+            <div class="input-group">
+              <label class="input-label">Constante C personalizada</label>
+              <input
+                type="number"
+                id="constanteC"
+                step="1"
+                placeholder="Opcional"
+              />
+            </div>
+            <div class="info-text">
+              Valores estándar: 100, 125, 150, 200, 250
+            </div>
+          </div>
+        </div>
+
+        <!-- Columna Derecha - Parámetros de Tubería -->
+        <div class="column">
+          <div class="section">
+            <div class="section-title">
+              <i class="fas fa-pipe"></i> Parámetros de Tubería
+            </div>
+
+            <div class="input-group">
+              <label class="input-label">Diámetro nominal</label>
+              <select id="pipeSize" onchange="updatePipeDimensions()">
+                <option value="">Seleccionar tamaño</option>
+                <option value="0.5">NPS 1/2 (DN 15)</option>
+                <option value="0.75">NPS 3/4 (DN 20)</option>
+                <option value="1">NPS 1 (DN 25)</option>
+                <option value="1.25">NPS 1 1/4 (DN 32)</option>
+                <option value="1.5">NPS 1 1/2 (DN 40)</option>
+                <option value="2">NPS 2 (DN 50)</option>
+                <option value="2.5">NPS 2 1/2 (DN 65)</option>
+                <option value="3">NPS 3 (DN 80)</option>
+                <option value="3.5">NPS 3 1/2 (DN 90)</option>
+                <option value="4">NPS 4 (DN 100)</option>
+                <option value="5">NPS 5 (DN 125)</option>
+                <option value="6">NPS 6 (DN 150)</option>
+                <option value="8">NPS 8 (DN 200)</option>
+                <option value="10">NPS 10 (DN 250)</option>
+                <option value="12">NPS 12 (DN 300)</option>
+                <option value="14">NPS 14 (DN 350)</option>
+                <option value="16">NPS 16 (DN 400)</option>
+                <option value="18">NPS 18 (DN 450)</option>
+                <option value="20">NPS 20 (DN 500)</option>
+                <option value="22">NPS 22 (DN 550)</option>
+                <option value="24">NPS 24 (DN 600)</option>
+                <option value="30">NPS 30 (DN 750)</option>
+                <option value="32">NPS 32 (DN 800)</option>
+                <option value="34">NPS 34 (DN 850)</option>
+                <option value="36">NPS 36 (DN 900)</option>
+                <option value="42">NPS 42 (DN 1050)</option>
+              </select>
+            </div>
+
+            <div class="input-group">
+              <label class="input-label">Schedule</label>
+              <select id="schedule" onchange="updateWallThickness()" disabled>
+                <option value="">Seleccionar Schedule</option>
+              </select>
+            </div>
+
+            <div class="input-group">
+              <label class="input-label"
+                >Diámetro exterior, OD <span class="units">(pulg)</span></label
+              >
+              <input type="number" id="outsideDiameter" readonly step="0.001" />
+            </div>
+
+            <div class="input-group">
+              <label class="input-label"
+                >Espesor de pared, t <span class="units">(pulg)</span></label
+              >
+              <input type="number" id="wallThickness" readonly step="0.001" />
+            </div>
+
+            <div class="input-group">
+              <label class="input-label"
+                >Diámetro interior, ID <span class="units">(pulg)</span></label
+              >
+              <input type="number" id="insideDiameter" readonly step="0.001" />
+            </div>
+          </div>
+
+          <div class="button-group">
+            <button class="calc-button calculate" onclick="calcular()">
+              <i class="fas fa-calculator"></i> Calcular
+            </button>
+            <button class="calc-button clear" onclick="limpiarCampos()">
+              <i class="fas fa-broom"></i> Limpiar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección de Información Técnica API RP14E -->
+      <div class="section">
+        <div class="section-title">
+          <i class="fas fa-info-circle"></i> Información Técnica - API RP14E
+        </div>
+        <p>
+          <strong>API Recommended Practice 14E (RP14E):</strong> Proporciona
+          directrices para el diseño e instalación de sistemas de producción de
+          petróleo y gas en plataformas marinas. Incluye recomendaciones para
+          prevenir la erosión en sistemas de tuberías.
+        </p>
+
+        <p><strong>Fórmula de velocidad erosional:</strong></p>
+        <div class="equation-box">Vₑ = C / √ρ</div>
+
+        <p>
+          Donde:<br />
+          Vₑ = Velocidad erosional (ft/s)<br />
+          C = Constante empírica (API RP14E)<br />
+          ρ = Densidad del gas (lb/ft³)
+        </p>
+
+        <p>
+          <strong>Valores típicos de la constante C:</strong><br />
+          - Hasta 250 para servicio intermitente en condiciones favorables con
+          fluidos no corrosivos y libres de sólidos<br />
+          - 150-200 para servicio continuo con fluidos no corrosivos y libres de
+          sólidos<br />
+          - 125 para servicio intermitentecon fluidos corrosivos o que contienen
+          sólidos<br />
+          - 100 para servicio continuo con fluidos corrosivos o que contienen
+          sólidos
+        </p>
+
+        <p>
+          <strong>Factores que influyen en la erosión:</strong><br />
+          - Presencia de sólidos (arena, partículas)<br />
+          - Contenido de CO₂ y H₂S (corrosión)<br />
+        </p>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        (C) 2025. Creado Por Freddy Roa Monsalvo | Ingeniero Mecánico
+      </div>
+    </div>
+
+    <!-- Modal de Resultados -->
+    <div id="resultModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="cerrarModal()">&times;</span>
+        <h2 style="text-align: center; color: #0d47a1; margin-bottom: 20px">
+          Resultados del Cálculo
+        </h2>
+
+        <div class="result-grid">
+          <div class="result-item">
+            <div class="result-label">Peso Molecular</div>
+            <div class="result-value" id="resultPM">0.0000</div>
+            <span class="result-unit">g/mol</span>
+          </div>
+
+          <div class="result-item">
+            <div class="result-label">Gravedad Específica</div>
+            <div class="result-value" id="resultGE">0.0000</div>
+          </div>
+
+          <div class="result-item">
+            <div class="result-label">Factor de Compresibilidad (Z)</div>
+            <div class="result-value" id="resultZ">0.0000</div>
+          </div>
+
+          <div class="result-item">
+            <div class="result-label">Densidad</div>
+            <div class="result-value" id="resultDensidad">0.0000</div>
+            <span class="result-unit">lb/ft³</span>
+          </div>
+
+          <div class="result-item">
+            <div class="result-label">Flujo Actual</div>
+            <div class="result-value" id="resultACFM">0.00</div>
+            <span class="result-unit">ACFM</span>
+          </div>
+
+          <div class="result-item">
+            <div class="result-label">Velocidad de Flujo</div>
+            <div class="result-value" id="resultVelocidad">0.00</div>
+            <span class="result-unit">ft/s</span>
+          </div>
+        </div>
+
+        <h3 style="margin-top: 30px; color: #0d47a1">
+          Comparación de Velocidades Erosionales
+        </h3>
+
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Constante C</th>
+              <th>Velocidad del Flujo (ft/s)</th>
+              <th>Velocidad Erosional (ft/s)</th>
+              <th>Porcentaje (%)</th>
+            </tr>
+          </thead>
+          <tbody id="tablaResultados">
+            <!-- Los resultados se llenarán con JavaScript -->
+          </tbody>
+        </table>
+
+        <div class="info-text" style="margin-top: 20px">
+          * Valores según API RP14E. Para servicio continuo se recomienda C=100,
+          para servicio intermitente C=125.
+        </div>
+      </div>
+    </div>
+
+    <!-- Notificación de pegado -->
+    <div id="notification" class="notification"></div>
+
+    <script>
+      // Base de datos de dimensiones de tubería
+      const pipeDimensions = {
+        0.5: {
+          OD: 0.84,
+          schedules: {
+            STD: 0.109,
+            40: 0.109,
+            XS: 0.147,
+            80: 0.147,
+            160: 0.187,
+            XXS: 0.294,
+          },
+        },
+        0.75: {
+          OD: 1.05,
+          schedules: {
+            STD: 0.113,
+            40: 0.113,
+            XS: 0.154,
+            80: 0.154,
+            160: 0.219,
+            XXS: 0.308,
+          },
+        },
+        1: {
+          OD: 1.315,
+          schedules: {
+            STD: 0.133,
+            40: 0.133,
+            XS: 0.179,
+            80: 0.179,
+            160: 0.25,
+            XXS: 0.358,
+          },
+        },
+        1.25: {
+          OD: 1.66,
+          schedules: {
+            STD: 0.14,
+            40: 0.14,
+            XS: 0.191,
+            80: 0.191,
+            160: 0.25,
+            XXS: 0.382,
+          },
+        },
+        1.5: {
+          OD: 1.9,
+          schedules: {
+            STD: 0.145,
+            40: 0.145,
+            XS: 0.2,
+            80: 0.2,
+            160: 0.281,
+            XXS: 0.4,
+          },
+        },
+        2: {
+          OD: 2.375,
+          schedules: {
+            STD: 0.154,
+            40: 0.154,
+            XS: 0.218,
+            80: 0.218,
+            160: 0.344,
+            XXS: 0.436,
+          },
+        },
+        2.5: {
+          OD: 2.875,
+          schedules: {
+            STD: 0.203,
+            40: 0.203,
+            XS: 0.276,
+            80: 0.276,
+            160: 0.375,
+            XXS: 0.552,
+          },
+        },
+        3: {
+          OD: 3.5,
+          schedules: {
+            STD: 0.216,
+            40: 0.216,
+            XS: 0.3,
+            80: 0.3,
+            160: 0.438,
+            XXS: 0.6,
+          },
+        },
+        3.5: {
+          OD: 4.0,
+          schedules: {
+            STD: 0.226,
+            40: 0.226,
+            XS: 0.318,
+            80: 0.318,
+          },
+        },
+        4: {
+          OD: 4.5,
+          schedules: {
+            STD: 0.237,
+            40: 0.237,
+            XS: 0.337,
+            80: 0.337,
+            120: 0.438,
+            160: 0.531,
+            XXS: 0.674,
+          },
+        },
+        5: {
+          OD: 5.563,
+          schedules: {
+            STD: 0.258,
+            40: 0.258,
+            XS: 0.375,
+            80: 0.375,
+            120: 0.5,
+            160: 0.625,
+            XXS: 0.75,
+          },
+        },
+        6: {
+          OD: 6.625,
+          schedules: {
+            STD: 0.28,
+            40: 0.28,
+            XS: 0.432,
+            80: 0.432,
+            120: 0.562,
+            160: 0.719,
+            XXS: 0.864,
+          },
+        },
+        8: {
+          OD: 8.625,
+          schedules: {
+            10: 0.25,
+            20: 0.277,
+            STD: 0.322,
+            40: 0.322,
+            60: 0.406,
+            XS: 0.5,
+            80: 0.5,
+            100: 0.594,
+            120: 0.719,
+            140: 0.812,
+            160: 0.906,
+            XXS: 0.875,
+          },
+        },
+        10: {
+          OD: 10.75,
+          schedules: {
+            10: 0.25,
+            20: 0.25,
+            30: 0.307,
+            STD: 0.365,
+            40: 0.365,
+            60: 0.5,
+            XS: 0.5,
+            80: 0.594,
+            100: 0.719,
+            120: 0.844,
+            140: 1.0,
+            160: 1.125,
+            XXS: 1.0,
+          },
+        },
+        12: {
+          OD: 12.75,
+          schedules: {
+            10: 0.25,
+            20: 0.25,
+            30: 0.33,
+            STD: 0.375,
+            40: 0.406,
+            60: 0.562,
+            XS: 0.5,
+            80: 0.688,
+            100: 0.844,
+            120: 1.0,
+            140: 1.125,
+            160: 1.312,
+            XXS: 1.0,
+          },
+        },
+        14: {
+          OD: 14.0,
+          schedules: {
+            10: 0.25,
+            20: 0.312,
+            30: 0.375,
+            STD: 0.375,
+            40: 0.438,
+            60: 0.594,
+            XS: 0.5,
+            80: 0.75,
+            100: 0.938,
+            120: 1.094,
+            140: 1.25,
+            160: 1.406,
+          },
+        },
+        16: {
+          OD: 16.0,
+          schedules: {
+            10: 0.25,
+            20: 0.312,
+            30: 0.375,
+            STD: 0.375,
+            40: 0.5,
+            60: 0.656,
+            XS: 0.5,
+            80: 0.844,
+            100: 1.031,
+            120: 1.219,
+            140: 1.438,
+            160: 1.594,
+          },
+        },
+        18: {
+          OD: 18.0,
+          schedules: {
+            10: 0.25,
+            20: 0.312,
+            30: 0.438,
+            STD: 0.375,
+            40: 0.562,
+            60: 0.75,
+            XS: 0.5,
+            80: 0.938,
+            100: 1.156,
+            120: 1.375,
+            140: 1.562,
+            160: 1.781,
+          },
+        },
+        20: {
+          OD: 20.0,
+          schedules: {
+            10: 0.25,
+            20: 0.375,
+            30: 0.5,
+            STD: 0.375,
+            40: 0.594,
+            60: 0.812,
+            XS: 0.5,
+            80: 1.031,
+            100: 1.281,
+            120: 1.5,
+            140: 1.75,
+            160: 1.969,
+          },
+        },
+        22: {
+          OD: 22.0,
+          schedules: {
+            10: 0.25,
+            20: 0.375,
+            30: 0.5,
+            STD: 0.375,
+            40: null,
+            60: 0.875,
+            XS: 0.5,
+            80: 1.125,
+            100: 1.375,
+            120: 1.625,
+            140: 1.875,
+            160: 2.125,
+          },
+        },
+        24: {
+          OD: 24.0,
+          schedules: {
+            10: 0.25,
+            20: 0.375,
+            30: 0.562,
+            STD: 0.375,
+            40: 0.688,
+            60: 0.969,
+            XS: 0.5,
+            80: 1.219,
+            100: 1.531,
+            120: 1.812,
+            140: 2.062,
+            160: 2.344,
+          },
+        },
+        30: {
+          OD: 30.0,
+          schedules: {
+            10: 0.312,
+            20: 0.5,
+            30: 0.625,
+            STD: 0.375,
+            40: null,
+            60: null,
+            XS: 0.5,
+            80: null,
+          },
+        },
+        32: {
+          OD: 32.0,
+          schedules: {
+            10: 0.312,
+            20: 0.5,
+            30: 0.625,
+            STD: 0.375,
+            40: 0.688,
+            60: null,
+            XS: null,
+            80: null,
+          },
+        },
+        34: {
+          OD: 34.0,
+          schedules: {
+            10: 0.312,
+            20: 0.5,
+            30: 0.625,
+            STD: 0.375,
+            40: 0.688,
+            60: null,
+            XS: null,
+            80: null,
+          },
+        },
+        36: {
+          OD: 36.0,
+          schedules: {
+            10: 0.312,
+            20: 0.5,
+            30: 0.625,
+            STD: 0.375,
+            40: 0.75,
+            60: null,
+            XS: null,
+            80: null,
+          },
+        },
+        42: {
+          OD: 42.0,
+          schedules: {
+            10: null,
+            20: 0.5,
+            30: 0.625,
+            STD: 0.375,
+            40: 0.75,
+            60: null,
+            XS: null,
+            80: null,
+          },
+        },
+      };
+
+      // Propiedades de los gases (GPSA Handbook)
+      const gasProperties = {
+        CH4: { nombre: "Metano", Pc: 666.4, Tc: 343.0, MW: 16.043, Vc: 1.59 },
+        N2: { nombre: "Nitrógeno", Pc: 493.0, Tc: 227.6, MW: 28.013, Vc: 1.44 },
+        CO2: {
+          nombre: "Dióxido de carbono",
+          Pc: 1071.0,
+          Tc: 547.9,
+          MW: 44.01,
+          Vc: 1.51,
+        },
+        C2H6: { nombre: "Etano", Pc: 706.5, Tc: 549.6, MW: 30.07, Vc: 2.25 },
+        C3H8: { nombre: "Propano", Pc: 616.0, Tc: 665.7, MW: 44.097, Vc: 2.87 },
+        H2O: {
+          nombre: "Vapor de agua",
+          Pc: 3208.0,
+          Tc: 1164.77,
+          MW: 18.015,
+          Vc: 0.9,
+        },
+        H2S: {
+          nombre: "Sulfuro de hidrógeno",
+          Pc: 1296.2,
+          Tc: 672.3,
+          MW: 34.082,
+          Vc: 1.5,
+        },
+        H2: { nombre: "Hidrógeno", Pc: 188.11, Tc: 59.94, MW: 2.016, Vc: 1.04 },
+        CO: {
+          nombre: "Monóxido de carbono",
+          Pc: 507.63,
+          Tc: 239.22,
+          MW: 28.01,
+          Vc: 1.5,
+        },
+        O2: { nombre: "Oxígeno", Pc: 731.43, Tc: 278.64, MW: 32.0, Vc: 1.38 },
+        nC4H10: {
+          nombre: "n-Butano",
+          Pc: 550.71,
+          Tc: 765.36,
+          MW: 58.123,
+          Vc: 3.48,
+        },
+        iC4H10: {
+          nombre: "Isobutano",
+          Pc: 527.9,
+          Tc: 734.1,
+          MW: 58.123,
+          Vc: 3.63,
+        },
+        nC5H12: {
+          nombre: "n-Pentano",
+          Pc: 488.6,
+          Tc: 845.5,
+          MW: 72.15,
+          Vc: 4.08,
+        },
+        iC5H12: {
+          nombre: "Isopentano",
+          Pc: 490.4,
+          Tc: 828.8,
+          MW: 72.15,
+          Vc: 4.18,
+        },
+        nC6H14: {
+          nombre: "Hexano",
+          Pc: 436.9,
+          Tc: 913.3,
+          MW: 86.177,
+          Vc: 4.84,
+        },
+        nC7H16: {
+          nombre: "Heptano",
+          Pc: 396.8,
+          Tc: 972.47,
+          MW: 100.204,
+          Vc: 5.49,
+        },
+        nC8H18: {
+          nombre: "Octano",
+          Pc: 360.6,
+          Tc: 1023.89,
+          MW: 114.231,
+          Vc: 6.12,
+        },
+        nC9H20: {
+          nombre: "Nonano",
+          Pc: 334.46,
+          Tc: 1072.26,
+          MW: 128.258,
+          Vc: 6.75,
+        },
+        C10H22: {
+          nombre: "Decano",
+          Pc: 307.92,
+          Tc: 1113.3,
+          MW: 142.285,
+          Vc: 7.38,
+        },
+        He: { nombre: "Helio", Pc: 32.92, Tc: 9.34, MW: 4.003, Vc: 0.93 },
+        Ar: { nombre: "Argón", Pc: 710.0, Tc: 271.55, MW: 39.948, Vc: 1.88 },
+      };
+
+      // Constantes
+      const PM_AIRE = 28.964; // g/mol
+      const PRESION_ESTANDAR = 14.65; // psia
+      const TEMPERATURA_ESTANDAR = 519.67; // °R (60°F)
+      const R_UNIVERSAL_IMPERIAL = 10.73159; // ft³·psi/(lb-mol·°R)
+
+      // Variables globales
+      let entradasComposicion = {};
+
+      // Inicializar la interfaz
+      document.addEventListener("DOMContentLoaded", function () {
+        inicializarComposicionGas();
+        document.addEventListener("keydown", manejarEventoTeclado);
+      });
+
+      // Función para inicializar los campos de composición del gas
+      function inicializarComposicionGas() {
+        const contenedor = document.getElementById("gasComposition");
+        contenedor.innerHTML = "";
+
+        for (const [clave, propiedades] of Object.entries(gasProperties)) {
+          const fila = document.createElement("div");
+          fila.className = "gas-row";
+
+          const etiqueta = document.createElement("div");
+          etiqueta.className = "gas-label";
+          etiqueta.textContent = `${clave} (${propiedades.nombre})`;
+
+          const entrada = document.createElement("input");
+          entrada.type = "number";
+          entrada.className = "gas-input";
+          entrada.id = `gas-${clave}`;
+          entrada.step = "0.0001";
+          entrada.min = "0";
+          entrada.max = "1";
+          entrada.value = ""; // Campos vacíos como solicitado
+          entrada.placeholder = "0.0000";
+          entrada.addEventListener("input", actualizarSumaFracciones);
+
+          fila.appendChild(etiqueta);
+          fila.appendChild(entrada);
+          contenedor.appendChild(fila);
+
+          entradasComposicion[clave] = entrada;
+        }
+
+        // Inicializar la validación de suma
+        actualizarSumaFracciones();
+      }
+
+      // Función para manejar eventos de teclado (Ctrl+V)
+      function manejarEventoTeclado(e) {
+        // Detectar Ctrl+V
+        if ((e.ctrlKey || e.metaKey) && e.key === "v") {
+          e.preventDefault();
+          procesarPegado();
+        }
+      }
+
+      // Función para procesar datos pegados desde el portapapeles
+      function procesarPegado() {
+        if (!navigator.clipboard) {
+          mostrarNotificacion(
+            "Su navegador no soporta la API del portapapeles",
+            "error",
+          );
+          return;
+        }
+
+        navigator.clipboard
+          .readText()
+          .then((text) => {
+            // Reemplazar comas por puntos y dividir por cualquier espacio/tab/salto de línea
+            const textoSaneado = text.replace(/,/g, ".");
+            const valores = textoSaneado.trim().split(/\s+/);
+
+            console.log("Datos pegados:", valores);
+
+            // Validar que hay suficientes valores
+            if (valores.length < Object.keys(entradasComposicion).length) {
+              mostrarNotificacion(
+                `Número insuficiente de valores (${valores.length} de ${Object.keys(entradasComposicion).length})`,
+                "error",
+              );
+              return;
+            }
+
+            if (valores.length > Object.keys(entradasComposicion).length) {
+              mostrarNotificacion(
+                `Se han detectado más valores (${valores.length}) que componentes (${Object.keys(entradasComposicion).length}). Se usarán los primeros ${Object.keys(entradasComposicion).length} valores.`,
+                "info",
+              );
+            }
+
+            // Procesar composición de gases
+            let indice = 0;
+            for (const clave in entradasComposicion) {
+              if (indice < valores.length) {
+                let valor = valores[indice];
+                // Convertir a número y validar
+                const numero = parseFloat(valor);
+                if (!isNaN(numero)) {
+                  entradasComposicion[clave].value = numero;
+                } else {
+                  entradasComposicion[clave].value = "";
+                }
+                indice++;
+              }
+            }
+
+            // Actualizar la suma
+            actualizarSumaFracciones();
+
+            mostrarNotificacion(
+              "Datos pegados correctamente. Verifique que los valores sean correctos.",
+              "success",
+            );
+          })
+          .catch((err) => {
+            mostrarNotificacion(
+              "Error al leer del portapapeles: " + err,
+              "error",
+            );
+          });
+      }
+
+      // Función para actualizar y validar la suma de fracciones molares
+      function actualizarSumaFracciones() {
+        let suma = 0;
+        for (const entrada of Object.values(entradasComposicion)) {
+          const valor = parseFloat(entrada.value) || 0;
+          suma += valor;
+        }
+
+        const sumValueElement = document.getElementById("sumValue");
+        const sumValidationElement = document.getElementById("sumValidation");
+
+        sumValueElement.textContent = suma.toFixed(4);
+
+        if (Math.abs(suma - 1) < 0.001) {
+          sumValidationElement.className = "sum-validation sum-valid";
+        } else {
+          sumValidationElement.className = "sum-validation sum-invalid";
+        }
+      }
+
+      // Función para mostrar notificaciones
+      function mostrarNotificacion(mensaje, tipo) {
+        const notification = document.getElementById("notification");
+        notification.textContent = mensaje;
+        notification.className = "notification " + tipo;
+        notification.classList.add("show");
+
+        setTimeout(() => {
+          notification.classList.remove("show");
+        }, 3000);
+      }
+
+      // Función para actualizar dimensiones de tubería cuando cambia el tamaño
+      function updatePipeDimensions() {
+        const pipeSize = document.getElementById("pipeSize").value;
+        const scheduleSelect = document.getElementById("schedule");
+        const odField = document.getElementById("outsideDiameter");
+
+        // Reiniciar el menú desplegable de schedule
+        scheduleSelect.innerHTML =
+          '<option value="">Seleccionar Schedule</option>';
+
+        if (pipeSize && pipeDimensions[pipeSize]) {
+          const pipe = pipeDimensions[pipeSize];
+          odField.value = pipe.OD.toFixed(3);
+
+          // Poblar opciones de schedule en orden lógico
+          const scheduleOrder = [
+            "5",
+            "10",
+            "20",
+            "30",
+            "STD",
+            "40",
+            "60",
+            "XS",
+            "80",
+            "100",
+            "120",
+            "140",
+            "160",
+            "XXS",
+          ];
+
+          scheduleOrder.forEach((schedule) => {
+            if (
+              pipe.schedules[schedule] !== undefined &&
+              pipe.schedules[schedule] !== null
+            ) {
+              const option = document.createElement("option");
+              option.value = schedule;
+              option.textContent = schedule;
+              scheduleSelect.appendChild(option);
+            }
+          });
+
+          // Habilitar el menú desplegable de schedule
+          scheduleSelect.disabled = false;
+        } else {
+          odField.value = "";
+          scheduleSelect.disabled = true;
+        }
+
+        // Reiniciar campos posteriores
+        document.getElementById("wallThickness").value = "";
+        document.getElementById("insideDiameter").value = "";
+      }
+
+      // Función para actualizar espesor de pared cuando cambia el schedule
+      function updateWallThickness() {
+        const pipeSize = document.getElementById("pipeSize").value;
+        const schedule = document.getElementById("schedule").value;
+        const wallField = document.getElementById("wallThickness");
+        const idField = document.getElementById("insideDiameter");
+        const odField = document.getElementById("outsideDiameter");
+
+        if (pipeSize && schedule && pipeDimensions[pipeSize]) {
+          const pipe = pipeDimensions[pipeSize];
+          const wallThickness = pipe.schedules[schedule];
+
+          if (wallThickness) {
+            wallField.value = wallThickness.toFixed(3);
+
+            // Calcular diámetro interior: ID = OD - 2t
+            const od = parseFloat(odField.value);
+            const id = od - 2 * wallThickness;
+            idField.value = id.toFixed(3);
+          }
+        } else {
+          wallField.value = "";
+          idField.value = "";
+        }
+      }
+
+      // Función para calcular propiedades pseudocríticas
+      function calcularPropiedadesPseudocriticas(fracciones) {
+        let Psc = 0;
+        let Tsc = 0;
+
+        for (const [gas, fraccion] of Object.entries(fracciones)) {
+          if (gasProperties[gas]) {
+            Psc += fraccion * gasProperties[gas].Pc;
+            Tsc += fraccion * gasProperties[gas].Tc;
+          }
+        }
+
+        return { Psc, Tsc };
+      }
+
+      // Función para aplicar corrección Wichert-Aziz
+      function aplicarCorreccionWichertAziz(Psc, Tsc, yCO2, yH2S) {
+        const A = yH2S + yCO2;
+        const B = yH2S;
+        const epsilon =
+          120 * (Math.pow(A, 0.9) - Math.pow(A, 1.6)) +
+          15 * (Math.pow(B, 0.5) - Math.pow(B, 4.0));
+
+        const Tsc_corregida = Tsc - epsilon;
+        const Psc_corregida =
+          (Psc * Tsc_corregida) / (Tsc + B * (1 - B) * epsilon);
+
+        return { Psc_corregida, Tsc_corregida };
+      }
+
+      // Función para calcular factor de compresibilidad usando el método de Dranchuk-Aboukassem
+      function calcularFactorCompresibilidadDranchukAboukassem(Pr, Tr) {
+        // Coeficientes de la correlación Dranchuk-Aboukassem
+        const A1 = 0.3265;
+        const A2 = -1.07;
+        const A3 = -0.5339;
+        const A4 = 0.01569;
+        const A5 = -0.05165;
+        const A6 = 0.5475;
+        const A7 = -0.7361;
+        const A8 = 0.1844;
+        const A9 = 0.1056;
+        const A10 = 0.6134;
+        const A11 = 0.721;
+
+        // Función para resolver
+        const equation = (Z) => {
+          const rho_r = (0.27 * Pr) / (Z * Tr);
+          const term1 =
+            A1 +
+            A2 / Tr +
+            A3 / Math.pow(Tr, 3) +
+            A4 / Math.pow(Tr, 4) +
+            A5 / Math.pow(Tr, 5);
+          const term2 = (0.27 * Pr) / (Z * Tr);
+          const term3 = A6 + A7 / Tr + A8 / Math.pow(Tr, 2);
+          const term4 = A9 * (A7 / Tr + A8 / Math.pow(Tr, 2));
+          const term5 =
+            A10 *
+            (1 + A11 * Math.pow(rho_r, 2)) *
+            (Math.pow(rho_r, 2) / Math.pow(Tr, 3)) *
+            Math.exp(-A11 * Math.pow(rho_r, 2));
+
+          return (
+            Z -
+            (1 +
+              term1 * rho_r +
+              term3 * Math.pow(rho_r, 2) -
+              term4 * Math.pow(rho_r, 5) +
+              term5)
+          );
+        };
+
+        // Método de Newton-Raphson para resolver la ecuación
+        let Z = 0.9; // Valor inicial
+        let delta = 1;
+        const maxIter = 100;
+        const tolerance = 1e-8;
+
+        for (let i = 0; i < maxIter && Math.abs(delta) > tolerance; i++) {
+          const f = equation(Z);
+          // Aproximación numérica de la derivada
+          const h = 0.0001;
+          const f_prime = (equation(Z + h) - equation(Z - h)) / (2 * h);
+
+          if (Math.abs(f_prime) < 1e-10) break; // Evitar división por cero
+
+          delta = f / f_prime;
+          Z -= delta;
+
+          // Restringir Z a un rango razonable
+          if (Z < 0.2) Z = 0.2;
+          if (Z > 2.0) Z = 2.0;
+        }
+
+        return Z;
+      }
+
+      // Función para calcular factor de compresibilidad usando el método de Katz (fallback)
+      function calcularFactorCompresibilidadKatz(Pr, Tr) {
+        const A = 1.39 * Math.pow(Tr - 0.92, 0.5) - 0.36 * Tr - 0.101;
+        const B =
+          (0.62 - 0.23 * Tr) * Pr +
+          (0.066 / (Tr - 0.86) - 0.037) * Math.pow(Pr, 2) +
+          (0.32 * Math.pow(Pr, 6)) / Math.pow(10, 9 * (Tr - 1));
+        const C = 0.132 - 0.32 * Math.log10(Tr);
+        const D = Math.pow(10, 0.3106 - 0.49 * Tr + 0.1824 * Math.pow(Tr, 2));
+        const Z = A + (1 - A) / Math.exp(B) + C * Math.pow(Pr, D);
+
+        return Z;
+      }
+
+      // Función para calcular factor de compresibilidad (usa Dranchuk-Aboukassem con fallback a Katz)
+      function calcularFactorCompresibilidad(Pr, Tr) {
+        try {
+          return calcularFactorCompresibilidadDranchukAboukassem(Pr, Tr);
+        } catch (e) {
+          console.error("Error en Dranchuk-Aboukassem, usando Katz:", e);
+          return calcularFactorCompresibilidadKatz(Pr, Tr);
+        }
+      }
+
+      // Función para calcular densidad del gas
+      function calcularDensidadGas(P_abs, T_abs, PM, Z) {
+        return (PM * P_abs) / (Z * R_UNIVERSAL_IMPERIAL * T_abs);
+      }
+
+      // Función para convertir flujo de MMSCFD a ACFM
+      function convertirFlujoMmscfdAAcfm(flujo_mmscfd, P_abs, T_abs, Z) {
+        const flujo_scfm = (flujo_mmscfd * 1e6) / (24 * 60);
+        const factor_temperatura = T_abs / TEMPERATURA_ESTANDAR;
+        const factor_presion = PRESION_ESTANDAR / P_abs;
+        return flujo_scfm * factor_temperatura * factor_presion * Z;
+      }
+
+      // Función para calcular velocidad de flujo
+      function calcularVelocidadFlujo(flujo_acfm, diametro_interno_ft) {
+        const flujo_ft3_s = flujo_acfm / 60;
+        const area = Math.PI * Math.pow(diametro_interno_ft / 2, 2);
+        return flujo_ft3_s / area;
+      }
+
+      // Función para calcular velocidad erosional
+      function calcularVelocidadErosional(densidad, C) {
+        return C / Math.sqrt(densidad);
+      }
+
+      // Función principal de cálculo
+      function calcular() {
+        try {
+          // Obtener fracciones molares
+          const fracciones = {};
+          let sumaFracciones = 0;
+
+          for (const [gas, entrada] of Object.entries(entradasComposicion)) {
+            const valor = parseFloat(entrada.value) || 0;
+            fracciones[gas] = valor;
+            sumaFracciones += valor;
+          }
+
+          // Validar que la suma de fracciones sea 1 (100%)
+          if (Math.abs(sumaFracciones - 1) > 0.001) {
+            alert(
+              `La suma de las fracciones molares (${sumaFracciones.toFixed(4)}) debe ser igual a 1. Por favor, verifique los valores.`,
+            );
+            return;
+          }
+
+          // Obtener parámetros operacionales
+          const P_op =
+            parseFloat(document.getElementById("presionOperacion").value) || 0;
+          const P_atm =
+            parseFloat(document.getElementById("presionAtmosferica").value) ||
+            14.65;
+          const T_op =
+            parseFloat(document.getElementById("temperaturaOperacion").value) ||
+            0;
+          const flujo =
+            parseFloat(document.getElementById("flujoGas").value) || 0;
+          const C_personalizado =
+            parseFloat(document.getElementById("constanteC").value) || null;
+
+          // Obtener parámetros de tubería
+          const OD =
+            parseFloat(document.getElementById("outsideDiameter").value) || 0;
+          const espesor =
+            parseFloat(document.getElementById("wallThickness").value) || 0;
+
+          if (P_op <= 0 || T_op <= 0 || flujo <= 0 || OD <= 0 || espesor <= 0) {
+            alert(
+              "Por favor, complete todos los campos requeridos con valores válidos.",
+            );
+            return;
+          }
+
+          if (espesor >= OD / 2) {
+            alert(
+              "El espesor de la tubería no puede ser mayor o igual a la mitad del diámetro externo.",
+            );
+            return;
+          }
+
+          // Calcular propiedades de la mezcla
+          const PM = Object.entries(fracciones).reduce(
+            (sum, [gas, frac]) => sum + frac * (gasProperties[gas]?.MW || 0),
+            0,
+          );
+
+          const G = PM / PM_AIRE;
+
+          // Calcular propiedades pseudocríticas
+          const { Psc, Tsc } = calcularPropiedadesPseudocriticas(fracciones);
+
+          // Aplicar corrección Wichert-Aziz si hay CO2 o H2S
+          const yCO2 = fracciones.CO2 || 0;
+          const yH2S = fracciones.H2S || 0;
+
+          let Psc_corregida, Tsc_corregida;
+          if (yCO2 + yH2S > 0) {
+            const resultado = aplicarCorreccionWichertAziz(
+              Psc,
+              Tsc,
+              yCO2,
+              yH2S,
+            );
+            Psc_corregida = resultado.Psc_corregida;
+            Tsc_corregida = resultado.Tsc_corregida;
+          } else {
+            Psc_corregida = Psc;
+            Tsc_corregida = Tsc;
+          }
+
+          // Calcular presión y temperatura absolutas
+          const P_abs = P_op + P_atm;
+          const T_abs = T_op + 459.67;
+
+          // Calcular presión y temperatura reducidas
+          const Pr = P_abs / Psc_corregida;
+          const Tr = T_abs / Tsc_corregida;
+
+          // Calcular factor de compresibilidad Z
+          const Z = calcularFactorCompresibilidad(Pr, Tr);
+
+          // Calcular densidad
+          const densidad = calcularDensidadGas(P_abs, T_abs, PM, Z);
+
+          // Convertir flujo
+          const flujo_acfm = convertirFlujoMmscfdAAcfm(flujo, P_abs, T_abs, Z);
+
+          // Calcular velocidad
+          const diametro_interno = OD - 2 * espesor;
+          const diametro_interno_ft = diametro_interno / 12;
+          const velocidad = calcularVelocidadFlujo(
+            flujo_acfm,
+            diametro_interno_ft,
+          );
+
+          // Mostrar resultados
+          mostrarResultados(
+            PM,
+            G,
+            Z,
+            densidad,
+            flujo_acfm,
+            velocidad,
+            C_personalizado,
+          );
+        } catch (error) {
+          alert("Error en el cálculo: " + error.message);
+          console.error(error);
+        }
+      }
+
+      // Función para mostrar resultados en el modal
+      function mostrarResultados(
+        PM,
+        G,
+        Z,
+        densidad,
+        flujo_acfm,
+        velocidad,
+        C_personalizado,
+      ) {
+        // Actualizar valores básicos
+        document.getElementById("resultPM").textContent = PM.toFixed(4);
+        document.getElementById("resultGE").textContent = G.toFixed(4);
+        document.getElementById("resultZ").textContent = Z.toFixed(4);
+        document.getElementById("resultDensidad").textContent =
+          densidad.toFixed(4);
+        document.getElementById("resultACFM").textContent =
+          flujo_acfm.toFixed(2);
+        document.getElementById("resultVelocidad").textContent =
+          velocidad.toFixed(2);
+
+        // Generar tabla de comparación
+        const tabla = document.getElementById("tablaResultados");
+        tabla.innerHTML = "";
+
+        const valoresC = [100, 125, 150, 200, 250];
+        if (C_personalizado) {
+          valoresC.push(C_personalizado);
+        }
+
+        for (const C of valoresC) {
+          const velocidadErosional = calcularVelocidadErosional(densidad, C);
+          const porcentaje = (velocidad / velocidadErosional) * 100;
+
+          const fila = document.createElement("tr");
+
+          const celdaC = document.createElement("td");
+          celdaC.textContent = C === C_personalizado ? `${C}*` : C;
+
+          const celdaVelocidad = document.createElement("td");
+          celdaVelocidad.textContent = velocidad.toFixed(2);
+
+          const celdaVelocidadErosional = document.createElement("td");
+          celdaVelocidadErosional.textContent = velocidadErosional.toFixed(2);
+
+          const celdaPorcentaje = document.createElement("td");
+          celdaPorcentaje.textContent = porcentaje.toFixed(1) + "%";
+          if (porcentaje > 100) {
+            celdaPorcentaje.style.color = "red";
+          } else if (porcentaje > 50) {
+            celdaPorcentaje.style.color = "blue";
+          }
+
+          fila.appendChild(celdaC);
+          fila.appendChild(celdaVelocidad);
+          fila.appendChild(celdaVelocidadErosional);
+          fila.appendChild(celdaPorcentaje);
+
+          tabla.appendChild(fila);
+        }
+
+        // Mostrar modal
+        document.getElementById("resultModal").style.display = "block";
+      }
+
+      // Función para cerrar el modal
+      function cerrarModal() {
+        document.getElementById("resultModal").style.display = "none";
+      }
+
+      // Función para limpiar todos los campos
+      function limpiarCampos() {
+        // Limpiar composición de gases
+        for (const entrada of Object.values(entradasComposicion)) {
+          entrada.value = "";
+        }
+
+        // Limpiar parámetros operacionales
+        document.getElementById("presionOperacion").value = "";
+        document.getElementById("presionAtmosferica").value = "14.65";
+        document.getElementById("temperaturaOperacion").value = "";
+        document.getElementById("flujoGas").value = "";
+        document.getElementById("constanteC").value = "";
+
+        // Limpiar parámetros de tubería
+        document.getElementById("pipeSize").value = "";
+        document.getElementById("schedule").innerHTML =
+          '<option value="">Seleccionar Schedule</option>';
+        document.getElementById("schedule").disabled = true;
+        document.getElementById("outsideDiameter").value = "";
+        document.getElementById("wallThickness").value = "";
+        document.getElementById("insideDiameter").value = "";
+
+        // Actualizar la suma
+        actualizarSumaFracciones();
+
+        // Cerrar modal si está abierto
+        cerrarModal();
+      }
+
+      // Cerrar el modal al hacer clic fuera de él
+      window.onclick = function (event) {
+        const modal = document.getElementById("resultModal");
+        if (event.target === modal) {
+          cerrarModal();
+        }
+      };
+    </script>
+  </body>
+</html>

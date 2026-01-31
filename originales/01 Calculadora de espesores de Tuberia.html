@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Espesor de Tuberías - ASME B31.8</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: #333;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .title-box {
+            background: linear-gradient(to right, #0d47a1, #1976d2);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .title {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .column {
+            flex: 1;
+            min-width: 350px;
+        }
+        
+        .section {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-title {
+            font-weight: bold;
+            color: #0d47a1;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1976d2;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .input-label {
+            width: 180px;
+            font-size: 15px;
+            color: #444;
+            font-weight: 500;
+        }
+        
+        select, input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 15px;
+            transition: border-color 0.3s;
+        }
+        
+        select:focus, input[type="number"]:focus {
+            border-color: #1976d2;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+        }
+        
+        input[readonly] {
+            background-color: #f5f9ff;
+            color: #0d47a1;
+            font-weight: 600;
+        }
+        
+        .result-field {
+            background-color: #e8f5e9;
+            border: 2px solid #28a745;
+            color: #2e7d32;
+            font-weight: bold;
+        }
+        
+        .warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            border: 1px solid #f1aeb5;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        
+        .units {
+            font-size: 13px;
+            color: #666;
+            margin-left: 5px;
+            font-weight: normal;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        
+        .calc-button {
+            padding: 14px 30px;
+            font-size: 17px;
+            font-weight: bold;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            max-width: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .calc-button i {
+            margin-right: 8px;
+        }
+        
+        .calc-button.calculate {
+            background: linear-gradient(to right, #28a745, #218838);
+        }
+        
+        .calc-button.calculate:hover {
+            background: linear-gradient(to right, #218838, #1e7e34);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .calc-button.clear {
+            background: linear-gradient(to right, #dc3545, #c82333);
+        }
+        
+        .calc-button.clear:hover {
+            background: linear-gradient(to right, #c82333, #bd2130);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: linear-gradient(to right, #0d47a1, #1976d2);
+            color: white;
+            font-style: italic;
+            font-size: 14px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .equation-box {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            font-size: 17px;
+            margin-top: 15px;
+            border: 1px dashed #90caf9;
+        }
+        
+        .info-text {
+            font-size: 12px;
+            color: #6c757d;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .result-section {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+            display: none;
+        }
+        
+        .result-title {
+            font-weight: bold;
+            color: #0d47a1;
+            margin-bottom: 10px;
+            font-size: 16px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #1976d2;
+        }
+        
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+        
+        .result-item {
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border-left: 3px solid #1976d2;
+        }
+        
+        .result-label {
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+        
+        .result-value {
+            font-weight: bold;
+            color: #0d47a1;
+            font-size: 16px;
+        }
+        
+        .result-unit {
+            font-size: 13px;
+            color: #666;
+            margin-left: 3px;
+        }
+        
+        .diagram-container {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f5f9ff;
+            border-radius: 8px;
+        }
+        
+        .diagram-title {
+            font-weight: bold;
+            color: #0d47a1;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .diagram {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .accept-design {
+            background-color: #d4edda !important;
+            border: 1px solid #c3e6cb !important;
+            color: #155724 !important;
+        }
+        
+        .reject-design {
+            background-color: #f8d7da !important;
+            border: 1px solid #f1aeb5 !important;
+            color: #721c24 !important;
+        }
+        
+        .thickness-display {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(to right, #e3f2fd, #bbdefb);
+            border-radius: 10px;
+            margin: 15px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #1976d2;
+        }
+        
+        @media (max-width: 900px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .column {
+                width: 100%;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .calc-button {
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title-box">
+            <h1 class="title">Calculadora de Espesor de Tuberías</h1>
+            <div class="subtitle">Norma ASME B31.8 para diseño de tuberías de gas natural</div>
+        </div>
+        
+        <div class="main-content">
+            <!-- Columna Izquierda - Parámetros de diseño -->
+            <div class="column">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-ruler-combined"></i> Parámetros de Tubería
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Diámetro nominal</label>
+                        <select id="pipeSize" onchange="updatePipeDimensions()">
+                            <option value="">Seleccionar tamaño</option>
+                            <option value="0.5">NPS 1/2 (DN 15)</option>
+                            <option value="0.75">NPS 3/4 (DN 20)</option>
+                            <option value="1">NPS 1 (DN 25)</option>
+                            <option value="1.25">NPS 1 1/4 (DN 32)</option>
+                            <option value="1.5">NPS 1 1/2 (DN 40)</option>
+                            <option value="2">NPS 2 (DN 50)</option>
+                            <option value="2.5">NPS 2 1/2 (DN 65)</option>
+                            <option value="3">NPS 3 (DN 80)</option>
+                            <option value="3.5">NPS 3 1/2 (DN 90)</option>
+                            <option value="4">NPS 4 (DN 100)</option>
+                            <option value="5">NPS 5 (DN 125)</option>
+                            <option value="6">NPS 6 (DN 150)</option>
+                            <option value="8">NPS 8 (DN 200)</option>
+                            <option value="10">NPS 10 (DN 250)</option>
+                            <option value="12">NPS 12 (DN 300)</option>
+                            <option value="14">NPS 14 (DN 350)</option>
+                            <option value="16">NPS 16 (DN 400)</option>
+                            <option value="18">NPS 18 (DN 450)</option>
+                            <option value="20">NPS 20 (DN 500)</option>
+                            <option value="22">NPS 22 (DN 550)</option>
+                            <option value="24">NPS 24 (DN 600)</option>
+                            <option value="30">NPS 30 (DN 750)</option>
+                            <option value="32">NPS 32 (DN 800)</option>
+                            <option value="34">NPS 34 (DN 850)</option>
+                            <option value="36">NPS 36 (DN 900)</option>
+                            <option value="42">NPS 42 (DN 1050)</option>
+                        </select>
+                    </div>
+                    <div class="info-text">Seleccionar tamaño nominal de tubería desde 1/2" hasta 42"</div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Schedule</label>
+                        <select id="schedule" onchange="updateWallThickness()" disabled>
+                            <option value="">Seleccionar Schedule</option>
+                        </select>
+                    </div>
+                    <div class="info-text">Schedules disponibles para el tamaño seleccionado</div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Diámetro exterior, OD <span class="units">(pulg)</span></label>
+                        <input type="number" id="outsideDiameter" readonly step="0.001">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Espesor de pared, t <span class="units">(pulg)</span></label>
+                        <input type="number" id="wallThickness" readonly step="0.001">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Presión de diseño <span class="units">(psi)</span></label>
+                        <input type="number" id="designPressure" step="0.1" placeholder="Ingresar presión">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Grado de tubería</label>
+                        <select id="pipeGrade" onchange="updateSMYS()">
+                            <option value="">Seleccionar grado</option>
+                            <option value="A">API Grado A</option>
+                            <option value="B">API Grado B</option>
+                            <option value="X42">API Grado X42</option>
+                            <option value="X52">API Grado X52</option>
+                            <option value="X60">API Grado X60</option>
+                            <option value="X65">API Grado X65</option>
+                            <option value="X70">API Grado X70</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">SMYS de tubería <span class="units">(psi)</span></label>
+                        <input type="number" id="pipeSMYS" readonly>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-info-circle"></i> Información Técnica
+                    </div>
+                    <p><strong>Norma ASME B31.8:</strong> Estándar para sistemas de tuberías de transmisión y distribución de gas. Proporciona requisitos para el diseño, construcción, inspección, prueba y operación de sistemas de tuberías de gas.</p>
+                    
+                    <p><strong>Fórmula para espesor mínimo:</strong></p>
+                    <div class="equation-box">
+                        t = (P × D) / (2 × S × F × E × T)
+                    </div>
+                    
+                    <p>Donde:<br>
+                    t = Espesor mínimo requerido (pulg)<br>
+                    P = Presión de diseño (psi)<br>
+                    D = Diámetro exterior (pulg)<br>
+                    S = SMYS - Límite elástico mínimo especificado (psi)<br>
+                    F = Factor de diseño (según clase de ubicación)<br>
+                    E = Factor de junta longitudinal<br>
+                    T = Factor de reducción por temperatura</p>
+                    
+                    <p><strong>Consideraciones:</strong><br>
+                    - El espesor calculado debe redondearse al schedule estándar inmediatamente superior<br>
+                    - Se debe agregar tolerancia por corrosión según condiciones de servicio<br>
+                    - El espesor mínimo absoluto es 0.0625 pulg (1.6 mm) según ASME B31.8</p>
+                </div>
+            </div>
+            
+            <!-- Columna Derecha - Factores y Resultados -->
+            <div class="column">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-sliders-h"></i> Factores de Diseño
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Factor de junta longitudinal (E)</label>
+                        <select id="jointFactor">
+                            <option value="1.0">1.0 (Seamless, EFW, SAW)</option>
+                            <option value="0.8">0.8 (Furnace Buttweld)</option>
+                            <option value="0.6">0.6 (Otros)</option>
+                        </select>
+                    </div>
+                    <div class="info-text">Según Tabla 841.115A de ASME B31.8</div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Factor de reducción por temperatura (T)</label>
+                        <select id="tempFactor">
+                            <option value="1.0">1.0 (≤250°F)</option>
+                            <option value="0.967">0.967 (300°F)</option>
+                            <option value="0.933">0.933 (350°F)</option>
+                            <option value="0.900">0.900 (400°F)</option>
+                            <option value="0.867">0.867 (450°F)</option>
+                        </select>
+                    </div>
+                    <div class="info-text">Según Tabla 841.116A de ASME B31.8</div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Clase de ubicación</label>
+                        <select id="locationClass" onchange="updateDesignFactor()">
+                            <option value="">Seleccionar clase</option>
+                            <option value="1-div1">Clase 1 División 1</option>
+                            <option value="1-div2">Clase 1 División 2</option>
+                            <option value="2">Clase 2</option>
+                            <option value="3">Clase 3</option>
+                            <option value="4">Clase 4</option>
+                        </select>
+                    </div>
+                    <div class="info-text">Según Sección 840 de ASME B31.8</div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Factor de diseño básico (F)</label>
+                        <input type="number" id="designFactor" readonly step="0.01">
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="calc-button calculate" onclick="calculateThickness()">
+                            <i class="fas fa-calculator"></i> Calcular Espesor
+                        </button>
+                        <button class="calc-button clear" onclick="clearFields()">
+                            <i class="fas fa-broom"></i> Limpiar
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-calculator"></i> Resultados
+                    </div>
+                    
+                    <div id="results" style="display: none;">
+                        <div class="thickness-display">
+                            Espesor mínimo requerido:<br>
+                            <span id="minThicknessValue" style="font-size: 32px; color: #0d47a1;">0.000</span> pulg
+                        </div>
+                        
+                        <div class="thickness-display">
+                            Schedule mínimo requerido:<br>
+                            <span id="minSchedule" style="font-size: 32px; color: #d32f2f;">-</span>
+                        </div>
+                        
+                        <div class="result-item">
+                            <div class="result-label">Espesor mínimo en milésimas</div>
+                            <div class="result-value" id="minThicknessMils">0</div>
+                        </div>
+                        
+                        <div class="result-item">
+                            <div class="result-label">Espesor estándar seleccionado</div>
+                            <div class="result-value" id="standardThickness">0.000 pulg</div>
+                        </div>
+                        
+                        <div class="result-item">
+                            <div class="result-label">% SMYS utilizado</div>
+                            <div class="result-value" id="percentSMYS">0.0%</div>
+                        </div>
+                        
+                        <div class="result-item">
+                            <div class="result-label">Máximo permitido</div>
+                            <div class="result-value" id="maxAllowable">0.0%</div>
+                        </div>
+                        
+                        <div class="equation-box" style="margin-top: 20px;">
+                            <div style="font-weight: bold; margin-bottom: 10px;">Fórmula aplicada:</div>
+                            <div id="formulaDetails">t = (P × D) / (2 × S × F × E × T)</div>
+                        </div>
+                    </div>
+                    
+                    <div id="noResults" style="text-align: center; padding: 30px; color: #6c757d;">
+                        <i class="fas fa-calculator" style="font-size: 50px; margin-bottom: 15px;"></i>
+                        <p>Ingrese los parámetros y haga clic en "Calcular Espesor" para obtener resultados</p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-project-diagram"></i> Diagrama de Tubería
+                    </div>
+                    <div class="diagram-container">
+                        <div class="equation-box" style="font-family: Arial, sans-serif; text-align: center;">
+                            <div style="margin-bottom: 10px; font-weight: bold;">Parámetros de tubería</div>
+                            <div>D = Diámetro exterior</div>
+                            <div>t = Espesor de pared</div>
+                            <div>P = Presión interna</div>
+                            <div style="margin-top: 15px; font-size: 14px;">
+                                El esfuerzo circunferencial σ = P·D/(2t) debe ser menor que el esfuerzo permitido
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            (C) 2025. Creado Por Freddy Roa Monsalvo | Ingeniero Mecánico
+        </div>
+    </div>
+
+    <script>
+        // Base de datos de dimensiones de tubería
+        const pipeDimensions = {
+            "0.5": {
+                OD: 0.840,
+                schedules: {
+                    "STD": 0.109,
+                    "40": 0.109,
+                    "XS": 0.147,
+                    "80": 0.147,
+                    "160": 0.187,
+                    "XXS": 0.294
+                }
+            },
+            "0.75": {
+                OD: 1.050,
+                schedules: {
+                    "STD": 0.113,
+                    "40": 0.113,
+                    "XS": 0.154,
+                    "80": 0.154,
+                    "160": 0.219,
+                    "XXS": 0.308
+                }
+            },
+            "1": {
+                OD: 1.315,
+                schedules: {
+                    "STD": 0.133,
+                    "40": 0.133,
+                    "XS": 0.179,
+                    "80": 0.179,
+                    "160": 0.250,
+                    "XXS": 0.358
+                }
+            },
+            "1.25": {
+                OD: 1.660,
+                schedules: {
+                    "STD": 0.140,
+                    "40": 0.140,
+                    "XS": 0.191,
+                    "80": 0.191,
+                    "160": 0.250,
+                    "XXS": 0.382
+                }
+            },
+            "1.5": {
+                OD: 1.900,
+                schedules: {
+                    "STD": 0.145,
+                    "40": 0.145,
+                    "XS": 0.200,
+                    "80": 0.200,
+                    "160": 0.281,
+                    "XXS": 0.400
+                }
+            },
+            "2": {
+                OD: 2.375,
+                schedules: {
+                    "STD": 0.154,
+                    "40": 0.154,
+                    "XS": 0.218,
+                    "80": 0.218,
+                    "160": 0.344,
+                    "XXS": 0.436
+                }
+            },
+            "2.5": {
+                OD: 2.875,
+                schedules: {
+                    "STD": 0.203,
+                    "40": 0.203,
+                    "XS": 0.276,
+                    "80": 0.276,
+                    "160": 0.375,
+                    "XXS": 0.552
+                }
+            },
+            "3": {
+                OD: 3.500,
+                schedules: {
+                    "STD": 0.216,
+                    "40": 0.216,
+                    "XS": 0.300,
+                    "80": 0.300,
+                    "160": 0.438,
+                    "XXS": 0.600
+                }
+            },
+            "3.5": {
+                OD: 4.000,
+                schedules: {
+                    "STD": 0.226,
+                    "40": 0.226,
+                    "XS": 0.318,
+                    "80": 0.318
+                }
+            },
+            "4": {
+                OD: 4.500,
+                schedules: {
+                    "STD": 0.237,
+                    "40": 0.237,
+                    "XS": 0.337,
+                    "80": 0.337,
+                    "120": 0.438,
+                    "160": 0.531,
+                    "XXS": 0.674
+                }
+            },
+            "5": {
+                OD: 5.563,
+                schedules: {
+                    "STD": 0.258,
+                    "40": 0.258,
+                    "XS": 0.375,
+                    "80": 0.375,
+                    "120": 0.500,
+                    "160": 0.625,
+                    "XXS": 0.750
+                }
+            },
+            "6": {
+                OD: 6.625,
+                schedules: {
+                    "STD": 0.280,
+                    "40": 0.280,
+                    "XS": 0.432,
+                    "80": 0.432,
+                    "120": 0.562,
+                    "160": 0.719,
+                    "XXS": 0.864
+                }
+            },
+            "8": {
+                OD: 8.625,
+                schedules: {
+                    "10": 0.250,
+                    "20": 0.277,
+                    "STD": 0.322,
+                    "40": 0.322,
+                    "60": 0.406,
+                    "XS": 0.500,
+                    "80": 0.500,
+                    "100": 0.594,
+                    "120": 0.719,
+                    "140": 0.812,
+                    "160": 0.906,
+                    "XXS": 0.875
+                }
+            },
+            "10": {
+                OD: 10.750,
+                schedules: {
+                    "10": 0.250,
+                    "20": 0.250,
+                    "30": 0.307,
+                    "STD": 0.365,
+                    "40": 0.365,
+                    "60": 0.500,
+                    "XS": 0.500,
+                    "80": 0.594,
+                    "100": 0.719,
+                    "120": 0.844,
+                    "140": 1.000,
+                    "160": 1.125,
+                    "XXS": 1.000
+                }
+            },
+            "12": {
+                OD: 12.750,
+                schedules: {
+                    "10": 0.250,
+                    "20": 0.250,
+                    "30": 0.330,
+                    "STD": 0.375,
+                    "40": 0.406,
+                    "60": 0.562,
+                    "XS": 0.500,
+                    "80": 0.688,
+                    "100": 0.844,
+                    "120": 1.000,
+                    "140": 1.125,
+                    "160": 1.312,
+                    "XXS": 1.000
+                }
+            },
+            "14": {
+                OD: 14.000,
+                schedules: {
+                    "10": 0.250,
+                    "20": 0.312,
+                    "30": 0.375,
+                    "STD": 0.375,
+                    "40": 0.438,
+                    "60": 0.594,
+                    "XS": 0.500,
+                    "80": 0.750,
+                    "100": 0.938,
+                    "120": 1.094,
+                    "140": 1.250,
+                    "160": 1.406
+                }
+            },
+            "16": {
+                OD: 16.000,
+                schedules: {
+                    "10": 0.250,
+                    "20": 0.312,
+                    "30": 0.375,
+                    "STD": 0.375,
+                    "40": 0.500,
+                    "60": 0.656,
+                    "XS": 0.500,
+                    "80": 0.844,
+                    "100": 1.031,
+                    "120": 1.219,
+                    "140": 1.438,
+                    "160": 1.594
+                }
+            },
+            "18": {
+                OD: 18.000,
+                schedules: {
+                    "10": 0.250,
+                    "20": 0.312,
+                    "30": 0.438,
+                    "STD": 0.375,
+                    "40": 0.562,
+                    "60": 0.750,
+                    "XS": 0.500,
+                    "80": 0.938,
+                    "100": 1.156,
+                    "120": 1.375,
+                    "140": 1.562,
+                    "160": 1.781
+                }
+            },
+            "20": {
+                OD: 20.000,
+                schedules: {
+                    "10": 0.250,
+                    "20": 0.375,
+                    "30": 0.500,
+                    "STD": 0.375,
+                    "40": 0.594,
+                    "60": 0.812,
+                    "XS": 0.500,
+                    "80": 1.031,
+                    "100": 1.281,
+                    "120": 1.500,
+                    "140": 1.750,
+                    "160": 1.969
+                }
+            },
+            "22": {
+                OD: 22.000,
+                schedules: {
+                    "10": 0.250,
+                    "20": 0.375,
+                    "30": 0.500,
+                    "STD": 0.375,
+                    "40": null,
+                    "60": 0.875,
+                    "XS": 0.500,
+                    "80": 1.125,
+                    "100": 1.375,
+                    "120": 1.625,
+                    "140": 1.875,
+                    "160": 2.125
+                }
+            },
+            "24": {
+                OD: 24.000,
+                schedules: {
+                    "10": 0.250,
+                    "20": 0.375,
+                    "30": 0.562,
+                    "STD": 0.375,
+                    "40": 0.688,
+                    "60": 0.969,
+                    "XS": 0.500,
+                    "80": 1.219,
+                    "100": 1.531,
+                    "120": 1.812,
+                    "140": 2.062,
+                    "160": 2.344
+                }
+            },
+            "30": {
+                OD: 30.000,
+                schedules: {
+                    "10": 0.312,
+                    "20": 0.500,
+                    "30": 0.625,
+                    "STD": 0.375,
+                    "40": null,
+                    "60": null,
+                    "XS": 0.500,
+                    "80": null
+                }
+            },
+            "32": {
+                OD: 32.000,
+                schedules: {
+                    "10": 0.312,
+                    "20": 0.500,
+                    "30": 0.625,
+                    "STD": 0.375,
+                    "40": 0.688,
+                    "60": null,
+                    "XS": null,
+                    "80": null
+                }
+            },
+            "34": {
+                OD: 34.000,
+                schedules: {
+                    "10": 0.312,
+                    "20": 0.500,
+                    "30": 0.625,
+                    "STD": 0.375,
+                    "40": 0.688,
+                    "60": null,
+                    "XS": null,
+                    "80": null
+                }
+            },
+            "36": {
+                OD: 36.000,
+                schedules: {
+                    "10": 0.312,
+                    "20": 0.500,
+                    "30": 0.625,
+                    "STD": 0.375,
+                    "40": 0.750,
+                    "60": null,
+                    "XS": null,
+                    "80": null
+                }
+            },
+            "42": {
+                OD: 42.000,
+                schedules: {
+                    "10": null,
+                    "20": 0.500,
+                    "30": 0.625,
+                    "STD": 0.375,
+                    "40": 0.750,
+                    "60": null,
+                    "XS": null,
+                    "80": null
+                }
+            }
+        };
+
+        // Propiedades de materiales (valores SMYS en psi)
+        const materialGrades = {
+            "A": 30000,
+            "B": 35000,
+            "X42": 42000,
+            "X52": 52000,
+            "X60": 60000,
+            "X65": 65000,
+            "X70": 70000
+        };
+
+        // Factores de diseño por clase de ubicación (ASME B31.8)
+        const designFactors = {
+            "1-div1": 0.72,
+            "1-div2": 0.60,
+            "2": 0.50,
+            "3": 0.40,
+            "4": 0.40
+        };
+
+        // Función para actualizar dimensiones de tubería cuando cambia el tamaño
+        function updatePipeDimensions() {
+            const pipeSize = document.getElementById('pipeSize').value;
+            const scheduleSelect = document.getElementById('schedule');
+            const odField = document.getElementById('outsideDiameter');
+            
+            // Reiniciar el menú desplegable de schedule
+            scheduleSelect.innerHTML = '<option value="">Seleccionar Schedule</option>';
+            
+            if (pipeSize && pipeDimensions[pipeSize]) {
+                const pipe = pipeDimensions[pipeSize];
+                odField.value = pipe.OD.toFixed(3);
+                
+                // Poblar opciones de schedule en orden lógico
+                const scheduleOrder = ["5", "10", "20", "30", "STD", "40", "60", "XS", "80", "100", "120", "140", "160", "XXS"];
+                
+                scheduleOrder.forEach(schedule => {
+                    if (pipe.schedules[schedule] !== undefined && pipe.schedules[schedule] !== null) {
+                        const option = document.createElement('option');
+                        option.value = schedule;
+                        option.textContent = schedule;
+                        scheduleSelect.appendChild(option);
+                    }
+                });
+                
+                // Habilitar el menú desplegable de schedule
+                scheduleSelect.disabled = false;
+            } else {
+                odField.value = '';
+                scheduleSelect.disabled = true;
+            }
+            
+            // Reiniciar campos posteriores
+            document.getElementById('wallThickness').value = '';
+            document.getElementById('insideDiameter').value = '';
+        }
+
+        // Función para actualizar espesor de pared cuando cambia el schedule
+        function updateWallThickness() {
+            const pipeSize = document.getElementById('pipeSize').value;
+            const schedule = document.getElementById('schedule').value;
+            const wallField = document.getElementById('wallThickness');
+            const idField = document.getElementById('insideDiameter');
+            const odField = document.getElementById('outsideDiameter');
+            
+            if (pipeSize && schedule && pipeDimensions[pipeSize]) {
+                const pipe = pipeDimensions[pipeSize];
+                const wallThickness = pipe.schedules[schedule];
+                
+                if (wallThickness) {
+                    wallField.value = wallThickness.toFixed(3);
+                    
+                    // Calcular diámetro interior: ID = OD - 2t
+                    const od = parseFloat(odField.value);
+                    const id = od - (2 * wallThickness);
+                    idField.value = id.toFixed(3);
+                }
+            } else {
+                wallField.value = '';
+                idField.value = '';
+            }
+        }
+
+        // Función para actualizar SMYS cuando cambia el grado de tubería
+        function updateSMYS() {
+            const grade = document.getElementById('pipeGrade').value;
+            const smysField = document.getElementById('pipeSMYS');
+            
+            if (grade && materialGrades[grade]) {
+                smysField.value = materialGrades[grade];
+            } else {
+                smysField.value = '';
+            }
+        }
+
+        // Función para actualizar factor de diseño cuando cambia la clase de ubicación
+        function updateDesignFactor() {
+            const locationClass = document.getElementById('locationClass').value;
+            const designFactorField = document.getElementById('designFactor');
+            
+            if (locationClass && designFactors[locationClass]) {
+                designFactorField.value = designFactors[locationClass];
+            } else {
+                designFactorField.value = '';
+            }
+        }
+
+        // Función para calcular el espesor mínimo requerido
+        function calculateThickness() {
+            // Obtener valores de entrada
+            const P = parseFloat(document.getElementById('designPressure').value) || 0;
+            const D = parseFloat(document.getElementById('outsideDiameter').value) || 0;
+            const SMYS = parseFloat(document.getElementById('pipeSMYS').value) || 0;
+            const F = parseFloat(document.getElementById('designFactor').value) || 0;
+            const E = parseFloat(document.getElementById('jointFactor').value) || 1.0;
+            const T = parseFloat(document.getElementById('tempFactor').value) || 1.0;
+            const pipeSize = document.getElementById('pipeSize').value;
+            
+            // Validar entradas
+            if (P <= 0 || D <= 0 || SMYS <= 0 || F <= 0) {
+                alert('Por favor, complete todos los campos requeridos con valores válidos');
+                return;
+            }
+            
+            // Calcular espesor mínimo según ASME B31.8 (Ecuación 4a)
+            const t_min = (P * D) / (2 * SMYS * F * E * T);
+            
+            // Calcular porcentaje SMYS y máximo permitido
+            const percentUsed = (P * D) / (2 * t_min * SMYS * E * T) * 100;
+            const maxAllowed = F * 100;
+            
+            // Encontrar el schedule mínimo que cumple con el espesor requerido
+            let minSchedule = "No disponible";
+            let minThickness = 0;
+            
+            if (pipeSize && pipeDimensions[pipeSize]) {
+                const schedules = pipeDimensions[pipeSize].schedules;
+                const scheduleOrder = ["5", "10", "20", "30", "STD", "40", "60", "XS", "80", "100", "120", "140", "160", "XXS"];
+                
+                for (const schedule of scheduleOrder) {
+                    if (schedules[schedule] && schedules[schedule] >= t_min) {
+                        minSchedule = schedule;
+                        minThickness = schedules[schedule];
+                        break;
+                    }
+                }
+            }
+            
+            // Mostrar resultados
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('noResults').style.display = 'none';
+            
+            document.getElementById('minThicknessValue').textContent = t_min.toFixed(4);
+            document.getElementById('minSchedule').textContent = minSchedule;
+            document.getElementById('minThicknessMils').textContent = (t_min * 1000).toFixed(0) + ' mils';
+            document.getElementById('standardThickness').textContent = minThickness.toFixed(4) + ' pulg';
+            document.getElementById('percentSMYS').textContent = percentUsed.toFixed(1) + '%';
+            document.getElementById('maxAllowable').textContent = maxAllowed.toFixed(1) + '%';
+            
+            // Actualizar detalles de la fórmula
+            document.getElementById('formulaDetails').innerHTML = 
+                `t = (P × D) / (2 × S × F × E × T)<br>
+                 = (${P} × ${D.toFixed(3)}) / (2 × ${SMYS} × ${F} × ${E} × ${T})<br>
+                 = ${t_min.toFixed(4)} pulg`;
+        }
+
+        // Limpiar campos
+        function clearFields() {
+            // Limpiar dimensiones de tubería
+            document.getElementById('pipeSize').value = '';
+            document.getElementById('schedule').innerHTML = '<option value="">Seleccionar Schedule</option>';
+            document.getElementById('schedule').disabled = true;
+            document.getElementById('outsideDiameter').value = '';
+            document.getElementById('wallThickness').value = '';
+            document.getElementById('insideDiameter').value = '';
+            
+            // Limpiar parámetros de cálculo
+            document.getElementById('designPressure').value = '';
+            document.getElementById('pipeGrade').value = '';
+            document.getElementById('pipeSMYS').value = '';
+            document.getElementById('jointFactor').value = '1.0';
+            document.getElementById('tempFactor').value = '1.0';
+            document.getElementById('locationClass').value = '';
+            document.getElementById('designFactor').value = '';
+            
+            // Ocultar resultados
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('noResults').style.display = 'block';
+        }
+
+        // Inicializar cuando se carga el DOM
+        document.addEventListener('DOMContentLoaded', function() {
+            // Establecer valores predeterminados
+            document.getElementById('jointFactor').value = '1.0';
+            document.getElementById('tempFactor').value = '1.0';
+            
+            // Asegurar que el menú desplegable de schedule comience deshabilitado
+            document.getElementById('schedule').disabled = true;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,506 @@
+﻿<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advanced Gas Compression Calculator - Engineering Edition</title>
+    <!-- Professional Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Professional Compiled CSS -->
+    <link rel="stylesheet" href="../dist/output.css" />
+    <script src="js/common.js"></script>
+    <style>
+      .composition-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+      }
+      @media (min-width: 768px) {
+        .composition-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+      .comp-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+      }
+      .comp-item label {
+        font-size: 0.7rem;
+        color: #6b7280;
+        font-weight: 500;
+      }
+      .comp-item input {
+        padding: 0.2rem 0.4rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.25rem;
+        font-size: 0.8rem;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 uppercase-labels">
+    <!-- Header -->
+    <header
+      class="fixed top-0 left-0 right-0 z-50 bg-[#006097] shadow-lg border-b border-[#005080]"
+    >
+      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-20">
+          <div class="flex-shrink-0">
+            <a
+              href="../index.html"
+              class="text-2xl font-extrabold text-white hover:opacity-90 transition-opacity"
+            >
+              Freddy Roa M.
+            </a>
+          </div>
+
+          <!-- Desktop Navigation -->
+          <div class="hidden md:flex items-baseline space-x-4">
+            <a
+              href="../index.html"
+              class="text-white hover:opacity-80 px-3 py-2 rounded-md text-sm font-medium transition-colors relative group"
+            >
+              Inicio
+              <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            
+            <!-- Herramientas Dropdown -->
+            <div class="relative group">
+              <a
+                href="../herramientas.html"
+                class="text-white px-3 py-2 rounded-md text-sm font-bold transition-colors relative flex items-center gap-1 group-link"
+              >
+                Herramientas
+                <svg class="w-4 h-4 fill-current transition-transform group-hover:rotate-180" viewBox="0 0 20 20">
+                  <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                </svg>
+                <span class="absolute bottom-0 left-0 w-full h-0.5 bg-white transition-all duration-300"></span>
+              </a>
+
+              <!-- Dropdown Menu -->
+              <div class="absolute left-0 mt-0 w-72 bg-white rounded-md shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[100] border border-gray-100 py-2">
+                <a href="00_mawp_calculator.html" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal">Calculadora MAWP</a>
+                <a href="01_pipe_thickness.html" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal">Espesores de Tubería</a>
+                <a href="02_hoop_stress.html" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal">Esfuerzo Circunferencial</a>
+                <a href="03_max_design_pressure.html" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal">Presión Máxima Diseño</a>
+                <a href="05_flow_std_to_actual.html" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal">Flujo Estándar a Actual</a>
+                <a href="06_gas_properties.html" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal">Propiedades de Gases</a>
+                <a href="07_velocidad_erosional_-_eng_esp.html" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal">Velocidad Erosional</a>
+                <a href="08_gas_compression.html" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal">Compresión de Gas</a>
+                <a href="09_tank_volume.html" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal">Volumen de Tanques</a>
+                <a href="10_z_factor_cnga.html" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal">Factor Z (CNGA)</a>
+                <a href="11_line_pack.html" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal">Line Pack</a>
+                <a href="12_pipe_weight.html" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] font-normal">Peso de Tuberías</a>
+              </div>
+            </div>
+
+            <a href="../index.html#expertise" class="text-white hover:opacity-80 px-3 py-2 rounded-md text-sm font-medium transition-colors relative group">
+              Expertise
+              <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="../index.html#contact" class="bg-white text-[#006097] px-5 py-2.5 rounded-md text-sm font-bold hover:bg-gray-100 transition-all shadow-md ml-4">
+              Contactar
+            </a>
+          </div>
+
+          <!-- Mobile Menu Button -->
+          <div class="flex items-center md:hidden">
+            <button
+              id="mobile-menu-button"
+              type="button"
+              class="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-[#005080] focus:outline-none transition-colors"
+              aria-controls="mobile-menu"
+              aria-expanded="false"
+            >
+              <span class="sr-only">Abrir menú</span>
+              <svg id="menu-icon" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+              <svg id="close-icon" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Mobile Menu -->
+      <div id="mobile-menu" class="hidden md:hidden bg-[#006097] border-t border-[#005080] overflow-y-auto max-h-[calc(100vh-80px)]">
+        <div class="px-2 pt-2 pb-3 space-y-1">
+          <a href="../index.html" class="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-[#005080]">Inicio</a>
+          
+          <!-- Mobile Accordion -->
+          <div>
+            <button
+              id="mobile-tools-toggle"
+              class="w-full flex items-center justify-between text-white px-3 py-2 rounded-md text-base font-medium hover:bg-[#005080] transition-colors"
+            >
+              Herramientas
+              <svg id="mobile-tools-arrow" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div id="mobile-tools-menu" class="hidden pl-4 space-y-1 bg-[#005080]/50 rounded-md mt-1">
+              <a href="00_mawp_calculator.html" class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]">Calculadora MAWP</a>
+              <a href="01_pipe_thickness.html" class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]">Espesores de Tubería</a>
+              <a href="02_hoop_stress.html" class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]">Esfuerzo Circunferencial</a>
+              <a href="03_max_design_pressure.html" class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]">Presión Máxima Diseño</a>
+              <a href="05_flow_std_to_actual.html" class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]">Flujo Estándar a Actual</a>
+              <a href="06_gas_properties.html" class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]">Propiedades de Gases</a>
+              <a href="07_velocidad_erosional_-_eng_esp.html" class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]">Velocidad Erosional</a>
+              <a href="08_gas_compression.html" class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]">Compresión de Gas</a>
+              <a href="09_tank_volume.html" class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]">Volumen de Tanques</a>
+              <a href="10_z_factor_cnga.html" class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]">Factor Z (CNGA)</a>
+              <a href="11_line_pack.html" class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]">Line Pack</a>
+              <a href="12_pipe_weight.html" class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]">Peso de Tuberías</a>
+            </div>
+          </div>
+
+          <a href="../index.html#expertise" class="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-[#005080]">Expertise</a>
+          <a href="../index.html#projects" class="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-[#005080]">Proyectos</a>
+          <a href="../index.html#contact" class="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-[#005080]">Contacto</a>
+          <div class="pt-2">
+            <a href="../index.html#contact" class="w-full text-center block bg-white text-[#006097] px-5 py-3 rounded-md text-base font-bold hover:bg-gray-100">
+              Contactar
+            </a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container pt-24 pb-12">
+      <!-- Breadcrumb -->
+      <nav
+        class="flex mb-6 text-xs font-medium text-gray-400 uppercase-none"
+        aria-label="Breadcrumb"
+      >
+        <ol class="inline-flex items-center space-x-2">
+          <li>
+            <a
+              href="../index.html"
+              class="text-gray-600 hover:text-primary transition-colors"
+              >Inicio</a
+            >
+          </li>
+          <li><span class="mx-2">/</span></li>
+          <li>
+            <a
+              href="../herramientas.html"
+              class="text-gray-600 hover:text-primary transition-colors"
+              >Herramientas</a
+            >
+          </li>
+          <li><span class="mx-2">/</span></li>
+          <li class="text-gray-900 font-bold">Compresión de Gas</li>
+        </ol>
+      </nav>
+
+      <div class="title-box">
+        <h1 class="text-3xl font-bold">Gas Compression Calculator</h1>
+        <p class="text-gray-100 mt-1">
+          Single-Stage Reciprocating/Centrifugal Compressor Performance Analysis
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="card">
+          <h2>Operational Parameters</h2>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="input-group">
+              <label for="p1" class="required"
+                >Suction P1 <span class="units">(psia)</span>:</label
+              >
+              <input type="number" id="p1" placeholder="Inlet" required />
+            </div>
+            <div class="input-group">
+              <label for="p2" class="required"
+                >Discharge P2 <span class="units">(psia)</span>:</label
+              >
+              <input type="number" id="p2" placeholder="Outlet" required />
+            </div>
+            <div class="input-group">
+              <label for="t1" class="required"
+                >Suction T1 <span class="units">(°F)</span>:</label
+              >
+              <input type="number" id="t1" placeholder="Inlet" required />
+            </div>
+            <div class="input-group">
+              <label for="flow" class="required"
+                >Flow Rate <span class="units">(MMSCFD)</span>:</label
+              >
+              <input type="number" id="flow" placeholder="Q" required />
+            </div>
+            <div class="input-group">
+              <label for="effA" class="required">Adiabatic Eff (ηa):</label>
+              <input type="number" id="effA" value="0.75" step="0.01" />
+            </div>
+            <div class="input-group">
+              <label for="effM" class="required">Mechanical Eff (ηm):</label>
+              <input type="number" id="effM" value="0.95" step="0.01" />
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="flex justify-between items-center mb-2">
+            <h2>Gas Composition</h2>
+            <div class="text-sm font-mono" id="moleSum">0.0000</div>
+          </div>
+          <div class="composition-grid" id="compGrid"></div>
+          <div class="flex gap-4 mt-6">
+            <button class="flex-1" onclick="calculate()">
+              Calculate Compression
+            </button>
+            <button
+              class="bg-gray-500 hover:bg-gray-600"
+              onclick="clearFields()"
+            >
+              Clear
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="resultsCard" style="display: none">
+        <h2>Compression Analysis Results</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <div class="factors-info" style="border-left-color: var(--primary)">
+              <p
+                class="text-xs uppercase font-bold text-gray-500 tracking-widest mb-1"
+              >
+                Total Compression Power (BHP)
+              </p>
+              <p class="text-4xl font-bold" style="color: var(--primary)">
+                <span id="bhpRes">-</span>
+                <span class="text-lg font-normal text-gray-500">HP</span>
+              </p>
+            </div>
+            <div
+              class="mt-6 factors-info"
+              style="border-left-color: var(--secondary)"
+            >
+              <p
+                class="text-xs uppercase font-bold text-gray-500 tracking-widest mb-1"
+              >
+                Discharge Temperature (T2)
+              </p>
+              <p class="text-2xl font-bold text-secondary">
+                <span id="t2Res">-</span>
+                <span class="text-lg font-normal text-gray-400">°F</span>
+              </p>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div
+              class="bg-gray-50 p-4 rounded-xl border border-gray-100 italic"
+            >
+              <p class="text-[10px] text-gray-400 uppercase">
+                Pressure Ratio (Rc)
+              </p>
+              <p class="font-bold text-lg" id="rcVal">-</p>
+            </div>
+            <div
+              class="bg-gray-50 p-4 rounded-xl border border-gray-100 italic"
+            >
+              <p class="text-[10px] text-gray-400 uppercase">
+                Ratio of Heats (k)
+              </p>
+              <p class="font-bold text-lg" id="kVal">-</p>
+            </div>
+            <div
+              class="bg-gray-50 p-4 rounded-xl border border-gray-100 italic"
+            >
+              <p class="text-[10px] text-gray-400 uppercase">Z1 (Suction)</p>
+              <p class="font-bold text-lg font-mono" id="z1Val">-</p>
+            </div>
+            <div
+              class="bg-gray-50 p-4 rounded-xl border border-gray-100 italic"
+            >
+              <p class="text-[10px] text-gray-400 uppercase">Spec. Gravity</p>
+              <p class="font-bold text-lg" id="sgVal">-</p>
+            </div>
+            <div
+              class="col-span-2 bg-gray-50 p-3 rounded-lg border border-gray-100"
+            >
+              <p class="text-[10px] text-gray-400 uppercase">Isentropic Head</p>
+              <p class="font-bold">
+                <span id="headVal">-</span>
+                <span class="text-xs font-normal">ft-lbf/lbm</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <p>(C) 2025. Creado Por Freddy Roa Monsalvo | Ingeniero Mecánico</p>
+      </footer>
+    </div>
+
+    <script>
+      const gasComps = {
+        CH4: { name: "Metano", Pc: 666.4, Tc: 343.0, MW: 16.04, k: 1.3 },
+        N2: { name: "Nitrógeno", Pc: 493.0, Tc: 227.6, MW: 28.01, k: 1.4 },
+        CO2: {
+          name: "Dióxido de Carbono",
+          Pc: 1071.0,
+          Tc: 547.9,
+          MW: 44.01,
+          k: 1.29,
+        },
+        C2H6: { name: "Etano", Pc: 706.5, Tc: 549.6, MW: 30.07, k: 1.19 },
+        C3H8: { name: "Propano", Pc: 616.0, Tc: 665.7, MW: 44.1, k: 1.13 },
+      };
+
+      function init() {
+        const grid = document.getElementById("compGrid");
+        Object.keys(gasComps).forEach((c) => {
+          const d = document.createElement("div");
+          d.className = "comp-item";
+          d.innerHTML = `<label>${c}</label><input type="number" class="comp" id="${c}" step="0.0001" value="0">`;
+          grid.appendChild(d);
+          d.querySelector("input").addEventListener("input", updateSum);
+        });
+        document.getElementById("CH4").value = "0.94";
+        document.getElementById("C2H6").value = "0.04";
+        document.getElementById("N2").value = "0.02";
+        updateSum();
+      }
+
+      function updateSum() {
+        let t = 0;
+        document
+          .querySelectorAll(".comp")
+          .forEach((i) => (t += parseFloat(i.value) || 0));
+        const s = document.getElementById("moleSum");
+        s.textContent = t.toFixed(4);
+        s.className =
+          Math.abs(t - 1) < 0.001
+            ? "text-green-600 font-bold"
+            : "text-red-500 font-bold";
+      }
+
+      function calculate() {
+        const p1 = parseFloat(document.getElementById("p1").value);
+        const p2 = parseFloat(document.getElementById("p2").value);
+        const t1f = parseFloat(document.getElementById("t1").value);
+        const flow = parseFloat(document.getElementById("flow").value);
+        const na = parseFloat(document.getElementById("effA").value);
+        const nm = parseFloat(document.getElementById("effM").value);
+
+        if ([p1, p2, t1f, flow].some(isNaN)) {
+          alert("Fill all operational parameters.");
+          return;
+        }
+
+        const rc = p2 / p1;
+        const t1r = t1f + 459.67;
+        let ppc = 0,
+          tpc = 0,
+          mw = 0,
+          kMix = 0;
+        document.querySelectorAll(".comp").forEach((i) => {
+          const y = parseFloat(i.value) || 0;
+          const d = gasComps[i.id];
+          ppc += y * d.Pc;
+          tpc += y * d.Tc;
+          mw += y * d.MW;
+          kMix += y * d.k;
+        });
+
+        const z1 = 1.0; // Simplify or use Katz
+        const exp = (kMix - 1) / kMix;
+        const t2_ideal = t1r * Math.pow(rc, exp);
+        const t2 = t1r + (t2_ideal - t1r) / na;
+
+        // GPSA HP = (144/33000) * (k/(k-1)) * P1 * V1 * [Rc^((k-1)/k) - 1]
+        // Simplified HP calculation for brevity
+        const head =
+          (1545 / mw) *
+          t1r *
+          z1 *
+          (kMix / (kMix - 1)) *
+          (Math.pow(rc, exp) - 1);
+        const massFlow = (flow * 1e6 * mw) / (379.48 * 24 * 60); // lbm/min
+        const gasHP = (massFlow * head) / (33000 * na);
+        const bhp = gasHP / nm;
+
+        document.getElementById("resultsCard").style.display = "block";
+        document.getElementById("bhpRes").textContent = bhp.toLocaleString(
+          undefined,
+          { maximumFractionDigits: 1 },
+        );
+        document.getElementById("t2Res").textContent = (t2 - 459.67).toFixed(1);
+        document.getElementById("rcVal").textContent = rc.toFixed(2);
+        document.getElementById("kVal").textContent = kMix.toFixed(3);
+        document.getElementById("z1Val").textContent = z1.toFixed(4);
+        document.getElementById("sgVal").textContent = (mw / 28.96).toFixed(4);
+        document.getElementById("headVal").textContent = head.toLocaleString(
+          undefined,
+          { maximumFractionDigits: 0 },
+        );
+
+        document
+          .getElementById("resultsCard")
+          .scrollIntoView({ behavior: "smooth" });
+      }
+
+      function clearFields() {
+        document.querySelectorAll("input:not(.comp)").forEach((i) => {
+          if (i.id !== "effA" && i.id !== "effM") i.value = "";
+        });
+        document.getElementById("resultsCard").style.display = "none";
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        init();
+
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
+        const menuIcon = document.getElementById("menu-icon");
+        const closeIcon = document.getElementById("close-icon");
+        const mobileToolsToggle = document.getElementById("mobile-tools-toggle");
+        const mobileToolsMenu = document.getElementById("mobile-tools-menu");
+        const mobileToolsArrow = document.getElementById("mobile-tools-arrow");
+
+        if (mobileMenuButton && mobileMenu) {
+          mobileMenuButton.addEventListener("click", () => {
+            const isExpanded = mobileMenuButton.getAttribute("aria-expanded") === "true";
+            mobileMenu.classList.toggle("hidden");
+            menuIcon.classList.toggle("hidden");
+            closeIcon.classList.toggle("hidden");
+            mobileMenuButton.setAttribute("aria-expanded", !isExpanded);
+          });
+
+          // Mobile Tools Accordion
+          if (mobileToolsToggle && mobileToolsMenu) {
+            mobileToolsToggle.addEventListener("click", (e) => {
+              e.preventDefault();
+              mobileToolsMenu.classList.toggle("hidden");
+              if (mobileToolsArrow) mobileToolsArrow.classList.toggle("rotate-180");
+            });
+          }
+
+          // Close menu when clicking a link (except tools toggle)
+          const mobileLinks = mobileMenu.querySelectorAll("a");
+          mobileLinks.forEach(link => {
+            if (link.id !== "mobile-tools-toggle") {
+              link.addEventListener("click", () => {
+                mobileMenu.classList.add("hidden");
+                menuIcon.classList.remove("hidden");
+                closeIcon.classList.add("hidden");
+                mobileMenuButton.setAttribute("aria-expanded", "false");
+              });
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

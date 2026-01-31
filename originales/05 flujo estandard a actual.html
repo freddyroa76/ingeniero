@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Flujo de Gas Natural - MMSCFD a ACFM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: #333;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .title-box {
+            background: linear-gradient(to right, #0d47a1, #1976d2);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .title {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .column {
+            flex: 1;
+            min-width: 350px;
+        }
+        
+        .section {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-title {
+            font-weight: bold;
+            color: #0d47a1;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1976d2;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-label {
+            display: block;
+            font-size: 16px;
+            color: #444;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="number"]:focus {
+            border-color: #1976d2;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+        }
+        
+        .info-text {
+            font-size: 13px;
+            color: #6c757d;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .calc-button {
+            padding: 14px 30px;
+            font-size: 17px;
+            font-weight: bold;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .calc-button i {
+            margin-right: 8px;
+        }
+        
+        .calc-button.calculate {
+            background: linear-gradient(to right, #28a745, #218838);
+        }
+        
+        .calc-button.calculate:hover {
+            background: linear-gradient(to right, #218838, #1e7e34);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .calc-button.clear {
+            background: linear-gradient(to right, #dc3545, #c82333);
+        }
+        
+        .calc-button.clear:hover {
+            background: linear-gradient(to right, #c82333, #bd2130);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: linear-gradient(to right, #0d47a1, #1976d2);
+            color: white;
+            font-style: italic;
+            font-size: 14px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .equation-box {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            font-size: 17px;
+            margin-top: 15px;
+            border: 1px dashed #90caf9;
+        }
+        
+        .result-section {
+            margin-top: 20px;
+            padding: 25px;
+            border-radius: 10px;
+            background: #f9f9f9;
+            display: none;
+        }
+        
+        .result-title {
+            font-weight: bold;
+            color: #0d47a1;
+            margin-bottom: 15px;
+            font-size: 20px;
+            text-align: center;
+        }
+        
+        .flow-display {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(to right, #e3f2fd, #bbdefb);
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .result-value {
+            font-weight: bold;
+            color: #0d47a1;
+            font-size: 36px;
+            margin: 10px 0;
+        }
+        
+        .result-unit {
+            font-size: 24px;
+            color: #666;
+            margin-left: 5px;
+        }
+        
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .result-item {
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #1976d2;
+        }
+        
+        .result-label {
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .result-value-sm {
+            font-weight: bold;
+            color: #0d47a1;
+            font-size: 18px;
+        }
+        
+        .conversion-factor {
+            font-size: 14px;
+            color: #2e7d32;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .diagram-container {
+            text-align: center;
+            margin: 25px 0;
+            padding: 20px;
+            background: #f5f9ff;
+            border-radius: 10px;
+        }
+        
+        .diagram-title {
+            font-weight: bold;
+            color: #0d47a1;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .flow-equation {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(to right, #e3f2fd, #bbdefb);
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tech-note {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .z-factor-box {
+            background-color: #e8f5e9;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        @media (max-width: 900px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .column {
+                width: 100%;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title-box">
+            <h1 class="title">Calculadora de Flujo de Gas Natural</h1>
+            <div class="subtitle">Conversión precisa de MMSCFD a ACFM</div>
+        </div>
+        
+        <div class="main-content">
+            <!-- Columna Izquierda - Parámetros de Entrada -->
+            <div class="column">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-wind"></i> Parámetros de Flujo
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Flujo estándar (MMSCFD)</label>
+                        <input type="number" id="flowStd" placeholder="Ingrese flujo estándar">
+                        <div class="info-text">Millones de pies cúbicos estándar por día (60°F, 14.7 psia)</div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Temperatura actual (°F)</label>
+                        <input type="number" id="tempActual" placeholder="Ingrese temperatura">
+                        <div class="info-text">Temperatura del gas en condiciones actuales</div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Presión actual (psig)</label>
+                        <input type="number" id="pressActual" placeholder="Ingrese presión">
+                        <div class="info-text">Presión del gas en condiciones actuales (medidor)</div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Factor de compresibilidad (Z)</label>
+                        <input type="number" id="zFactor" value="1.0" step="0.01">
+                        <div class="info-text">Factor Z para condiciones actuales (por defecto 1.0)</div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="calc-button calculate" onclick="calculateFlow()">
+                            <i class="fas fa-calculator"></i> Calcular Flujo Actual
+                        </button>
+                        <button class="calc-button clear" onclick="clearFields()">
+                            <i class="fas fa-broom"></i> Limpiar Campos
+                        </button>
+                    </div>
+                    
+                    <div class="z-factor-box">
+                        <h3><i class="fas fa-info-circle"></i> Nota sobre el Factor Z</h3>
+                        <p>El factor de compresibilidad a condiciones estándar (14.7 psia y 60°F) es <strong>siempre 1.0</strong> por definición. Este valor es una convención de la industria basada en:</p>
+                        <ul>
+                            <li>API MPMS Chapter 14.3.2</li>
+                            <li>GPA Standard 2145</li>
+                            <li>ISO 13443</li>
+                        </ul>
+                        <p>El factor Z que usted ingresa aplica solo para las condiciones actuales de operación.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Columna Derecha - Resultados y Visualización -->
+            <div class="column">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-calculator"></i> Resultados
+                    </div>
+                    
+                    <div id="results" class="result-section">
+                        <div class="result-title">Flujo actual en condiciones reales</div>
+                        
+                        <div class="flow-display">
+                            <div class="result-value">
+                                <span id="acfmResult">0.00</span> 
+                                <span class="result-unit">ACFM</span>
+                            </div>
+                            <div>Pies cúbicos actuales por minuto</div>
+                        </div>
+                        
+                        <div class="result-grid">
+                            <div class="result-item">
+                                <div class="result-label">Flujo estándar</div>
+                                <div class="result-value-sm" id="stdFlowResult">0.00 MMSCFD</div>
+                            </div>
+                            
+                            <div class="result-item">
+                                <div class="result-label">Temperatura actual</div>
+                                <div class="result-value-sm" id="tempResult">0 °F</div>
+                            </div>
+                            
+                            <div class="result-item">
+                                <div class="result-label">Presión actual</div>
+                                <div class="result-value-sm" id="pressResult">0 psig</div>
+                            </div>
+                            
+                            <div class="result-item">
+                                <div class="result-label">Factor Z</div>
+                                <div class="result-value-sm" id="zResult">1.00</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flow-equation">
+                            Q<sub>actual</sub> = Q<sub>std</sub> × (P<sub>std</sub>/P<sub>actual</sub>) × (T<sub>actual</sub>/T<sub>std</sub>) × (Z<sub>actual</sub>/Z<sub>std</sub>)
+                        </div>
+                    </div>
+                    
+                    <div id="noResults" style="text-align: center; padding: 30px; color: #6c757d;">
+                        <i class="fas fa-calculator" style="font-size: 50px; margin-bottom: 15px; color: #0d47a1;"></i>
+                        <p style="font-size: 18px;">Ingrese los parámetros de flujo y haga clic en "Calcular Flujo Actual" para obtener resultados</p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-info-circle"></i> Fundamentos Técnicos
+                    </div>
+                    
+                    <div class="equation-box">
+                        Q<sub>actual</sub> = Q<sub>std</sub> × (P<sub>std</sub> / P<sub>actual</sub>) × (T<sub>actual</sub> / T<sub>std</sub>) × (Z<sub>actual</sub> / Z<sub>std</sub>)
+                    </div>
+                    
+                    <div class="tech-note">
+                        <h3><i class="fas fa-flask"></i> Factor de Compresibilidad (Z)</h3>
+                        <p>El factor Z corrige la desviación del comportamiento del gas ideal:</p>
+                        
+                        <table style="width:100%; border-collapse: collapse; margin-top:10px;">
+                            <tr style="background-color: #f5f5f5;">
+                                <th style="padding:8px; text-align:left;">Condiciones</th>
+                                <th style="padding:8px; text-align:left;">Valor de Z</th>
+                                <th style="padding:8px; text-align:left;">Fundamento</th>
+                            </tr>
+                            <tr>
+                                <td style="padding:8px; border-bottom:1px solid #ddd;">Estándar (14.7 psia, 60°F)</td>
+                                <td style="padding:8px; border-bottom:1px solid #ddd;">1.0</td>
+                                <td style="padding:8px; border-bottom:1px solid #ddd;">Convención industrial (API, GPA, ISO)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:8px;">Actuales (P y T operativas)</td>
+                                <td style="padding:8px;">Ingresado por usuario</td>
+                                <td style="padding:8px;">Depende de composición, P y T</td>
+                            </tr>
+                        </table>
+                        
+                        <p style="margin-top:15px;"><strong>Nota:</strong> Para gases naturales típicos, Z ≈ 0.8-1.0 en condiciones normales de operación. Valores fuera de este rango pueden indicar condiciones extremas o errores de medición.</p>
+                    </div>
+                    
+                    <div class="diagram-container">
+                        <div class="diagram-title">Relación entre condiciones estándar y actuales</div>
+                        <div class="equation-box" style="font-family: Arial, sans-serif; text-align: center;">
+                            <div style="margin-bottom: 10px; font-weight: bold;">Flujo Estándar → Flujo Actual</div>
+                            <div>MMSCFD (60°F, 14.7 psia, Z=1.0) → ACFM (T_actual, P_actual, Z_actual)</div>
+                            <div style="margin-top: 15px; font-size: 14px; color: #d32f2f;">
+                                Z_std es siempre 1.0 por definición de condiciones estándar
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            (C) 2025. Creado Por Freddy Roa Monsalvo | Ingeniero Mecánico
+        </div>
+    </div>
+
+    <script>
+        // Constantes estándar
+        const P_std = 14.7;   // psia
+        const T_std = 60 + 459.67; // °R (60°F)
+        const Z_std = 1.0;   // Factor de compresibilidad estándar (siempre 1.0)
+        const MINUTES_PER_DAY = 24 * 60; // 1440 minutos por día
+        
+        // Función para calcular el flujo actual
+        function calculateFlow() {
+            // Obtener valores de entrada
+            const Q_std = parseFloat(document.getElementById('flowStd').value);
+            const T_actual_F = parseFloat(document.getElementById('tempActual').value);
+            const P_actual_gauge = parseFloat(document.getElementById('pressActual').value);
+            const Z_actual = parseFloat(document.getElementById('zFactor').value) || 1.0;
+            
+            // Validar entradas
+            if (isNaN(Q_std) || isNaN(T_actual_F) || isNaN(P_actual_gauge)) {
+                alert('Por favor, complete todos los campos requeridos con valores válidos');
+                return;
+            }
+            
+            // Convertir a unidades absolutas
+            const T_actual = T_actual_F + 459.67; // Convertir °F a °R
+            const P_actual = P_actual_gauge + 14.7; // Convertir psig a psia
+            
+            // Calcular flujo actual en pies cúbicos por minuto (ACFM)
+            // 1. Convertir MMSCFD a SCFD (millones a pies cúbicos estándar)
+            const Q_std_scfd = Q_std * 1e6;
+            
+            // 2. Aplicar la ecuación de conversión
+            const Q_actual_scfm = (Q_std_scfd * (P_std / P_actual) * (T_actual / T_std) * (Z_actual / Z_std)) / MINUTES_PER_DAY;
+            
+            // Mostrar resultados
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('noResults').style.display = 'none';
+            
+            document.getElementById('acfmResult').textContent = Q_actual_scfm.toFixed(2);
+            document.getElementById('stdFlowResult').textContent = Q_std.toFixed(2) + ' MMSCFD';
+            document.getElementById('tempResult').textContent = T_actual_F.toFixed(1) + ' °F';
+            document.getElementById('pressResult').textContent = P_actual_gauge.toFixed(1) + ' psig';
+            document.getElementById('zResult').textContent = Z_actual.toFixed(2);
+            
+            // Validación de resultados
+            const validationMsg = document.getElementById('validationMsg');
+            if (validationMsg) validationMsg.remove();
+            
+            if (Q_actual_scfm < 0) {
+                const errorMsg = document.createElement('div');
+                errorMsg.className = 'error';
+                errorMsg.innerHTML = '<strong>Error:</strong> El flujo calculado es negativo. Verifique los valores de entrada.';
+                errorMsg.id = 'validationMsg';
+                document.getElementById('results').appendChild(errorMsg);
+            }
+            else if (P_actual <= 0) {
+                const errorMsg = document.createElement('div');
+                errorMsg.className = 'error';
+                errorMsg.innerHTML = '<strong>Error:</strong> La presión absoluta debe ser mayor que cero.';
+                errorMsg.id = 'validationMsg';
+                document.getElementById('results').appendChild(errorMsg);
+            }
+            else if (Z_actual < 0.7 || Z_actual > 1.2) {
+                const warningMsg = document.createElement('div');
+                warningMsg.className = 'warning';
+                warningMsg.innerHTML = '<strong>Advertencia:</strong> Factor Z fuera de rango típico (0.7-1.2). Verifique el valor.';
+                warningMsg.id = 'validationMsg';
+                document.getElementById('results').appendChild(warningMsg);
+            }
+        }
+        
+        // Limpiar campos
+        function clearFields() {
+            document.getElementById('flowStd').value = '';
+            document.getElementById('tempActual').value = '';
+            document.getElementById('pressActual').value = '';
+            document.getElementById('zFactor').value = '1.0';
+            
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('noResults').style.display = 'block';
+            
+            const validationMsg = document.getElementById('validationMsg');
+            if (validationMsg) validationMsg.remove();
+        }
+        
+        // Inicializar cuando se carga el DOM
+        document.addEventListener('DOMContentLoaded', function() {
+            // Enfocar el primer campo
+            document.getElementById('flowStd').focus();
+        });
+    </script>
+</body>
+</html>

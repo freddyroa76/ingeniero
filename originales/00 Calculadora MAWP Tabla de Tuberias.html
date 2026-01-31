@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maximum Allowable Operating Pressure Calculator - ASME B31.8-2022</title>
+    <style>
+:root {
+    --primary: #2c3e50;
+    --secondary: #34495e;
+    --accent: #3498db;
+    --light: #ecf0f1;
+    --danger: #e74c3c;
+    --success: #2ecc71;
+    --warning: #f39c12;
+}
+* { box-sizing: border-box; margin:0; padding:0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+body { background:#f5f7fa; color:#333; line-height:1.6;}
+.container { max-width:1600px; margin:0 auto; padding:20px;}
+header { background:var(--primary); color:#fff; padding:1rem; border-radius:5px; margin-bottom:20px; text-align:center; box-shadow:0 4px 6px rgba(0,0,0,.1);}
+.card { background:#fff; border-radius:5px; padding:20px; margin-bottom:20px; box-shadow:0 2px 5px rgba(0,0,0,.1);}
+.form-group { margin-bottom:15px;}
+label { display:block; margin-bottom:5px; font-weight:600;}
+input,select {
+    width:100%;
+    padding:10px;
+    border:1px solid #ddd;
+    border-radius:4px;
+    font-size:16px;
+    height:44px;         /* altura uniforme */
+    line-height:44px;    /* centra texto verticalmente */
+}
+button { background:var(--accent); color:#fff; border:none; padding:12px 20px; border-radius:4px; cursor:pointer; font-size:16px; font-weight:600; transition:background .3s; margin-top:10px;}
+button:hover { background:#2980b9;}
+button:disabled { background:#95a5a6; cursor:not-allowed;}
+.factors-info { background:#f8f9fa; padding:15px; border-radius:5px; margin-top:15px; border-left:4px solid var(--accent);}
+.table-container { overflow-x:auto; margin-top:20px; max-height:70vh; overflow-y:auto;}
+table { width:100%; border-collapse:collapse; margin-bottom:20px;}
+th,td { padding:10px 12px; text-align:center; border:1px solid #ddd; font-size:14px;}
+th { background:var(--secondary); color:#fff; position:sticky; top:0; z-index:10;}
+tr:nth-child(even){ background:#f2f2f2;}
+tr:hover{ background:#e9f7fe;}
+.grade-A { background-color:#e8f5e9; }
+.grade-B { background-color:#e3f2fd; }
+.grade-X42 { background-color:#fff3e0; }
+.grade-X52 { background-color:#fbe9e7; }
+.grade-X60 { background-color:#f1f8e9; }
+.grade-X65 { background-color:#e8eaf6; }
+.grade-X70 { background-color:#fff8e1; }
+.pressure-ok { background-color:#d4edda !important; color:#155724; font-weight:bold; }
+.pressure-fail { background-color:#f8d7da !important; color:#721c24; font-weight:bold; }
+.footer { text-align:center; margin-top:30px; padding:20px; color:#7f8c8d; font-size:.9rem;}
+@media (max-width:1200px){ .input-row{ flex-direction:column;} .input-group{ margin-right:0; margin-bottom:15px;} th,td{ padding:8px 10px; font-size:12px;}}
+.input-row{ 
+    display:flex; 
+    gap:15px; 
+    margin-bottom:15px;
+    align-items:flex-end;   /* 🔥 alinea todos los campos por la base */
+}
+.input-group{ flex:1;}
+.input-group label{
+    min-height:40px;          /* 🔥 asegura misma altura de etiquetas */
+    display:flex;
+    align-items:flex-end;     /* 🔥 texto del label al fondo */
+}
+.legend{ display:flex; flex-wrap:wrap; gap:10px; margin:15px 0;}
+.legend-item{ display:flex; align-items:center; margin-right:15px; font-size:14px;}
+.legend-color{ width:20px; height:20px; margin-right:5px; border:1px solid #ddd;}
+.sticky-header{ position:sticky; top:0; z-index:100; background:var(--secondary); color:#fff;}
+.factor-value{ font-weight:bold; color:var(--primary); margin-left:5px;}
+.section-title{ background:#eaeaea; padding:8px 12px; border-radius:4px; margin:15px 0 10px 0; font-weight:bold;}
+.error-message{ color:var(--danger); font-size:14px; margin-top:5px; display:none;}
+.required::after{ content:" *"; color:var(--danger);}
+.calculation-formula{ background:#f9f9f9; padding:15px; border-radius:5px; margin:15px 0; font-family:monospace; border-left:4px solid var(--accent);}
+.hidden{ display:none !important;}
+/* 🔧 elimina spinners de number input para que no rompa alineación */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Maximum Allowable Working Pressure for Steel Pipe</h1>
+        <p>ASME B31.8-2022 — Tables 841.1.6, 841.1.7, 841.1.8</p>
+    </header>
+
+    <div class="card">
+        <h2>Inputs (per ASME B31.8)</h2>
+        <div class="input-row">
+            <div class="input-group">
+                <label for="facilityType" class="required">Facility Type:</label>
+                <select id="facilityType" required>
+                    <option value="">Select facility type</option>
+                    <option value="pipelines">Pipelines, mains, and service lines</option>
+                    <option value="crossingsNoCasing">Crossings of roads, railroads without casing</option>
+                    <option value="crossingsCasing">Crossings of roads, railroads with casing</option>
+                    <option value="parallelEncroachment">Parallel encroachment of pipelines and mains on roads and railroads</option>
+                    <option value="fabricatedAssemblies">Fabricated assemblies</option>
+                    <option value="pipelinesBridges">Pipelines on bridges</option>
+                    <option value="controlFacilities">Pressure/flow control and metering facilities</option>
+                    <option value="compressorStation">Compressor station piping</option>
+                    <option value="liquidRemoval">Liquid removal equipment constructed of pipe and fittings without internal welding</option>
+                    <option value="nearPeople">Near concentration of people in Location Classes 1 and 2</option>
+                </select>
+                <div class="error-message" id="facilityTypeError">Select a facility type</div>
+            </div>
+
+            <div class="input-group" id="subFacilityGroup">
+                <label for="subFacilityType" id="subFacilityLabel" class="required">Subtipo de Instalación / Subtype:</label>
+                <select id="subFacilityType" required disabled>
+                    <option value="">Select subtype</option>
+                </select>
+                <div class="error-message" id="subFacilityTypeError">Select a subtype</div>
+            </div>
+
+            <div class="input-group">
+                <label for="locationClass" class="required">Location Class:</label>
+                <select id="locationClass" required>
+                    <option value="">Select location class</option>
+                    <option value="div1">Class 1, Division 1</option>
+                    <option value="div2">Class 1, Division 2</option>
+                    <option value="class2">Class 2</option>
+                    <option value="class3">Class 3</option>
+                    <option value="class4">Class 4</option>
+                </select>
+                <div class="error-message" id="locationClassError">Select a location class</div>
+            </div>
+        </div>
+
+        <div class="input-row">
+            <div class="input-group">
+                <label for="jointFactor" class="required">Longitudinal Weld Joint Quality Factor (E):</label>
+                <select id="jointFactor" required>
+                    <option value="">Select E factor</option>
+                    <option value="1.0">Seamless (E = 1.00)</option>
+                    <option value="1.0">Electric-resistance welded (E = 1.00)</option>
+                    <option value="0.60">Furnace-buttwelded, continuous weld (E = 0.60)</option>
+                    <option value="0.80">Electric-fusion welded — Classes 13, 23, 33, 43, 53 (E = 0.80)</option>
+                    <option value="1.0">Electric-fusion welded — Classes 12, 22, 32, 42, 52 (E = 1.00)</option>
+                    <option value="1.0">Submerged-arc welded (straight seam or helical seam) (E = 1.00)</option>
+                    <option value="1.0">Combination welded (E = 1.00)</option>
+                </select>
+                <div class="error-message" id="jointFactorError">Select a longitudinal weld joint factor</div>
+            </div>
+
+            <div class="input-group">
+                <label for="tempFactor" class="required">Temperature Derating Factor (T):</label>
+                <select id="tempFactor" required>
+                    <option value="">Select temperature</option>
+                    <option value="1.000">250°F (121°C) or lower (T = 1.000)</option>
+                    <option value="0.967">300°F (149°C) (T = 0.967)</option>
+                    <option value="0.933">350°F (177°C) (T = 0.933)</option>
+                    <option value="0.900">400°F (204°C) (T = 0.900)</option>
+                    <option value="0.867">450°F (232°C) (T = 0.867)</option>
+                </select>
+                <div class="error-message" id="tempFactorError">Select a temperature derating factor</div>
+            </div>
+
+            <div class="input-group">
+                <label for="designPressure" class="required">Design Pressure (psi):</label>
+                <input type="number" id="designPressure" placeholder="Enter design pressure" min="0" step="50" required>
+                <div class="error-message" id="designPressureError">Enter a valid design pressure</div>
+            </div>
+        </div>
+
+        <div class="calculation-formula">
+            <strong>Formula:</strong> P = (2 · SMYS · F · E · T · t) / D
+            <br>where P = maximum allowable working pressure (psi), SMYS (psi), F (Table 841.1.6-2), E (Table 841.1.7-1), T (Table 841.1.8-1), t = wall thickness (in), D = outside diameter (in).
+        </div>
+
+        <div class="factors-info">
+            <h3>Selected Values</h3>
+            <p><strong>Design Factor, F:</strong> <span id="designFactorValue">Not computed</span></p>
+            <p><strong>Longitudinal Weld Joint Factor, E:</strong> <span id="jointFactorValue">Not selected</span></p>
+            <p><strong>Temperature Derating Factor, T:</strong> <span id="tempFactorValue">Not selected</span></p>
+            <p><strong>Design Pressure:</strong> <span id="designPressureValue">Not specified</span></p>
+        </div>
+
+        <button id="calculateBtn">Compute Maximum Pressures</button>
+    </div>
+
+    <div class="card">
+        <h2>Results: Maximum Working Pressure (psi)</h2>
+        <p>NPS 1/8&quot; to 42&quot; — ASME B31.8-2022</p>
+
+        <div class="legend">
+            <div class="legend-item"><div class="legend-color grade-A"></div><span>Grade A (30,000 psi)</span></div>
+            <div class="legend-item"><div class="legend-color grade-B"></div><span>Grade B (35,000 psi)</span></div>
+            <div class="legend-item"><div class="legend-color grade-X42"></div><span>X42 (42,000 psi)</span></div>
+            <div class="legend-item"><div class="legend-color grade-X52"></div><span>X52 (52,000 psi)</span></div>
+            <div class="legend-item"><div class="legend-color grade-X60"></div><span>X60 (60,000 psi)</span></div>
+            <div class="legend-item"><div class="legend-color grade-X65"></div><span>X65 (65,000 psi)</span></div>
+            <div class="legend-item"><div class="legend-color grade-X70"></div><span>X70 (70,000 psi)</span></div>
+            <div class="legend-item"><div class="legend-color pressure-ok"></div><span>Meets design pressure</span></div>
+            <div class="legend-item"><div class="legend-color pressure-fail"></div><span>Does not meet design pressure</span></div>
+        </div>
+
+        <div class="table-container">
+            <table id="pressureTable">
+                <thead>
+                    <tr class="sticky-header">
+                        <th>NPS (in)</th>
+                        <th>Outside Diameter (in)</th>
+                        <th>Schedule</th>
+                        <th>Wall Thickness (in)</th>
+                        <th>Grade A</th>
+                        <th>Grade B</th>
+                        <th>X42</th>
+                        <th>X52</th>
+                        <th>X60</th>
+                        <th>X65</th>
+                        <th>X70</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Calculator based on ASME B31.8-2022 for maximum working pressure of steel pipe</p>
+        <p>(C) 2025. Creado Por Freddy Roa Monsalvo | Ingeniero Mecánico</p>
+    </div>
+</div>
+
+<script>
+// F factors map — values per Table 841.1.6-2
+const designFactors = {
+    "pipelines": { /* no subtype */ },
+    "crossingsNoCasing": {
+        "privateRoads": { "div1":0.80,"div2":0.72,"class2":0.60,"class3":0.50,"class4":0.40 },
+        "unimprovedPublicRoads": { "div1":0.60,"div2":0.60,"class2":0.60,"class3":0.50,"class4":0.40 },
+        "highwaysRailroads": { "div1":0.60,"div2":0.60,"class2":0.50,"class3":0.50,"class4":0.40 }
+    },
+    "crossingsCasing": {
+        "privateRoads": { "div1":0.80,"div2":0.72,"class2":0.60,"class3":0.50,"class4":0.40 },
+        "unimprovedPublicRoads": { "div1":0.72,"div2":0.72,"class2":0.60,"class3":0.50,"class4":0.40 },
+        "highwaysRailroads": { "div1":0.72,"div2":0.72,"class2":0.60,"class3":0.50,"class4":0.40 }
+    },
+    "parallelEncroachment": {
+        "privateRoads": { "div1":0.80,"div2":0.72,"class2":0.60,"class3":0.50,"class4":0.40 },
+        "unimprovedPublicRoads": { "div1":0.80,"div2":0.72,"class2":0.60,"class3":0.50,"class4":0.40 },
+        "highwaysRailroads": { "div1":0.60,"div2":0.60,"class2":0.60,"class3":0.50,"class4":0.40 }
+    },
+    "fabricatedAssemblies": { "default": { "div1":0.60,"div2":0.60,"class2":0.60,"class3":0.50,"class4":0.40 } },
+    "pipelinesBridges": { "default": { "div1":0.60,"div2":0.60,"class2":0.60,"class3":0.50,"class4":0.40 } },
+    "controlFacilities": { "default": { "div1":0.60,"div2":0.60,"class2":0.60,"class3":0.50,"class4":0.40 } },
+    "compressorStation": { "default": { "div1":0.50,"div2":0.50,"class2":0.50,"class3":0.50,"class4":0.40 } },
+    "liquidRemoval": { "default": { "div1":0.50,"div2":0.50,"class2":0.50,"class3":0.50,"class4":0.40 } },
+    "nearPeople": { "default": { "div1":0.50,"div2":0.50,"class2":0.50,"class3":0.50,"class4":0.40 } }
+};
+
+// Subtype options (English labels). Only defined for facility types that truly have subtypes.
+const subFacilityOptions = {
+    "crossingsNoCasing": [
+        { value:"privateRoads", text:"(a) Private roads" },
+        { value:"unimprovedPublicRoads", text:"(b) Unimproved public roads" },
+        { value:"highwaysRailroads", text:"(c) Roads, highways, or public streets with hard surface and railroads" }
+    ],
+    "crossingsCasing": [
+        { value:"privateRoads", text:"(a) Private roads" },
+        { value:"unimprovedPublicRoads", text:"(b) Unimproved public roads" },
+        { value:"highwaysRailroads", text:"(c) Roads, highways, or public streets with hard surface and railroads" }
+    ],
+    "parallelEncroachment": [
+        { value:"privateRoads", text:"(a) Private roads" },
+        { value:"unimprovedPublicRoads", text:"(b) Unimproved public roads" },
+        { value:"highwaysRailroads", text:"(c) Roads, highways, or public streets with hard surface and railroads" }
+    ]
+};
+
+// Pipe data and SMYS remain the same as previous version (values in inches and psi)
+const pipeData = [
+    { nps:"1/8", od:0.405, schedules: {"STD":0.068,"40":0.068,"XS":0.095,"80":0.095} },
+    { nps:"1/4", od:0.54, schedules: {"STD":0.088,"40":0.088,"XS":0.119,"80":0.119} },
+    { nps:"3/8", od:0.675, schedules: {"STD":0.091,"40":0.091,"XS":0.126,"80":0.126} },
+    { nps:"1/2", od:0.84, schedules: {"STD":0.109,"40":0.109,"XS":0.147,"80":0.147,"160":0.187,"XXS":0.294} },
+    { nps:"3/4", od:1.05, schedules: {"STD":0.113,"40":0.113,"XS":0.154,"80":0.154,"160":0.219,"XXS":0.308} },
+    { nps:"1", od:1.315, schedules: {"STD":0.133,"40":0.133,"XS":0.179,"80":0.179,"160":0.25,"XXS":0.358} },
+    { nps:"1 1/4", od:1.66, schedules: {"STD":0.14,"40":0.14,"XS":0.191,"80":0.191,"160":0.25} },
+    { nps:"1 1/2", od:1.9, schedules: {"STD":0.145,"40":0.145,"XS":0.2,"80":0.2,"160":0.281,"XXS":0.4} },
+    { nps:"2", od:2.375, schedules: {"STD":0.154,"40":0.154,"XS":0.218,"80":0.218,"160":0.344,"XXS":0.436} },
+    { nps:"2 1/2", od:2.875, schedules: {"STD":0.203,"40":0.203,"XS":0.276,"80":0.276,"160":0.375,"XXS":0.552} },
+    { nps:"3", od:3.5, schedules: {"STD":0.216,"40":0.216,"XS":0.3,"80":0.3,"160":0.438,"XXS":0.6} },
+    { nps:"3 1/2", od:4.0, schedules: {"STD":0.226,"40":0.226,"XS":0.318,"80":0.318} },
+    { nps:"4", od:4.5, schedules: {"STD":0.237,"40":0.237,"XS":0.337,"80":0.337,"120":0.438,"160":0.531,"XXS":0.674} },
+    { nps:"5", od:5.563, schedules: {"STD":0.258,"40":0.258,"XS":0.375,"80":0.375,"120":0.5,"160":0.625,"XXS":0.75} },
+    { nps:"6", od:6.625, schedules: {"STD":0.28,"40":0.28,"XS":0.432,"80":0.432,"120":0.562,"160":0.719,"XXS":0.864} },
+    { nps:"8", od:8.625, schedules: {"10":0.25,"20":0.25,"30":0.277,"STD":0.322,"40":0.322,"60":0.406,"XS":0.5,"80":0.5,"100":0.594,"120":0.719,"140":0.812,"160":0.906} },
+    { nps:"10", od:10.75, schedules: {"10":0.25,"20":0.25,"30":0.307,"STD":0.365,"40":0.365,"60":0.5,"XS":0.5,"80":0.594,"100":0.719,"120":0.844,"140":1.0,"160":1.125} },
+    { nps:"12", od:12.75, schedules: {"10":0.25,"20":0.25,"30":0.33,"STD":0.375,"40":0.406,"60":0.562,"XS":0.5,"80":0.688,"100":0.844,"120":1.0,"140":1.125,"160":1.312} },
+    { nps:"14", od:14.0, schedules: {"10":0.25,"20":0.312,"30":0.375,"STD":0.375,"40":0.438,"60":0.594,"XS":0.5,"80":0.75,"100":0.938,"120":1.094,"140":1.25,"160":1.406} },
+    { nps:"16", od:16.0, schedules: {"10":0.25,"20":0.312,"30":0.375,"STD":0.375,"40":0.5,"60":0.656,"XS":0.5,"80":0.844,"100":1.031,"120":1.219,"140":1.438,"160":1.594} },
+    { nps:"18", od:18.0, schedules: {"10":0.25,"20":0.312,"30":0.438,"STD":0.375,"40":0.562,"60":0.75,"XS":0.5,"80":0.938,"100":1.156,"120":1.375,"140":1.562,"160":1.781} },
+    { nps:"20", od:20.0, schedules: {"10":0.25,"20":0.375,"30":0.5,"STD":0.375,"40":0.594,"60":0.812,"XS":0.5,"80":1.031,"100":1.281,"120":1.5,"140":1.75,"160":1.969} },
+    { nps:"22", od:22.0, schedules: {"10":0.25,"20":0.375,"30":0.5,"STD":0.375,"40":0.875,"XS":0.5,"80":1.125,"100":1.375,"120":1.625,"140":1.875,"160":2.125} },
+    { nps:"24", od:24.0, schedules: {"10":0.25,"20":0.375,"30":0.562,"STD":0.375,"40":0.688,"60":0.969,"XS":0.5,"80":1.219,"100":1.531,"120":1.812,"140":2.062,"160":2.344} },
+    { nps:"30", od:30.0, schedules: {"10":0.312,"20":0.5,"30":0.625,"STD":0.375,"XS":0.5} },
+    { nps:"32", od:32.0, schedules: {"10":0.312,"20":0.5,"30":0.625,"STD":0.375,"40":0.688} },
+    { nps:"34", od:34.0, schedules: {"10":0.312,"20":0.5,"30":0.625,"STD":0.375,"40":0.688} },
+    { nps:"36", od:36.0, schedules: {"10":0.312,"20":0.5,"30":0.625,"STD":0.375,"40":0.75} },
+    { nps:"42", od:42.0, schedules: {"20":0.5,"30":0.625,"STD":0.375,"40":0.75} }
+];
+
+const SMYS = { 'A':30000, 'B':35000, 'X42':42000, 'X52':52000, 'X60':60000, 'X65':65000, 'X70':70000 };
+
+function updateSubFacilityOptions(){
+    const facilityType = document.getElementById('facilityType').value;
+    const subSelect = document.getElementById('subFacilityType');
+    const group = document.getElementById('subFacilityGroup');
+    const label = document.getElementById('subFacilityLabel');
+
+    // Reset
+    subSelect.innerHTML = '';
+    subSelect.disabled = true;
+    subSelect.required = false;
+
+    // Identify if facility has subtypes per table
+    const options = subFacilityOptions[facilityType];
+    if(options && Array.isArray(options) && options.length){
+        // Show and enable
+        group.classList.remove('hidden');
+        label.classList.add('required');
+        subSelect.disabled = false;
+        subSelect.required = true;
+
+        const def = document.createElement('option');
+        def.value = '';
+        def.textContent = 'Select subtype';
+        subSelect.appendChild(def);
+
+        options.forEach(o=>{
+            const opt = document.createElement('option');
+            opt.value = o.value;
+            opt.textContent = o.text;
+            subSelect.appendChild(opt);
+        });
+    } else {
+        // Hide the field entirely when not applicable
+        group.classList.add('hidden');
+        label.classList.remove('required');
+    }
+}
+
+function calculateDesignFactor(){
+    const facilityType = document.getElementById('facilityType').value;
+    const locationClass = document.getElementById('locationClass').value;
+
+    // If facility has subtypes, require selection; otherwise use the default table row where applicable.
+    const hasSubtype = !!subFacilityOptions[facilityType];
+    let key = null;
+    if(hasSubtype){
+        key = document.getElementById('subFacilityType').value;
+        if(!key) return null;
+        return designFactors[facilityType][key][locationClass];
+    } else {
+        // Rows without subtypes map to a single set of factors:
+        if(!facilityType || !locationClass) return null;
+        if(facilityType === 'pipelines'){
+            // Pipelines, mains, and service lines
+            const map = { "div1":0.80,"div2":0.72,"class2":0.60,"class3":0.50,"class4":0.40 };
+            return map[locationClass];
+        }
+        // 'default' groups in our object
+        const df = designFactors[facilityType] && designFactors[facilityType]["default"];
+        return df ? df[locationClass] : null;
+    }
+}
+
+function validateForm(){
+    let ok = true;
+    const fac = document.getElementById('facilityType');
+    const loc = document.getElementById('locationClass');
+    const ej = document.getElementById('jointFactor');
+    const tj = document.getElementById('tempFactor');
+    const dp = document.getElementById('designPressure');
+    const sub = document.getElementById('subFacilityType');
+    const group = document.getElementById('subFacilityGroup');
+
+    document.getElementById('facilityTypeError').style.display = fac.value ? 'none' : 'block';
+    if(!fac.value){ ok = false; }
+
+    document.getElementById('locationClassError').style.display = loc.value ? 'none' : 'block';
+    if(!loc.value){ ok = false; }
+
+    document.getElementById('jointFactorError').style.display = ej.value ? 'none' : 'block';
+    if(!ej.value){ ok = false; }
+
+    document.getElementById('tempFactorError').style.display = tj.value ? 'none' : 'block';
+    if(!tj.value){ ok = false; }
+
+    const dpVal = parseFloat(dp.value);
+    document.getElementById('designPressureError').style.display = (isFinite(dpVal) && dpVal>0) ? 'none' : 'block';
+    if(!(isFinite(dpVal) && dpVal>0)){ ok = false; }
+
+    // Only validate subtype when visible/applicable
+    if(!group.classList.contains('hidden')){
+        document.getElementById('subFacilityTypeError').style.display = sub.value ? 'none' : 'block';
+        if(!sub.value){ ok = false; }
+    } else {
+        document.getElementById('subFacilityTypeError').style.display = 'none';
+    }
+    return ok;
+}
+
+function calculateMaxPressure(SMYS_val, F, E, T, thickness, OD){
+    return (2 * SMYS_val * F * E * T * thickness) / OD;
+}
+
+function generateTable(){
+    if(!validateForm()) return;
+
+    const F = calculateDesignFactor();
+    const E = parseFloat(document.getElementById('jointFactor').value);
+    const T = parseFloat(document.getElementById('tempFactor').value);
+    const designPressure = parseFloat(document.getElementById('designPressure').value);
+
+    document.getElementById('designFactorValue').textContent = F;
+    document.getElementById('jointFactorValue').textContent = E;
+    document.getElementById('tempFactorValue').textContent = T;
+    document.getElementById('designPressureValue').textContent = designPressure + " psi";
+
+    const tbody = document.querySelector('#pressureTable tbody');
+    tbody.innerHTML = '';
+
+    pipeData.forEach(pipe=>{
+        for(const [schedule, thickness] of Object.entries(pipe.schedules)){
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>${pipe.nps}</td><td>${pipe.od}</td><td>${schedule}</td><td>${thickness}</td>`;
+            for(const [grade, SMYS_val] of Object.entries(SMYS)){
+                const p = calculateMaxPressure(SMYS_val, F, E, T, thickness, pipe.od);
+                const cls = (p >= designPressure) ? 'pressure-ok' : 'pressure-fail';
+                row.innerHTML += `<td class="grade-${grade} ${cls}">${p.toFixed(0)}</td>`;
+            }
+            tbody.appendChild(row);
+        }
+    });
+}
+
+function updateFactorDescriptions(){
+    const E = document.getElementById('jointFactor').value;
+    const T = document.getElementById('tempFactor').value;
+    const dp = document.getElementById('designPressure').value;
+
+    // Update F when possible
+    const F = calculateDesignFactor();
+    if(F !== null && F !== undefined){
+        document.getElementById('designFactorValue').textContent = F;
+    }
+
+    document.getElementById('jointFactorValue').textContent = E ? E : 'Not selected';
+    document.getElementById('tempFactorValue').textContent = T ? T : 'Not selected';
+    document.getElementById('designPressureValue').textContent = dp ? (dp + ' psi') : 'Not specified';
+}
+
+document.getElementById('facilityType').addEventListener('change', ()=>{ updateSubFacilityOptions(); updateFactorDescriptions(); });
+document.getElementById('subFacilityType').addEventListener('change', updateFactorDescriptions);
+document.getElementById('locationClass').addEventListener('change', updateFactorDescriptions);
+document.getElementById('jointFactor').addEventListener('change', updateFactorDescriptions);
+document.getElementById('tempFactor').addEventListener('change', updateFactorDescriptions);
+document.getElementById('designPressure').addEventListener('input', updateFactorDescriptions);
+document.getElementById('calculateBtn').addEventListener('click', generateTable);
+
+// Init
+document.addEventListener('DOMContentLoaded', function(){
+    updateSubFacilityOptions();
+    updateFactorDescriptions();
+});
+</script>
+</body>
+</html>
+"""
+
+new_path.write_text(updated_html, encoding="utf-8")
+new_path.as_posix()
