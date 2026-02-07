@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <!-- Tailwind CDN (Fallback for environments without Node.js) -->
@@ -28,22 +28,22 @@
               "text-secondary": "#1E293B",
             },
             fontFamily: {
-              heading: ["Montserrat", "sans-serif"],
-              sans: ["Inter", "sans-serif"],
+              heading: ["Outfit", "sans-serif"],
+              sans: ["DM Sans", "sans-serif"],
             }
           }
         }
       }
     </script>
-    <!-- Custom Overrides -->
-    <link rel="stylesheet" href="responsive_fix.css" />
+    <link rel="stylesheet" href="custom_styles.css" />
   </head>
   <body class="bg-background text-text-primary">
     <!-- Header -->
     <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 shadow-lg">
       <!-- Top Bar Contact Info -->
       <div class="bg-[#0f172a] text-gray-300 text-xs py-2 border-b border-gray-800 hidden sm:block">
-         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-end gap-6">
+         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-end items-center gap-6">
+            <span class="font-medium text-gray-300 tracking-wide border-r border-gray-700 pr-6">FREDDY ROA M.</span>
             <a href="mailto:freddy.roa76@gmail.com" class="hover:text-[#D4E157] transition-colors flex items-center gap-1">
                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                freddy.roa76@gmail.com
@@ -56,33 +56,23 @@
       </div>
 
       <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white/95 backdrop-blur-md">
-        <div class="flex items-center justify-between h-20">
-          <div class="flex-shrink-0">
-            <a
-              href="#"
-              class="text-2xl font-extrabold text-[#0f172a] uppercase tracking-tighter hover:opacity-90 transition-opacity"
-            >
-              Freddy Roa M.
-            </a>
-          </div>
+        <div class="flex items-center justify-end h-20">
+
 
           <!-- Desktop Navigation -->
           <div class="hidden sm:flex items-center space-x-4">
             <a
               href="#home"
-              class="text-[#334155] hover:text-[#008F4C] px-3 py-2 rounded-md text-sm font-bold transition-colors relative group"
+              class="group-link"
             >
               Inicio
-              <span
-                class="absolute bottom-0 left-0 w-0 h-0.5 bg-[#008F4C] transition-all duration-300 group-hover:w-full"
-              ></span>
             </a>
 
             <!-- Herramientas Dropdown -->
             <div class="relative group">
               <a
                 href="herramientas.html"
-                class="text-[#334155] hover:text-[#008F4C] px-3 py-2 rounded-md text-sm font-bold transition-colors relative flex items-center gap-1 group-link"
+                class="group-link flex items-center gap-1"
               >
                 Herramientas
                 <svg
@@ -93,9 +83,6 @@
                     d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                   />
                 </svg>
-                <span
-                  class="absolute bottom-0 left-0 w-0 h-0.5 bg-[#008F4C] transition-all duration-300 group-hover:w-full"
-                ></span>
               </a>
 
               <!-- Dropdown Menu -->
@@ -103,9 +90,7 @@
                 class="absolute left-0 mt-0 w-80 bg-white rounded-md shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[100] border border-gray-100 py-2"
               >
                 <!-- Category: Diseño y Tuberías -->
-                <div class="px-4 py-2 text-xs font-bold text-gray-400 uppercase tracking-wider">
-                  Diseño y Tuberías
-                </div>
+
                 <a
                   href="herramientas/01_pipe_thickness.html"
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
@@ -128,9 +113,7 @@
                 >
 
                 <!-- Category: Proceso y Flujo -->
-                <div class="px-4 py-2 text-xs font-bold text-gray-400 uppercase tracking-wider mt-1">
-                  Proceso y Flujo
-                </div>
+
                 <a
                   href="herramientas/05_flow_std_to_actual.html"
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
@@ -148,9 +131,7 @@
                 >
 
                 <!-- Category: Compresión y Otros -->
-                <div class="px-4 py-2 text-xs font-bold text-gray-400 uppercase tracking-wider mt-1">
-                  Compresión y Otros
-                </div>
+
                 <a
                   href="herramientas/08_gas_compression.html"
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
@@ -171,30 +152,21 @@
 
             <a
               href="#expertise"
-              class="text-[#334155] hover:text-[#008F4C] px-3 py-2 rounded-md text-sm font-bold transition-colors relative group"
+              class="group-link"
             >
               Expertise
-              <span
-                class="absolute bottom-0 left-0 w-0 h-0.5 bg-[#008F4C] transition-all duration-300 group-hover:w-full"
-              ></span>
             </a>
             <a
               href="#projects"
-              class="text-[#334155] hover:text-[#008F4C] px-3 py-2 rounded-md text-sm font-bold transition-colors relative group"
+              class="group-link"
             >
               Proyectos
-              <span
-                class="absolute bottom-0 left-0 w-0 h-0.5 bg-[#008F4C] transition-all duration-300 group-hover:w-full"
-              ></span>
             </a>
             <a
               href="#experience"
-              class="text-[#334155] hover:text-[#008F4C] px-3 py-2 rounded-md text-sm font-bold transition-colors relative group"
+              class="group-link"
             >
               Experiencia
-              <span
-                class="absolute bottom-0 left-0 w-0 h-0.5 bg-[#008F4C] transition-all duration-300 group-hover:w-full"
-              ></span>
             </a>
             <a
               href="#contact"
@@ -252,12 +224,12 @@
       <!-- Mobile Menu -->
       <div
         id="mobile-menu"
-        class="hidden sm:hidden bg-[#006097] border-t border-[#005080] overflow-y-auto max-h-[calc(100vh-80px)]"
+        class="hidden sm:hidden bg-white border-t border-gray-100 overflow-y-auto max-h-[calc(100vh-80px)] shadow-xl"
       >
-        <div class="px-2 pt-2 pb-3 space-y-1">
+        <div class="px-4 pt-4 pb-6 space-y-2">
           <a
             href="#home"
-            class="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-[#005080]"
+            class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors"
             >Inicio</a
           >
 
@@ -265,7 +237,7 @@
           <div>
             <button
               id="mobile-tools-toggle"
-              class="w-full flex items-center justify-between text-white px-3 py-2 rounded-md text-base font-medium hover:bg-[#005080] transition-colors"
+              class="w-full flex items-center justify-between text-[#0F172A] px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors"
             >
               Herramientas
               <svg
@@ -285,66 +257,66 @@
             </button>
             <div
               id="mobile-tools-menu"
-              class="hidden pl-4 space-y-1 bg-[#005080]/50 rounded-md mt-1"
+              class="hidden pl-2 space-y-1 bg-gray-50 rounded-md mt-2 border border-gray-100"
             >
               <a
                 href="herramientas/00_mawp_calculator.html"
-                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
                 >Calculadora MAWP</a
               >
               <a
                 href="herramientas/01_pipe_thickness.html"
-                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
                 >Espesores de Tubería</a
               >
               <a
                 href="herramientas/02_hoop_stress.html"
-                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
                 >Esfuerzo Circunferencial</a
               >
               <a
                 href="herramientas/03_max_design_pressure.html"
-                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
                 >Presión Máxima Diseño</a
               >
               <a
                 href="herramientas/05_flow_std_to_actual.html"
-                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
                 >Flujo Estándar a Actual</a
               >
               <a
                 href="herramientas/06_gas_properties.html"
-                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
                 >Propiedades de Gases</a
               >
               <a
                 href="herramientas/07_velocidad_erosional_-_eng_esp.html"
-                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
                 >Velocidad Erosional</a
               >
               <a
                 href="herramientas/08_gas_compression.html"
-                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
                 >Compresión de Gas</a
               >
               <a
                 href="herramientas/09_tank_volume.html"
-                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
                 >Volumen de Tanques</a
               >
               <a
                 href="herramientas/10_z_factor_cnga.html"
-                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
                 >Factor Z (CNGA)</a
               >
               <a
                 href="herramientas/11_line_pack.html"
-                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
                 >Line Pack</a
               >
               <a
                 href="herramientas/12_pipe_weight.html"
-                class="text-white/90 block px-3 py-2 rounded-md text-sm hover:bg-[#005080]"
+                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
                 >Peso de Tuberías</a
               >
             </div>
@@ -352,28 +324,28 @@
 
           <a
             href="#expertise"
-            class="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-[#005080]"
+            class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors"
             >Expertise</a
           >
           <a
             href="#projects"
-            class="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-[#005080]"
+            class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors"
             >Proyectos</a
           >
           <a
             href="#experience"
-            class="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-[#005080]"
+            class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors"
             >Experiencia</a
           >
           <a
             href="#contact"
-            class="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-[#005080]"
+            class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors mb-4"
             >Contacto</a
           >
-          <div class="pt-2">
+          <div class="pt-4 border-t border-gray-100">
             <a
               href="#contact"
-              class="w-full text-center block bg-[#0F172A] text-white border border-transparent px-5 py-3 rounded-md text-base font-bold hover:bg-[#1E293B] transition-colors tracking-wide"
+              class="w-full text-center block bg-[#0F172A] text-[#D4E157] border border-[#0F172A] px-5 py-3 rounded-full text-base font-bold hover:bg-white hover:text-[#0F172A] transition-all tracking-wide shadow-md"
             >
               CONTACTAR
             </a>
@@ -396,19 +368,18 @@
         <div class="container mx-auto px-6 lg:px-8 relative z-10">
           <div class="max-w-4xl text-center mx-auto">
             <h1
-              class="text-4xl md:text-6xl font-black text-text-primary tracking-tight leading-tight mb-6"
+              class="text-4xl md:text-6xl font-extrabold text-[#0F172A] tracking-tight leading-tight mb-6"
             >
               Freddy Roa Monsalvo <br />
               <span
-                class="text-primary bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent"
+                class="block text-2xl md:text-3xl mt-4 font-semibold text-[#64748B]"
                 >Ingeniero Senior en Proyectos Oil & Gas y gestión de activos</span
               >
             </h1>
             <h2
-              class="text-xl md:text-2xl font-medium text-text-secondary tracking-tight mb-8"
+              class="text-2xl md:text-3xl font-medium text-text-secondary tracking-tight mb-8"
             >
-              Optimización, Confiabilidad y Diseño de Estaciones Compresoras
-              ASME B31.8
+              Optimización, Confiabilidad y Diseño de infraestructura de compresión y transporte de gas natural
             </h2>
             <p
               class="text-lg text-text-secondary max-w-2xl mx-auto mb-10 leading-relaxed"
@@ -441,7 +412,7 @@
               <div
                 class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-32 bg-white/5 rounded-full blur-3xl"
               ></div>
-              <h3 class="text-3xl md:text-4xl font-black mb-4 relative z-10">
+              <h3 class="text-3xl md:text-4xl font-bold mb-4 relative z-10">
                 Perfil Profesional
               </h3>
               <div class="w-20 h-1.5 bg-accent mx-auto mb-6 relative z-10"></div>
@@ -453,7 +424,7 @@
             <!-- Content Body -->
             <div class="p-8 md:p-16">
               <div class="max-w-3xl mx-auto text-center mb-12">
-                <p class="text-2xl md:text-3xl text-primary leading-tight font-extrabold italic">
+                <p class="text-2xl md:text-3xl text-[#0F172A] leading-tight font-bold italic">
                   "Con más de 20 años de trayectoria, mi enfoque se centra en garantizar la integridad y eficiencia de activos críticos, liderando la construcción y optimización de infraestructura estratégica de gas bajo los más altos estándares globales."
                 </p>
               </div>
