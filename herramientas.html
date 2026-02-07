@@ -4,9 +4,37 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Herramientas de Cálculo | Freddy Roa Monsalvo</title>
-    <title>Herramientas de Cálculo | Freddy Roa Monsalvo</title>
-    <!-- Professional Compiled CSS -->
-    <link rel="stylesheet" href="dist/output.css" />
+    <meta name="description" content="Colección de calculadoras y herramientas técnicas para ingeniería de gas: MAWP, flujo, compresión y más. Basado en normativas ASME y API." />
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#0F172A", 
+              secondary: "#008F4C", 
+              accent: "#D4E157", 
+              background: "#F8FAFC", 
+              surface: "#ffffff",
+              "text-primary": "#334155",
+              "text-secondary": "#1E293B",
+            },
+            fontFamily: {
+              heading: ["Montserrat", "sans-serif"],
+              sans: ["Inter", "sans-serif"],
+            }
+          }
+        }
+      }
+    </script>
+    <!-- Professional Fonts: Inter & Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body class="bg-background text-text-primary">
     <!-- Header -->
@@ -25,7 +53,7 @@
           </div>
 
           <!-- Desktop Navigation -->
-          <div class="hidden md:flex items-center space-x-4">
+          <div class="hidden sm:flex items-center space-x-4">
             <a
               href="index.html"
               class="text-white hover:opacity-80 px-3 py-2 rounded-md text-sm font-medium transition-colors relative group"
@@ -58,67 +86,71 @@
 
               <!-- Dropdown Menu -->
               <div
-                class="absolute left-0 mt-0 w-72 bg-white rounded-md shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[100] border border-gray-100 py-2"
+                class="absolute left-0 mt-0 w-80 bg-white rounded-md shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[100] border border-gray-100 py-2"
               >
-                <a
-                  href="herramientas/00_mawp_calculator.html"
-                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
-                  >Calculadora MAWP</a
-                >
+                <!-- Category: Diseño y Tuberías -->
+                <div class="px-4 py-2 text-xs font-bold text-gray-400 uppercase tracking-wider">
+                  Diseño y Tuberías
+                </div>
                 <a
                   href="herramientas/01_pipe_thickness.html"
-                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
                   >Espesores de Tubería</a
                 >
                 <a
-                  href="herramientas/02_hoop_stress.html"
-                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
-                  >Esfuerzo Circunferencial</a
+                  href="herramientas/12_pipe_weight.html"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
+                  >Peso de Tuberías</a
+                >
+                <a
+                  href="herramientas/00_mawp_calculator.html"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
+                  >Calculadora MAWP</a
                 >
                 <a
                   href="herramientas/03_max_design_pressure.html"
-                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a] border-b border-gray-50"
                   >Presión Máxima Diseño</a
                 >
+
+                <!-- Category: Proceso y Flujo -->
+                <div class="px-4 py-2 text-xs font-bold text-gray-400 uppercase tracking-wider mt-1">
+                  Proceso y Flujo
+                </div>
                 <a
                   href="herramientas/05_flow_std_to_actual.html"
-                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
                   >Flujo Estándar a Actual</a
                 >
                 <a
                   href="herramientas/06_gas_properties.html"
-                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
                   >Propiedades de Gases</a
                 >
                 <a
                   href="herramientas/07_velocidad_erosional_-_eng_esp.html"
-                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a] border-b border-gray-50"
                   >Velocidad Erosional</a
                 >
+
+                <!-- Category: Compresión y Otros -->
+                <div class="px-4 py-2 text-xs font-bold text-gray-400 uppercase tracking-wider mt-1">
+                  Compresión y Otros
+                </div>
                 <a
                   href="herramientas/08_gas_compression.html"
-                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
                   >Compresión de Gas</a
                 >
                 <a
                   href="herramientas/09_tank_volume.html"
-                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
                   >Volumen de Tanques</a
                 >
                 <a
-                  href="herramientas/10_z_factor_cnga.html"
-                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
-                  >Factor Z (CNGA)</a
-                >
-                <a
                   href="herramientas/11_line_pack.html"
-                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] border-b border-gray-50 font-normal"
-                  >Line Pack</a
-                >
-                <a
-                  href="herramientas/12_pipe_weight.html"
-                  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#006097] font-normal"
-                  >Peso de Tuberías</a
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
+                  >Line Pack (Empaquetamiento)</a
                 >
               </div>
             </div>
@@ -141,7 +173,7 @@
           </div>
 
           <!-- Mobile Menu Button -->
-          <div class="flex items-center md:hidden">
+          <div class="flex items-center sm:hidden">
             <button
               id="mobile-menu-button"
               type="button"
@@ -188,7 +220,7 @@
       <!-- Mobile Menu -->
       <div
         id="mobile-menu"
-        class="hidden md:hidden bg-[#006097] border-t border-[#005080] overflow-y-auto max-h-[calc(100vh-80px)]"
+        class="hidden sm:hidden bg-[#006097] border-t border-[#005080] overflow-y-auto max-h-[calc(100vh-80px)]"
       >
         <div class="px-2 pt-2 pb-3 space-y-1">
           <a
@@ -731,93 +763,64 @@
       </section>
     </main>
 
-    <!-- Footer -->
-    <footer id="contact" class="bg-secondary text-white">
-      <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 text-center">
-        <h3 class="text-2xl font-bold">Freddy Roa Monsalvo</h3>
-        <p class="mt-2 text-base text-gray-300">
-          Ingeniero Mecánico | Especialista en Confiabilidad y Estaciones
-          Compresoras de Gas Natural
-        </p>
+    <!-- Footer Pro -->
+    <footer id="contact" class="bg-gray-900 text-white border-t-4 border-[#008F4C]">
+      <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          
+          <!-- Column 1: Brand -->
+          <div>
+            <h3 class="text-xl font-bold font-heading mb-4 text-[#D4E157]">Freddy Roa Monsalvo</h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-4">
+              Ingeniero Mecánico Senior especializado en proyectos de infraestructura energética, diseño de estaciones compresoras y gestión de activos con RCM2.
+            </p>
+            <div class="flex space-x-4">
+               <!-- LinkedIn -->
+               <a href="https://www.linkedin.com/in/freddyroa/" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                  <span class="sr-only">LinkedIn</span>
+                  <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+               </a>
+            </div>
+          </div>
 
-        <div class="mt-8 flex justify-center space-x-6">
-          <a
-            href="mailto:freddy.roa76@gmail.com"
-            class="text-gray-300 hover:text-white transition-colors"
-            aria-label="Correo electrónico"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="w-6 h-6"
-            >
-              <rect width="20" height="16" x="2" y="4" rx="2" />
-              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-            </svg>
-          </a>
-          <a
-            href="https://wa.me/573112531330"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-gray-300 hover:text-white transition-colors"
-            aria-label="WhatsApp"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="w-6 h-6"
-            >
-              <path
-                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
-              />
-            </svg>
-          </a>
-          <a
-            href="https://linkedin.com/in/freddyroa"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-gray-300 hover:text-white transition-colors"
-            aria-label="LinkedIn"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="w-6 h-6"
-            >
-              <path
-                d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
-              />
-              <rect width="4" height="12" x="2" y="9" />
-              <circle cx="4" cy="4" r="2" />
-            </svg>
-          </a>
+          <!-- Column 2: Quick Links -->
+          <div>
+            <h3 class="text-lg font-bold font-heading mb-4 text-white">Enlaces Rápidos</h3>
+            <ul class="space-y-2">
+              <li><a href="index.html" class="text-gray-400 hover:text-[#D4E157] text-sm transition-colors">Inicio</a></li>
+              <li><a href="herramientas.html" class="text-gray-400 hover:text-[#D4E157] text-sm transition-colors">Herramientas de Cálculo</a></li>
+              <li><a href="index.html#expertise" class="text-gray-400 hover:text-[#D4E157] text-sm transition-colors">Expertise & Áreas</a></li>
+              <li><a href="index.html#projects" class="text-gray-400 hover:text-[#D4E157] text-sm transition-colors">Proyectos Destacados</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 3: Contact Info -->
+          <div>
+            <h3 class="text-lg font-bold font-heading mb-4 text-white">Contacto Profesional</h3>
+            <ul class="space-y-3">
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-[#008F4C] mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                <a href="mailto:freddy.roa76@gmail.com" class="text-gray-400 hover:text-white text-sm transition-colors">freddy.roa76@gmail.com</a>
+              </li>
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-[#008F4C] mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                <span class="text-gray-400 text-sm">+57 311 253 1330</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-[#008F4C] mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <span class="text-gray-400 text-sm">Bogotá D.C., Colombia</span>
+              </li>
+            </ul>
+          </div>
+
         </div>
 
-        <div class="mt-8 border-t border-gray-700 pt-8">
-          <p class="text-base text-gray-400">
-            &copy; 2024 Freddy Roa Monsalvo. Todos los derechos reservados.
-          </p>
+        <div class="mt-12 border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+          <p>&copy; <span class="copyright-year">2026</span> Freddy Roa Monsalvo. Todos los derechos reservados.</p>
+          <div class="flex space-x-6 mt-4 md:mt-0">
+             <a href="#" class="hover:text-gray-300">Privacidad</a>
+             <a href="#" class="hover:text-gray-300">Términos</a>
+          </div>
         </div>
       </div>
     </footer>
@@ -836,9 +839,10 @@
         height="28"
         viewBox="0 0 24 24"
         fill="currentColor"
+        class="w-7 h-7"
       >
         <path
-          d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.439-9.89-9.892-9.89-5.452 0-9.887 4.434-9.889 9.886-.001 2.269.655 4.385 1.873 6.262l-1.157 4.224 4.273-1.123z"
+          d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"
         />
       </svg>
     </a>

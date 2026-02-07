@@ -8,13 +8,15 @@ module.exports = {
         heading: ["Inter", "system-ui", "-apple-system", "sans-serif"],
       },
       colors: {
-        primary: "#005fa3", // Professional Blue (vs old #0A66C2)
-        secondary: "#00365a", // Deep Navy
-        accent: "#0077cc", // Bright Blue
-        background: "#f8f9fa", // Clean Light Grey
+        primary: "#0F172A", // Deep Ocean Navy (Autoridad)
+        secondary: "#008F4C", // Industrial Teal (Ecopetrol Heritage)
+        accent: "#D4E157", // Kinetic Lime (Energía)
+        "accent-alt": "#FFD817", // Amarillo
+        "accent-orange": "#FF5F00", // Naranja
+        background: "#F8FAFC", // Cool Grey 50
         surface: "#ffffff",
-        "text-primary": "#0f172a", // Slate 900
-        "text-secondary": "#475569", // Slate 600
+        "text-primary": "#334155", // Slate 700 (Legibilidad)
+        "text-secondary": "#1E293B", // Slate 800 (Encabezados)
       },
       boxShadow: {
         glass:
