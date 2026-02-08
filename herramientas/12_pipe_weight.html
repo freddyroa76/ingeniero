@@ -34,6 +34,8 @@
         },
       };
     </script>
+    <!-- Custom Styles for Tools -->
+    <link rel="stylesheet" href="../custom_styles.css">
     <script src="js/common.js"></script>
   </head>
   <body class="bg-background text-text-primary">
@@ -153,8 +155,7 @@
       </div>
     </header>
 <main class="pt-20">
-<section class="bg-background min-h-screen pt-8 pb-12">
-<div class="container mx-auto px-4 pt-8 pb-12 is-tool-content">
+<section class="bg-background min-h-screen pt-8 pb-12"><div class="container mx-auto px-4 pt-2 pb-12 is-tool-content">
       <!-- Breadcrumb -->
       <nav
         class="flex mb-6 text-xs font-medium text-gray-400 uppercase-none"
@@ -445,102 +446,346 @@
     </script>
   </body>
 <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Header scroll effect
+        const header = document.querySelector("header");
+        if (header) {
+          window.addEventListener("scroll", () => {
+            if (window.scrollY > 10) {
+              header.classList.add("bg-surface", "shadow-md");
+              if (header.classList.contains("bg-transparent")) { 
+                  header.classList.remove("bg-transparent");
+              }
+            } else {
+              header.classList.add("bg-surface", "shadow-md"); 
+            }
+          });
+        }
+
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
+        const menuIcon = document.getElementById("menu-icon");
+        const closeIcon = document.getElementById("close-icon");
+        const mobileToolsToggle = document.getElementById("mobile-tools-toggle");
+        const mobileToolsMenu = document.getElementById("mobile-tools-menu");
+        const mobileToolsArrow = document.getElementById("mobile-tools-arrow");
+
+        if (mobileMenuButton && mobileMenu) {
+          mobileMenuButton.addEventListener("click", () => {
+            const isExpanded = mobileMenuButton.getAttribute("aria-expanded") === "true";
+            mobileMenu.classList.toggle("hidden");
+            menuIcon.classList.toggle("hidden");
+            closeIcon.classList.toggle("hidden");
+            mobileMenuButton.setAttribute("aria-expanded", !isExpanded);
+          });
+
+          if (mobileToolsToggle && mobileToolsMenu) {
+            mobileToolsToggle.addEventListener("click", (e) => {
+              e.preventDefault();
+              mobileToolsMenu.classList.toggle("hidden");
+              if (mobileToolsArrow) mobileToolsArrow.classList.toggle("rotate-180");
+            });
+          }
+
+          const mobileLinks = mobileMenu.querySelectorAll("a");
+          mobileLinks.forEach((link) => {
+            if (link.id !== "mobile-tools-toggle") {
+              link.addEventListener("click", () => {
+                mobileMenu.classList.add("hidden");
+                menuIcon.classList.remove("hidden");
+                closeIcon.classList.add("hidden");
+                mobileMenuButton.setAttribute("aria-expanded", "false");
+              });
+            }
+          });
+        }
+
+        // Update copyright year
+        const yearSpan = document.querySelector(".copyright-year");
+        if (yearSpan) {
+          yearSpan.textContent = new Date().getFullYear();
+        }
+      });
+    </script>
+<script>
       const LB_TO_KG = 0.45359237;
       const KG_TO_LB = 2.20462262185;
 
       // Base database
-      const WEIGHTS = {
-        "1/2": {
-          40: { kgm: 1.27, lbft: 0.85 },
-          80: { kgm: 1.62, lbft: 1.09 },
-          160: { kgm: 1.95, lbft: 1.31 },
-          XXS: { kgm: 2.55, lbft: 1.72 },
-        },
-        "3/4": {
-          40: { kgm: 1.69, lbft: 1.13 },
-          80: { kgm: 2.2, lbft: 1.48 },
-          160: { kgm: 2.9, lbft: 1.95 },
-          XXS: { kgm: 3.64, lbft: 2.44 },
-        },
-        1: {
-          40: { kgm: 2.5, lbft: 1.68 },
-          80: { kgm: 3.24, lbft: 2.17 },
-          160: { kgm: 4.24, lbft: 2.85 },
-          XXS: { kgm: 5.45, lbft: 3.66 },
-        },
-        2: {
-          5: { kgm: 2.39, lbft: 1.61 },
-          10: { kgm: 3.93, lbft: 2.64 },
-          30: { kgm: 4.48, lbft: 3.01 },
-          40: { kgm: 5.44, lbft: 3.66 },
-          80: { kgm: 7.48, lbft: 5.03 },
-          160: { kgm: 11.11, lbft: 7.14 },
-          XXS: { kgm: 13.44, lbft: 9.04 },
-        },
-        3: {
-          40: { kgm: 11.29, lbft: 7.58 },
-          80: { kgm: 15.27, lbft: 10.26 },
-          160: { kgm: 21.35, lbft: 14.34 },
-          XXS: { kgm: 27.68, lbft: 18.6 },
-        },
-        4: {
-          5: { kgm: 5.84, lbft: 3.92 },
-          10: { kgm: 8.37, lbft: 5.62 },
-          30: { kgm: 12.91, lbft: 8.67 },
-          40: { kgm: 16.08, lbft: 10.8 },
-          60: { kgm: 22.32, lbft: 15.0 },
-          80: { kgm: 22.32, lbft: 15.0 },
-          100: { kgm: 28.32, lbft: 19.02 },
-          120: { kgm: 33.54, lbft: 22.53 },
-          160: { kgm: 41.03, lbft: 27.57 },
-          XXS: { kgm: 41.03, lbft: 27.57 },
-        },
-        6: {
-          40: { kgm: 28.26, lbft: 18.99 },
-          80: { kgm: 48.73, lbft: 32.74 },
-          120: { kgm: 59.69, lbft: 40.09 },
-          160: { kgm: 70.12, lbft: 47.1 },
-          XXS: { kgm: 79.22, lbft: 53.21 },
-        },
-        8: {
-          20: { kgm: 19.97, lbft: 13.41 },
-          40: { kgm: 34.39, lbft: 23.1 },
-          80: { kgm: 61.7, lbft: 41.48 },
-          120: { kgm: 97.44, lbft: 65.48 },
-        },
-        10: {
-          5: { kgm: 22.61, lbft: 15.21 },
-          10: { kgm: 27.78, lbft: 18.67 },
-          20: { kgm: 41.76, lbft: 28.06 },
-          30: { kgm: 51.01, lbft: 34.27 },
-          40: { kgm: 60.29, lbft: 40.52 },
-          60: { kgm: 81.53, lbft: 54.79 },
-          80: { kgm: 100.69, lbft: 67.65 },
-          100: { kgm: 114.71, lbft: 77.1 },
-          120: { kgm: 133.01, lbft: 89.38 },
-          140: { kgm: 155.1, lbft: 104.23 },
-          160: { kgm: 188.9, lbft: 126.94 },
-          XXS: { kgm: 155.1, lbft: 104.23 },
-        },
-        12: {
-          40: { kgm: 73.86, lbft: 49.61 },
-          80: { kgm: 120.59, lbft: 81.01 },
-          120: { kgm: 165.33, lbft: 111.08 },
-          160: { kgm: 228.68, lbft: 153.67 },
-        },
-        24: {
-          10: { kgm: 94.46, lbft: 63.47 },
-          20: { kgm: 141.12, lbft: 94.71 },
-          30: { kgm: 209.65, lbft: 140.81 },
-          40: { kgm: 255.43, lbft: 171.45 },
-          60: { kgm: 366.19, lbft: 245.87 },
-          80: { kgm: 452.77, lbft: 304.0 },
-          100: { kgm: 557.97, lbft: 374.66 },
-          120: { kgm: 640.07, lbft: 429.79 },
-          140: { kgm: 720.19, lbft: 483.57 },
-          160: { kgm: 808.27, lbft: 542.64 },
-        },
-      };
+      // Base database - Generated from ASME data
+const WEIGHTS = {
+  "1/2": {
+    "STD": { "kgm": 1.27, "lbft": 0.85 },
+    "40": { "kgm": 1.27, "lbft": 0.85 },
+    "XS": { "kgm": 1.62, "lbft": 1.09 },
+    "80": { "kgm": 1.62, "lbft": 1.09 },
+    "160": { "kgm": 1.95, "lbft": 1.31 },
+    "XXS": { "kgm": 2.8, "lbft": 1.88 }
+  },
+  "3/4": {
+    "STD": { "kgm": 1.69, "lbft": 1.13 },
+    "40": { "kgm": 1.69, "lbft": 1.13 },
+    "XS": { "kgm": 2.2, "lbft": 1.48 },
+    "80": { "kgm": 2.2, "lbft": 1.48 },
+    "160": { "kgm": 2.9, "lbft": 1.95 },
+    "XXS": { "kgm": 3.73, "lbft": 2.51 }
+  },
+  "1": {
+    "STD": { "kgm": 2.5, "lbft": 1.68 },
+    "40": { "kgm": 2.5, "lbft": 1.68 },
+    "XS": { "kgm": 3.24, "lbft": 2.17 },
+    "80": { "kgm": 3.24, "lbft": 2.17 },
+    "160": { "kgm": 4.24, "lbft": 2.85 },
+    "XXS": { "kgm": 5.46, "lbft": 3.66 }
+  },
+  "1-1/4": {
+    "STD": { "kgm": 3.39, "lbft": 2.27 },
+    "40": { "kgm": 3.39, "lbft": 2.27 },
+    "XS": { "kgm": 4.47, "lbft": 3.0 },
+    "80": { "kgm": 4.47, "lbft": 3.0 },
+    "160": { "kgm": 5.61, "lbft": 3.77 },
+    "XXS": { "kgm": 7.77, "lbft": 5.22 }
+  },
+  "1-1/2": {
+    "STD": { "kgm": 4.05, "lbft": 2.72 },
+    "40": { "kgm": 4.05, "lbft": 2.72 },
+    "XS": { "kgm": 5.41, "lbft": 3.64 },
+    "80": { "kgm": 5.41, "lbft": 3.64 },
+    "160": { "kgm": 7.25, "lbft": 4.87 },
+    "XXS": { "kgm": 9.56, "lbft": 6.42 }
+  },
+  "2": {
+    "STD": { "kgm": 5.44, "lbft": 3.66 },
+    "40": { "kgm": 5.44, "lbft": 3.66 },
+    "XS": { "kgm": 7.48, "lbft": 5.03 },
+    "80": { "kgm": 7.48, "lbft": 5.03 },
+    "160": { "kgm": 11.11, "lbft": 7.47 },
+    "XXS": { "kgm": 13.45, "lbft": 9.04 }
+  },
+  "2-1/2": {
+    "STD": { "kgm": 8.63, "lbft": 5.8 },
+    "40": { "kgm": 8.63, "lbft": 5.8 },
+    "XS": { "kgm": 11.41, "lbft": 7.67 },
+    "80": { "kgm": 11.41, "lbft": 7.67 },
+    "160": { "kgm": 14.92, "lbft": 10.02 },
+    "XXS": { "kgm": 20.4, "lbft": 13.71 }
+  },
+  "3": {
+    "STD": { "kgm": 11.29, "lbft": 7.59 },
+    "40": { "kgm": 11.29, "lbft": 7.59 },
+    "XS": { "kgm": 15.27, "lbft": 10.26 },
+    "80": { "kgm": 15.27, "lbft": 10.26 },
+    "160": { "kgm": 21.35, "lbft": 14.34 },
+    "XXS": { "kgm": 27.69, "lbft": 18.61 }
+  },
+  "3-1/2": {
+    "STD": { "kgm": 13.57, "lbft": 9.12 },
+    "40": { "kgm": 13.57, "lbft": 9.12 },
+    "XS": { "kgm": 18.63, "lbft": 12.52 },
+    "80": { "kgm": 18.63, "lbft": 12.52 }
+  },
+  "4": {
+    "STD": { "kgm": 16.08, "lbft": 10.8 },
+    "40": { "kgm": 16.08, "lbft": 10.8 },
+    "XS": { "kgm": 22.32, "lbft": 15.0 },
+    "80": { "kgm": 22.32, "lbft": 15.0 },
+    "120": { "kgm": 28.32, "lbft": 19.03 },
+    "160": { "kgm": 33.54, "lbft": 22.54 },
+    "XXS": { "kgm": 41.04, "lbft": 27.58 }
+  },
+  "5": {
+    "STD": { "kgm": 22.32, "lbft": 15.0 },
+    "40": { "kgm": 22.32, "lbft": 15.0 },
+    "XS": { "kgm": 30.97, "lbft": 20.81 },
+    "80": { "kgm": 30.97, "lbft": 20.81 },
+    "120": { "kgm": 40.28, "lbft": 27.07 },
+    "160": { "kgm": 49.12, "lbft": 33.01 },
+    "XXS": { "kgm": 57.44, "lbft": 38.6 }
+  },
+  "6": {
+    "STD": { "kgm": 28.27, "lbft": 19.0 },
+    "40": { "kgm": 28.27, "lbft": 19.0 },
+    "XS": { "kgm": 42.56, "lbft": 28.6 },
+    "80": { "kgm": 42.56, "lbft": 28.6 },
+    "120": { "kgm": 54.22, "lbft": 36.43 },
+    "160": { "kgm": 67.57, "lbft": 45.41 },
+    "XXS": { "kgm": 79.22, "lbft": 53.23 }
+  },
+  "8": {
+    "10": { "kgm": 33.31, "lbft": 22.38 },
+    "20": { "kgm": 36.79, "lbft": 24.72 },
+    "STD": { "kgm": 42.55, "lbft": 28.59 },
+    "40": { "kgm": 42.55, "lbft": 28.59 },
+    "60": { "kgm": 53.09, "lbft": 35.67 },
+    "XS": { "kgm": 64.64, "lbft": 43.43 },
+    "80": { "kgm": 64.64, "lbft": 43.43 },
+    "100": { "kgm": 75.88, "lbft": 50.99 },
+    "120": { "kgm": 90.41, "lbft": 60.75 },
+    "140": { "kgm": 100.92, "lbft": 67.82 },
+    "160": { "kgm": 111.25, "lbft": 74.76 },
+    "XXS": { "kgm": 107.88, "lbft": 72.49 }
+  },
+  "10": {
+    "10": { "kgm": 41.76, "lbft": 28.06 },
+    "20": { "kgm": 41.76, "lbft": 28.06 },
+    "30": { "kgm": 51.0, "lbft": 34.27 },
+    "STD": { "kgm": 60.3, "lbft": 40.52 },
+    "40": { "kgm": 60.3, "lbft": 40.52 },
+    "60": { "kgm": 81.53, "lbft": 54.79 },
+    "XS": { "kgm": 81.53, "lbft": 54.79 },
+    "80": { "kgm": 95.97, "lbft": 64.49 },
+    "100": { "kgm": 114.74, "lbft": 77.1 },
+    "120": { "kgm": 133.01, "lbft": 89.38 },
+    "140": { "kgm": 155.11, "lbft": 104.23 },
+    "160": { "kgm": 172.26, "lbft": 115.75 },
+    "XXS": { "kgm": 155.11, "lbft": 104.23 }
+  },
+  "12": {
+    "10": { "kgm": 49.71, "lbft": 33.41 },
+    "20": { "kgm": 49.71, "lbft": 33.41 },
+    "30": { "kgm": 65.2, "lbft": 43.81 },
+    "STD": { "kgm": 73.83, "lbft": 49.61 },
+    "40": { "kgm": 79.73, "lbft": 53.57 },
+    "60": { "kgm": 108.97, "lbft": 73.22 },
+    "XS": { "kgm": 97.44, "lbft": 65.48 },
+    "80": { "kgm": 132.02, "lbft": 88.71 },
+    "100": { "kgm": 159.86, "lbft": 107.42 },
+    "120": { "kgm": 186.92, "lbft": 125.61 },
+    "140": { "kgm": 208.05, "lbft": 139.81 },
+    "160": { "kgm": 238.73, "lbft": 160.42 },
+    "XXS": { "kgm": 186.92, "lbft": 125.61 }
+  },
+  "14": {
+    "10": { "kgm": 54.69, "lbft": 36.75 },
+    "20": { "kgm": 67.94, "lbft": 45.65 },
+    "30": { "kgm": 81.28, "lbft": 54.62 },
+    "STD": { "kgm": 81.28, "lbft": 54.62 },
+    "40": { "kgm": 94.5, "lbft": 63.5 },
+    "60": { "kgm": 126.68, "lbft": 85.13 },
+    "XS": { "kgm": 107.38, "lbft": 72.16 },
+    "80": { "kgm": 158.09, "lbft": 106.23 },
+    "100": { "kgm": 194.91, "lbft": 130.98 },
+    "120": { "kgm": 224.61, "lbft": 150.93 },
+    "140": { "kgm": 253.54, "lbft": 170.37 },
+    "160": { "kgm": 281.69, "lbft": 189.29 }
+  },
+  "16": {
+    "10": { "kgm": 62.64, "lbft": 42.09 },
+    "20": { "kgm": 77.87, "lbft": 52.32 },
+    "30": { "kgm": 93.21, "lbft": 62.64 },
+    "STD": { "kgm": 93.21, "lbft": 62.64 },
+    "40": { "kgm": 123.29, "lbft": 82.85 },
+    "60": { "kgm": 160.13, "lbft": 107.6 },
+    "XS": { "kgm": 123.29, "lbft": 82.85 },
+    "80": { "kgm": 203.5, "lbft": 136.74 },
+    "100": { "kgm": 245.52, "lbft": 164.98 },
+    "120": { "kgm": 286.64, "lbft": 192.61 },
+    "140": { "kgm": 333.13, "lbft": 223.85 },
+    "160": { "kgm": 365.31, "lbft": 245.48 }
+  },
+  "18": {
+    "10": { "kgm": 70.59, "lbft": 47.44 },
+    "20": { "kgm": 87.79, "lbft": 58.99 },
+    "30": { "kgm": 122.37, "lbft": 82.23 },
+    "STD": { "kgm": 105.15, "lbft": 70.65 },
+    "40": { "kgm": 155.91, "lbft": 104.76 },
+    "60": { "kgm": 205.82, "lbft": 138.3 },
+    "XS": { "kgm": 139.2, "lbft": 93.54 },
+    "80": { "kgm": 254.6, "lbft": 171.08 },
+    "100": { "kgm": 309.76, "lbft": 208.15 },
+    "120": { "kgm": 363.66, "lbft": 244.37 },
+    "140": { "kgm": 408.47, "lbft": 274.48 },
+    "160": { "kgm": 459.53, "lbft": 308.79 }
+  },
+  "20": {
+    "10": { "kgm": 78.55, "lbft": 52.78 },
+    "20": { "kgm": 117.08, "lbft": 78.67 },
+    "30": { "kgm": 155.11, "lbft": 104.23 },
+    "STD": { "kgm": 117.08, "lbft": 78.67 },
+    "40": { "kgm": 183.38, "lbft": 123.23 },
+    "60": { "kgm": 247.86, "lbft": 166.56 },
+    "XS": { "kgm": 155.11, "lbft": 104.23 },
+    "80": { "kgm": 311.12, "lbft": 209.06 },
+    "100": { "kgm": 381.47, "lbft": 256.34 },
+    "120": { "kgm": 441.46, "lbft": 296.65 },
+    "140": { "kgm": 508.08, "lbft": 341.41 },
+    "160": { "kgm": 564.8, "lbft": 379.53 }
+  },
+  "22": {
+    "10": { "kgm": 86.5, "lbft": 58.13 },
+    "20": { "kgm": 129.01, "lbft": 86.69 },
+    "30": { "kgm": 171.02, "lbft": 114.92 },
+    "STD": { "kgm": 129.01, "lbft": 86.69 },
+    "60": { "kgm": 294.06, "lbft": 197.6 },
+    "XS": { "kgm": 171.02, "lbft": 114.92 },
+    "80": { "kgm": 373.6, "lbft": 251.05 },
+    "100": { "kgm": 451.15, "lbft": 303.16 },
+    "120": { "kgm": 526.72, "lbft": 353.94 },
+    "140": { "kgm": 600.3, "lbft": 403.38 },
+    "160": { "kgm": 671.88, "lbft": 451.49 }
+  },
+  "24": {
+    "10": { "kgm": 94.46, "lbft": 63.47 },
+    "20": { "kgm": 140.94, "lbft": 94.71 },
+    "30": { "kgm": 209.55, "lbft": 140.81 },
+    "STD": { "kgm": 140.94, "lbft": 94.71 },
+    "40": { "kgm": 255.15, "lbft": 171.45 },
+    "60": { "kgm": 355.03, "lbft": 238.57 },
+    "XS": { "kgm": 186.92, "lbft": 125.61 },
+    "80": { "kgm": 441.78, "lbft": 296.86 },
+    "100": { "kgm": 547.25, "lbft": 367.74 },
+    "120": { "kgm": 639.59, "lbft": 429.79 },
+    "140": { "kgm": 719.64, "lbft": 483.57 },
+    "160": { "kgm": 807.54, "lbft": 542.64 }
+  },
+  "26": {
+    "10": { "kgm": 127.5, "lbft": 85.68 },
+    "20": { "kgm": 202.83, "lbft": 136.3 },
+    "STD": { "kgm": 152.87, "lbft": 102.72 },
+    "XS": { "kgm": 202.83, "lbft": 136.3 }
+  },
+  "28": {
+    "10": { "kgm": 137.43, "lbft": 92.35 },
+    "20": { "kgm": 218.74, "lbft": 146.99 },
+    "STD": { "kgm": 164.8, "lbft": 110.74 },
+    "XS": { "kgm": 218.74, "lbft": 146.99 }
+  },
+  "30": {
+    "10": { "kgm": 147.35, "lbft": 99.02 },
+    "20": { "kgm": 234.65, "lbft": 157.68 },
+    "30": { "kgm": 292.07, "lbft": 196.26 },
+    "STD": { "kgm": 176.73, "lbft": 118.76 },
+    "XS": { "kgm": 234.65, "lbft": 157.68 }
+  },
+  "32": {
+    "10": { "kgm": 157.28, "lbft": 105.69 },
+    "20": { "kgm": 250.56, "lbft": 168.37 },
+    "30": { "kgm": 311.96, "lbft": 209.62 },
+    "STD": { "kgm": 188.66, "lbft": 126.78 },
+    "40": { "kgm": 342.71, "lbft": 230.29 }
+  },
+  "34": {
+    "10": { "kgm": 167.21, "lbft": 112.36 },
+    "20": { "kgm": 266.47, "lbft": 179.06 },
+    "30": { "kgm": 331.84, "lbft": 222.99 },
+    "STD": { "kgm": 200.6, "lbft": 134.79 },
+    "40": { "kgm": 364.6, "lbft": 245.0 }
+  },
+  "36": {
+    "10": { "kgm": 177.14, "lbft": 119.03 },
+    "20": { "kgm": 282.38, "lbft": 189.75 },
+    "30": { "kgm": 351.73, "lbft": 236.35 },
+    "STD": { "kgm": 212.53, "lbft": 142.81 },
+    "40": { "kgm": 420.58, "lbft": 282.62 }
+  },
+  "42": {
+    "20": { "kgm": 330.1, "lbft": 221.82 },
+    "30": { "kgm": 411.38, "lbft": 276.44 },
+    "STD": { "kgm": 248.32, "lbft": 166.86 },
+    "40": { "kgm": 492.17, "lbft": 330.72 }
+  }
+};
 
       const NPS_ORDER = [
         "1/8",
@@ -573,6 +818,7 @@
         "32",
         "34",
         "36",
+        "42",
       ];
       const SCH_ORDER = [
         "5",
@@ -620,10 +866,9 @@
           return ai - bi;
         });
         for (const s of schs) {
-          const txt = s === "40" ? "40 (STD)" : s === "80" ? "80 (XS)" : s;
           const opt = document.createElement("option");
           opt.value = s;
-          opt.textContent = txt;
+          opt.textContent = s;
           schSel.appendChild(opt);
         }
       }
@@ -666,7 +911,7 @@
           tr.innerHTML = `
                     <td>${idx + 1}</td>
                     <td>${r.nps}"</td>
-                    <td>${r.sch === "40" ? "40 (STD)" : r.sch === "80" ? "80 (XS)" : r.sch}</td>
+                    <td>${r.sch}</td>
                     <td class="text-right">${fmt(r.L)}</td>
                     <td>${r.unit}</td>
                     <td class="text-right"><span class="editable" data-idx="${idx}" data-field="kgm">${fmt(r.kgm)}</span></td>
@@ -719,16 +964,19 @@
           rows = [];
           persist();
           render();
+          // Also clear inputs
+          npsSel.selectedIndex = 0;
+          schSel.innerHTML = "";
+          lenInp.value = "";
+          unitSel.selectedIndex = 0;
         }
       };
       document.getElementById("exportBtn").onclick = () => {
-        let csv = "NPS,SCH,Length,Unit,kg/m,lb/ft,Total kg,Total lb
-";
+        let csv = "NPS,SCH,Length,Unit,kg/m,lb/ft,Total kg,Total lb\n";
         rows.forEach((r) => {
           const tkg = r.unit === "m" ? r.kgm * r.L : r.lbft * r.L * LB_TO_KG;
           const tlb = r.unit === "ft" ? r.lbft * r.L : r.kgm * r.L * KG_TO_LB;
-          csv += `${r.nps},${r.sch},${r.L},${r.unit},${r.kgm},${r.lbft},${fmt(tkg)},${fmt(tlb)}
-`;
+          csv += `${r.nps},${r.sch},${r.L},${r.unit},${r.kgm},${r.lbft},${fmt(tkg)},${fmt(tlb)}\n`;
         });
         const blob = new Blob([csv], { type: "text/csv" });
         const a = document.createElement("a");
@@ -740,8 +988,7 @@
       document.getElementById("btnParseCsv").onclick = () => {
         const txt = document.getElementById("csvArea").value.trim();
         if (!txt) return;
-        txt.split("
-").forEach((line) => {
+        txt.split("\n").forEach((line) => {
           const [nps, sch, kgm, lbft] = line.split(",").map((s) => s.trim());
           if (nps && sch && parseNumber(kgm) > 0) {
             WEIGHTS[nps] = WEIGHTS[nps] || {};

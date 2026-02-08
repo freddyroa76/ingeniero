@@ -34,6 +34,8 @@
         },
       };
     </script>
+    <!-- Custom Styles for Tools -->
+    <link rel="stylesheet" href="../custom_styles.css">
     <script src="js/common.js"></script>
   </head>
   <body class="bg-background text-text-primary">
@@ -153,8 +155,7 @@
       </div>
     </header>
 <main class="pt-20">
-<section class="bg-background min-h-screen pt-8 pb-12">
-<div class="container mx-auto px-4 pt-8 pb-12 is-tool-content">
+<section class="bg-background min-h-screen pt-8 pb-12"><div class="container mx-auto px-4 pt-2 pb-12 is-tool-content">
       <!-- Breadcrumb -->
       <nav
         class="flex mb-6 text-xs font-medium text-gray-400 uppercase-none"
@@ -234,7 +235,7 @@
           </div>
           <div class="composition-grid" id="compGrid"></div>
           <div class="flex gap-4 mt-6">
-            <button class="flex-1" onclick="calculate()">
+            <button id="calculateBtn" class="flex-1" onclick="calculate()">
               Calculate Compression
             </button>
             <button
@@ -469,6 +470,69 @@
       });
     </script>
   </body>
+<script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Header scroll effect
+        const header = document.querySelector("header");
+        if (header) {
+          window.addEventListener("scroll", () => {
+            if (window.scrollY > 10) {
+              header.classList.add("bg-surface", "shadow-md");
+              if (header.classList.contains("bg-transparent")) { 
+                  header.classList.remove("bg-transparent");
+              }
+            } else {
+              header.classList.add("bg-surface", "shadow-md"); 
+            }
+          });
+        }
+
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
+        const menuIcon = document.getElementById("menu-icon");
+        const closeIcon = document.getElementById("close-icon");
+        const mobileToolsToggle = document.getElementById("mobile-tools-toggle");
+        const mobileToolsMenu = document.getElementById("mobile-tools-menu");
+        const mobileToolsArrow = document.getElementById("mobile-tools-arrow");
+
+        if (mobileMenuButton && mobileMenu) {
+          mobileMenuButton.addEventListener("click", () => {
+            const isExpanded = mobileMenuButton.getAttribute("aria-expanded") === "true";
+            mobileMenu.classList.toggle("hidden");
+            menuIcon.classList.toggle("hidden");
+            closeIcon.classList.toggle("hidden");
+            mobileMenuButton.setAttribute("aria-expanded", !isExpanded);
+          });
+
+          if (mobileToolsToggle && mobileToolsMenu) {
+            mobileToolsToggle.addEventListener("click", (e) => {
+              e.preventDefault();
+              mobileToolsMenu.classList.toggle("hidden");
+              if (mobileToolsArrow) mobileToolsArrow.classList.toggle("rotate-180");
+            });
+          }
+
+          const mobileLinks = mobileMenu.querySelectorAll("a");
+          mobileLinks.forEach((link) => {
+            if (link.id !== "mobile-tools-toggle") {
+              link.addEventListener("click", () => {
+                mobileMenu.classList.add("hidden");
+                menuIcon.classList.remove("hidden");
+                closeIcon.classList.add("hidden");
+                mobileMenuButton.setAttribute("aria-expanded", "false");
+              });
+            }
+          });
+        }
+
+        // Update copyright year
+        const yearSpan = document.querySelector(".copyright-year");
+        if (yearSpan) {
+          yearSpan.textContent = new Date().getFullYear();
+        }
+      });
+    </script>
 <script>
       const gasComps = {
         CH4: { name: "Metano", Pc: 666.4, Tc: 343.0, MW: 16.04, k: 1.3 },
