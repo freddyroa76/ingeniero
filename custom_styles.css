@@ -539,3 +539,105 @@ table tr:hover td {
 .grade-X60 { background-color: #475569; }
 .grade-X65 { background-color: #334155; }
 .grade-X70 { background-color: #1e293b; }
+
+/* ---------------------------------------------------- */
+/* GAS PROPERTIES TOOL STYLES                           */
+/* ---------------------------------------------------- */
+
+.title-box {
+  background-color: var(--primary);
+  color: white;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.title-box h1 {
+  color: white !important;
+  margin-bottom: 0.5rem;
+}
+
+.composition-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.comp-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.comp-item label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-bottom: 0.25rem;
+}
+
+.comp-item input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.375rem;
+  font-size: 0.9rem;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.2s;
+}
+
+.comp-item input:focus {
+  border-color: var(--secondary);
+  box-shadow: 0 0 0 3px rgba(0, 143, 76, 0.1); /* Green glow */
+  outline: none;
+}
+
+.units {
+  color: #94a3b8;
+  font-weight: 400;
+  font-size: 0.75rem;
+  margin-left: 4px;
+}
+
+/* Visualization Chart */
+.chart-container {
+  height: 240px;
+  display: flex;
+  align-items: flex-end; /* Bars grow from bottom */
+  justify-content: center;
+  gap: 8px; /* Space between bars */
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 1rem 1rem 0 1rem; /* Padding bottom 0 for bars to sit flush maybe? no, flex alignment handles it */
+  margin-top: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.chart-bar {
+  flex: 1; 
+  background-color: var(--secondary); /* Brand green */
+  min-width: 20px;
+  max-width: 50px;
+  border-radius: 4px 4px 0 0;
+  transition: height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); /* Bouncy effect */
+  position: relative;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.chart-bar:hover {
+  background-color: var(--accent); /* Lime on hover */
+  transform: translateY(-2px);
+  cursor: help;
+}
+
+#chartLabels span {
+  width: 50px; /* Align roughly with max-width of bars */
+  text-align: center;
+  display: inline-block;
+  font-weight: 600;
+  color: var(--text-heading);
+}

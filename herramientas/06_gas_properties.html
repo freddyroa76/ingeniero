@@ -185,73 +185,83 @@
       <div class="title-box">
         <h1 class="text-3xl font-bold">Natural Gas Properties Calculator</h1>
         <p class="text-gray-100 mt-1">
-          Standing-Katz Z-Factor & Pseudocritical Properties Analysis
+          Dranchuk-Abou-Kassem EOS & GPSA Properties Analysis
         </p>
       </div>
 
-      <div class="card">
-        <div class="flex justify-between items-center mb-2">
-          <h2>Gas Composition (Mole Fraction)</h2>
-          <div class="text-sm">
-            Sum: <span id="moleSum" class="font-mono">0.0000</span>
-          </div>
-        </div>
-        <div class="composition-grid" id="compGrid"></div>
-        <div class="flex gap-2 mt-4">
-          <button
-            class="text-xs py-1 px-3 bg-gray-100 text-gray-700 hover:bg-gray-200"
-            onclick="pasteFromExcel()"
-          >
-            Paste from Excel
-          </button>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="card">
-          <h2>Operating Conditions</h2>
-          <div class="space-y-4">
-            <div class="input-group">
-              <label for="pOp" class="required"
-                >Operating Pressure <span class="units">(psig)</span>:</label
-              >
-              <input type="number" id="pOp" placeholder="e.g. 500" required />
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Left Column: Composition (Takes 2/3 width) -->
+        <div class="lg:col-span-2">
+            <div class="card">
+                <div class="flex justify-between items-center mb-4">
+                  <div>
+                      <h2>Gas Composition</h2>
+                      <p class="text-xs text-gray-500">Mole Fraction (Sum should be 1.0)</p>
+                  </div>
+                  <div class="flex flex-col items-end gap-1">
+                    <div class="text-sm">
+                        Sum: <span id="moleSum" class="font-mono">0.0000</span>
+                    </div>
+                    <div class="flex gap-2">
+                      <button
+                        class="text-xs py-1.5 px-3 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-md border border-blue-200 font-medium transition-colors flex items-center gap-1"
+                        onclick="pasteFromExcel()"
+                        title="Paste column from Excel"
+                      >
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+                        Paste
+                      </button>
+                      <button
+                        class="text-xs py-1.5 px-3 bg-red-50 text-red-600 hover:bg-red-100 rounded-md border border-red-200 font-medium transition-colors"
+                        onclick="clearComposition()"
+                      >
+                        Clear
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="composition-grid" id="compGrid"></div>
             </div>
-            <div class="input-group">
-              <label for="tOp" class="required"
-                >Operating Temperature <span class="units">(°F)</span>:</label
-              >
-              <input type="number" id="tOp" placeholder="e.g. 80" required />
-            </div>
-            <div class="input-group">
-              <label for="pAtm"
-                >Atmos. Pressure <span class="units">(psia)</span>:</label
-              >
-              <input type="number" id="pAtm" value="14.7" />
-            </div>
-            <div class="flex gap-4 pt-4">
-              <button id="calculateBtn" class="flex-1" onclick="calculate()">
-                Analyze Properties
-              </button>
-              <button
-                class="bg-gray-500 hover:bg-gray-600"
-                onclick="clearFields()"
-              >
-                Clear
-              </button>
-            </div>
-          </div>
         </div>
 
-        <div class="card">
-          <h2>Composition Visualization</h2>
-          <div class="chart-container" id="chart">
-            <div class="text-gray-300 text-sm">Waiting for data...</div>
-          </div>
-          <div
-            id="chartLabels"
-            class="flex flex-wrap gap-2 mt-4 text-[10px] text-gray-500 justify-center"
-          ></div>
+        <!-- Right Column: Operating Conditions & Actions -->
+        <div>
+            <div class="card sticky top-24">
+              <h2>Operating Conditions</h2>
+              <div class="space-y-5">
+                <div class="input-group">
+                  <label for="pOp" class="required font-bold text-gray-700"
+                    >Operating Pressure <span class="units font-normal">(psig)</span></label
+                  >
+                  <input type="number" id="pOp" placeholder="e.g. 500" required class="font-mono text-lg" />
+                </div>
+                <div class="input-group">
+                  <label for="tOp" class="required font-bold text-gray-700"
+                    >Operating Temperature <span class="units font-normal">(°F)</span></label
+                  >
+                  <input type="number" id="tOp" placeholder="e.g. 80" required class="font-mono text-lg" />
+                </div>
+                <div class="input-group">
+                  <label for="pAtm" class="text-gray-600"
+                    >Atmos. Pressure <span class="units font-normal">(psia)</span></label
+                  >
+                  <input type="number" id="pAtm" value="14.7" class="font-mono" />
+                </div>
+
+                <div class="pt-4 border-t border-gray-100">
+                  <button id="calculateBtn" class="w-full py-3 text-lg shadow-lg hover:shadow-xl transform transition-all active:scale-[0.98]" onclick="calculate()">
+                    Analyze Properties
+                  </button>
+                  <button
+                    class="w-full mt-3 py-2 text-sm text-gray-500 hover:text-gray-700 bg-transparent hover:bg-gray-50 rounded"
+                    onclick="clearFields()"
+                  >
+                    Reset Form
+                  </button>
+                </div>
+              </div>
+            </div>
         </div>
       </div>
 
@@ -522,194 +532,333 @@
       });
     </script>
 <script>
+      // GPSA Engineering Data Book & NIST Standard Values
+      // GPSA Engineering Data Book & NIST Standard Values
+      // Ordered for vertical display: Non-hydrocarbons -> Hydrocarbons (C1-C10)
+      const gasDataOrder = [
+        "CH4", "N2", "CO2", "C2H6", "C3H8", "H2O", "H2S", "H2", "CO", "O2",
+        "iC4H10", "nC4H10", "iC5H12", "nC5H12", 
+        "nC6H14", "nC7H16", "nC8H18", "nC9H20", "nC10H22",
+        "He", "Ar"
+      ];
+
       const gasData = {
-        CH4: {
-          name: "Metano",
-          Pc: 666.4,
-          Tc: 343.0,
-          MW: 16.04,
-          coeffs: { a: 19.89, b: 5.024e-2, c: 1.269e-5, d: -1.101e-8 },
-        },
-        N2: {
-          name: "Nitrógeno",
-          Pc: 493.0,
-          Tc: 227.6,
-          MW: 28.01,
-          coeffs: { a: 28.9, b: -1.571e-3, c: 8.081e-6, d: -2.873e-9 },
-        },
-        CO2: {
-          name: "Dióxido de Carbono",
-          Pc: 1071.0,
-          Tc: 547.9,
-          MW: 44.01,
-          coeffs: { a: 22.26, b: 5.981e-2, c: -3.501e-5, d: 7.469e-9 },
-        },
-        C2H6: {
-          name: "Etano",
-          Pc: 706.5,
-          Tc: 549.6,
-          MW: 30.07,
-          coeffs: { a: 6.9, b: 1.727e-1, c: -6.406e-5, d: 7.285e-9 },
-        },
-        C3H8: {
-          name: "Propano",
-          Pc: 616.0,
-          Tc: 665.7,
-          MW: 44.1,
-          coeffs: { a: -4.04, b: 3.048e-1, c: -1.572e-4, d: 3.174e-8 },
-        },
-        H2S: { name: "Sulfuro de Hidrógeno", Pc: 1296.2, Tc: 672.3, MW: 34.08 },
-        nC4H10: { name: "n-Butano", Pc: 550.7, Tc: 765.3, MW: 58.12 },
-        iC4H10: { name: "Isobutano", Pc: 527.9, Tc: 734.1, MW: 58.12 },
+        CH4: { name: "Methane", Pc: 666.4, Tc: 343.0, MW: 16.043, GHV: 1010.0, coeffs: { a: 19.89, b: 5.024e-2, c: 1.269e-5, d: -1.101e-8 } },
+        N2: { name: "Nitrogen", Pc: 493.1, Tc: 227.2, MW: 28.013, GHV: 0.0, coeffs: { a: 28.9, b: -1.571e-3, c: 8.081e-6, d: -2.873e-9 } },
+        CO2: { name: "Carbon Dioxide", Pc: 1071.0, Tc: 547.9, MW: 44.01, GHV: 0.0, coeffs: { a: 22.26, b: 5.981e-2, c: -3.501e-5, d: 7.469e-9 } },
+        C2H6: { name: "Ethane", Pc: 706.5, Tc: 549.9, MW: 30.07, GHV: 1769.6, coeffs: { a: 6.9, b: 1.727e-1, c: -6.406e-5, d: 7.285e-9 } },
+        C3H8: { name: "Propano", Pc: 616.0, Tc: 666.1, MW: 44.097, GHV: 2516.1, coeffs: { a: -4.04, b: 3.048e-1, c: -1.572e-4, d: 3.174e-8 } },
+        H2O: { name: "Water", Pc: 3200.1, Tc: 1164.9, MW: 18.015, GHV: 0.0, coeffs: { a: 32.24, b: 1.924e-3, c: 1.055e-5, d: -3.596e-9 } },
+        H2S: { name: "Hydrogen Sulfide", Pc: 1300.0, Tc: 672.4, MW: 34.08, GHV: 637.1, coeffs: { a: 26.88, b: 1.97e-2, c: -2.3e-5, d: 1.2e-8 } },
+        H2: { name: "Hydrogen", Pc: 187.5, Tc: 59.4, MW: 2.016, GHV: 324.2, coeffs: { a: 27.28, b: 3.26e-3, c: 5.0e-6, d: 0.0 } },
+        CO: { name: "Carbon Monoxide", Pc: 507.5, Tc: 239.3, MW: 28.01, GHV: 320.5, coeffs: { a: 29.14, b: -2.76e-3, c: 1.4e-5, d: 0.0 } },
+        O2: { name: "Oxygen", Pc: 731.4, Tc: 278.6, MW: 31.999, GHV: 0.0, coeffs: { a: 25.48, b: 1.52e-2, c: -7.16e-6, d: 1.31e-9 } },
+        iC4H10: { name: "i-Butane", Pc: 529.1, Tc: 734.7, MW: 58.123, GHV: 3251.9, coeffs: { a: -7.91, b: 4.16e-1, c: -2.3e-4, d: 4.9e-8 } },
+        nC4H10: { name: "n-Butane", Pc: 550.6, Tc: 765.3, MW: 58.123, GHV: 3262.3, coeffs: { a: 3.96, b: 3.715e-1, c: -1.83e-4, d: 3.5e-8 } },
+        iC5H12: { name: "i-Pentane", Pc: 490.4, Tc: 829.1, MW: 72.15, GHV: 4000.9, coeffs: { a: -6.7, b: 4.8e-1, c: -2.7e-4, d: 5.5e-8 } },
+        nC5H12: { name: "n-Pentane", Pc: 488.6, Tc: 845.5, MW: 72.15, GHV: 4008.9, coeffs: { a: -3.5, b: 4.6e-1, c: -2.5e-4, d: 5.2e-8 } },
+        nC6H14: { name: "n-Hexane", Pc: 436.9, Tc: 913.6, MW: 86.177, GHV: 4755.9, coeffs: { a: -4.4, b: 5.5e-1, c: -3.1e-4, d: 6.4e-8 } },
+        nC7H16: { name: "n-Heptane", Pc: 396.8, Tc: 972.7, MW: 100.204, GHV: 5502.5, coeffs: { a: -5.1, b: 6.4e-1, c: -3.6e-4, d: 7.5e-8 } },
+        nC8H18: { name: "n-Octane", Pc: 360.7, Tc: 1024.0, MW: 114.231, GHV: 6248.9, coeffs: { a: -6.0, b: 7.3e-1, c: -4.1e-4, d: 8.6e-8 } },
+        nC9H20: { name: "n-Nonane", Pc: 332.0, Tc: 1070.0, MW: 128.258, GHV: 6996.5, coeffs: { a: -7.0, b: 8.2e-1, c: -4.6e-4, d: 9.7e-8 } },
+        nC10H22: { name: "n-Decane", Pc: 305.2, Tc: 1111.7, MW: 142.285, GHV: 7742.9, coeffs: { a: -8.0, b: 9.1e-1, c: -5.1e-4, d: 1.0e-7 } },
+        He: { name: "Helium", Pc: 329.8, Tc: 9.3, MW: 4.003, GHV: 0.0, coeffs: { a: 20.79, b: 0, c: 0, d: 0 } },
+        Ar: { name: "Argon", Pc: 710.4, Tc: 272.4, MW: 39.948, GHV: 0.0, coeffs: { a: 20.79, b: 0, c: 0, d: 0 } },
       };
 
       function init() {
         const grid = document.getElementById("compGrid");
-        Object.keys(gasData).forEach((comp) => {
+        grid.innerHTML = ""; // Clean before render
+        
+        // Change container to vertical stack
+        grid.className = "space-y-0 text-sm";
+        grid.parentElement.style.maxWidth = "100%"; // Ensure full width
+        
+        // Add header row
+        const header = document.createElement("div");
+        header.className = "grid grid-cols-[60px_1fr_100px_80px_60px_60px_60px] gap-2 text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 pb-2 border-b border-gray-200 items-center text-center";
+        header.innerHTML = `
+            <div class="text-left pl-2">Formula</div>
+            <div class="text-left">Name</div>
+            <div class="text-right">Mole Fr.</div>
+            <div class="text-left pl-2">Viz</div>
+            <div>MW<br><span class="text-[10px] normal-case">(lb/lbmol)</span></div>
+            <div>Pc<br><span class="text-[10px] normal-case">(psia)</span></div>
+            <div>Tc<br><span class="text-[10px] normal-case">(°R)</span></div>
+        `;
+        grid.parentElement.insertBefore(header, grid);
+
+        gasDataOrder.forEach((key) => {
+          const compData = gasData[key];
           const div = document.createElement("div");
-          div.className = "comp-item";
-          div.innerHTML = `<label title="${gasData[comp].name}">${comp}</label><input type="number" class="comp" id="${comp}" step="0.0001" value="0">`;
+          div.className = "grid grid-cols-[60px_1fr_100px_80px_60px_60px_60px] gap-2 items-center hover:bg-gray-50 py-1.5 border-b border-gray-50 last:border-0 text-center";
+          
+          div.innerHTML = `
+            <div class="font-mono font-bold text-gray-700 text-left pl-2">${key.replace(/(\d+)/g, '<sub>$1</sub>')}</div>
+            <div class="text-gray-600 truncate text-left" title="${compData.name}">${compData.name}</div>
+            <div class="flex justify-end">
+                <input type="number" 
+                       class="comp w-28 text-right font-mono text-sm border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 px-2 py-1 transition-all shadow-sm" 
+                       id="${key}" 
+                       data-key="${key}"
+                       step="0.000001" 
+                       min="0" 
+                       max="1" 
+                       placeholder="0.000000"
+                       value="0">
+            </div>
+            <div class="h-6 w-full bg-gray-100 rounded overflow-hidden flex items-center px-1">
+                <div class="h-4 bg-green-500 rounded-sm transition-all duration-300 comp-bar" style="width: 0%"></div>
+            </div>
+            <div class="text-gray-500 font-mono text-xs">${compData.MW.toFixed(2)}</div>
+            <div class="text-gray-500 font-mono text-xs">${compData.Pc.toFixed(2)}</div>
+            <div class="text-gray-500 font-mono text-xs">${compData.Tc.toFixed(2)}</div>
+          `;
           grid.appendChild(div);
-          div.querySelector("input").addEventListener("input", updateSum);
+          
+          const input = div.querySelector("input");
+          input.addEventListener("input", updateSum);
+          input.addEventListener("focus", function() { this.select(); });
         });
-        document.getElementById("CH4").value = "0.92";
-        document.getElementById("C2H6").value = "0.04";
-        document.getElementById("N2").value = "0.02";
-        document.getElementById("CO2").value = "0.02";
+
+        // Default: All zero
         updateSum();
+      }
+
+      function getComponents() {
+        const components = [];
+        document.querySelectorAll(".comp").forEach((i) => {
+          const y = parseFloat(i.value) || 0;
+          const id = i.id;
+          if (y > 0) components.push({ id, y });
+        });
+        return components;
       }
 
       function updateSum() {
         let t = 0;
         document
           .querySelectorAll(".comp")
-          .forEach((i) => (t += parseFloat(i.value) || 0));
-        document.getElementById("moleSum").textContent = t.toFixed(4);
-        document.getElementById("moleSum").className =
-          Math.abs(t - 1) < 0.001
-            ? "text-green-600 font-bold"
-            : "text-red-500 font-bold";
+          .forEach((i) => {
+              const val = parseFloat(i.value) || 0;
+              t += val;
+              
+              // Update individual bar
+              const bar = i.closest('.grid').querySelector('.comp-bar');
+              if(bar) {
+                  // Scale bar 0-100% relative to 1.0 fraction
+                  // Max width 100%
+                  bar.style.width = Math.min(val * 100, 100) + "%";
+                  // Change color for high concentrations
+                  if(val > 0.5) bar.className = "h-4 bg-green-600 rounded-sm transition-all duration-300 comp-bar";
+                  else bar.className = "h-4 bg-green-400 rounded-sm transition-all duration-300 comp-bar";
+              }
+          });
+        
+        const sumEl = document.getElementById("moleSum");
+        sumEl.textContent = t.toFixed(6);
+        
+        if (Math.abs(t - 1) < 0.000001) {
+            sumEl.className = "text-green-600 font-bold font-mono";
+            sumEl.innerHTML = t.toFixed(6) + " <span class='text-xs ml-1'>✓ OK</span>";
+        } else {
+            sumEl.className = "text-orange-500 font-bold font-mono";
+            sumEl.innerHTML = t.toFixed(6) + " <span class='text-xs ml-1'>≠ 1.0</span>";
+        }
+      }
+
+      function clearComposition() {
+        if (!confirm("¿Está seguro de borrar toda la composición?")) return;
+        document.querySelectorAll(".comp").forEach((i) => (i.value = "0"));
+        updateSum();
       }
 
       function pasteFromExcel() {
+        if (!navigator.clipboard) {
+            alert("Su navegador no soporta el acceso al portapapeles.");
+            return;
+        }
         navigator.clipboard.readText().then((text) => {
-          const vals = text.split(/[	
-]/).filter((v) => v.trim() !== "");
+          const vals = text.split(/[\t\n]+/).filter((v) => v.trim() !== "");
+          if (vals.length === 0) {
+              alert("El portapapeles está vacío.");
+              return;
+          }
+
           const inputs = document.querySelectorAll(".comp");
+          let pastedCount = 0;
+          
+          // Clear current first? Maybe safer to just overwrite sequence
+          document.querySelectorAll(".comp").forEach(i => i.value = 0);
+
           vals.forEach((v, i) => {
-            if (inputs[i]) inputs[i].value = v.trim().replace(",", ".");
+            if (inputs[i]) {
+                let cleanVal = v.trim().replace(/[^0-9.,-]/g, '').replace(",", ".");
+                if (!isNaN(parseFloat(cleanVal))) {
+                    inputs[i].value = cleanVal;
+                    pastedCount++;
+                }
+            }
           });
-          updateSum();
+          
+          if (pastedCount > 0) updateSum();
+          else alert("No se encontraron datos numéricos válidos.");
+        }).catch(err => {
+            console.error(err);
+            alert("Error al leer del portapapeles: " + err);
         });
       }
 
       function calculate() {
-        const popg = parseFloat(document.getElementById("pOp").value);
-        const topf = parseFloat(document.getElementById("tOp").value);
-        const patm = parseFloat(document.getElementById("pAtm").value);
+        const popg = parseFloat(document.getElementById("pOp").value); // psig
+        const topf = parseFloat(document.getElementById("tOp").value); // °F
+        const patm = parseFloat(document.getElementById("pAtm").value); // psia
+        
         if (isNaN(popg) || isNaN(topf)) {
-          alert("Enter pressure and temperature.");
+          alert("Por favor ingrese Presión y Temperatura de operación.");
           return;
         }
 
-        let ppc = 0,
-          tpc = 0,
-          mw = 0;
-        let yCO2 = 0,
-          yH2S = 0,
-          yN2 = 0;
-        const components = [];
+        const components = getComponents();
+        const moleSum = components.reduce((acc, c) => acc + c.y, 0);
 
-        document.querySelectorAll(".comp").forEach((i) => {
-          const y = parseFloat(i.value) || 0;
-          const d = gasData[i.id];
-          ppc += y * d.Pc;
-          tpc += y * d.Tc;
-          mw += y * d.MW;
-          if (i.id === "CO2") yCO2 = y;
-          if (i.id === "H2S") yH2S = y;
-          if (i.id === "N2") yN2 = y;
-          if (y > 0) components.push({ id: i.id, y });
+        if (Math.abs(moleSum - 1) > 0.001) {
+             if(!confirm(`La fracción molar suma ${moleSum.toFixed(4)}. ¿Desea normalizar y continuar?`)) return;
+             // Normalize internal values for calculation only
+             components.forEach(c => c.y = c.y / moleSum);
+        }
+
+        // 1. MIXTURE PROPERTIES (Kay's Rule Base)
+        let ppc_mix = 0;
+        let tpc_mix = 0;
+        let mw_mix = 0;
+        let ghv_mix = 0;
+        
+        let y_sour_co2 = 0;
+        let y_sour_h2s = 0;
+
+        components.forEach(c => {
+            const data = gasData[c.id];
+            ppc_mix += c.y * data.Pc;
+            tpc_mix += c.y * data.Tc;
+            mw_mix  += c.y * data.MW;
+            ghv_mix += c.y * data.GHV;
+
+            if (c.id === 'CO2') y_sour_co2 = c.y;
+            if (c.id === 'H2S') y_sour_h2s = c.y;
         });
 
-        // CKB Corrections
-        const tpcCorr = tpc - 80 * yCO2 + 130 * yH2S - 250 * yN2;
-        const ppcCorr = ppc + 440 * yCO2 + 600 * yH2S - 170 * yN2;
+        // 2. WICHERT-AZIZ CORRECTION for Sour Gas
+        // Epsilon correction factor
+        const A = y_sour_co2 + y_sour_h2s;
+        const B = y_sour_h2s;
+        const epsilon = 120 * (Math.pow(A, 0.9) - Math.pow(A, 1.6)) + 15 * (Math.pow(B, 0.5) - Math.pow(B, 4.0));
+        
+        const tpc_corr = tpc_mix - epsilon; // °R
+        const ppc_corr = (ppc_mix * tpc_corr) / (tpc_mix + y_sour_h2s * (1 - y_sour_h2s) * epsilon); // psia
 
-        const pAbs = popg + patm;
-        const tAbs = topf + 459.67;
-        const z = getZ(pAbs / ppcCorr, tAbs / tpcCorr);
-        const sg = mw / 28.96;
-        const rho = (pAbs * mw) / (z * 10.731 * tAbs);
+        // 3. OPERATING CONDITIONS
+        const p_abs = popg + patm;  // psia
+        const t_abs = topf + 459.67; // °R
 
-        // k-factor calculation (mix)
-        const tk = (tAbs * 5) / 9;
-        let cpMix = 0;
-        components.forEach((c) => {
-          const d = gasData[c.id];
-          if (d.coeffs) {
-            const cp =
-              d.coeffs.a +
-              d.coeffs.b * tk +
-              d.coeffs.c * tk ** 2 +
-              d.coeffs.d * tk ** 3;
-            cpMix += c.y * cp;
-          }
+        const Pr = p_abs / ppc_corr;
+        const Tr = t_abs / tpc_corr;
+
+        // 4. Z-FACTOR (Dranchuk-Abou-Kassem)
+        const z = calculateDAK(Pr, Tr);
+
+        // 5. DENSITY
+        const R = 10.7316; // psia.ft3/(lbmol.R)
+        const density = (p_abs * mw_mix) / (z * R * t_abs); // lb/ft3
+        const sg = mw_mix / 28.9625; // Air MW standard
+
+        // 6. HEAT CAPACITY & k (Cp/Cv)
+        // Convert T to Kelvin for Cp correlations
+        const T_K = (topf - 32) * (5/9) + 273.15;
+        let cp_molar_mix = 0; // J/(mol.K)
+        
+        components.forEach(c => {
+            const data = gasData[c.id];
+            // Polynomial: Cp = A + B*T + C*T^2 + D*T^3 (J/mol.K)
+            const cp_comp = data.coeffs.a + 
+                            data.coeffs.b * T_K + 
+                            data.coeffs.c * Math.pow(T_K, 2) + 
+                            data.coeffs.d * Math.pow(T_K, 3);
+            cp_molar_mix += c.y * cp_comp;
         });
-        const k = cpMix > 0 ? cpMix / (cpMix - 8.314) : 1.3;
 
+        // Ideal Gas Relation: Cp - Cv = R
+        const R_SI = 8.314; // J/(mol.K)
+        const cv_molar_mix = cp_molar_mix - R_SI;
+        const k = cp_molar_mix / cv_molar_mix;
+
+        // 7. DISPLAY RESULTS
         document.getElementById("resultsCard").style.display = "block";
         document.getElementById("zRes").textContent = z.toFixed(4);
         document.getElementById("sgRes").textContent = sg.toFixed(4);
-        document.getElementById("rhoRes").textContent = rho.toFixed(4);
+        document.getElementById("rhoRes").textContent = density.toFixed(3);
         document.getElementById("kRes").textContent = k.toFixed(3);
-        document.getElementById("mwRes").textContent = mw.toFixed(3);
-        document.getElementById("ppcRes").textContent = ppcCorr.toFixed(1);
-        document.getElementById("tpcRes").textContent = tpcCorr.toFixed(1);
+        
+        document.getElementById("mwRes").textContent = mw_mix.toFixed(3); // lb/lbmol
+        document.getElementById("ppcRes").textContent = ppc_corr.toFixed(1); // psia
+        document.getElementById("tpcRes").textContent = tpc_corr.toFixed(1); // °R
 
+        // Quality Flag (Simple HHV check logic or Composition)
         const q = document.getElementById("qualityRes");
-        if (components[0].id === "CH4" && components[0].y > 0.9) {
-          q.textContent = "High Quality";
-          q.className =
-            "px-2 py-0.5 rounded-full text-[10px] bg-green-100 text-green-700 font-bold uppercase";
+        if (ghv_mix > 1150) {
+            q.textContent = "Rich Gas";
+            q.className = "px-2 py-0.5 rounded-full text-[10px] bg-purple-100 text-purple-700 font-bold uppercase";
+        } else if (components.length > 0 && components[0].id === 'CH4' && components[0].y > 0.95) {
+             q.textContent = "Lean Gas";
+             q.className = "px-2 py-0.5 rounded-full text-[10px] bg-green-100 text-green-700 font-bold uppercase";
         } else {
-          q.textContent = "Raw Gas";
-          q.className =
-            "px-2 py-0.5 rounded-full text-[10px] bg-yellow-100 text-yellow-700 font-bold uppercase";
+             q.textContent = "Standard";
+             q.className = "px-2 py-0.5 rounded-full text-[10px] bg-blue-100 text-blue-700 font-bold uppercase";
         }
 
-        updateChart(components);
-        document
-          .getElementById("resultsCard")
-          .scrollIntoView({ behavior: "smooth" });
+        document.getElementById("resultsCard").scrollIntoView({ behavior: "smooth" });
       }
 
-      function getZ(pr, tr) {
-        const A = 1.39 * Math.sqrt(tr - 0.92) - 0.36 * tr - 0.101;
-        const B =
-          (0.62 - 0.23 * tr) * pr +
-          (0.066 / (tr - 0.86) - 0.037) * pr * pr +
-          (0.32 * Math.pow(pr, 6)) / Math.pow(10, 9 * (tr - 1));
-        const C = 0.132 - 0.32 * Math.log10(tr);
-        const D = Math.pow(10, 0.3106 - 0.49 * tr + 0.1824 * tr * tr);
-        return A + (1 - A) / Math.exp(B) + C * Math.pow(pr, D);
-      }
+      // --- UTILS: Dranchuk-Abou-Kassem Equation of State ---
+      function calculateDAK(Pr, Tr) {
+        const A1 = 0.3265, A2 = -1.0700, A3 = -0.5339, A4 = 0.01569, A5 = -0.05165;
+        const A6 = 0.5475, A7 = -0.7361, A8 = 0.1844, A9 = 0.1056, A10 = 0.6134, A11 = 0.7210;
 
-      function updateChart(comps) {
-        const chart = document.getElementById("chart");
-        const labels = document.getElementById("chartLabels");
-        chart.innerHTML = "";
-        labels.innerHTML = "";
-        comps
-          .sort((a, b) => b.y - a.y)
-          .forEach((c) => {
-            const bar = document.createElement("div");
-            bar.className = "chart-bar";
-            bar.style.height = c.y * 100 + "%";
-            bar.title = `${c.id}: ${(c.y * 100).toFixed(1)}%`;
-            chart.appendChild(bar);
-            labels.innerHTML += `<span>${c.id}</span>`;
-          });
+        let rho_r = 0.27 * Pr / Tr; // Initial guess
+        let error = 1;
+        let iter = 0;
+
+        // Newton-Raphson Iteration
+        while (Math.abs(error) > 1e-8 && iter < 100) {
+            let R1 = A1 + A2/Tr + A3/Math.pow(Tr,3) + A4/Math.pow(Tr,4) + A5/Math.pow(Tr,5);
+            let R2 = A6 + A7/Tr + A8/Math.pow(Tr,2);
+            let R3 = A9 * (A7/Tr + A8/Math.pow(Tr,2));
+            let R4 = A10 * (1 + A11*Math.pow(rho_r,2)) * (Math.pow(rho_r,2)/Math.pow(Tr,3)) * Math.exp(-A11*Math.pow(rho_r,2));
+
+            let f = R1*rho_r + R2*Math.pow(rho_r,2) - R3*Math.pow(rho_r,5) + R4 + 1 - (0.27 * Pr) / (rho_r * Tr);
+            
+            // Derivative df/drho_r
+            let df = R1 + 2*R2*rho_r - 5*R3*Math.pow(rho_r,4) + 
+                     (A10/Math.pow(Tr,3)) * Math.exp(-A11*Math.pow(rho_r,2)) * 
+                     (2*rho_r*(1 + A11*Math.pow(rho_r,2)) - 2*Math.pow(A11,2)*Math.pow(rho_r,5) + 2*A11*Math.pow(rho_r,3) * (1 - A11*Math.pow(rho_r,2))); // Correction derivative approx
+            
+            // Simplified derivative for stability if needed, but full is:
+            let T3 = Math.pow(Tr,3);
+            let expTerm = Math.exp(-A11 * rho_r * rho_r);
+            let dR4 = (A10 / T3) * expTerm * (2*rho_r + 2*A11*Math.pow(rho_r,3) - 2*A11*Math.pow(rho_r,3)*(1 + A11*Math.pow(rho_r,2)));
+            
+            df = R1 + 2*R2*rho_r - 5*R3*Math.pow(rho_r,4) + dR4 + (0.27 * Pr) / (rho_r * rho_r * Tr);
+
+            let delta = f / df;
+            rho_r = rho_r - delta;
+            
+            if (rho_r < 0) rho_r = 1e-5; // Prevent negative density
+            error = f;
+            iter++;
+        }
+
+        const z = (0.27 * Pr) / (rho_r * Tr);
+        return z;
       }
 
       function clearFields() {
