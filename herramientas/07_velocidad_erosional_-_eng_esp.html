@@ -157,24 +157,28 @@
 <main class="pt-20">
 <section class="bg-background min-h-screen pt-8 pb-12"><div class="container mx-auto px-4 pt-2 pb-12 is-tool-content">
       <!-- Breadcrumb -->
-      <nav class="flex mb-6 text-xs font-medium text-gray-400" aria-label="Breadcrumb">
+      <nav class="flex mb-6 text-xs font-medium text-gray-400 uppercase-none" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-2">
           <li><a href="../index.html" class="text-gray-600 hover:text-primary transition-colors">Inicio</a></li>
-          <li><span class="mx-2">/</span></li>
+          <li><span class="mx-2 text-gray-300">/</span></li>
           <li><a href="../herramientas.html" class="text-gray-600 hover:text-primary transition-colors">Herramientas</a></li>
-          <li><span class="mx-2">/</span></li>
+          <li><span class="mx-2 text-gray-300">/</span></li>
           <li class="text-gray-900 font-bold">Velocidad Erosional</li>
         </ol>
       </nav>
 
-      <div class="title-box">
-        <h1 class="text-3xl font-bold">Erosional Velocity Calculator</h1>
-        <p class="text-gray-100 mt-1">API RP 14E — Simplified Gas & Multiphase Flow Analysis</p>
-        <div class="lang-toggle">
-          <div id="btn-en" class="lang-btn active" onclick="setLang('en')">
-            EN
+      <div class="title-box lg:sticky lg:top-[84px] z-30">
+        <div class="flex justify-between items-start">
+          <div>
+            <h1 class="text-3xl font-bold" id="title">Erosional Velocity Calculator</h1>
+            <p class="text-gray-100 mt-1" id="subtitle">API RP 14E — Simplified Gas & Multiphase Flow Analysis</p>
           </div>
-          <div id="btn-es" class="lang-btn" onclick="setLang('es')">ES</div>
+          <div class="lang-toggle flex bg-white/10 rounded-lg p-1">
+            <div id="btn-en" class="lang-btn active cursor-pointer px-3 py-1 rounded text-sm font-bold text-white bg-white/20" onclick="setLang('en')">
+              EN
+            </div>
+            <div id="btn-es" class="lang-btn cursor-pointer px-3 py-1 rounded text-sm font-medium text-white/70 hover:text-white" onclick="setLang('es')">ES</div>
+          </div>
         </div>
       </div>
 

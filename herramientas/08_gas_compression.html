@@ -182,10 +182,12 @@
         </ol>
       </nav>
 
-      <div class="title-box">
-        <h1 class="text-3xl font-bold">Gas Compression Calculator</h1>
+      <div class="title-box lg:sticky lg:top-[84px] z-30">
+        <h1 class="text-3xl font-bold">
+            Gas Compression Expert
+        </h1>
         <p class="text-gray-100 mt-1">
-          Single-Stage Reciprocating/Centrifugal Compressor Performance Analysis
+            Diseño de estaciones compresoras según GPSA Sec. 13 & API 617/618. 
         </p>
       </div>
 
@@ -232,15 +234,15 @@
               <div class="space-y-4">
                 <div class="input-group">
                   <label for="p1" class="required font-bold text-gray-700"
-                    >Suction P1 <span class="units font-normal">(psia)</span></label
+                    >Suction P1 <span class="units font-normal text-blue-600">(psig)</span></label
                   >
-                  <input type="number" id="p1" placeholder="Inlet" required class="font-mono text-lg" />
+                  <input type="number" id="p1" placeholder="Inlet Gauge Pressure" required class="font-mono text-lg" />
                 </div>
                 <div class="input-group">
                   <label for="p2" class="required font-bold text-gray-700"
-                    >Discharge P2 <span class="units font-normal">(psia)</span></label
+                    >Discharge P2 <span class="units font-normal text-blue-600">(psig)</span></label
                   >
-                  <input type="number" id="p2" placeholder="Outlet" required class="font-mono text-lg" />
+                  <input type="number" id="p2" placeholder="Outlet Gauge Pressure" required class="font-mono text-lg" />
                 </div>
                 <div class="input-group">
                   <label for="t1" class="required font-bold text-gray-700"
@@ -310,14 +312,14 @@
         </div>
 
         <div class="p-6">
-            <!-- Top Level KPIs - Compact & Clear -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Top Level KPIs - Compact & Clear (4 Cols) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 <!-- Power -->
                 <div class="bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg p-4 text-white shadow-md relative overflow-hidden flex flex-col justify-between h-32">
                      <div class="relative z-10">
                         <p class="text-blue-100 text-xs font-bold uppercase tracking-wider mb-1">Total Power (BHP)</p>
                         <div class="flex items-baseline gap-2">
-                             <span id="bhpRes" class="text-4xl font-bold tracking-tight text-white">-</span>
+                             <span id="bhpRes" class="text-3xl font-bold tracking-tight text-white">-</span>
                              <span class="text-lg text-blue-200 font-medium">HP</span>
                         </div>
                      </div>
@@ -330,13 +332,25 @@
                      <div>
                         <p class="text-gray-500 text-xs font-bold uppercase tracking-wider mb-1">Discharge Temp (T2)</p>
                         <div class="flex items-baseline gap-2">
-                            <span id="t2Res" class="text-4xl font-bold text-gray-800">-</span>
+                            <span id="t2Res" class="text-3xl font-bold text-gray-800">-</span>
                             <span class="text-lg text-gray-400 font-medium">°F</span>
                         </div>
                      </div>
                      <div class="w-full bg-gray-100 h-1.5 rounded-full mt-2 overflow-hidden">
                         <div class="bg-green-500 h-full w-2/3" id="tempBar"></div>
                      </div>
+                </div>
+
+                <!-- Actual Volume (ACFM) - Promoted -->
+                <div class="bg-purple-50 border border-purple-100 rounded-lg p-4 shadow-sm flex flex-col justify-between h-32 relative overflow-hidden">
+                     <div>
+                        <p class="text-purple-800 text-xs font-bold uppercase tracking-wider mb-1">Actual Volume</p>
+                        <div class="flex items-baseline gap-2">
+                            <span id="acfmVal" class="text-3xl font-bold text-gray-800">-</span>
+                        </div>
+                     </div>
+                     <span class="text-xs text-purple-400 font-medium self-end">ACFM (ft³/min)</span>
+                     <div class="absolute -right-4 -top-4 w-16 h-16 bg-purple-200 opacity-20 rounded-full blur-xl"></div>
                 </div>
 
                 <!-- Head -->
@@ -395,13 +409,6 @@
                                 <span class="text-[10px] text-gray-400">lb/hr</span>
                             </div>
                          </div>
-                         <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                            <span class="text-sm text-gray-600 font-medium">Actual Volume</span>
-                             <div class="text-right">
-                                <span class="text-base font-bold text-gray-800 block leading-none" id="acfmVal">-</span>
-                                <span class="text-[10px] text-gray-400">ACFM</span>
-                            </div>
-                         </div>
                     </div>
                 </div>
 
@@ -423,7 +430,7 @@
                             <span class="text-sm text-gray-600 font-medium">Ratio of Heats (k)</span>
                             <span class="text-base font-bold text-gray-800" id="kVal">-</span>
                          </div>
-                    </div>
+                     </div>
                 </div>
             </div>
         </div>
@@ -758,17 +765,21 @@
       }
 
       function calculate() {
-        const p1 = parseFloat(document.getElementById("p1").value);
-        const p2 = parseFloat(document.getElementById("p2").value);
+        const p1_g = parseFloat(document.getElementById("p1").value);
+        const p2_g = parseFloat(document.getElementById("p2").value);
         const t1f = parseFloat(document.getElementById("t1").value);
         const flow = parseFloat(document.getElementById("flow").value);
         const compType = document.getElementById("compType").value;
         const nm = parseFloat(document.getElementById("effM").value);        
 
-        if ([p1, p2, t1f, flow].some(isNaN)) {
+        if ([p1_g, p2_g, t1f, flow].some(isNaN)) {
           alert("Please fill all operational parameters.");
           return;
         }
+
+        // Convert Gauge to Absolute for Calculations (Standard 14.7 psi atm)
+        const p1 = p1_g + 14.7;
+        const p2 = p2_g + 14.7;
 
         const rc = p2 / p1;
         
@@ -836,44 +847,79 @@
 
         const z1 = calculateDAK(pr1, tr1);
 
-        // k-Value
-        const t1k = t1r / 1.8;
+        // ---- Iterative Calculation for k-Value and Z-Factor (GPSA Method) ----
+        
+        const R_univ = 10.7316; // psia.ft3/(lbmol.R)
+        const R_head = 1545;    // ft.lbf/(lbmol.R) for Head Calculation
+
+        // 1. Initial Guess (using Suction Properties)
+        const t1k = t1r / 1.8; // Rankine to Kelvin for correlation
         let cp_mix_molar = 0;
         components.forEach(c => {
             const d = gasData[c.id].coeffs;
             const cp = d.a + d.b*t1k + d.c*Math.pow(t1k,2) + d.d*Math.pow(t1k,3);
             cp_mix_molar += c.y * cp;
-        });
-        const R_SI = 8.314;
-        const cv_mix_molar = cp_mix_molar - R_SI;
-        let k = cp_mix_molar / cv_mix_molar;
-
-        // Discharge
-        const expon = (k - 1) / k;
-        let t2s = t1r * Math.pow(rc, expon);
+        }); 
         
-        let pr2 = p2 / ppc_corr;
-        let tr2s = t2s / tpc_corr;
-        let z2 = calculateDAK(pr2, tr2s);
+        // Initial k at Suction
+        // Note: Coeffs are in J/(mol.K), so use R = 8.3145 J/(mol.K)
+        let k = cp_mix_molar / (cp_mix_molar - 8.3145); 
+        let expon = (k - 1) / k;
+        let t2s = t1r * Math.pow(rc, expon); // First estimate of T2 Isentropic
+
+        // 2. Iteration Loop (Refine k at Average Temperature)
+        for(let i=0; i<3; i++) {
+            let t_avg_r = (t1r + t2s) / 2;
+            let t_avg_k = t_avg_r / 1.8;
+
+            let cp_avg = 0;
+            components.forEach(c => {
+                const d = gasData[c.id].coeffs;
+                const cp_k = d.a + d.b*t_avg_k + d.c*Math.pow(t_avg_k,2) + d.d*Math.pow(t_avg_k,3);
+                cp_avg += c.y * cp_k;
+            });
+
+            k = cp_avg / (cp_avg - 8.3145); // k at Average Temp (Corrected R unit)
+            expon = (k - 1) / k;
+            t2s = t1r * Math.pow(rc, expon); // Refined T2 Isentropic
+        }
+
+        // 3. Discharge Z-Factor (at T2 Isentropic for Head Calculation per GPSA)
+        const pr2 = p2 / ppc_corr;
+        const tr2s = t2s / tpc_corr;
+        const z2 = calculateDAK(pr2, tr2s);
         const z_avg = (z1 + z2) / 2;
 
-        // Use ESTIMATED Efficiency
+        // 4. Actual Discharge Temperature (Adiabatic Efficiency)
         const t2_actual = t1r + (t2s - t1r) / na_used;
 
-        // Head
-        const R_gas_universal = 1545; 
-        const head = (z_avg * R_gas_universal * t1r / mw_mix) * (k / (k-1)) * (Math.pow(rc, expon) - 1);
+        // 5. Isentropic Head Calculation (GPSA Eq 13-4)
+        // Head = (Zavg * R * T1 / MW) * (k/(k-1)) * ((Rc)^((k-1)/k) - 1)
+        // Note: 1545/MW is Gas Constant R_specific in ft-lbf/lbm-R
+        const term1 = (z_avg * R_head * t1r) / mw_mix;
+        const term2 = k / (k - 1);
+        const term3 = Math.pow(rc, expon) - 1;
+        
+        const head = term1 * term2 * term3;
 
-        // Power & Flow
+        // 6. Flows & Power
+        const m_dot_mmscfd = flow * 1e6; // SCFD
+        // Standard Density (Air=28.96, SCF at 14.7 psia, 60F)
+        // rho_std = MW / 379.48 [lb/scf]
         const rho_std = mw_mix / 379.48; 
-        const q_scfm = (flow * 1e6) / (24 * 60); 
-        const m_dot_min = q_scfm * rho_std; 
-        const m_dot_hr = m_dot_min * 60; 
+        const m_dot_lb_day = m_dot_mmscfd * rho_std;
+        const m_dot_hr = m_dot_lb_day / 24;
+        const m_dot_min = m_dot_hr / 60; // lb/min
 
+        // Actual Flow at Suction (ACFM)
+        // rho_suc = P * MW / (Z * R * T)
         const density_suc = (p1 * mw_mix) / (z1 * 10.7316 * t1r); 
         const acfm = m_dot_min / density_suc;
 
-        // ... (previous calc code) ...
+        // Brake Horsepower
+        // BHP = (Mass_Flow * Head) / (33000 * Efficiency_Adiabatic * Efficiency_Mechanical)
+        // Wait! Formula: GasHP = m * Head / (33000 * eff_p/a).
+        // Since Head is Isentropic, use Adiabatic Efficiency in denominator.
         const gasHP = (m_dot_min * head) / (33000 * na_used);
         const bhp = gasHP / nm;
 

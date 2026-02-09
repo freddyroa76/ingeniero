@@ -182,172 +182,235 @@
         </ol>
       </nav>
 
-      <div class="title-box">
+      <div class="title-box lg:sticky lg:top-[84px] z-30">
         <h1 class="text-3xl font-bold">Pipeline Line Pack Calculator</h1>
         <p class="text-gray-100 mt-1">
           Precise Natural Gas Inventory in Transmission Pipelines
         </p>
       </div>
 
-      <div class="card">
-        <div class="flex justify-between items-center mb-4">
-          <h2>Gas Composition</h2>
-          <div class="text-sm">
-            Sum: <span id="moleSum" class="font-mono">0.0000</span>
-          </div>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Left Column: Composition (Takes 2/3 width) -->
+        <div class="lg:col-span-2">
+            <div class="card">
+                <div class="flex justify-between items-center mb-4">
+                  <div class="flex flex-col md:flex-row md:items-center gap-2">
+                      <h2 class="m-0">Gas Composition</h2>
+                      <span class="text-xs text-gray-500 font-normal self-end md:self-auto mb-1 md:mb-0">(Mole Fraction)</span>
+                  </div>
+                  <div class="flex flex-col items-end gap-1">
+                    <div class="text-sm font-semibold">
+                        Sum: <span id="moleSum" class="font-mono text-gray-500">0.0000</span>
+                    </div>
+                    <div id="compError" class="hidden text-[10px] text-red-600 font-bold bg-red-50 px-2 py-0.5 rounded border border-red-200">
+                        Sum ≠ 1.0
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="composition-grid" id="compGrid">
+                  <!-- Populated by JS -->
+                </div>
+            </div>
         </div>
-        <div class="composition-grid" id="compGrid"></div>
+
+        <!-- Right Column: Pipeline & Process -->
+        <div class="space-y-6">
+            <div class="card">
+              <h2 class="text-secondary border-b-secondary/20 border-b pb-2 mb-4">
+                Pipeline Geometry
+              </h2>
+              <div class="space-y-4">
+                <div class="input-group">
+                  <label for="pipeSize" class="required font-bold text-gray-700">Nominal Pipe Size (NPS)</label>
+                  <select id="pipeSize" onchange="updatePipe()" required class="font-mono text-lg bg-gray-50"></select>
+                </div>
+                <div class="input-group">
+                  <label for="schedule" class="required font-bold text-gray-700">Schedule</label>
+                  <select
+                    id="schedule"
+                    onchange="updateWall()"
+                    disabled
+                    required
+                    class="font-mono text-lg bg-gray-50 disabled:bg-gray-100"
+                  ></select>
+                </div>
+                <div class="input-group">
+                  <label for="length" class="required font-bold text-gray-700"
+                    >Pipeline Length <span class="units font-normal">(ft)</span></label
+                  >
+                  <input
+                    type="number"
+                    id="length"
+                    placeholder="e.g. 5280"
+                    step="1"
+                    required
+                    class="font-mono text-lg"
+                  />
+                </div>
+                
+                <!-- Pipe Details Mini-Card -->
+                <div class="bg-blue-50 border border-blue-100 rounded-lg p-3 text-xs grid grid-cols-2 gap-2 mt-2">
+                    <div>
+                        <span class="text-blue-400 block uppercase tracking-wider text-[10px]">OD (in)</span>
+                        <span id="odVal" class="font-mono font-bold text-blue-900 text-sm">-</span>
+                    </div>
+                    <div>
+                        <span class="text-blue-400 block uppercase tracking-wider text-[10px]">ID (in)</span>
+                        <span id="idVal" class="font-mono font-bold text-blue-900 text-sm">-</span>
+                    </div>
+                    <div>
+                        <span class="text-blue-400 block uppercase tracking-wider text-[10px]">Wall (in)</span>
+                        <span id="tVal" class="font-mono font-bold text-blue-900 text-sm">-</span>
+                    </div>
+                     <div>
+                        <span class="text-blue-400 block uppercase tracking-wider text-[10px]">Geo Vol (ft³)</span>
+                        <span id="vGeomVal" class="font-mono font-bold text-blue-900 text-sm">-</span>
+                    </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card sticky top-24">
+              <h2 class="text-primary border-b-primary/20 border-b pb-2 mb-4">
+                Operating Conditions
+              </h2>
+              <div class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="input-group">
+                      <label for="p1" class="required font-bold text-gray-700"
+                        >Inlet P1 <span class="units font-normal">(psig)</span></label
+                      >
+                      <input type="number" id="p1" placeholder="In" required class="font-mono" />
+                    </div>
+                    <div class="input-group">
+                      <label for="p2" class="required font-bold text-gray-700"
+                        >Outlet P2 <span class="units font-normal">(psig)</span></label
+                      >
+                      <input type="number" id="p2" placeholder="Out" required class="font-mono" />
+                    </div>
+                    <div class="input-group">
+                      <label for="t1" class="required font-bold text-gray-700"
+                        >Inlet T1 <span class="units font-normal">(°F)</span></label
+                      >
+                      <input type="number" id="t1" placeholder="In" required class="font-mono" />
+                    </div>
+                    <div class="input-group">
+                      <label for="t2" class="required font-bold text-gray-700"
+                        >Outlet T2 <span class="units font-normal">(°F)</span></label
+                      >
+                      <input type="number" id="t2" placeholder="Out" required class="font-mono" />
+                    </div>
+                </div>
+                <div class="input-group">
+                  <label for="pAtm" class="text-gray-500 text-sm"
+                    >Atmos. Pressure <span class="units font-normal">(psia)</span></label
+                  >
+                  <input type="number" id="pAtm" placeholder="14.7" step="0.01" class="font-mono text-sm py-1" />
+                </div>
+
+                <div class="pt-4 border-t border-gray-100">
+                  <button id="calculateBtn" class="w-full py-3 text-lg shadow-lg hover:shadow-xl transform transition-all active:scale-[0.98]" onclick="calculate()">
+                    Calculate Inventory
+                  </button>
+                  <button
+                    class="w-full mt-3 py-2 text-sm text-gray-500 hover:text-gray-700 bg-transparent hover:bg-gray-50 rounded"
+                    onclick="clearFields()"
+                  >
+                    Reset Form
+                  </button>
+                </div>
+              </div>
+            </div>
+        </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="card">
-          <h2>Pipeline Geometry</h2>
-          <div class="space-y-4">
-            <div class="input-group">
-              <label for="pipeSize" class="required">Nominal Pipe Size:</label>
-              <select id="pipeSize" onchange="updatePipe()" required></select>
-            </div>
-            <div class="input-group">
-              <label for="schedule" class="required">Schedule:</label>
-              <select
-                id="schedule"
-                onchange="updateWall()"
-                disabled
-                required
-              ></select>
-            </div>
-            <div class="input-group">
-              <label for="length" class="required"
-                >Pipeline Length <span class="units">(meters)</span>:</label
-              >
-              <input
-                type="number"
-                id="length"
-                placeholder="e.g. 50000"
-                step="1"
-                required
-              />
-            </div>
-            <div
-              class="grid grid-cols-2 gap-2 text-xs text-gray-500 bg-gray-50 p-3 rounded-lg border"
-            >
-              <p>OD: <span id="odVal">-</span>"</p>
-              <p>ID: <span id="idVal">-</span>"</p>
-              <p>t: <span id="tVal">-</span>"</p>
-              <p>Vol: <span id="vGeomVal">-</span> ft³</p>
-            </div>
-          </div>
+      <div class="card hidden animate-fade-in mt-6 border-t-4 border-blue-600 shadow-xl p-0 overflow-hidden bg-white" id="resultsCard">
+         <!-- Header -->
+        <div class="bg-gray-50 border-b border-gray-200 px-6 py-4 flex justify-between items-center">
+            <h2 class="flex items-center gap-2 text-lg font-bold text-gray-800 m-0">
+                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+                Inventory Results
+            </h2>
+            <span class="px-3 py-1 bg-green-100 text-green-700 text-[10px] font-bold uppercase rounded-full tracking-wide">Success</span>
         </div>
 
-        <div class="card">
-          <h2>Operating Conditions</h2>
-          <div class="grid grid-cols-2 gap-4">
-            <div class="input-group">
-              <label for="p1" class="required"
-                >Inlet P1 <span class="units">(psig)</span>:</label
-              >
-              <input type="number" id="p1" placeholder="In" required />
-            </div>
-            <div class="input-group">
-              <label for="p2" class="required"
-                >Outlet P2 <span class="units">(psig)</span>:</label
-              >
-              <input type="number" id="p2" placeholder="Out" required />
-            </div>
-            <div class="input-group">
-              <label for="t1" class="required"
-                >Inlet T1 <span class="units">(°F)</span>:</label
-              >
-              <input type="number" id="t1" placeholder="In" required />
-            </div>
-            <div class="input-group">
-              <label for="t2" class="required"
-                >Outlet T2 <span class="units">(°F)</span>:</label
-              >
-              <input type="number" id="t2" placeholder="Out" required />
-            </div>
-            <div class="input-group col-span-2">
-              <label for="pAtm"
-                >Atmos. Pressure <span class="units">(psia)</span>:</label
-              >
-              <input type="number" id="pAtm" value="14.7" step="0.01" />
-            </div>
-          </div>
-          <div class="flex gap-4 mt-6">
-            <button class="flex-1" onclick="calculate()">
-              Calculate Line Pack
-            </button>
-            <button
-              class="bg-gray-500 hover:bg-gray-600"
-              onclick="clearFields()"
-            >
-              Clear
-            </button>
-          </div>
-        </div>
-      </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div class="space-y-6">
+                <!-- Vstd Result -->
+                <div class="bg-indigo-50 border border-indigo-100 rounded-lg p-5 shadow-sm relative overflow-hidden group">
+                   <div class="relative z-10">
+                      <p class="text-indigo-500 text-xs font-bold uppercase tracking-widest mb-1">Standard Volume (Line Pack)</p>
+                      <div class="flex items-baseline gap-2">
+                        <p class="text-4xl font-bold text-indigo-900 font-mono tracking-tight" id="vStdRes">-</p>
+                        <span class="text-lg text-indigo-400 font-medium">SCF</span>
+                      </div>
+                      <p class="text-xs text-indigo-400 mt-2"><span id="vStdM3Res">-</span> m³ (Standard)</p>
+                   </div>
+                   <div class="absolute right-0 top-0 h-full w-2 bg-indigo-500"></div>
+                   <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-indigo-200 opacity-20 rounded-full blur-xl group-hover:scale-150 transition-transform duration-700"></div>
+                </div>
 
-      <div class="card" id="resultsCard" style="display: none">
-        <h2>Inventory Results</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div class="space-y-4">
-            <div class="factors-info" style="border-left-color: var(--primary)">
-              <p
-                class="text-xs uppercase font-bold text-gray-500 tracking-widest mb-1"
-              >
-                Standard Volume (Line Pack)
-              </p>
-              <p class="text-3xl font-bold" style="color: var(--primary)">
-                <span id="vStdRes">-</span>
-                <span class="text-base font-normal text-gray-400">SCF</span>
-              </p>
-              <p class="text-lg text-gray-600 mt-1">
-                <span id="vStdM3Res">-</span> <span class="text-sm">m³</span>
-              </p>
+                <!-- Mass Result -->
+                <div class="bg-purple-50 border border-purple-100 rounded-lg p-5 shadow-sm relative overflow-hidden group">
+                  <div class="relative z-10">
+                      <p class="text-purple-500 text-xs font-bold uppercase tracking-widest mb-1">Total Mass Inventory</p>
+                      <div class="flex items-baseline gap-2">
+                        <p class="text-4xl font-bold text-purple-900 font-mono tracking-tight" id="massLbmRes">-</p>
+                        <span class="text-lg text-purple-400 font-medium">lb</span>
+                      </div>
+                      <p class="text-xs text-purple-400 mt-2"><span id="massKgRes">-</span> kg</p>
+                  </div>
+                  <div class="absolute right-0 top-0 h-full w-2 bg-purple-500"></div>
+                  <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-purple-200 opacity-20 rounded-full blur-xl group-hover:scale-150 transition-transform duration-700"></div>
+                </div>
+              </div>
+
+              <!-- Details Grid -->
+              <div class="bg-gray-50 rounded-xl p-5 border border-gray-100">
+                  <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-4 border-b border-gray-200 pb-2">Pipeline Conditions</h3>
+                  
+                  <div class="grid grid-cols-2 gap-x-8 gap-y-4">
+                      <div>
+                          <p class="text-xs text-gray-500 mb-1">Avg. Pressure</p>
+                          <p class="font-mono font-bold text-gray-800 text-lg" id="pAvgVal">- psig</p>
+                      </div>
+                      <div>
+                          <p class="text-xs text-gray-500 mb-1">Avg. Temperature</p>
+                          <p class="font-mono font-bold text-gray-800 text-lg" id="tAvgVal">- °F</p>
+                      </div>
+                      <div>
+                          <p class="text-xs text-gray-500 mb-1">Z-Factor (Avg)</p>
+                          <p class="font-mono font-bold text-gray-800 text-lg" id="zVal">-</p>
+                      </div>
+                      <div>
+                          <p class="text-xs text-gray-500 mb-1">Specific Gravity</p>
+                          <p class="font-mono font-bold text-gray-800 text-lg" id="sgVal">-</p>
+                      </div>
+                  </div>
+              </div>
             </div>
-            <div
-              class="factors-info"
-              style="border-left-color: var(--secondary)"
-            >
-              <p
-                class="text-xs uppercase font-bold text-gray-500 tracking-widest mb-1"
-              >
-                Total Gas Mass
-              </p>
-              <p class="text-2xl font-bold text-secondary">
-                <span id="massLbmRes">-</span>
-                <span class="text-sm font-normal text-gray-400">lbm</span>
-              </p>
-              <p class="text-md text-gray-600">
-                <span id="massKgRes">-</span> <span class="text-sm">kg</span>
-              </p>
+
+            <div class="mt-6 pt-4 border-t border-gray-100 text-xs text-gray-400 flex items-center justify-between">
+                <div>
+                   <strong>Formula:</strong> Mass = V_geom · Density(P_avg, T_avg)
+                </div>
+                <div class="italic">
+                   Z-Factor: DAK Method
+                </div>
             </div>
-          </div>
-          <div class="grid grid-cols-2 gap-4">
-            <div class="bg-gray-50 p-4 rounded-xl border">
-              <p class="text-xs text-gray-400 uppercase">Avg Pressure</p>
-              <p class="font-bold text-lg" id="pAvgVal">- psig</p>
-            </div>
-            <div class="bg-gray-50 p-4 rounded-xl border">
-              <p class="text-xs text-gray-400 uppercase">Avg Temp</p>
-              <p class="font-bold text-lg" id="tAvgVal">- °F</p>
-            </div>
-            <div class="bg-gray-50 p-4 rounded-xl border">
-              <p class="text-xs text-gray-400 uppercase">Z-Factor</p>
-              <p class="font-bold text-lg font-mono" id="zVal">-</p>
-            </div>
-            <div class="bg-gray-50 p-4 rounded-xl border">
-              <p class="text-xs text-gray-400 uppercase">Specific Gravity</p>
-              <p class="font-bold text-lg" id="sgVal">-</p>
-            </div>
-          </div>
         </div>
       </div>    </div>
 
-    <!-- Footer -->
-</section>
+      <!-- Footer -->
+  </section>
 </main>
-    <!-- Footer Pro -->
+
+
+
+
+
     <footer id="contact" class="bg-gray-900 text-white border-t-4 border-[#008F4C]">
       <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -568,46 +631,127 @@
         24: { OD: 24.0, sch: { STD: 0.375 } },
       };
 
-      const critProps = {
-        CH4: { Tc: 343.0, Pc: 667.8, MW: 16.04 },
-        N2: { Tc: 227.2, Pc: 492.5, MW: 28.01 },
-        CO2: { Tc: 547.6, Pc: 1070.6, MW: 44.01 },
-        C2H6: { Tc: 549.8, Pc: 707.8, MW: 30.07 },
-        C3H8: { Tc: 665.7, Pc: 616.3, MW: 44.1 },
-        H2S: { Tc: 672.4, Pc: 1306.0, MW: 34.08 },
+      // GPSA Engineering Data Book & NIST Standard Values
+      const gasDataOrder = [
+        "CH4", "N2", "CO2", "C2H6", "C3H8", "H2O", "H2S", "H2", "CO", "O2",
+        "iC4H10", "nC4H10", "iC5H12", "nC5H12", 
+        "nC6H14", "nC7H16", "nC8H18", "nC9H20", "nC10H22",
+        "He", "Ar"
+      ];
+
+      const gasData = {
+        CH4: { name: "Methane", Pc: 666.4, Tc: 343.0, MW: 16.043, GHV: 1010.0, coeffs: { a: 19.89, b: 5.024e-2, c: 1.269e-5, d: -1.101e-8 } },
+        N2: { name: "Nitrogen", Pc: 493.1, Tc: 227.2, MW: 28.013, GHV: 0.0, coeffs: { a: 28.9, b: -1.571e-3, c: 8.081e-6, d: -2.873e-9 } },
+        CO2: { name: "Carbon Dioxide", Pc: 1071.0, Tc: 547.9, MW: 44.01, GHV: 0.0, coeffs: { a: 22.26, b: 5.981e-2, c: -3.501e-5, d: 7.469e-9 } },
+        C2H6: { name: "Ethane", Pc: 706.5, Tc: 549.9, MW: 30.07, GHV: 1769.6, coeffs: { a: 6.9, b: 1.727e-1, c: -6.406e-5, d: 7.285e-9 } },
+        C3H8: { name: "Propano", Pc: 616.0, Tc: 666.1, MW: 44.097, GHV: 2516.1, coeffs: { a: -4.04, b: 3.048e-1, c: -1.572e-4, d: 3.174e-8 } },
+        H2O: { name: "Water", Pc: 3200.1, Tc: 1164.9, MW: 18.015, GHV: 0.0, coeffs: { a: 32.24, b: 1.924e-3, c: 1.055e-5, d: -3.596e-9 } },
+        H2S: { name: "Hydrogen Sulfide", Pc: 1300.0, Tc: 672.4, MW: 34.08, GHV: 637.1, coeffs: { a: 26.88, b: 1.97e-2, c: -2.3e-5, d: 1.2e-8 } },
+        H2: { name: "Hydrogen", Pc: 187.5, Tc: 59.4, MW: 2.016, GHV: 324.2, coeffs: { a: 27.28, b: 3.26e-3, c: 5.0e-6, d: 0.0 } },
+        CO: { name: "Carbon Monoxide", Pc: 507.5, Tc: 239.3, MW: 28.01, GHV: 320.5, coeffs: { a: 29.14, b: -2.76e-3, c: 1.4e-5, d: 0.0 } },
+        O2: { name: "Oxygen", Pc: 731.4, Tc: 278.6, MW: 31.999, GHV: 0.0, coeffs: { a: 25.48, b: 1.52e-2, c: -7.16e-6, d: 1.31e-9 } },
+        iC4H10: { name: "i-Butane", Pc: 529.1, Tc: 734.7, MW: 58.123, GHV: 3251.9, coeffs: { a: -7.91, b: 4.16e-1, c: -2.3e-4, d: 4.9e-8 } },
+        nC4H10: { name: "n-Butane", Pc: 550.6, Tc: 765.3, MW: 58.123, GHV: 3262.3, coeffs: { a: 3.96, b: 3.715e-1, c: -1.83e-4, d: 3.5e-8 } },
+        iC5H12: { name: "i-Pentane", Pc: 490.4, Tc: 829.1, MW: 72.15, GHV: 4000.9, coeffs: { a: -6.7, b: 4.8e-1, c: -2.7e-4, d: 5.5e-8 } },
+        nC5H12: { name: "n-Pentane", Pc: 488.6, Tc: 845.5, MW: 72.15, GHV: 4008.9, coeffs: { a: -3.5, b: 4.6e-1, c: -2.5e-4, d: 5.2e-8 } },
+        nC6H14: { name: "n-Hexane", Pc: 436.9, Tc: 913.6, MW: 86.177, GHV: 4755.9, coeffs: { a: -4.4, b: 5.5e-1, c: -3.1e-4, d: 6.4e-8 } },
+        nC7H16: { name: "n-Heptane", Pc: 396.8, Tc: 972.7, MW: 100.204, GHV: 5502.5, coeffs: { a: -5.1, b: 6.4e-1, c: -3.6e-4, d: 7.5e-8 } },
+        nC8H18: { name: "n-Octane", Pc: 360.7, Tc: 1024.0, MW: 114.231, GHV: 6248.9, coeffs: { a: -6.0, b: 7.3e-1, c: -4.1e-4, d: 8.6e-8 } },
+        nC9H20: { name: "n-Nonane", Pc: 332.0, Tc: 1070.0, MW: 128.258, GHV: 6996.5, coeffs: { a: -7.0, b: 8.2e-1, c: -4.6e-4, d: 9.7e-8 } },
+        nC10H22: { name: "n-Decane", Pc: 305.2, Tc: 1111.7, MW: 142.285, GHV: 7742.9, coeffs: { a: -8.0, b: 9.1e-1, c: -5.1e-4, d: 1.0e-7 } },
+        He: { name: "Helium", Pc: 33.2, Tc: 9.3, MW: 4.003, GHV: 0.0, coeffs: { a: 20.79, b: 0, c: 0, d: 0 } },
+        Ar: { name: "Argon", Pc: 710.4, Tc: 272.4, MW: 39.948, GHV: 0.0, coeffs: { a: 20.79, b: 0, c: 0, d: 0 } },
       };
 
       function init() {
-        const grid = document.getElementById("compGrid");
-        Object.keys(critProps).forEach((c) => {
-          const d = document.createElement("div");
-          d.className = "comp-item";
-          d.innerHTML = `<label>${c}</label><input type="number" class="comp" id="${c}" step="0.0001" min="0" max="1" value="0">`;
-          grid.appendChild(d);
-          d.querySelector("input").addEventListener("input", updateSum);
-        });
-        document.getElementById("CH4").value = "0.95";
-        document.getElementById("C2H6").value = "0.03";
-        document.getElementById("N2").value = "0.02";
+         const ps = document.getElementById("pipeSize");
+         if(ps) {
+             ps.innerHTML = '<option value="">Select NPS</option>';
+             Object.keys(pipeData).forEach(
+               (s) => (ps.innerHTML += `<option value="${s}">${s}"</option>`),
+             );
+         }
 
-        const ps = document.getElementById("pipeSize");
-        ps.innerHTML = '<option value="">Select NPS</option>';
-        Object.keys(pipeData).forEach(
-          (s) => (ps.innerHTML += `<option value="${s}">${s}"</option>`),
-        );
+        const grid = document.getElementById("compGrid");
+        grid.innerHTML = "";
+        grid.className = "space-y-0 text-sm";
+        grid.parentElement.style.maxWidth = "100%";
+        
+        // Header
+        const header = document.createElement("div");
+        header.className = "grid grid-cols-[60px_1fr_100px_80px_60px_60px_60px] gap-2 text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 pb-2 border-b border-gray-200 items-center text-center";
+        header.innerHTML = `
+            <div class="text-left pl-2">Formula</div>
+            <div class="text-left">Name</div>
+            <div class="text-right">Mole Fr.</div>
+            <div class="text-left pl-2">Viz</div>
+            <div>MW<br><span class="text-[10px] normal-case">(lb/lbmol)</span></div>
+            <div>Pc<br><span class="text-[10px] normal-case">(psia)</span></div>
+            <div>Tc<br><span class="text-[10px] normal-case">(°R)</span></div>
+        `;
+        grid.parentElement.insertBefore(header, grid);
+
+        gasDataOrder.forEach((key) => {
+          const compData = gasData[key];
+          const div = document.createElement("div");
+          div.className = "grid grid-cols-[60px_1fr_100px_80px_60px_60px_60px] gap-2 items-center hover:bg-gray-50 py-1.5 border-b border-gray-50 last:border-0 text-center compound-row";
+          div.innerHTML = `
+            <div class="font-mono font-bold text-gray-700 text-left pl-2">${key.replace(/(\d+)/g, '<sub>$1</sub>')}</div>
+            <div class="text-gray-600 truncate text-left" title="${compData.name}">${compData.name}</div>
+            <div class="flex justify-end">
+                <input type="number" class="comp w-28 text-right font-mono text-sm border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 px-2 py-1 transition-all shadow-sm" id="${key}" step="0.000001" min="0" max="1" placeholder="0.000000" value="0">
+            </div>
+            <div class="h-6 w-full bg-gray-100 rounded overflow-hidden flex items-center px-1">
+                <div class="h-4 bg-green-500 rounded-sm transition-all duration-300 comp-bar" style="width: 0%"></div>
+            </div>
+            <div class="text-gray-500 font-mono text-xs">${compData.MW.toFixed(2)}</div>
+            <div class="text-gray-500 font-mono text-xs">${compData.Pc.toFixed(2)}</div>
+            <div class="text-gray-500 font-mono text-xs">${compData.Tc.toFixed(2)}</div>
+          `;
+          grid.appendChild(div);
+          
+          const input = div.querySelector("input");
+          input.addEventListener("input", updateSum);
+          input.addEventListener("focus", function() { this.select(); });
+        });
+
+        // Add Paste/Clear buttons dynamically
+        const sumContainer = document.querySelector(".flex.justify-between.items-center.mb-4 .text-sm");
+        if(sumContainer && !document.getElementById("btnPaste")) {
+            const btnGroup = document.createElement("div");
+            btnGroup.className = "flex gap-2 mt-2 md:mt-0";
+            btnGroup.innerHTML = `
+                <button id="btnPaste" class="text-xs py-1.5 px-3 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-md border border-blue-200 font-medium transition-colors flex items-center gap-1" onclick="pasteFromExcel()">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg> Paste
+                </button>
+                <button class="text-xs py-1.5 px-3 bg-red-50 text-red-600 hover:bg-red-100 rounded-md border border-red-200 font-medium transition-colors" onclick="clearComposition()">Clear</button>
+            `;
+             const headerRow = document.querySelector(".card .flex.justify-between.items-center.mb-4");
+             if(headerRow) headerRow.appendChild(btnGroup);
+        }
+
+        // Default: All zero
+        
         updateSum();
       }
 
       function updateSum() {
         let t = 0;
-        document
-          .querySelectorAll(".comp")
-          .forEach((i) => (t += parseFloat(i.value) || 0));
-        document.getElementById("moleSum").textContent = t.toFixed(4);
-        document.getElementById("moleSum").className =
-          Math.abs(t - 1) < 0.001
-            ? "text-green-600 font-bold"
-            : "text-red-500 font-bold";
+        document.querySelectorAll(".comp").forEach((i) => {
+            const val = parseFloat(i.value) || 0;
+            t += val;
+            const bar = i.closest('.grid').querySelector('.comp-bar');
+            if(bar) {
+                bar.style.width = Math.min(val * 100, 100) + "%";
+                bar.className = val > 0.5 ? "h-4 bg-green-600 rounded-sm transition-all duration-300 comp-bar" : "h-4 bg-green-400 rounded-sm transition-all duration-300 comp-bar";
+            }
+        });
+        const sumEl = document.getElementById("moleSum");
+        if(sumEl) {
+            sumEl.textContent = t.toFixed(4);
+            sumEl.className = Math.abs(t - 1) < 0.001 ? "text-green-600 font-bold" : "text-red-500 font-bold";
+        }
+        return t;
       }
 
       function updatePipe() {
@@ -650,6 +794,34 @@
         }
       }
 
+      function pasteFromExcel() {
+        if (!navigator.clipboard) return alert("Clipboard not supported");
+        navigator.clipboard.readText().then((text) => {
+          const vals = text.split(/[\t\n]+/).filter(v => v.trim() !== "");
+          if (vals.length === 0) return alert("Clipboard empty");
+          const inputs = document.querySelectorAll(".comp");
+          inputs.forEach(i => i.value = 0);
+          let pasted = 0;
+          vals.forEach((v, i) => {
+            if (inputs[i]) {
+                let clean = v.trim().replace(",", ".");
+                if (!isNaN(parseFloat(clean))) {
+                    inputs[i].value = clean;
+                    pasted++;
+                }
+            }
+          });
+          if(pasted > 0) updateSum();
+        }).catch(e => alert("Error pasting: " + e));
+      }
+
+      function clearComposition() {
+        if(confirm("Clear all composition data?")) {
+            document.querySelectorAll(".comp").forEach(i => i.value = 0);
+            updateSum();
+        }
+      }
+
       function calculate() {
         const L = parseFloat(document.getElementById("length").value);
         const p1g = parseFloat(document.getElementById("p1").value);
@@ -658,128 +830,142 @@
         const t2f = parseFloat(document.getElementById("t2").value);
         const patm = parseFloat(document.getElementById("pAtm").value);
 
-        if ([L, p1g, p2g, t1f, t2f].some(isNaN)) {
-          alert("Complete all pipeline and operating fields.");
+        if ([L, p1g, p2g, t1f, t2f, patm].some(isNaN)) {
+          alert("Complete all pipeline and operating fields (including Atm Pressure).");
           return;
         }
 
-        const p1 = p1g + patm,
-          p2 = p2g + patm;
+        const sum = updateSum();
+        if (Math.abs(sum - 1) > 0.001) {
+            if(!confirm("Mole fractions sum is " + sum.toFixed(4) + ". Normalize and continue?")) return;
+        }
+
+        const p1 = p1g + patm;
+        const p2 = p2g + patm;
         const pAvgAbs = (2 / 3) * (p1 + p2 - (p1 * p2) / (p1 + p2));
         const tAvgF = (t1f + t2f) / 2;
         const tAvgR = tAvgF + 459.67;
 
-        let ppc = 0,
-          tpc = 0,
-          mw = 0;
+        let ppc_mix = 0, tpc_mix = 0, mw_mix = 0;
+        let y_sour_co2 = 0, y_sour_h2s = 0;
+        
         document.querySelectorAll(".comp").forEach((i) => {
-          const y = parseFloat(i.value) || 0;
-          const d = critProps[i.id];
-          if (d) {
-            ppc += y * d.Pc;
-            tpc += y * d.Tc;
-            mw += y * d.MW;
+          const y_raw = parseFloat(i.value) || 0;
+          const y = y_raw / sum; 
+          if(y > 0) {
+              const data = gasData[i.id];
+              ppc_mix += y * data.Pc;
+              tpc_mix += y * data.Tc;
+              mw_mix += y * data.MW;
+              if (i.id === 'CO2') y_sour_co2 = y;
+              if (i.id === 'H2S') y_sour_h2s = y;
           }
         });
 
-        const z = getZ(pAvgAbs / ppc, tAvgR / tpc);
+        // Wichert-Aziz
+        const A_sour = y_sour_co2 + y_sour_h2s;
+        const B_sour = y_sour_h2s;
+        const epsilon = 120 * (Math.pow(A_sour, 0.9) - Math.pow(A_sour, 1.6)) + 15 * (Math.pow(B_sour, 0.5) - Math.pow(B_sour, 4.0));
+        const tpc_corr = tpc_mix - epsilon;
+        const ppc_corr = (ppc_mix * tpc_corr) / (tpc_mix + y_sour_h2s * (1 - y_sour_h2s) * epsilon);
+
+        const z = calculateDAK(pAvgAbs / ppc_corr, tAvgR / tpc_corr);
+        
         const id = parseFloat(document.getElementById("idVal").textContent);
+        if(isNaN(id)) { alert("Please select a pipe first."); return; }
+        
         const vGeom = (Math.PI / 4) * Math.pow(id / 12, 2) * (L * 3.28084);
         const vStd = vGeom * (pAvgAbs / 14.7) * (519.67 / tAvgR) * (1 / z);
-        const mass = (vStd * mw) / 379.48; // Standard molar volume in ft3/lb-mol
+        const mass = (vStd * mw_mix) / 379.48; // lb
 
         document.getElementById("resultsCard").style.display = "block";
-        document.getElementById("vStdRes").textContent = vStd.toLocaleString(
-          undefined,
-          { maximumFractionDigits: 0 },
-        );
-        document.getElementById("vStdM3Res").textContent = (
-          vStd / 35.3147
-        ).toLocaleString(undefined, { maximumFractionDigits: 0 });
-        document.getElementById("massLbmRes").textContent = mass.toLocaleString(
-          undefined,
-          { maximumFractionDigits: 0 },
-        );
-        document.getElementById("massKgRes").textContent = (
-          mass * 0.453592
-        ).toLocaleString(undefined, { maximumFractionDigits: 0 });
-        document.getElementById("pAvgVal").textContent =
-          (pAvgAbs - patm).toFixed(1) + " psig";
-        document.getElementById("tAvgVal").textContent =
-          tAvgF.toFixed(1) + " °F";
+        document.getElementById("vStdRes").textContent = vStd.toLocaleString(undefined, { maximumFractionDigits: 0 });
+        document.getElementById("vStdM3Res").textContent = (vStd / 35.3147).toLocaleString(undefined, { maximumFractionDigits: 0 });
+        document.getElementById("massLbmRes").textContent = mass.toLocaleString(undefined, { maximumFractionDigits: 0 });
+        document.getElementById("massKgRes").textContent = (mass * 0.453592).toLocaleString(undefined, { maximumFractionDigits: 0 });
+        
+        document.getElementById("pAvgVal").textContent = (pAvgAbs - patm).toFixed(1) + " psig";
+        document.getElementById("tAvgVal").textContent = tAvgF.toFixed(1) + " °F";
         document.getElementById("zVal").textContent = z.toFixed(4);
-        document.getElementById("sgVal").textContent = (mw / 28.97).toFixed(3);
+        document.getElementById("sgVal").textContent = (mw_mix / 28.9625).toFixed(3);
 
-        document
-          .getElementById("resultsCard")
-          .scrollIntoView({ behavior: "smooth" });
+        document.getElementById("resultsCard").scrollIntoView({ behavior: "smooth" });
       }
 
-      function getZ(pr, tr) {
-        const A = 1.39 * Math.sqrt(tr - 0.92) - 0.36 * tr - 0.101;
-        const B =
-          (0.62 - 0.23 * tr) * pr +
-          (0.066 / (tr - 0.86) - 0.037) * pr * pr +
-          (0.32 * Math.pow(pr, 6)) / Math.pow(10, 9 * (tr - 1));
-        const C = 0.132 - 0.32 * Math.log10(tr);
-        const D = Math.pow(10, 0.3106 - 0.49 * tr + 0.1824 * tr * tr);
-        return A + (1 - A) / Math.exp(B) + C * Math.pow(pr, D);
+      function calculateDAK(Pr, Tr) {
+        const A1 = 0.3265, A2 = -1.0700, A3 = -0.5339, A4 = 0.01569, A5 = -0.05165;
+        const A6 = 0.5475, A7 = -0.7361, A8 = 0.1844, A9 = 0.1056, A10 = 0.6134, A11 = 0.7210;
+        let rho_r = 0.27 * Pr / Tr; 
+        for(let i=0; i<50; i++) {
+            let R1 = A1 + A2/Tr + A3/Math.pow(Tr,3) + A4/Math.pow(Tr,4) + A5/Math.pow(Tr,5);
+            let R2 = A6 + A7/Tr + A8/Math.pow(Tr,2);
+            let R3 = A9 * (A7/Tr + A8/Math.pow(Tr,2));
+            let R4 = A10 * (1 + A11*Math.pow(rho_r,2)) * (Math.pow(rho_r,2)/Math.pow(Tr,3)) * Math.exp(-A11*Math.pow(rho_r,2));
+            let f = R1*rho_r + R2*Math.pow(rho_r,2) - R3*Math.pow(rho_r,5) + R4 + 1 - (0.27 * Pr) / (rho_r * Tr);
+            let df = R1 + 2*R2*rho_r - 5*R3*Math.pow(rho_r,4) + (A10/Math.pow(Tr,3)) * Math.exp(-A11*Math.pow(rho_r,2)) * (2*rho_r + 2*A11*Math.pow(rho_r,3) - 2*A11*Math.pow(rho_r,3)*(1 + A11*Math.pow(rho_r,2))) + (0.27 * Pr) / (rho_r * rho_r * Tr);
+            let delta = f / df;
+            rho_r = rho_r - delta;
+            if (Math.abs(delta) < 1e-8) break;
+            if (rho_r < 0) rho_r = 1e-5;
+        }
+        return (0.27 * Pr) / (rho_r * Tr);
       }
 
       function clearFields() {
-        document
-          .querySelectorAll("input:not(.comp)")
-          .forEach((i) => (i.value = ""));
+        document.querySelectorAll("input:not(.comp)").forEach(i => i.value = "");
         document.getElementById("resultsCard").style.display = "none";
       }
 
       document.addEventListener("DOMContentLoaded", () => {
-        init();
+         init();
+         // Mobile Menu Toggle
+         const mobileMenuButton = document.getElementById("mobile-menu-button");
+         const mobileMenu = document.getElementById("mobile-menu");
+         const menuIcon = document.getElementById("menu-icon");
+         const closeIcon = document.getElementById("close-icon");
+         const mobileToolsToggle = document.getElementById(
+           "mobile-tools-toggle",
+         );
+         const mobileToolsMenu = document.getElementById("mobile-tools-menu");
+         const mobileToolsArrow = document.getElementById("mobile-tools-arrow");
 
-        // Mobile Menu Toggle
-        const mobileMenuButton = document.getElementById("mobile-menu-button");
-        const mobileMenu = document.getElementById("mobile-menu");
-        const menuIcon = document.getElementById("menu-icon");
-        const closeIcon = document.getElementById("close-icon");
-        const mobileToolsToggle = document.getElementById(
-          "mobile-tools-toggle",
-        );
-        const mobileToolsMenu = document.getElementById("mobile-tools-menu");
-        const mobileToolsArrow = document.getElementById("mobile-tools-arrow");
+         if (mobileMenuButton && mobileMenu) {
+           mobileMenuButton.addEventListener("click", () => {
+             const isExpanded =
+               mobileMenuButton.getAttribute("aria-expanded") === "true";
+             mobileMenu.classList.toggle("hidden");
+             menuIcon.classList.toggle("hidden");
+             closeIcon.classList.toggle("hidden");
+             mobileMenuButton.setAttribute("aria-expanded", !isExpanded);
+           });
 
-        if (mobileMenuButton && mobileMenu) {
-          mobileMenuButton.addEventListener("click", () => {
-            const isExpanded =
-              mobileMenuButton.getAttribute("aria-expanded") === "true";
-            mobileMenu.classList.toggle("hidden");
-            menuIcon.classList.toggle("hidden");
-            closeIcon.classList.toggle("hidden");
-            mobileMenuButton.setAttribute("aria-expanded", !isExpanded);
-          });
+           // Mobile Tools Accordion
+           if (mobileToolsToggle && mobileToolsMenu) {
+             mobileToolsToggle.addEventListener("click", (e) => {
+               e.preventDefault();
+               mobileToolsMenu.classList.toggle("hidden");
+               if (mobileToolsArrow)
+                 mobileToolsArrow.classList.toggle("rotate-180");
+             });
+           }
 
-          // Mobile Tools Accordion
-          if (mobileToolsToggle && mobileToolsMenu) {
-            mobileToolsToggle.addEventListener("click", (e) => {
-              e.preventDefault();
-              mobileToolsMenu.classList.toggle("hidden");
-              if (mobileToolsArrow)
-                mobileToolsArrow.classList.toggle("rotate-180");
-            });
-          }
+           // Close menu when clicking a link (except tools toggle)
+           const mobileLinks = mobileMenu.querySelectorAll("a");
+           mobileLinks.forEach((link) => {
+             if (link.id !== "mobile-tools-toggle") {
+               link.addEventListener("click", () => {
+                 mobileMenu.classList.add("hidden");
+                 menuIcon.classList.remove("hidden");
+                 closeIcon.classList.add("hidden");
+                 mobileMenuButton.setAttribute("aria-expanded", "false");
+               });
+             }
+           });
+         }
 
-          // Close menu when clicking a link (except tools toggle)
-          const mobileLinks = mobileMenu.querySelectorAll("a");
-          mobileLinks.forEach((link) => {
-            if (link.id !== "mobile-tools-toggle") {
-              link.addEventListener("click", () => {
-                mobileMenu.classList.add("hidden");
-                menuIcon.classList.remove("hidden");
-                closeIcon.classList.add("hidden");
-                mobileMenuButton.setAttribute("aria-expanded", "false");
-              });
-            }
-          });
-        }
+         // Date update
+         const yearSpan = document.querySelector(".copyright-year");
+         if (yearSpan) yearSpan.textContent = new Date().getFullYear();
       });
     </script>
 </html>
