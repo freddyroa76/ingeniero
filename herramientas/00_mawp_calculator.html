@@ -189,172 +189,173 @@
         </p>
       </div>
 
-      <div class="card">
-        <h2>Inputs (per ASME B31.8)</h2>
-        <div class="input-row">
-          <div class="input-group">
-            <label for="facilityType" class="required">Facility Type:</label>
-            <select id="facilityType" required>
-              <option value="">Select facility type</option>
-              <option value="pipelines">
-                Pipelines, mains, and service lines
-              </option>
-              <option value="crossingsNoCasing">
-                Crossings of roads, railroads without casing
-              </option>
-              <option value="crossingsCasing">
-                Crossings of roads, railroads with casing
-              </option>
-              <option value="parallelEncroachment">
-                Parallel encroachment of pipelines and mains on roads and
-                railroads
-              </option>
-              <option value="fabricatedAssemblies">
-                Fabricated assemblies
-              </option>
-              <option value="pipelinesBridges">Pipelines on bridges</option>
-              <option value="controlFacilities">
-                Pressure/flow control and metering facilities
-              </option>
-              <option value="compressorStation">
-                Compressor station piping
-              </option>
-              <option value="liquidRemoval">
-                Liquid removal equipment constructed of pipe and fittings
-                without internal welding
-              </option>
-              <option value="nearPeople">
-                Near concentration of people in Location Classes 1 and 2
-              </option>
-            </select>
-            <div class="error-message" id="facilityTypeError">
-              Select a facility type
-            </div>
-          </div>
+      <div class="card p-8 bg-white shadow-lg rounded-2xl border border-gray-100">
+        <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-2 border-b border-gray-100 pb-4">
+            <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/></svg>
+            Design Parameters (ASME B31.8-2022)
+        </h2>
+        
+        <form id="mawpForm" onsubmit="event.preventDefault();">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <!-- Column 1: Facility & Location -->
+                <div class="space-y-5">
+                    <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-blue-500"></span> Facility Classification
+                    </h3>
+                    
+                    <div>
+                        <label for="facilityType" class="block text-sm font-semibold text-gray-700 mb-1">
+                            Facility Type <span class="text-red-500">*</span>
+                        </label>
+                        <select id="facilityType" required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-blue-600 focus:ring-blue-600 transition-all py-2.5 px-3 bg-white text-gray-900">
+                            <option value="">Select facility type</option>
+                            <option value="pipelines">Pipelines, mains, and service lines</option>
+                            <option value="crossingsNoCasing">Crossings of roads, railroads without casing</option>
+                            <option value="crossingsCasing">Crossings of roads, railroads with casing</option>
+                            <option value="parallelEncroachment">Parallel encroachment of pipelines and mains on roads and railroads</option>
+                            <option value="fabricatedAssemblies">Fabricated assemblies</option>
+                            <option value="pipelinesBridges">Pipelines on bridges</option>
+                            <option value="controlFacilities">Pressure/flow control and metering facilities</option>
+                            <option value="compressorStation">Compressor station piping</option>
+                            <option value="liquidRemoval">Liquid removal equipment constructed of pipe and fittings without internal welding</option>
+                            <option value="nearPeople">Near concentration of people in Location Classes 1 and 2</option>
+                        </select>
+                        <div class="error-message hidden text-red-600 text-xs mt-1" id="facilityTypeError">Select a facility type</div>
+                    </div>
 
-          <div class="input-group hidden" id="subFacilityGroup">
-            <label for="subFacilityType" id="subFacilityLabel" class="required"
-              >Subtipo de Instalaci&oacute;n / Subtype:</label
-            >
-            <select id="subFacilityType" required disabled>
-              <option value="">Select subtype</option>
-            </select>
-            <div class="error-message" id="subFacilityTypeError">
-              Select a subtype
-            </div>
-          </div>
+                    <div class="hidden" id="subFacilityGroup">
+                        <label for="subFacilityType" id="subFacilityLabel" class="block text-sm font-semibold text-gray-700 mb-1">
+                            Subtype <span class="text-red-500">*</span>
+                        </label>
+                        <select id="subFacilityType" required disabled class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-blue-600 focus:ring-blue-600 transition-all py-2.5 px-3 bg-white text-gray-900 disabled:bg-gray-100 disabled:text-gray-400">
+                            <option value="">Select subtype</option>
+                        </select>
+                        <div class="error-message hidden text-red-600 text-xs mt-1" id="subFacilityTypeError">Select a subtype</div>
+                    </div>
 
-          <div class="input-group">
-            <label for="locationClass" class="required">Location Class:</label>
-            <select id="locationClass" required>
-              <option value="">Select location class</option>
-              <option value="div1">Class 1, Division 1</option>
-              <option value="div2">Class 1, Division 2</option>
-              <option value="class2">Class 2</option>
-              <option value="class3">Class 3</option>
-              <option value="class4">Class 4</option>
-            </select>
-            <div class="error-message" id="locationClassError">
-              Select a location class
+                    <div>
+                        <label for="locationClass" class="block text-sm font-semibold text-gray-700 mb-1">
+                            Location Class <span class="text-red-500">*</span>
+                        </label>
+                        <select id="locationClass" required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-blue-600 focus:ring-blue-600 transition-all py-2.5 px-3 bg-white text-gray-900">
+                            <option value="">Select location class</option>
+                            <option value="div1">Class 1, Division 1</option>
+                            <option value="div2">Class 1, Division 2</option>
+                            <option value="class2">Class 2</option>
+                            <option value="class3">Class 3</option>
+                            <option value="class4">Class 4</option>
+                        </select>
+                        <div class="mt-2 flex items-center justify-between text-xs text-gray-500 bg-gray-50 rounded px-2 py-1 border border-gray-100">
+                            <span>Design Factor (F):</span>
+                            <span id="designFactorValue" class="font-bold text-blue-600">Not computed</span>
+                        </div>
+                        <div class="error-message hidden text-red-600 text-xs mt-1" id="locationClassError">Select a location class</div>
+                    </div>
+
+                    <div>
+                        <label for="designPressure" class="block text-sm font-semibold text-gray-700 mb-1">
+                            Design Pressure (psi) <span class="text-red-500">*</span>
+                        </label>
+                        <input type="number" id="designPressure" placeholder="Enter design pressure" min="0" step="50" required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-blue-600 focus:ring-blue-600 transition-all py-2.5 px-3 bg-white text-gray-900" />
+                        <div class="error-message hidden text-red-600 text-xs mt-1" id="designPressureError">Enter a valid design pressure</div>
+                    </div>
+                </div>
+
+                <!-- Column 2: Material & Temperature Factors -->
+                <div class="space-y-5">
+                    <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-green-500"></span> Material Properties
+                    </h3>
+                    
+                    <div>
+                        <label for="jointFactor" class="block text-sm font-semibold text-gray-700 mb-1">
+                            Longitudinal Weld Joint Quality Factor (E) <span class="text-red-500">*</span>
+                        </label>
+                        <select id="jointFactor" required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-green-600 focus:ring-green-600 transition-all py-2.5 px-3 bg-white text-gray-900">
+                            <option value="">Select E factor</option>
+                            <option value="1.0">Seamless (E = 1.00)</option>
+                            <option value="1.0">Electric-resistance welded (E = 1.00)</option>
+                            <option value="0.60">Furnace-buttwelded, continuous weld (E = 0.60)</option>
+                            <option value="0.80">Electric-fusion welded – Classes 13, 23, 33, 43, 53 (E = 0.80)</option>
+                            <option value="1.0">Electric-fusion welded – Classes 12, 22, 32, 42, 52 (E = 1.00)</option>
+                            <option value="1.0">Submerged-arc welded (straight seam or helical seam) (E = 1.00)</option>
+                            <option value="1.0">Combination welded (E = 1.00)</option>
+                        </select>
+                        <div class="mt-2 flex items-center justify-between text-xs text-gray-500 bg-gray-50 rounded px-2 py-1 border border-gray-100">
+                            <span>Joint Factor (E):</span>
+                            <span id="jointFactorValue" class="font-bold text-green-600">Not selected</span>
+                        </div>
+                        <div class="error-message hidden text-red-600 text-xs mt-1" id="jointFactorError">Select a longitudinal weld joint factor</div>
+                    </div>
+
+                    <div>
+                        <label for="tempFactor" class="block text-sm font-semibold text-gray-700 mb-1">
+                            Temperature Derating Factor (T) <span class="text-red-500">*</span>
+                        </label>
+                        <select id="tempFactor" required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-green-600 focus:ring-green-600 transition-all py-2.5 px-3 bg-white text-gray-900">
+                            <option value="">Select temperature</option>
+                            <option value="1.000">250°F (121°C) or lower (T = 1.000)</option>
+                            <option value="0.967">300°F (149°C) (T = 0.967)</option>
+                            <option value="0.933">350°F (177°C) (T = 0.933)</option>
+                            <option value="0.900">400°F (204°C) (T = 0.900)</option>
+                            <option value="0.867">450°F (232°C) (T = 0.867)</option>
+                        </select>
+                        <div class="mt-2 flex items-center justify-between text-xs text-gray-500 bg-gray-50 rounded px-2 py-1 border border-gray-100">
+                            <span>Temp Factor (T):</span>
+                            <span id="tempFactorValue" class="font-bold text-green-600">Not selected</span>
+                        </div>
+                        <div class="error-message hidden text-red-600 text-xs mt-1" id="tempFactorError">Select a temperature derating factor</div>
+                    </div>
+
+                    <!-- Formula Box -->
+                    <div class="bg-indigo-50 border border-indigo-100 rounded-lg p-4 mt-4">
+                        <div class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-indigo-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                            <div class="text-xs text-indigo-900">
+                                <strong>MAWP Formula (ASME B31.8):</strong><br>
+                                <span class="font-mono bg-white px-2 py-1 rounded border border-indigo-100 inline-block mt-1">
+                                    P = (2 × SMYS × F × E × T × t) / D
+                                </span>
+                                <p class="mt-2 text-[10px] text-indigo-700">
+                                    P = pressure (psi), SMYS (psi), F = design factor, E = joint factor, T = temp factor, t = wall thickness (in), D = outside diameter (in)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Button -->
+            <div class="flex gap-4 pt-4 border-t border-gray-100">
+                <button type="button" id="calculateBtn" class="flex-1 bg-primary text-accent hover:bg-slate-800 text-base font-bold py-3.5 px-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 transform active:scale-95">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                    Compute Maximum Pressures
+                </button>
+            </div>
+        </form>
+
+        <!-- Selected Values Summary -->
+        <div class="mt-6 pt-6 border-t border-gray-200">
+          <h3 class="text-sm font-bold text-gray-700 mb-3 uppercase tracking-wider">Computed Parameters</h3>
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-blue-50 rounded-lg p-3 border border-blue-100">
+              <p class="text-xs text-gray-600 mb-1">Design Factor (F)</p>
+              <p id="summaryDesignFactorValue" class="text-lg font-bold text-blue-700">Not computed</p>
+            </div>
+            <div class="bg-green-50 rounded-lg p-3 border border-green-100">
+              <p class="text-xs text-gray-600 mb-1">Joint Factor (E)</p>
+              <p id="summaryJointFactorValue" class="text-lg font-bold text-green-700">Not selected</p>
+            </div>
+            <div class="bg-purple-50 rounded-lg p-3 border border-purple-100">
+              <p class="text-xs text-gray-600 mb-1">Temp Factor (T)</p>
+              <p id="summaryTempFactorValue" class="text-lg font-bold text-purple-700">Not selected</p>
+            </div>
+            <div class="bg-orange-50 rounded-lg p-3 border border-orange-100">
+              <p class="text-xs text-gray-600 mb-1">Design Pressure</p>
+              <p id="summaryDesignPressureValue" class="text-lg font-bold text-orange-700">Not specified</p>
             </div>
           </div>
         </div>
-
-        <div class="input-row">
-          <div class="input-group">
-            <label for="jointFactor" class="required"
-              >Longitudinal Weld Joint Quality Factor (E):</label
-            >
-            <select id="jointFactor" required>
-              <option value="">Select E factor</option>
-              <option value="1.0">Seamless (E = 1.00)</option>
-              <option value="1.0">Electric-resistance welded (E = 1.00)</option>
-              <option value="0.60">
-                Furnace-buttwelded, continuous weld (E = 0.60)
-              </option>
-              <option value="0.80">
-                Electric-fusion welded &ndash; Classes 13, 23, 33, 43, 53 (E = 0.80)
-              </option>
-              <option value="1.0">
-                Electric-fusion welded &ndash; Classes 12, 22, 32, 42, 52 (E = 1.00)
-              </option>
-              <option value="1.0">
-                Submerged-arc welded (straight seam or helical seam) (E = 1.00)
-              </option>
-              <option value="1.0">Combination welded (E = 1.00)</option>
-            </select>
-            <div class="error-message" id="jointFactorError">
-              Select a longitudinal weld joint factor
-            </div>
-          </div>
-
-          <div class="input-group">
-            <label for="tempFactor" class="required"
-              >Temperature Derating Factor (T):</label
-            >
-            <select id="tempFactor" required>
-              <option value="">Select temperature</option>
-              <option value="1.000">250&deg;F (121&deg;C) or lower (T = 1.000)</option>
-              <option value="0.967">300&deg;F (149&deg;C) (T = 0.967)</option>
-              <option value="0.933">350&deg;F (177&deg;C) (T = 0.933)</option>
-              <option value="0.900">400&deg;F (204&deg;C) (T = 0.900)</option>
-              <option value="0.867">450&deg;F (232&deg;C) (T = 0.867)</option>
-            </select>
-            <div class="error-message" id="tempFactorError">
-              Select a temperature derating factor
-            </div>
-          </div>
-
-          <div class="input-group">
-            <label for="designPressure" class="required"
-              >Design Pressure (psi):</label
-            >
-            <input
-              type="number"
-              id="designPressure"
-              placeholder="Enter design pressure"
-              min="0"
-              step="50"
-              required
-            />
-            <div class="error-message" id="designPressureError">
-              Enter a valid design pressure
-            </div>
-          </div>
-        </div>
-
-        <div class="calculation-formula">
-          <strong>Formula:</strong> P = (2 &times; SMYS &times; F &times; E &times; T &times; t) / D
-          <br />where P = maximum allowable working pressure (psi), SMYS (psi),
-          F (Table 841.1.6-2), E (Table 841.1.7-1), T (Table 841.1.8-1), t =
-          wall thickness (in), D = outside diameter (in).
-        </div>
-
-        <div class="factors-info">
-          <h3>Selected Values</h3>
-          <p>
-            <strong>Design Factor, F:</strong>
-            <span id="designFactorValue" class="factor-value"
-              >Not computed</span
-            >
-          </p>
-          <p>
-            <strong>Longitudinal Weld Joint Factor, E:</strong>
-            <span id="jointFactorValue" class="factor-value">Not selected</span>
-          </p>
-          <p>
-            <strong>Temperature Derating Factor, T:</strong>
-            <span id="tempFactorValue" class="factor-value">Not selected</span>
-          </p>
-          <p>
-            <strong>Design Pressure:</strong>
-            <span id="designPressureValue" class="factor-value"
-              >Not specified</span
-            >
-          </p>
-        </div>
-
-        <button id="calculateBtn">Compute Maximum Pressures</button>
       </div>
 
       <div class="card">
@@ -805,6 +806,33 @@
       };
 
       const pipeDimensions = {
+        0.125: {
+          OD: 0.405,
+          schedules: {
+            STD: 0.068,
+            40: 0.068,
+            XS: 0.095,
+            80: 0.095,
+          },
+        },
+        0.25: {
+          OD: 0.54,
+          schedules: {
+            STD: 0.088,
+            40: 0.088,
+            XS: 0.119,
+            80: 0.119,
+          },
+        },
+        0.375: {
+          OD: 0.675,
+          schedules: {
+            STD: 0.091,
+            40: 0.091,
+            XS: 0.126,
+            80: 0.126,
+          },
+        },
         0.5: {
           OD: 0.84,
           schedules: {
@@ -846,7 +874,6 @@
             XS: 0.191,
             80: 0.191,
             160: 0.25,
-            XXS: 0.382,
           },
         },
         1.5: {
@@ -937,7 +964,8 @@
           OD: 8.625,
           schedules: {
             10: 0.25,
-            20: 0.277,
+            20: 0.25,
+            30: 0.277,
             STD: 0.322,
             40: 0.322,
             60: 0.406,
@@ -947,7 +975,6 @@
             120: 0.719,
             140: 0.812,
             160: 0.906,
-            XXS: 0.875,
           },
         },
         10: {
@@ -965,7 +992,6 @@
             120: 0.844,
             140: 1.0,
             160: 1.125,
-            XXS: 1.0,
           },
         },
         12: {
@@ -983,7 +1009,6 @@
             120: 1.0,
             140: 1.125,
             160: 1.312,
-            XXS: 1.0,
           },
         },
         14: {
@@ -1061,7 +1086,7 @@
             20: 0.375,
             30: 0.5,
             STD: 0.375,
-            60: 0.875,
+            40: 0.875,
             XS: 0.5,
             80: 1.125,
             100: 1.375,
@@ -1213,50 +1238,58 @@
         const sub = document.getElementById("subFacilityType");
         const group = document.getElementById("subFacilityGroup");
 
-        document.getElementById("facilityTypeError").style.display = fac.value
-          ? "none"
-          : "block";
+        // Use classList to toggle 'hidden' class for Tailwind
+        const facError = document.getElementById("facilityTypeError");
         if (!fac.value) {
+          facError.classList.remove("hidden");
           ok = false;
+        } else {
+          facError.classList.add("hidden");
         }
 
-        document.getElementById("locationClassError").style.display = loc.value
-          ? "none"
-          : "block";
+        const locError = document.getElementById("locationClassError");
         if (!loc.value) {
+          locError.classList.remove("hidden");
           ok = false;
+        } else {
+          locError.classList.add("hidden");
         }
 
-        document.getElementById("jointFactorError").style.display = ej.value
-          ? "none"
-          : "block";
+        const ejError = document.getElementById("jointFactorError");
         if (!ej.value) {
+          ejError.classList.remove("hidden");
           ok = false;
+        } else {
+          ejError.classList.add("hidden");
         }
 
-        document.getElementById("tempFactorError").style.display = tj.value
-          ? "none"
-          : "block";
+        const tjError = document.getElementById("tempFactorError");
         if (!tj.value) {
+          tjError.classList.remove("hidden");
           ok = false;
+        } else {
+          tjError.classList.add("hidden");
         }
 
         const dpVal = parseFloat(dp.value);
-        document.getElementById("designPressureError").style.display =
-          isFinite(dpVal) && dpVal > 0 ? "none" : "block";
+        const dpError = document.getElementById("designPressureError");
         if (!(isFinite(dpVal) && dpVal > 0)) {
+          dpError.classList.remove("hidden");
           ok = false;
+        } else {
+          dpError.classList.add("hidden");
         }
 
+        const subError = document.getElementById("subFacilityTypeError");
         if (!group.classList.contains("hidden")) {
-          document.getElementById("subFacilityTypeError").style.display =
-            sub.value ? "none" : "block";
           if (!sub.value) {
+            subError.classList.remove("hidden");
             ok = false;
+          } else {
+            subError.classList.add("hidden");
           }
         } else {
-          document.getElementById("subFacilityTypeError").style.display =
-            "none";
+          subError.classList.add("hidden");
         }
         return ok;
       }
@@ -1265,8 +1298,44 @@
         return (2 * SMYS_val * F * E * T * thickness) / OD;
       }
 
+      // Function to format NPS as fractions where appropriate
+      function formatNPS(nps) {
+        const npsFloat = parseFloat(nps);
+        
+        // Map of decimal values to fractional representations
+        const fractionMap = {
+          0.125: '1/8"',
+          0.25: '1/4"',
+          0.375: '3/8"',
+          0.5: '1/2"',
+          0.75: '3/4"',
+          1.25: '1-1/4"',
+          1.5: '1-1/2"',
+          2.5: '2-1/2"',
+          3.5: '3-1/2"'
+        };
+        
+        // Check if this NPS has a fractional representation
+        if (fractionMap[npsFloat]) {
+          return fractionMap[npsFloat];
+        }
+        
+        // For whole numbers, add inch symbol
+        if (Number.isInteger(npsFloat)) {
+          return npsFloat + '"';
+        }
+        
+        // For other decimals, return as-is with inch symbol
+        return npsFloat + '"';
+      }
+
       function generateTable() {
-        if (!validateForm()) return;
+        console.log("generateTable called");
+        if (!validateForm()) {
+          console.log("Validation failed");
+          return;
+        }
+        console.log("Validation passed");
 
         const F = calculateDesignFactor();
         const E = parseFloat(document.getElementById("jointFactor").value);
@@ -1275,13 +1344,22 @@
           document.getElementById("designPressure").value,
         );
 
-        document.getElementById("designFactorValue").textContent = F;
-        document.getElementById("jointFactorValue").textContent = E;
-        document.getElementById("tempFactorValue").textContent = T;
-        document.getElementById("designPressureValue").textContent =
-          designPressure + " psi";
+        console.log("F:", F, "E:", E, "T:", T, "designPressure:", designPressure);
+
+        if (F === null || F === undefined) {
+          console.error("Design Factor (F) could not be calculated");
+          alert("Error: Design Factor could not be calculated. Please check your facility type and location class selections.");
+          return;
+        }
+
+        // Values are already displayed in helper badges, no need to update them here
 
         const tbody = document.querySelector("#pressureTable tbody");
+        console.log("tbody:", tbody);
+        if (!tbody) {
+          console.error("Table body not found!");
+          return;
+        }
         tbody.innerHTML = "";
 
         Object.keys(pipeDimensions)
@@ -1303,7 +1381,7 @@
               schedules.forEach(schedule => {
                   const thickness = pipe.schedules[schedule];
                   const row = document.createElement("tr");
-                  row.innerHTML = `<td>${size}</td><td>${od}</td><td>${schedule}</td><td>${thickness}</td>`;
+                  row.innerHTML = `<td>${formatNPS(size)}</td><td>${od}</td><td>${schedule}</td><td>${thickness}</td>`;
                   for (const [grade, SMYS_val] of Object.entries(SMYS)) {
                     const p = calculateMaxPressure(
                       SMYS_val,
@@ -1327,50 +1405,72 @@
         const dp = document.getElementById("designPressure").value;
 
         const F = calculateDesignFactor();
+        console.log("updateFactorDescriptions - F:", F, "E:", E, "T:", T, "dp:", dp);
+        
+        // Update helper badges (below inputs)
+        const designFactorBadge = document.getElementById("designFactorValue");
+        const jointFactorBadge = document.getElementById("jointFactorValue");
+        const tempFactorBadge = document.getElementById("tempFactorValue");
+        
+        // Update summary section (Computed Parameters)
+        const summaryDesignFactor = document.getElementById("summaryDesignFactorValue");
+        const summaryJointFactor = document.getElementById("summaryJointFactorValue");
+        const summaryTempFactor = document.getElementById("summaryTempFactorValue");
+        const summaryDesignPressure = document.getElementById("summaryDesignPressureValue");
+        
+        // Update Design Factor (F) - 3 decimals
         if (F !== null && F !== undefined) {
-          document.getElementById("designFactorValue").textContent = F;
+          const fValue = F.toFixed(3);
+          if (designFactorBadge) designFactorBadge.textContent = fValue;
+          if (summaryDesignFactor) summaryDesignFactor.textContent = fValue;
         } else {
-          document.getElementById("designFactorValue").textContent =
-            "Not computed";
+          if (designFactorBadge) designFactorBadge.textContent = "Not computed";
+          if (summaryDesignFactor) summaryDesignFactor.textContent = "Select facility & location";
         }
 
-        document.getElementById("jointFactorValue").textContent = E
-          ? E
-          : "Not selected";
-        document.getElementById("tempFactorValue").textContent = T
-          ? T
-          : "Not selected";
-        document.getElementById("designPressureValue").textContent = dp
-          ? dp + " psi"
-          : "Not specified";
+        // Update Joint Factor (E) - 3 decimals if numeric
+        const eValue = E ? parseFloat(E).toFixed(3) : "Not selected";
+        if (jointFactorBadge) jointFactorBadge.textContent = eValue;
+        if (summaryJointFactor) summaryJointFactor.textContent = eValue;
+        
+        // Update Temperature Factor (T) - 3 decimals if numeric
+        const tValue = T ? parseFloat(T).toFixed(3) : "Not selected";
+        if (tempFactorBadge) tempFactorBadge.textContent = tValue;
+        if (summaryTempFactor) summaryTempFactor.textContent = tValue;
+        
+        // Update Design Pressure
+        const dpValue = dp ? dp + " psi" : "Not specified";
+        if (summaryDesignPressure) summaryDesignPressure.textContent = dpValue;
       }
 
-      document.getElementById("facilityType").addEventListener("change", () => {
-        updateSubFacilityOptions();
-        updateFactorDescriptions();
-      });
-      document
-        .getElementById("subFacilityType")
-        .addEventListener("change", updateFactorDescriptions);
-      document
-        .getElementById("locationClass")
-        .addEventListener("change", updateFactorDescriptions);
-      document
-        .getElementById("jointFactor")
-        .addEventListener("change", updateFactorDescriptions);
-      document
-        .getElementById("tempFactor")
-        .addEventListener("change", updateFactorDescriptions);
-      document
-        .getElementById("designPressure")
-        .addEventListener("input", updateFactorDescriptions);
-      document
-        .getElementById("calculateBtn")
-        .addEventListener("click", generateTable);
 
       document.addEventListener("DOMContentLoaded", function () {
         updateSubFacilityOptions();
         updateFactorDescriptions();
+
+        // Attach event listeners after DOM is ready
+        document.getElementById("facilityType").addEventListener("change", () => {
+          updateSubFacilityOptions();
+          updateFactorDescriptions();
+        });
+        document
+          .getElementById("subFacilityType")
+          .addEventListener("change", updateFactorDescriptions);
+        document
+          .getElementById("locationClass")
+          .addEventListener("change", updateFactorDescriptions);
+        document
+          .getElementById("jointFactor")
+          .addEventListener("change", updateFactorDescriptions);
+        document
+          .getElementById("tempFactor")
+          .addEventListener("change", updateFactorDescriptions);
+        document
+          .getElementById("designPressure")
+          .addEventListener("input", updateFactorDescriptions);
+        document
+          .getElementById("calculateBtn")
+          .addEventListener("click", generateTable);
 
         // Mobile Menu Toggle
         const mobileMenuButton = document.getElementById("mobile-menu-button");
