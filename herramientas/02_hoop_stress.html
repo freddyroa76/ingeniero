@@ -1,5 +1,5 @@
 ﻿<!doctype html>
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -155,194 +155,252 @@
 <section class="bg-background min-h-screen pt-8 pb-12"><div class="container mx-auto px-4 pt-2 pb-12 is-tool-content">
       <!-- Breadcrumb -->
       <nav
-        class="flex mb-6 text-xs font-medium text-gray-400 uppercase-none"
+        class="flex mb-6 text-xs font-medium text-gray-400"
         aria-label="Breadcrumb"
       >
         <ol class="inline-flex items-center space-x-2">
           <li>
-            <a
-              href="../index.html"
-              class="text-gray-600 hover:text-primary transition-colors"
-              >Inicio</a
+            <a href="../index.html" class="hover:text-primary transition-colors"
+              >Home</a
             >
           </li>
-          <li><span class="mx-2 text-gray-300">/</span></li>
+          <li><span class="mx-2">/</span></li>
           <li>
             <a
               href="../herramientas.html"
-              class="text-gray-600 hover:text-primary transition-colors"
-              >Herramientas</a
+              class="hover:text-primary transition-colors"
+              >Tools</a
             >
           </li>
-          <li><span class="mx-2 text-gray-300">/</span></li>
+          <li><span class="mx-2">/</span></li>
           <li class="text-gray-900 font-bold">Hoop Stress</li>
         </ol>
       </nav>
 
-      <div class="title-box lg:sticky lg:top-[84px] z-30">
-        <h1 class="text-3xl font-bold">
+      <div class="title-box mb-8 relative z-10">
+        <h1 class="text-3xl font-bold text-gray-900 tracking-tight">
           Hoop Stress Calculator
         </h1>
-        <p class="text-gray-100 mt-1">
+        <p class="text-gray-500 mt-2 text-sm font-medium">
           Calculate and verify pipeline hoop stress per ASME B31.8
         </p>
       </div>
 
-      <div class="card">
-        <h2>Pipe Dimensions & Grade</h2>
-        <div class="input-row">
-          <div class="input-group">
-            <label for="pipeSize" class="required"
-              >Nominal Pipe Size (NPS):</label
-            >
-            <select id="pipeSize" onchange="updatePipeDimensions()" required>
-              <option value="">Select size</option>
-              <option value="0.5">NPS 1/2 (DN 15)</option>
-              <option value="0.75">NPS 3/4 (DN 20)</option>
-              <option value="1">NPS 1 (DN 25)</option>
-              <option value="1.25">NPS 1 1/4 (DN 32)</option>
-              <option value="1.5">NPS 1 1/2 (DN 40)</option>
-              <option value="2">NPS 2 (DN 50)</option>
-              <option value="2.5">NPS 2 1/2 (DN 65)</option>
-              <option value="3">NPS 3 (DN 80)</option>
-              <option value="4">NPS 4 (DN 100)</option>
-              <option value="6">NPS 6 (DN 150)</option>
-              <option value="8">NPS 8 (DN 200)</option>
-              <option value="10">NPS 10 (DN 250)</option>
-              <option value="12">NPS 12 (DN 300)</option>
-              <option value="14">NPS 14 (DN 350)</option>
-              <option value="16">NPS 16 (DN 400)</option>
-              <option value="18">NPS 18 (DN 450)</option>
-              <option value="20">NPS 20 (DN 500)</option>
-              <option value="24">NPS 24 (DN 600)</option>
-              <option value="30">NPS 30 (DN 750)</option>
-              <option value="36">NPS 36 (DN 900)</option>
-              <option value="42">NPS 42 (DN 1050)</option>
-            </select>
-          </div>
-          <div class="input-group">
-            <label for="schedule" class="required">Schedule:</label>
-            <select
-              id="schedule"
-              onchange="updateWallThickness()"
-              disabled
-              required
-            >
-              <option value="">Select size first</option>
-            </select>
-          </div>
-          <div class="input-group">
-            <label for="pipeGrade" class="required">Pipe Grade:</label>
-            <select id="pipeGrade" onchange="updateSMYS()" required>
-              <option value="">Select grade</option>
-              <option value="A">API Grade A</option>
-              <option value="B">API Grade B</option>
-              <option value="X42">API Grade X42</option>
-              <option value="X52">API Grade X52</option>
-              <option value="X60">API Grade X60</option>
-              <option value="X65">API Grade X65</option>
-              <option value="X70">API Grade X70</option>
-            </select>
-          </div>
-        </div>
+      <div class="card p-8 bg-white shadow-lg rounded-2xl border border-gray-100">
+        <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-2 border-b border-gray-100 pb-4">
+             <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+             Parameters
+        </h2>
+        
+        <form id="calcForm" onsubmit="event.preventDefault();">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <!-- Column 1: Pipe Physical Properties -->
+                <div class="space-y-5">
+                    <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-blue-500"></span> Pipe Properties
+                    </h3>
+                    
+                    <div>
+                        <label for="pipeSize" class="block text-sm font-semibold text-gray-700 mb-1">
+                            Nominal Pipe Size (NPS) <span class="text-red-500">*</span>
+                        </label>
+                        <select id="pipeSize" onchange="updatePipeDimensions()" required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-blue-600 focus:ring-blue-600 transition-all py-2.5 px-3 bg-white text-gray-900">
+                              <option value="">Select size</option>
+                              <option value="0.5">NPS 1/2 (DN 15)</option>
+                              <option value="0.75">NPS 3/4 (DN 20)</option>
+                              <option value="1">NPS 1 (DN 25)</option>
+                              <option value="1.25">NPS 1 1/4 (DN 32)</option>
+                              <option value="1.5">NPS 1 1/2 (DN 40)</option>
+                              <option value="2">NPS 2 (DN 50)</option>
+                              <option value="2.5">NPS 2 1/2 (DN 65)</option>
+                              <option value="3">NPS 3 (DN 80)</option>
+                              <option value="3.5">NPS 3 1/2 (DN 90)</option>
+                              <option value="4">NPS 4 (DN 100)</option>
+                              <option value="5">NPS 5 (DN 125)</option>
+                              <option value="6">NPS 6 (DN 150)</option>
+                              <option value="8">NPS 8 (DN 200)</option>
+                              <option value="10">NPS 10 (DN 250)</option>
+                              <option value="12">NPS 12 (DN 300)</option>
+                              <option value="14">NPS 14 (DN 350)</option>
+                              <option value="16">NPS 16 (DN 400)</option>
+                              <option value="18">NPS 18 (DN 450)</option>
+                              <option value="20">NPS 20 (DN 500)</option>
+                              <option value="22">NPS 22 (DN 550)</option>
+                              <option value="24">NPS 24 (DN 600)</option>
+                              <option value="30">NPS 30 (DN 750)</option>
+                              <option value="32">NPS 32 (DN 800)</option>
+                              <option value="34">NPS 34 (DN 850)</option>
+                              <option value="36">NPS 36 (DN 900)</option>
+                              <option value="42">NPS 42 (DN 1050)</option>
+                        </select>
+                         <div class="error-message text-xs text-red-500 mt-1 hidden" id="pipeSizeError">Select a size</div>
+                         <div class="mt-2 flex items-center justify-between text-xs text-gray-500 bg-gray-50 rounded px-2 py-1 border border-gray-100">
+                            <span>Outside Diameter (OD):</span>
+                            <span id="odValue" class="font-bold text-blue-600">Not set</span>
+                         </div>
+                    </div>
 
-        <div
-          class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 text-sm text-gray-600 bg-gray-50 p-4 rounded-lg"
-        >
-          <p><strong>OD:</strong> <span id="odVal">-</span>"</p>
-          <p><strong>Wall t:</strong> <span id="tVal">-</span>"</p>
-          <p><strong>SMYS:</strong> <span id="smysVal">-</span> psi</p>
-        </div>
-      </div>
+                    <div>
+                        <label for="schedule" class="block text-sm font-semibold text-gray-700 mb-1">
+                            Schedule / Wall Thickness <span class="text-red-500">*</span>
+                        </label>
+                        <select id="schedule" onchange="updateWallThickness()" disabled required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-blue-600 focus:ring-blue-600 transition-all py-2.5 px-3 bg-white text-gray-900 disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-200">
+                             <option value="">Select size first</option>
+                        </select>
+                         <div class="mt-2 flex items-center justify-between text-xs text-gray-500 bg-gray-50 rounded px-2 py-1 border border-gray-100">
+                            <span>Wall Thickness (t):</span>
+                            <span id="tNomValue" class="font-bold text-blue-600">Not set</span>
+                         </div>
+                    </div>
 
-      <div class="card">
-        <h2>Design Factors & Pressure</h2>
-        <div class="input-row">
-          <div class="input-group">
-            <label for="internalPressure" class="required"
-              >Internal Pressure (P) <span class="units">(psi)</span>:</label
-            >
-            <input
-              type="number"
-              id="internalPressure"
-              step="0.1"
-              placeholder="e.g. 720"
-              required
-            />
-          </div>
-          <div class="input-group">
-            <label for="locationClass" class="required"
-              >Location Class (Design Factor F):</label
-            >
-            <select id="locationClass" onchange="updateDesignFactor()" required>
-              <option value="">Select class</option>
-              <option value="1-div1">Class 1 Div 1 (0.72)</option>
-              <option value="1-div2">Class 1 Div 2 (0.60)</option>
-              <option value="2">Class 2 (0.50)</option>
-              <option value="3">Class 3 (0.40)</option>
-              <option value="4">Class 4 (0.40)</option>
-            </select>
-          </div>
-          <div class="input-group">
-            <label for="jointFactor" class="required">Joint Factor (E):</label>
-            <select id="jointFactor" required>
-              <option value="1.0">1.0 (Seamless, ERW, SAW)</option>
-              <option value="0.8">0.8 (Furnace Buttweld)</option>
-            </select>
-          </div>
-        </div>
+                    <div>
+                        <label for="pipeGrade" class="block text-sm font-semibold text-gray-700 mb-1">
+                            Material Grade (API 5L) <span class="text-red-500">*</span>
+                        </label>
+                        <select id="pipeGrade" onchange="updateSMYS()" required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-blue-600 focus:ring-blue-600 transition-all py-2.5 px-3 bg-white text-gray-900">
+                            <option value="">Select grade</option>
+                            <option value="A">API Grade A</option>
+                            <option value="B">API Grade B</option>
+                            <option value="X42">API Grade X42</option>
+                            <option value="X52">API Grade X52</option>
+                            <option value="X60">API Grade X60</option>
+                            <option value="X65">API Grade X65</option>
+                            <option value="X70">API Grade X70</option>
+                        </select>
+                         <div class="mt-2 flex items-center justify-between text-xs text-gray-500 bg-gray-50 rounded px-2 py-1 border border-gray-100">
+                            <span>Yield Strength (SMYS):</span>
+                            <span id="smysValue" class="font-bold text-blue-600">Not selected</span>
+                         </div>
+                    </div>
+                </div>
 
-        <div class="flex gap-4 mt-4">
-          <button id="calculateBtn" class="flex-1" onclick="calculateHoopStress()">
-            Verify Stress
-          </button>
-          <button class="bg-gray-500 hover:bg-gray-600" onclick="clearFields()">
-            Clear
-          </button>
-        </div>
+                <!-- Column 2: Operational Condition & Factors -->
+                <div class="space-y-5">
+                    <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                         <span class="w-2 h-2 rounded-full bg-green-500"></span> Conditions & Factors
+                    </h3>
+                    
+                    <div>
+                         <label for="internalPressure" class="block text-sm font-semibold text-gray-700 mb-1">
+                            Internal Pressure (P) <span class="text-red-500">*</span>
+                         </label>
+                         <div class="relative">
+                            <input type="number" id="internalPressure" placeholder="e.g. 720" min="0" step="1" required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-green-600 focus:ring-green-600 transition-all py-2.5 pl-3 pr-12 bg-white text-gray-900" />
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400 text-sm font-medium">psi</div>
+                         </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                         <div>
+                            <label for="locationClass" class="block text-sm font-semibold text-gray-700 mb-1">
+                                Location Class <span class="text-red-500">*</span>
+                            </label>
+                            <select id="locationClass" onchange="updateDesignFactor()" required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-green-600 focus:ring-green-600 transition-all py-2.5 px-3 text-sm bg-white text-gray-900">
+                                <option value="">Select class</option>
+                                <option value="1-div1">Class 1, Div 1 (F=0.72)</option>
+                                <option value="1-div2">Class 1, Div 2 (F=0.60)</option>
+                                <option value="2">Class 2 (F=0.50)</option>
+                                <option value="3">Class 3 (F=0.40)</option>
+                                <option value="4">Class 4 (F=0.40)</option>
+                            </select>
+                         </div>
+                         
+                         <div>
+                             <!-- Design Factor Display -->
+                             <label class="block text-sm font-semibold text-gray-400 mb-1">Description</label>
+                             <div class="bg-gray-50 border border-gray-100 rounded-lg py-2.5 px-3 text-sm text-gray-500 italic h-[42px] content-center flex items-center">
+                                 Factor (F): <span id="fValue" class="ml-2 font-bold text-green-600"> - </span>
+                             </div>
+                         </div>
+                    </div>
+
+                    <div>
+                        <label for="jointFactor" class="block text-sm font-semibold text-gray-700 mb-1">
+                            Longitudinal Joint Factor (E) <span class="text-red-500">*</span>
+                        </label>
+                        <select id="jointFactor" required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-green-600 focus:ring-green-600 transition-all py-2.5 px-3 bg-white text-gray-900">
+                            <option value="1.0">Seamless / EFW / SAW (E=1.00)</option>
+                            <option value="0.8">Electric Resistance Welded (E=0.80)</option>
+                            <option value="0.6">Furnace Buttweld (E=0.60)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="tempFactor" class="block text-sm font-semibold text-gray-700 mb-1">
+                            Temperature Factor (T) <span class="text-red-500">*</span>
+                        </label>
+                        <select id="tempFactor" required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-green-600 focus:ring-green-600 transition-all py-2.5 px-3 bg-white text-gray-900">
+                            <option value="1.0">&le; 250&deg;F (121&deg;C) (T=1.000)</option>
+                            <option value="0.967">300&deg;F (149&deg;C) (T=0.967)</option>
+                            <option value="0.933">350&deg;F (177&deg;C) (T=0.933)</option>
+                            <option value="0.900">400&deg;F (204&deg;C) (T=0.900)</option>
+                            <option value="0.867">450&deg;F (232&deg;C) (T=0.867)</option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Formula Reference Box -->
+            <div class="bg-indigo-50 border border-indigo-100 rounded-lg p-4 mb-8">
+                <div class="flex items-start gap-3">
+                    <svg class="w-5 h-5 text-indigo-500 mt-1 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <div class="text-sm text-indigo-900">
+                        <strong>ASME B31.8 Check:</strong> 
+                        <span class="font-mono bg-white px-2 py-0.5 rounded border border-indigo-100 mx-1">Sh &le; SMYS &times; F &times; E &times; T</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 pt-4 border-t border-gray-100">
+                <button id="calculateBtn" class="flex-1 bg-primary text-accent hover:bg-slate-800 text-base font-bold py-3.5 px-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 transform active:scale-95">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    Verify Design
+                </button>
+                <button id="clearBtn" class="flex-none bg-white text-slate-500 border border-slate-200 hover:bg-slate-50 hover:text-slate-700 font-semibold py-3.5 px-6 rounded-xl transition-all duration-200 flex items-center justify-center">
+                    Clear
+                </button>
+            </div>
+        </form>
       </div>
 
       <div class="card" id="resultsCard" style="display: none">
-        <h2>Verification Results</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div>
-            <div class="factors-info" style="border-left-color: var(--primary)">
-              <p>
-                <strong>Hoop Stress (Sh):</strong>
-                <span
-                  id="shText"
-                  class="factor-value text-2xl"
-                  style="color: var(--primary)"
-                  >-</span
-                >
-                psi
-              </p>
-              <p>
-                <strong>Utilization:</strong>
-                <span id="percentText" class="factor-value text-xl">-</span> %
-                SMYS
-              </p>
-            </div>
-          </div>
-          <div class="flex items-center justify-center">
-            <div
-              id="statusBadge"
-              class="text-center p-6 rounded-2xl w-full border-2"
-            >
-              <span id="statusIcon" class="text-4xl block mb-2"></span>
-              <span
-                id="statusText"
-                class="text-2xl font-bold uppercase tracking-widest"
-              ></span>
-            </div>
-          </div>
+        <h2 class="text-2xl font-bold mb-6 text-primary border-b border-gray-100 pb-2">Verification Results</h2>
+        
+        <!-- Primary Results Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+             <!-- Hoop Stress Card -->
+             <div class="bg-blue-50 border border-blue-100 rounded-xl p-6 relative overflow-hidden shadow-sm">
+                  <p class="text-xs text-blue-800 font-bold uppercase tracking-wider mb-2">Hoop Stress (Sh)</p>
+                  <p class="text-4xl font-extrabold text-blue-900" id="shText">0 psi</p>
+                  <p class="text-xs text-blue-600 mt-2 font-medium">Calculated Operating Stress</p>
+             </div>
+             
+             <!-- Utilization Card -->
+             <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-6 relative overflow-hidden shadow-sm">
+                  <p class="text-xs text-indigo-800 font-bold uppercase tracking-wider mb-2">SMYS Utilization</p>
+                  <div class="flex items-baseline gap-2">
+                       <p class="text-4xl font-extrabold text-indigo-900" id="percentText">0.0%</p>
+                  </div>
+                  <p class="text-xs text-indigo-600 mt-2 font-medium">of Material Yield Strength</p>
+             </div>
         </div>
 
-        <div class="calculation-formula mt-6">
-          <strong>Safety Verification:</strong> Sh = (P &times; D) / (2 &times; t) = SMYS &times;
-          F &times; E &times; T
-          <br />
-          <span id="detailsText" class="text-sm italic"></span>
+        <!-- Validation Status Banner -->
+        <div id="statusBadge" class="mb-8 p-6 rounded-xl border-2 flex items-center gap-4 transition-all">
+             <div id="statusIcon" class="text-3xl"></div>
+             <div>
+                 <h3 class="text-lg font-bold uppercase tracking-wide" id="statusText"></h3>
+                 <p class="text-sm opacity-90" id="statusSubText"></p>
+             </div>
+        </div>
+
+        <!-- Breakdown -->
+        <div class="bg-white border border-slate-200 rounded-lg p-5 shadow-sm">
+            <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-3 border-b border-slate-100 pb-2">Calculation Breakdown</h3>
+            <div class="font-mono text-sm text-slate-600 space-y-2 overflow-x-auto" id="detailsText">
+            </div>
         </div>
       </div>    </div>
 
@@ -902,51 +960,64 @@
       function updatePipeDimensions() {
         const size = document.getElementById("pipeSize").value;
         const schSel = document.getElementById("schedule");
+        const odSpan = document.getElementById("odValue");
+        
+        // Reset
         schSel.innerHTML = '<option value="">Select Sch</option>';
+        document.getElementById("odValue").textContent = "Not set";
+        document.getElementById("tNomValue").textContent = "Not set";
+        schSel.disabled = true;
 
         if (size && pipeDimensions[size]) {
-          const schedules = pipeDimensions[size].schedules;
-          
-          // Use scheduleOrder to sort options
-          scheduleOrder.forEach((k) => {
-            if (schedules[k]) {
-              schSel.innerHTML += `<option value="${k}">${k}</option>`;
-            }
-          });
-          
-          Object.keys(schedules).forEach((k) => {
-            if (!scheduleOrder.includes(k)) {
+           const schedules = pipeDimensions[size].schedules;
+           
+           // Populate order
+           scheduleOrder.forEach((k) => {
+             if (schedules[k]) {
                schSel.innerHTML += `<option value="${k}">${k}</option>`;
-            }
-          });
+             }
+           });
+           
+           // Look for others
+           Object.keys(schedules).forEach((k) => {
+             if (!scheduleOrder.includes(k)) {
+                schSel.innerHTML += `<option value="${k}">${k}</option>`;
+             }
+           });
 
-          schSel.disabled = false;
-          document.getElementById("odVal").textContent =
-            pipeDimensions[size].OD.toFixed(3);
-        } else {
-          schSel.disabled = true;
-          document.getElementById("odVal").textContent = "-";
+           schSel.disabled = false;
+           odSpan.textContent = pipeDimensions[size].OD.toFixed(3) + '"';
         }
         updateWallThickness();
       }
 
       function updateWallThickness() {
         const size = document.getElementById("pipeSize").value;
-        const sch = document.getElementById("schedule");
-        const tVal = document.getElementById("tVal");
+        const sch = document.getElementById("schedule").value;
+        const tSpan = document.getElementById("tNomValue");
         
-        if (size && sch.value && pipeDimensions[size] && pipeDimensions[size].schedules[sch.value]) {
-            tVal.textContent = pipeDimensions[size].schedules[sch.value].toFixed(3);
+        if (size && sch && pipeDimensions[size] && pipeDimensions[size].schedules[sch]) {
+            tSpan.textContent = pipeDimensions[size].schedules[sch].toFixed(3) + '"';
         } else {
-            tVal.textContent = "-";
+            tSpan.textContent = "Not set";
         }
       }
 
       function updateSMYS() {
         const g = document.getElementById("pipeGrade").value;
-        document.getElementById("smysVal").textContent = g
-          ? smysGrades[g].toLocaleString()
-          : "-";
+        document.getElementById("smysValue").textContent = g
+          ? smysGrades[g].toLocaleString() + " psi"
+          : "Not selected";
+      }
+      
+      function updateDesignFactor() {
+        const loc = document.getElementById("locationClass").value;
+        const fSpan = document.getElementById("fValue");
+        if (loc && designFactors[loc]) {
+          fSpan.textContent = designFactors[loc].toFixed(2);
+        } else {
+          fSpan.textContent = "-";
+        }
       }
 
       function calculateHoopStress() {
@@ -956,47 +1027,74 @@
         const P = parseFloat(document.getElementById("internalPressure").value);
         const loc = document.getElementById("locationClass").value;
         const E = parseFloat(document.getElementById("jointFactor").value);
+        const T = parseFloat(document.getElementById("tempFactor").value);
 
-        if (!size || !sch || !grade || isNaN(P) || !loc) {
-          alert("Please complete all required fields.");
-          return;
+        // Errors handled by browser 'required' and inline validation logic ideally, 
+        // but let's do a quick check
+        if (!size || !sch || !grade || isNaN(P) || !loc || isNaN(T)) {
+          return; // Let HTML5 validation handle the UI tips
         }
 
         const D = pipeDimensions[size].OD;
         const t = pipeDimensions[size].schedules[sch];
         const S = smysGrades[grade];
         const F = designFactors[loc];
-        const T = 1.0; // Temp factor default
+        // T is input
 
+        // Sh = (P * D) / (2 * t)
         const Sh = (P * D) / (2 * t);
+        
+        // Smax = S * F * E * T
         const Smax = S * F * E * T;
+        
         const utilization = (Sh / S) * 100;
-        const allowedUtil = (Smax / S) * 100;
+        const allowedUtil = (Smax / S) * 100; // effective allowed % of SMYS
 
+        // Show Results
         const card = document.getElementById("resultsCard");
         card.style.display = "block";
-        document.getElementById("shText").textContent = Sh.toFixed(0);
-        document.getElementById("percentText").textContent =
-          utilization.toFixed(1);
+        document.getElementById("shText").textContent = Sh.toFixed(0) + " psi";
+        document.getElementById("percentText").textContent = utilization.toFixed(1) + "%";
 
         const badge = document.getElementById("statusBadge");
         const icon = document.getElementById("statusIcon");
         const text = document.getElementById("statusText");
+        const subtext = document.getElementById("statusSubText");
 
         if (Sh <= Smax) {
-          badge.className =
-            "text-center p-6 rounded-2xl w-full border-2 bg-green-50 border-green-200 text-green-700";
-          icon.textContent = "?";
-          text.textContent = "SAFE - PASS";
+           // Pass
+           badge.className = "mb-8 p-6 rounded-xl border-2 flex items-center gap-4 transition-all bg-green-50 border-green-200 text-green-800";
+           icon.innerHTML = '<svg class="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+           text.textContent = "DESIGN ACCEPTABLE";
+           subtext.textContent = `Stress is within limits (${utilization.toFixed(1)}% vs ${allowedUtil.toFixed(1)}% Max)`;
         } else {
-          badge.className =
-            "text-center p-6 rounded-2xl w-full border-2 bg-red-50 border-red-200 text-red-700";
-          icon.textContent = "??";
-          text.textContent = "CRITICAL - FAIL";
+           // Fail
+           badge.className = "mb-8 p-6 rounded-xl border-2 flex items-center gap-4 transition-all bg-red-50 border-red-200 text-red-800";
+           icon.innerHTML = '<svg class="w-12 h-12 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>';
+           text.textContent = "DESIGN UNACCEPTABLE";
+           subtext.textContent = `Stress EXCEEDS limits (${utilization.toFixed(1)}% vs ${allowedUtil.toFixed(1)}% Max)`;
         }
 
-        document.getElementById("detailsText").innerHTML =
-          `Actual Stress: ${Sh.toFixed(0)} psi | Max Allowed: ${Smax.toFixed(0)} psi (${(F * 100).toFixed(0)}% SMYS)`;
+        // Details
+        const detailsDiv = document.getElementById("detailsText");
+        detailsDiv.innerHTML = `
+        <div class="mb-2 font-bold text-slate-700">Inputs:</div>
+        <div class="grid grid-cols-2 gap-x-4 gap-y-1 mb-4">
+             <div>P = ${P} psi</div>
+             <div>D = ${D.toFixed(3)}"</div>
+             <div>t = ${t.toFixed(3)}"</div>
+             <div>SMYS = ${S} psi</div>
+             <div>F = ${F}</div>
+             <div>E = ${E}</div>
+             <div>T = ${T}</div>
+        </div>
+        <div class="mb-2 font-bold text-slate-700">Calculations:</div>
+        <div class="pl-2 border-l-2 border-slate-300">
+             Sh = (${P} &times; ${D.toFixed(3)}) / (2 &times; ${t.toFixed(3)}) = <strong>${Sh.toFixed(0)} psi</strong><br>
+             Smax = ${S} &times; ${F} &times; ${E} &times; ${T} = <strong>${Smax.toFixed(0)} psi</strong>
+        </div>
+        `;
+
         card.scrollIntoView({ behavior: "smooth" });
       }
 
@@ -1005,10 +1103,16 @@
         document
           .querySelectorAll("select")
           .forEach((s) => (s.selectedIndex = 0));
-        updatePipeDimensions();
-        updateSMYS();
+        document.getElementById("schedule").disabled = true;
+        document.getElementById("odValue").textContent = "Not set";
+        document.getElementById("tNomValue").textContent = "Not set";
+        document.getElementById("smysValue").textContent = "Not selected";
+        document.getElementById("fValue").textContent = "-";
         document.getElementById("resultsCard").style.display = "none";
       }
+      document.getElementById("calculateBtn").addEventListener("click", calculateHoopStress);
+      document.getElementById("clearBtn").addEventListener("click", clearFields);
+
       document.addEventListener("DOMContentLoaded", () => {
         // Mobile Menu Toggle
         const mobileMenuButton = document.getElementById("mobile-menu-button");
