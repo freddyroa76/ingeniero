@@ -222,7 +222,7 @@
 
         <div class="flex flex-wrap gap-4 items-center justify-between mt-4">
           <div class="flex gap-4">
-            <button class="primary" id="addBtn">Add to Project</button>
+            <button id="calculateBtn">Add to Project</button>
             <button class="bg-gray-500 hover:bg-gray-600" id="clearBtn">
               Clear Project
             </button>
@@ -963,7 +963,7 @@ const WEIGHTS = {
         render();
       };
 
-      document.getElementById("addBtn").onclick = addLine;
+      document.getElementById("calculateBtn").onclick = addLine;
       document.getElementById("clearBtn").onclick = () => {
         if (confirm("Clear all project lines?")) {
           rows = [];

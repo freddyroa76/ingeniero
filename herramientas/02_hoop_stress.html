@@ -297,10 +297,10 @@
                             </label>
                             <select id="locationClass" onchange="updateDesignFactor()" required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-green-600 focus:ring-green-600 transition-all py-2.5 px-3 text-sm bg-white text-gray-900">
                                 <option value="">Select class</option>
-                                <option value="1-div1">Class 1, Div 1 (F=0.72)</option>
-                                <option value="1-div2">Class 1, Div 2 (F=0.60)</option>
-                                <option value="2">Class 2 (F=0.50)</option>
-                                <option value="3">Class 3 (F=0.40)</option>
+                                <option value="1-div1">Class 1, Div 1 (F=0.80)</option>
+                                <option value="1-div2">Class 1, Div 2 (F=0.72)</option>
+                                <option value="2">Class 2 (F=0.60)</option>
+                                <option value="3">Class 3 (F=0.50)</option>
                                 <option value="4">Class 4 (F=0.40)</option>
                             </select>
                          </div>
@@ -319,9 +319,8 @@
                             Longitudinal Joint Factor (E) <span class="text-red-500">*</span>
                         </label>
                         <select id="jointFactor" required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-green-600 focus:ring-green-600 transition-all py-2.5 px-3 bg-white text-gray-900">
-                            <option value="1.0">Seamless / ERW / SAW (E=1.00)</option>
-                            <option value="0.8">Legacy / Other (E=0.80)</option>
-                            <option value="0.6">Furnace Buttweld (E=0.60)</option>
+                            <option value="1.0">1.0 (Seamless, ERW, EFW, SAW)</option>
+                            <option value="0.6">0.6 (Furnace Butt Weld & Others)</option>
                         </select>
                     </div>
 
@@ -950,11 +949,11 @@
         X70: 70000,
       };
       const designFactors = {
-        "1-div1": 0.72,
-        "1-div2": 0.6,
-        2: 0.5,
-        3: 0.4,
-        4: 0.4,
+        "1-div1": 0.80,
+        "1-div2": 0.72,
+        2: 0.60,
+        3: 0.50,
+        4: 0.40,
       };
 
       function updatePipeDimensions() {
