@@ -843,7 +843,7 @@ const WEIGHTS = {
       const unitSel = document.getElementById("unitSel");
 
       function fillNps() {
-        npsSel.innerHTML = "";
+        npsSel.innerHTML = '<option value="">Select Size</option>';
         const npsAvail = NPS_ORDER.filter((n) => WEIGHTS[n]);
         for (const nps of npsAvail) {
           const opt = document.createElement("option");
@@ -854,8 +854,16 @@ const WEIGHTS = {
       }
 
       function fillSch() {
-        schSel.innerHTML = "";
+        schSel.innerHTML = '<option value="">Select Schedule</option>';
         const nps = npsSel.value;
+        
+        if (!nps) {
+           schSel.innerHTML = '<option value="">Select Size First</option>';
+           schSel.disabled = true;
+           return; 
+        }
+        schSel.disabled = false;
+
         const schs = Object.keys(WEIGHTS[nps] || {});
         schs.sort((a, b) => {
           const ai = SCH_ORDER.indexOf(a) === -1 ? 999 : SCH_ORDER.indexOf(a);
