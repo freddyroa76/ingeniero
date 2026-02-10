@@ -207,32 +207,35 @@
                         </label>
                         <select id="pipeSize" onchange="updatePipeDimensions()" required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-blue-600 focus:ring-blue-600 transition-all py-2.5 px-3 bg-white text-gray-900">
                               <option value="">Select size</option>
-                              <option value="0.5">NPS 1/2 (DN 15)</option>
-                              <option value="0.75">NPS 3/4 (DN 20)</option>
-                              <option value="1">NPS 1 (DN 25)</option>
-                              <option value="1.25">NPS 1 1/4 (DN 32)</option>
-                              <option value="1.5">NPS 1 1/2 (DN 40)</option>
-                              <option value="2">NPS 2 (DN 50)</option>
-                              <option value="2.5">NPS 2 1/2 (DN 65)</option>
-                              <option value="3">NPS 3 (DN 80)</option>
-                              <option value="3.5">NPS 3 1/2 (DN 90)</option>
-                              <option value="4">NPS 4 (DN 100)</option>
-                              <option value="5">NPS 5 (DN 125)</option>
-                              <option value="6">NPS 6 (DN 150)</option>
-                              <option value="8">NPS 8 (DN 200)</option>
-                              <option value="10">NPS 10 (DN 250)</option>
-                              <option value="12">NPS 12 (DN 300)</option>
-                              <option value="14">NPS 14 (DN 350)</option>
-                              <option value="16">NPS 16 (DN 400)</option>
-                              <option value="18">NPS 18 (DN 450)</option>
-                              <option value="20">NPS 20 (DN 500)</option>
-                              <option value="22">NPS 22 (DN 550)</option>
-                              <option value="24">NPS 24 (DN 600)</option>
-                              <option value="30">NPS 30 (DN 750)</option>
-                              <option value="32">NPS 32 (DN 800)</option>
-                              <option value="34">NPS 34 (DN 850)</option>
-                              <option value="36">NPS 36 (DN 900)</option>
-                              <option value="42">NPS 42 (DN 1050)</option>
+                              <option value="0.125">NPS 1/8" (DN 6)</option>
+                              <option value="0.25">NPS 1/4" (DN 8)</option>
+                              <option value="0.375">NPS 3/8" (DN 10)</option>
+                              <option value="0.5">NPS 1/2" (DN 15)</option>
+                              <option value="0.75">NPS 3/4" (DN 20)</option>
+                              <option value="1">NPS 1" (DN 25)</option>
+                              <option value="1.25">NPS 1-1/4" (DN 32)</option>
+                              <option value="1.5">NPS 1-1/2" (DN 40)</option>
+                              <option value="2">NPS 2" (DN 50)</option>
+                              <option value="2.5">NPS 2-1/2" (DN 65)</option>
+                              <option value="3">NPS 3" (DN 80)</option>
+                              <option value="3.5">NPS 3-1/2" (DN 90)</option>
+                              <option value="4">NPS 4" (DN 100)</option>
+                              <option value="5">NPS 5" (DN 125)</option>
+                              <option value="6">NPS 6" (DN 150)</option>
+                              <option value="8">NPS 8" (DN 200)</option>
+                              <option value="10">NPS 10" (DN 250)</option>
+                              <option value="12">NPS 12" (DN 300)</option>
+                              <option value="14">NPS 14" (DN 350)</option>
+                              <option value="16">NPS 16" (DN 400)</option>
+                              <option value="18">NPS 18" (DN 450)</option>
+                              <option value="20">NPS 20" (DN 500)</option>
+                              <option value="22">NPS 22" (DN 550)</option>
+                              <option value="24">NPS 24" (DN 600)</option>
+                              <option value="30">NPS 30" (DN 750)</option>
+                              <option value="32">NPS 32" (DN 800)</option>
+                              <option value="34">NPS 34" (DN 850)</option>
+                              <option value="36">NPS 36" (DN 900)</option>
+                              <option value="42">NPS 42" (DN 1050)</option>
                         </select>
                          <div class="error-message text-xs text-red-500 mt-1 hidden" id="pipeSizeError">Select a size</div>
                          <!-- Dynamic Info Badge -->
@@ -651,6 +654,33 @@
 <script>
       // Data and factors
       const pipeDimensions = {
+        0.125: {
+          OD: 0.405,
+          schedules: {
+            STD: 0.068,
+            40: 0.068,
+            XS: 0.095,
+            80: 0.095,
+          },
+        },
+        0.25: {
+          OD: 0.54,
+          schedules: {
+            STD: 0.088,
+            40: 0.088,
+            XS: 0.119,
+            80: 0.119,
+          },
+        },
+        0.375: {
+          OD: 0.675,
+          schedules: {
+            STD: 0.091,
+            40: 0.091,
+            XS: 0.126,
+            80: 0.126,
+          },
+        },
         0.5: {
           OD: 0.84,
           schedules: {
@@ -692,7 +722,6 @@
             XS: 0.191,
             80: 0.191,
             160: 0.25,
-            XXS: 0.382,
           },
         },
         1.5: {
@@ -783,7 +812,8 @@
           OD: 8.625,
           schedules: {
             10: 0.25,
-            20: 0.277,
+            20: 0.25,
+            30: 0.277,
             STD: 0.322,
             40: 0.322,
             60: 0.406,
@@ -793,7 +823,6 @@
             120: 0.719,
             140: 0.812,
             160: 0.906,
-            XXS: 0.875,
           },
         },
         10: {
@@ -811,7 +840,6 @@
             120: 0.844,
             140: 1.0,
             160: 1.125,
-            XXS: 1.0,
           },
         },
         12: {
@@ -829,7 +857,6 @@
             120: 1.0,
             140: 1.125,
             160: 1.312,
-            XXS: 1.0,
           },
         },
         14: {
@@ -907,7 +934,7 @@
             20: 0.375,
             30: 0.5,
             STD: 0.375,
-            60: 0.875,
+            40: 0.875,
             XS: 0.5,
             80: 1.125,
             100: 1.375,
