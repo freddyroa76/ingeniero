@@ -326,8 +326,8 @@
                             Longitudinal Joint Factor (E) <span class="text-red-500">*</span>
                         </label>
                         <select id="jointFactor" required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-green-600 focus:ring-green-600 transition-all py-2.5 px-3 bg-white text-gray-900">
-                            <option value="1.0">Seamless / EFW / SAW (E=1.00)</option>
-                            <option value="0.8">Electric Resistance Welded (E=0.80)</option>
+                            <option value="1.0">Seamless / ERW / SAW (E=1.00)</option>
+                            <option value="0.8">Legacy / Other (E=0.80)</option>
                             <option value="0.6">Furnace Buttweld (E=0.60)</option>
                         </select>
                     </div>
@@ -1106,7 +1106,7 @@
         const actualPercent = ((P * D) / (2 * (t_std || t_req) * S)) * 100; 
 
         document.getElementById("resultPercent").textContent = actualPercent.toFixed(1) + "%";
-        document.getElementById("resultMaxAllowed").textContent = (F * 100).toFixed(1) + "%";
+        document.getElementById("resultMaxAllowed").textContent = (F * E * T * 100).toFixed(1) + "%";
         
         // Update New UI Elements (Progress Bar & Pressure Display)
         const smysBar = document.getElementById("smysBar");
