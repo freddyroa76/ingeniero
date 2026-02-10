@@ -366,28 +366,53 @@
       </div>
 
       <div class="card" id="resultsCard" style="display: none">
-        <h2 class="text-2xl font-bold mb-6 text-primary border-b border-gray-100 pb-2">Verification Results</h2>
+        <h2 class="text-2xl font-bold mb-6 text-primary border-b border-gray-100 pb-4">Verification Results</h2>
         
         <!-- Primary Results Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
              <!-- Hoop Stress Card -->
-             <div class="bg-blue-50 border border-blue-100 rounded-xl p-6 relative overflow-hidden shadow-sm">
-                  <p class="text-xs text-blue-800 font-bold uppercase tracking-wider mb-2">Hoop Stress (Sh)</p>
-                  <p class="text-4xl font-extrabold text-blue-900" id="shText">0 psi</p>
+             <div class="bg-blue-50 border border-blue-100 rounded-xl p-6 relative overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                  <div class="absolute top-0 right-0 p-4 opacity-10">
+                    <svg class="w-16 h-16 text-blue-800" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-4H9V7h2v5z"/></svg>
+                  </div>
+                  <p class="text-xs text-blue-800 font-bold uppercase tracking-wider mb-2">Hoop Stress (S<sub>H</sub>)</p>
+                  <p class="text-4xl font-extrabold text-blue-900" id="resultSh">0 psi</p>
                   <p class="text-xs text-blue-600 mt-2 font-medium">Calculated Operating Stress</p>
              </div>
              
-             <!-- Utilization Card -->
-             <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-6 relative overflow-hidden shadow-sm">
-                  <p class="text-xs text-indigo-800 font-bold uppercase tracking-wider mb-2">SMYS Utilization</p>
-                  <div class="flex items-baseline gap-2">
-                       <p class="text-4xl font-extrabold text-indigo-900" id="percentText">0.0%</p>
+             <!-- Max Allowable Card -->
+             <div class="bg-green-50 border border-green-100 rounded-xl p-6 relative overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                  <div class="absolute top-0 right-0 p-4 opacity-10">
+                     <svg class="w-16 h-16 text-green-800" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                   </div>
-                  <p class="text-xs text-indigo-600 mt-2 font-medium">of Material Yield Strength</p>
+                  <p class="text-xs text-green-800 font-bold uppercase tracking-wider mb-2">Max Allowable Stress</p>
+                  <p class="text-4xl font-extrabold text-green-900" id="resultSmax">0 psi</p>
+                  <p class="text-xs text-green-600 mt-2 font-medium">Limit (SMYS &times; F &times; E &times; T)</p>
              </div>
         </div>
 
-        <!-- Validation Status Banner -->
+        <!-- Secondary Metrics Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+             <!-- Utilization with Bar -->
+             <div class="bg-slate-50 rounded-lg p-4 border border-slate-100 col-span-2">
+                 <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wide">SMYS Utilization</p>
+                 <div class="flex justify-between items-end mb-1">
+                    <p class="text-xl font-bold text-slate-800" id="resultUtilization">0.0%</p>
+                    <p class="text-xs font-medium text-slate-500" id="utilizationLabel">of Yield Strength</p>
+                 </div>
+                 <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                     <div class="bg-primary h-2 rounded-full transition-all duration-1000 ease-out" id="utilizationBar" style="width: 0%"></div>
+                 </div>
+             </div>
+             
+             <!-- Status Text Small -->
+             <div class="bg-slate-50 rounded-lg p-4 border border-slate-100 flex flex-col justify-center items-center text-center">
+                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wide mb-1">Status</p>
+                <div id="statusPill" class="px-3 py-1 rounded-full text-xs font-bold bg-gray-200 text-gray-600">Pending</div>
+             </div>
+        </div>
+
+         <!-- Status Banner (Large) -->
         <div id="statusBadge" class="mb-8 p-6 rounded-xl border-2 flex items-center gap-4 transition-all">
              <div id="statusIcon" class="text-3xl"></div>
              <div>
@@ -399,7 +424,8 @@
         <!-- Breakdown -->
         <div class="bg-white border border-slate-200 rounded-lg p-5 shadow-sm">
             <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-3 border-b border-slate-100 pb-2">Calculation Breakdown</h3>
-            <div class="font-mono text-sm text-slate-600 space-y-2 overflow-x-auto" id="detailsText">
+            <div class="space-y-4" id="formulaDetails">
+                 <!-- Details injected via JS -->
             </div>
         </div>
       </div>    </div>
@@ -1020,6 +1046,22 @@
         }
       }
 
+      // Helper for number animation
+      function animateValue(id, start, end, duration, decimals = 0, suffix = "") {
+        const obj = document.getElementById(id);
+        let startTimestamp = null;
+        const step = (timestamp) => {
+          if (!startTimestamp) startTimestamp = timestamp;
+          const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+          const value = progress * (end - start) + start;
+          obj.textContent = value.toFixed(decimals) + suffix;
+          if (progress < 1) {
+            window.requestAnimationFrame(step);
+          }
+        };
+        window.requestAnimationFrame(step);
+      }
+
       function calculateHoopStress() {
         const size = document.getElementById("pipeSize").value;
         const sch = document.getElementById("schedule").value;
@@ -1029,17 +1071,16 @@
         const E = parseFloat(document.getElementById("jointFactor").value);
         const T = parseFloat(document.getElementById("tempFactor").value);
 
-        // Errors handled by browser 'required' and inline validation logic ideally, 
-        // but let's do a quick check
+        // Validation
         if (!size || !sch || !grade || isNaN(P) || !loc || isNaN(T)) {
-          return; // Let HTML5 validation handle the UI tips
+           // Basic logic, ideally show UI error states here if valid check failed
+           return; 
         }
 
         const D = pipeDimensions[size].OD;
         const t = pipeDimensions[size].schedules[sch];
         const S = smysGrades[grade];
         const F = designFactors[loc];
-        // T is input
 
         // Sh = (P * D) / (2 * t)
         const Sh = (P * D) / (2 * t);
@@ -1048,68 +1089,121 @@
         const Smax = S * F * E * T;
         
         const utilization = (Sh / S) * 100;
-        const allowedUtil = (Smax / S) * 100; // effective allowed % of SMYS
 
         // Show Results
         const card = document.getElementById("resultsCard");
         card.style.display = "block";
-        document.getElementById("shText").textContent = Sh.toFixed(0) + " psi";
-        document.getElementById("percentText").textContent = utilization.toFixed(1) + "%";
+        
+        // Animate Key Results
+        animateValue("resultSh", 0, Sh, 800, 0, " psi");
+        animateValue("resultSmax", 0, Smax, 800, 0, " psi");
+        
+        document.getElementById("resultUtilization").textContent = utilization.toFixed(2) + "%";
 
+        // Logic Check
+        const passed = Sh <= Smax;
+
+        // Progress Bar
+        const bar = document.getElementById("utilizationBar");
+        const width = Math.min(utilization, 100);
+        let barColor = passed ? "bg-secondary" : "bg-red-600"; // secondary is green-like
+        
+        bar.className = `h-2 rounded-full transition-all duration-1000 ease-out ${barColor}`;
+        // Timeout to trigger animation after class formatting
+        setTimeout(() => { bar.style.width = width + "%"; }, 50);
+
+        // Status Elements
         const badge = document.getElementById("statusBadge");
         const icon = document.getElementById("statusIcon");
         const text = document.getElementById("statusText");
         const subtext = document.getElementById("statusSubText");
+        const pill = document.getElementById("statusPill");
 
-        if (Sh <= Smax) {
-           // Pass
+        if (passed) {
+           // Compliance
            badge.className = "mb-8 p-6 rounded-xl border-2 flex items-center gap-4 transition-all bg-green-50 border-green-200 text-green-800";
            icon.innerHTML = '<svg class="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
-           text.textContent = "DESIGN ACCEPTABLE";
-           subtext.textContent = `Stress is within limits (${utilization.toFixed(1)}% vs ${allowedUtil.toFixed(1)}% Max)`;
+           text.textContent = "COMPLIANT DESIGN";
+           subtext.textContent = `Hoop Stress (${Sh.toFixed(0)} psi) is within the maximum allowable limit (${Smax.toFixed(0)} psi).`;
+           
+           pill.className = "px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 uppercase tracking-wider";
+           pill.textContent = "ACCEPTABLE";
         } else {
-           // Fail
+           // Violation
            badge.className = "mb-8 p-6 rounded-xl border-2 flex items-center gap-4 transition-all bg-red-50 border-red-200 text-red-800";
-           icon.innerHTML = '<svg class="w-12 h-12 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>';
-           text.textContent = "DESIGN UNACCEPTABLE";
-           subtext.textContent = `Stress EXCEEDS limits (${utilization.toFixed(1)}% vs ${allowedUtil.toFixed(1)}% Max)`;
+           icon.innerHTML = '<svg class="w-12 h-12 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+           text.textContent = "NON-COMPLIANT";
+           subtext.textContent = `Hoop Stress (${Sh.toFixed(0)} psi) EXCEEDS the allowable limit (${Smax.toFixed(0)} psi). Check Design Factor or Wall Thickness.`;
+           
+           pill.className = "px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-700 uppercase tracking-wider";
+           pill.textContent = "FAILED";
         }
 
-        // Details
-        const detailsDiv = document.getElementById("detailsText");
-        detailsDiv.innerHTML = `
-        <div class="mb-2 font-bold text-slate-700">Inputs:</div>
-        <div class="grid grid-cols-2 gap-x-4 gap-y-1 mb-4">
-             <div>P = ${P} psi</div>
-             <div>D = ${D.toFixed(3)}"</div>
-             <div>t = ${t.toFixed(3)}"</div>
-             <div>SMYS = ${S} psi</div>
-             <div>F = ${F}</div>
-             <div>E = ${E}</div>
-             <div>T = ${T}</div>
+        // Details Injection (Step-by-Step)
+        const details = document.getElementById("formulaDetails");
+        details.innerHTML = `
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-4 text-xs bg-gray-50 p-4 rounded-lg border border-gray-100">
+             <div><span class="text-gray-500 font-semibold">Diameter (D):</span> <span class="text-gray-900 font-mono">${D.toFixed(3)}"</span></div>
+             <div><span class="text-gray-500 font-semibold">Thickness (t):</span> <span class="text-gray-900 font-mono">${t.toFixed(3)}"</span></div>
+             <div><span class="text-gray-500 font-semibold">Pressure (P):</span> <span class="text-gray-900 font-mono">${P} psi</span></div>
+             <div><span class="text-gray-500 font-semibold">SMYS (S):</span> <span class="text-gray-900 font-mono">${S.toLocaleString()} psi</span></div>
+             <div><span class="text-gray-500 font-semibold">Factor (F):</span> <span class="text-gray-900 font-mono">${F}</span></div>
+             <div><span class="text-gray-500 font-semibold">Factor (E):</span> <span class="text-gray-900 font-mono">${E}</span></div>
         </div>
-        <div class="mb-2 font-bold text-slate-700">Calculations:</div>
-        <div class="pl-2 border-l-2 border-slate-300">
-             Sh = (${P} &times; ${D.toFixed(3)}) / (2 &times; ${t.toFixed(3)}) = <strong>${Sh.toFixed(0)} psi</strong><br>
-             Smax = ${S} &times; ${F} &times; ${E} &times; ${T} = <strong>${Smax.toFixed(0)} psi</strong>
+
+        <div class="space-y-4">
+             <!-- Step 1 -->
+             <div class="bg-blue-50/50 p-4 rounded-lg border border-blue-100">
+                 <div class="flex items-center gap-2 mb-2">
+                     <span class="flex items-center justify-center w-6 h-6 rounded-full bg-blue-100 text-blue-700 text-xs font-bold">1</span>
+                     <h4 class="text-sm font-bold text-blue-900">Calculate Hoop Stress (S<sub>H</sub>)</h4>
+                 </div>
+                 <div class="pl-8">
+                     <div class="text-xs text-gray-500 font-mono mb-1">Formula: S<sub>H</sub> = (P × D) / (2 × t)</div>
+                     <div class="text-sm text-gray-800 font-mono bg-white p-2 rounded border border-blue-50 inline-block">
+                         = (${P} × ${D.toFixed(3)}) / (2 × ${t.toFixed(3)}) <br>
+                         <span class="text-blue-700 font-bold">= ${Sh.toFixed(0)} psi</span>
+                     </div>
+                 </div>
+             </div>
+
+             <!-- Step 2 -->
+             <div class="bg-green-50/50 p-4 rounded-lg border border-green-100">
+                 <div class="flex items-center gap-2 mb-2">
+                     <span class="flex items-center justify-center w-6 h-6 rounded-full bg-green-100 text-green-700 text-xs font-bold">2</span>
+                     <h4 class="text-sm font-bold text-green-900">Calculate Allowable Limit (S<sub>AM</sub>)</h4>
+                 </div>
+                 <div class="pl-8">
+                     <div class="text-xs text-gray-500 font-mono mb-1">Formula: S<sub>AM</sub> = S × F × E × T</div>
+                     <div class="text-sm text-gray-800 font-mono bg-white p-2 rounded border border-green-50 inline-block">
+                         = ${S} × ${F} × ${E} × ${T} <br>
+                         <span class="text-green-700 font-bold">= ${Smax.toFixed(0)} psi</span>
+                     </div>
+                 </div>
+             </div>
         </div>
         `;
 
-        card.scrollIntoView({ behavior: "smooth" });
+        // Smooth Scroll
+        card.scrollIntoView({ behavior: "smooth", block: "nearest" });
       }
 
       function clearFields() {
-        document.querySelectorAll("input").forEach((i) => (i.value = ""));
-        document
-          .querySelectorAll("select")
-          .forEach((s) => (s.selectedIndex = 0));
+        document.getElementById("calcForm").reset();
+        
+        // Custom resets
         document.getElementById("schedule").disabled = true;
+        document.getElementById("schedule").innerHTML = '<option value="">Select size first</option>';
         document.getElementById("odValue").textContent = "Not set";
         document.getElementById("tNomValue").textContent = "Not set";
         document.getElementById("smysValue").textContent = "Not selected";
         document.getElementById("fValue").textContent = "-";
+        
+        // Hide Results
         document.getElementById("resultsCard").style.display = "none";
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
+      
       document.getElementById("calculateBtn").addEventListener("click", calculateHoopStress);
       document.getElementById("clearBtn").addEventListener("click", clearFields);
 
