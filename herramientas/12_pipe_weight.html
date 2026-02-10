@@ -189,57 +189,98 @@
         </p>
       </div>
 
-      <div class="card">
-        <h2>Enter Pipe Data</h2>
-        <div class="input-row">
-          <div class="input-group">
-            <label for="npsSel" class="required"
-              >Nominal Pipe Size (NPS):</label
-            >
-            <select id="npsSel" onchange="fillSch()"></select>
-          </div>
-          <div class="input-group">
-            <label for="schSel" class="required">Schedule / Class:</label>
-            <select id="schSel"></select>
-          </div>
-          <div class="input-group">
-            <label for="lenInp" class="required">Length:</label>
-            <input
-              id="lenInp"
-              type="number"
-              step="any"
-              min="0"
-              placeholder="e.g. 12"
-            />
-          </div>
-          <div class="input-group">
-            <label for="unitSel" class="required">Unit:</label>
-            <select id="unitSel">
-              <option value="m">Meters (m)</option>
-              <option value="ft">Feet (ft)</option>
-            </select>
-          </div>
-        </div>
+      <div class="card p-8 bg-white shadow-lg rounded-2xl border border-gray-100">
+        <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-2 border-b border-gray-100 pb-4">
+            <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+            Pipe Selection
+        </h2>
+        
+        <form id="pipeForm" onsubmit="event.preventDefault();">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <div class="space-y-5">
+                    <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-blue-500"></span> Pipe Dimensions
+                    </h3>
+                    
+                    <div>
+                        <label for="npsSel" class="block text-sm font-semibold text-gray-700 mb-1">
+                            Nominal Pipe Size (NPS) <span class="text-red-500">*</span>
+                        </label>
+                        <select id="npsSel" onchange="fillSch()" required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-blue-600 focus:ring-blue-600 transition-all py-2.5 px-3 bg-white text-gray-900">
+                            <option value="">Select size</option>
+                        </select>
+                        <div class="mt-2 flex items-center justify-between text-xs text-gray-500 bg-gray-50 rounded px-2 py-1 border border-gray-100">
+                            <span>Outside Diameter (OD):</span>
+                            <span id="odDisplay" class="font-bold text-blue-600">Not set</span>
+                        </div>
+                    </div>
 
-        <div class="flex flex-wrap gap-4 items-center justify-between mt-4">
-          <div class="flex gap-4">
-            <button id="calculateBtn">Add to Project</button>
-            <button class="bg-gray-500 hover:bg-gray-600" id="clearBtn">
-              Clear Project
-            </button>
-            <button id="exportBtn">Export CSV</button>
-          </div>
-          <label
-            class="flex items-center gap-2 text-sm text-gray-600 cursor-pointer"
-          >
-            <input id="toggleEdit" type="checkbox" onchange="render()" />
-            <span>Enable weight editing in table</span>
-          </label>
-        </div>
+                    <div>
+                        <label for="schSel" class="block text-sm font-semibold text-gray-700 mb-1">
+                            Schedule / Class <span class="text-red-500">*</span>
+                        </label>
+                        <select id="schSel" disabled required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-blue-600 focus:ring-blue-600 transition-all py-2.5 px-3 bg-white text-gray-900 disabled:bg-gray-100 disabled:text-gray-400">
+                            <option value="">Select NPS first</option>
+                        </select>
+                        <div class="mt-2 flex items-center justify-between text-xs text-gray-500 bg-gray-50 rounded px-2 py-1 border border-gray-100">
+                            <span>Wall Thickness (t):</span>
+                            <span id="wtDisplay" class="font-bold text-blue-600">Not set</span>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="mt-2 text-xs text-gray-500 italic">
-          Note: STD = Sch 40 (NPS = 10), XS = Sch 80 (NPS = 8).
-        </div>
+                <div class="space-y-5">
+                    <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-green-500"></span> Measurement
+                    </h3>
+                    
+                    <div>
+                        <label for="lenInp" class="block text-sm font-semibold text-gray-700 mb-1">
+                            Pipe Length <span class="text-red-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <input type="number" id="lenInp" placeholder="e.g. 12" min="0" step="0.01" required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-green-600 focus:ring-green-600 transition-all py-2.5 pl-3 pr-12 bg-white text-gray-900" />
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400 text-sm font-medium" id="unitLabel">m</div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="unitSel" class="block text-sm font-semibold text-gray-700 mb-1">
+                            Length Unit <span class="text-red-500">*</span>
+                        </label>
+                        <select id="unitSel" onchange="updateUnitLabel()" required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-green-600 focus:ring-green-600 transition-all py-2.5 px-3 bg-white text-gray-900">
+                            <option value="m">Meters (m)</option>
+                            <option value="ft">Feet (ft)</option>
+                        </select>
+                    </div>
+
+                    <div class="bg-indigo-50 border border-indigo-100 rounded-lg p-4">
+                        <div class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-indigo-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <div class="text-xs text-indigo-900">
+                                <strong>Weight Formula:</strong> 
+                                <span class="font-mono bg-white px-2 py-0.5 rounded border border-indigo-100 mx-1">W = (kg/m) × L</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 pt-4 border-t border-gray-100">
+                <button type="button" id="calculateBtn" class="flex-1 bg-primary text-accent hover:bg-slate-800 text-base font-bold py-3.5 px-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 transform active:scale-95">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+                    Add to Project
+                </button>
+                <button type="button" id="clearBtn" class="flex-none bg-red-500 text-white hover:bg-red-600 font-semibold py-3.5 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                    Clear Project
+                </button>
+                <button type="button" id="exportBtn" class="flex-none bg-secondary text-white hover:bg-green-700 font-semibold py-3.5 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    Export CSV
+                </button>
+            </div>
+        </form>
       </div>
 
       <div class="card overflow-x-auto">
@@ -878,6 +919,87 @@ const WEIGHTS = {
           schSel.appendChild(opt);
         }
       }
+
+      // Helper function to update unit label in input field
+      function updateUnitLabel() {
+        const unit = document.getElementById("unitSel").value;
+        document.getElementById("unitLabel").textContent = unit;
+      }
+
+      // Pipe dimensions database for helper badges
+      const PIPE_OD = {
+        "1/2": 0.84, "3/4": 1.05, "1": 1.315, "1-1/4": 1.66, "1-1/2": 1.9,
+        "2": 2.375, "2-1/2": 2.875, "3": 3.5, "3-1/2": 4.0, "4": 4.5,
+        "5": 5.563, "6": 6.625, "8": 8.625, "10": 10.75, "12": 12.75,
+        "14": 14.0, "16": 16.0, "18": 18.0, "20": 20.0, "22": 22.0,
+        "24": 24.0, "26": 26.0, "28": 28.0, "30": 30.0, "32": 32.0,
+        "34": 34.0, "36": 36.0, "42": 42.0
+      };
+
+      const PIPE_WT = {
+        "1/2": {"STD": 0.109, "40": 0.109, "XS": 0.147, "80": 0.147, "160": 0.187, "XXS": 0.294},
+        "3/4": {"STD": 0.113, "40": 0.113, "XS": 0.154, "80": 0.154, "160": 0.219, "XXS": 0.308},
+        "1": {"STD": 0.133, "40": 0.133, "XS": 0.179, "80": 0.179, "160": 0.25, "XXS": 0.358},
+        "1-1/4": {"STD": 0.14, "40": 0.14, "XS": 0.191, "80": 0.191, "160": 0.25, "XXS": 0.382},
+        "1-1/2": {"STD": 0.145, "40": 0.145, "XS": 0.2, "80": 0.2, "160": 0.281, "XXS": 0.4},
+        "2": {"STD": 0.154, "40": 0.154, "XS": 0.218, "80": 0.218, "160": 0.344, "XXS": 0.436},
+        "2-1/2": {"STD": 0.203, "40": 0.203, "XS": 0.276, "80": 0.276, "160": 0.375, "XXS": 0.552},
+        "3": {"STD": 0.216, "40": 0.216, "XS": 0.3, "80": 0.3, "160": 0.438, "XXS": 0.6},
+        "3-1/2": {"STD": 0.226, "40": 0.226, "XS": 0.318, "80": 0.318},
+        "4": {"STD": 0.237, "40": 0.237, "XS": 0.337, "80": 0.337, "120": 0.438, "160": 0.531, "XXS": 0.674},
+        "5": {"STD": 0.258, "40": 0.258, "XS": 0.375, "80": 0.375, "120": 0.5, "160": 0.625, "XXS": 0.75},
+        "6": {"STD": 0.28, "40": 0.28, "XS": 0.432, "80": 0.432, "120": 0.562, "160": 0.719, "XXS": 0.864},
+        "8": {"10": 0.25, "20": 0.277, "STD": 0.322, "40": 0.322, "60": 0.406, "XS": 0.5, "80": 0.5, "100": 0.594, "120": 0.719, "140": 0.812, "160": 0.906, "XXS": 0.875},
+        "10": {"10": 0.25, "20": 0.25, "30": 0.307, "STD": 0.365, "40": 0.365, "60": 0.5, "XS": 0.5, "80": 0.594, "100": 0.719, "120": 0.844, "140": 1.0, "160": 1.125, "XXS": 1.0},
+        "12": {"10": 0.25, "20": 0.25, "30": 0.33, "STD": 0.375, "40": 0.406, "60": 0.562, "XS": 0.5, "80": 0.688, "100": 0.844, "120": 1.0, "140": 1.125, "160": 1.312, "XXS": 1.0},
+        "14": {"10": 0.25, "20": 0.312, "30": 0.375, "STD": 0.375, "40": 0.438, "60": 0.594, "XS": 0.5, "80": 0.75, "100": 0.938, "120": 1.094, "140": 1.25, "160": 1.406},
+        "16": {"10": 0.25, "20": 0.312, "30": 0.375, "STD": 0.375, "40": 0.5, "60": 0.656, "XS": 0.5, "80": 0.844, "100": 1.031, "120": 1.219, "140": 1.438, "160": 1.594},
+        "18": {"10": 0.25, "20": 0.312, "30": 0.438, "STD": 0.375, "40": 0.562, "60": 0.75, "XS": 0.5, "80": 0.938, "100": 1.156, "120": 1.375, "140": 1.562, "160": 1.781},
+        "20": {"10": 0.25, "20": 0.375, "30": 0.5, "STD": 0.375, "40": 0.594, "60": 0.812, "XS": 0.5, "80": 1.031, "100": 1.281, "120": 1.5, "140": 1.75, "160": 1.969},
+        "22": {"10": 0.25, "20": 0.375, "30": 0.5, "STD": 0.375, "60": 0.875, "XS": 0.5, "80": 1.125, "100": 1.375, "120": 1.625, "140": 1.875, "160": 2.125},
+        "24": {"10": 0.25, "20": 0.375, "30": 0.562, "STD": 0.375, "40": 0.688, "60": 0.969, "XS": 0.5, "80": 1.219, "100": 1.531, "120": 1.812, "140": 2.062, "160": 2.344},
+        "26": {"10": 0.312, "20": 0.5, "STD": 0.375},
+        "28": {"10": 0.312, "20": 0.5, "30": 0.625, "STD": 0.375},
+        "30": {"10": 0.312, "20": 0.5, "30": 0.625, "STD": 0.375, "XS": 0.5},
+        "32": {"10": 0.312, "20": 0.5, "30": 0.625, "STD": 0.375, "40": 0.688},
+        "34": {"10": 0.312, "20": 0.5, "30": 0.625, "STD": 0.375, "40": 0.688},
+        "36": {"10": 0.312, "20": 0.5, "30": 0.625, "STD": 0.375, "40": 0.75},
+        "42": {"20": 0.5, "30": 0.625, "STD": 0.375, "40": 0.75}
+      };
+
+      // Enhanced fillSch with helper badge updates
+      const originalFillSch = fillSch;
+      fillSch = function() {
+        originalFillSch();
+        
+        // Update OD display
+        const nps = npsSel.value;
+        const odDisplay = document.getElementById("odDisplay");
+        if (nps && PIPE_OD[nps]) {
+          odDisplay.textContent = PIPE_OD[nps].toFixed(3) + '"';
+        } else {
+          odDisplay.textContent = "Not set";
+        }
+        
+        // Reset WT display when NPS changes
+        document.getElementById("wtDisplay").textContent = "Not set";
+      };
+
+      // Add schedule change listener for wall thickness display
+      document.addEventListener("DOMContentLoaded", function() {
+        const schSel = document.getElementById("schSel");
+        schSel.addEventListener("change", function() {
+          const nps = document.getElementById("npsSel").value;
+          const sch = schSel.value;
+          const wtDisplay = document.getElementById("wtDisplay");
+          
+          if (nps && sch && PIPE_WT[nps] && PIPE_WT[nps][sch]) {
+            wtDisplay.textContent = PIPE_WT[nps][sch].toFixed(3) + '"';
+          } else {
+            wtDisplay.textContent = "Not set";
+          }
+        });
+      });
 
       function parseNumber(s) {
         if (typeof s === "number") return s;
