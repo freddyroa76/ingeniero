@@ -832,7 +832,7 @@ const WEIGHTS = {
         "XXS",
       ];
 
-      let rows = JSON.parse(localStorage.getItem("pipeRows") || "[]");
+      let rows = [];
       const persist = () =>
         localStorage.setItem("pipeRows", JSON.stringify(rows));
       const fmt = (n) => (Math.round(n * 1000) / 1000).toFixed(3);
