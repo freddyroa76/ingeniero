@@ -1,10 +1,10 @@
-﻿<!doctype html>
-<html lang="es">
+﻿<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gas Flow Conversion - MMSCFD to ACFM</title>
-    <link rel="icon" type="image/x-icon" href="../images/logos/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="../images/logos/favicon.ico" />
     <!-- Professional Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -36,32 +36,71 @@
       };
     </script>
     <!-- Custom Styles for Tools -->
-    <link rel="stylesheet" href="../custom_styles.css">
+    <link rel="stylesheet" href="../custom_styles.css" />
     <script src="js/common.js"></script>
   </head>
   <body class="bg-background text-text-primary">
     <!-- Header -->
-    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 shadow-md bg-surface">
+    <header
+      class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 shadow-md bg-surface"
+    >
       <!-- Top Bar Contact Info -->
-      <div class="bg-[#0f172a] text-gray-300 text-xs py-2 border-b border-gray-800 hidden sm:block">
-         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center gap-6">
-            <span class="font-medium text-gray-300 tracking-wide">Ing. Mec Freddy Roa</span>
-            <div class="flex items-center gap-6">
-               <a href="mailto:freddy.roa76@gmail.com" class="hover:text-[#D4E157] transition-colors flex items-center gap-1">
-                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                  freddy.roa76@gmail.com
-               </a>
-               <a href="https://wa.me/573112531330" class="hover:text-[#D4E157] transition-colors flex items-center gap-1">
-                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                  +57 311 253 1330
-               </a>
-            </div>
-         </div>
+      <div
+        class="bg-[#0f172a] text-gray-300 text-xs py-2 border-b border-gray-800 hidden sm:block"
+      >
+        <div
+          class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center gap-6"
+        >
+          <span class="font-medium text-gray-300 tracking-wide"
+            >Ing. Mec Freddy Roa</span
+          >
+          <div class="flex items-center gap-6">
+            <a
+              href="mailto:freddy.roa76@gmail.com"
+              class="hover:text-[#D4E157] transition-colors flex items-center gap-1"
+            >
+              <svg
+                class="w-3 h-3"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                />
+              </svg>
+              freddy.roa76@gmail.com
+            </a>
+            <a
+              href="https://wa.me/573112531330"
+              class="hover:text-[#D4E157] transition-colors flex items-center gap-1"
+            >
+              <svg
+                class="w-3 h-3"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                />
+              </svg>
+              +57 311 253 1330
+            </a>
+          </div>
+        </div>
       </div>
 
-      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white/95 backdrop-blur-md">
+      <nav
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white/95 backdrop-blur-md"
+      >
         <div class="flex items-center justify-end h-20">
-
           <!-- Desktop Navigation -->
           <div class="hidden sm:flex items-center space-x-4">
             <a href="../index.html" class="group-link">Inicio</a>
@@ -71,41 +110,131 @@
 
             <!-- Herramientas Dropdown -->
             <div class="relative group">
-              <a href="../herramientas.html" class="group-link flex items-center gap-1 text-[#0F172A] font-bold">
+              <a
+                href="../herramientas.html"
+                class="group-link flex items-center gap-1 text-[#0F172A] font-bold"
+              >
                 Herramientas
-                <svg class="w-4 h-4 fill-current transition-transform group-hover:rotate-180" viewBox="0 0 20 20">
-                  <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
+                <svg
+                  class="w-4 h-4 fill-current transition-transform group-hover:rotate-180"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  />
                 </svg>
               </a>
 
               <!-- Dropdown Menu -->
-              <div class="absolute left-0 mt-0 w-80 bg-white rounded-md shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[100] border border-gray-100 py-2">
-                <a href="01_pipe_thickness.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]">Espesores de Tuber&iacute;a</a>
-                <a href="02_hoop_stress.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]">Esfuerzo Circunferencial</a>
-                <a href="12_pipe_weight.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]">Peso de Tuber&iacute;as</a>
-                <a href="00_mawp_calculator.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]">Calculadora MAWP</a>
-                <a href="03_max_design_pressure.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]">Presi&oacute;n M&aacute;xima Dise&ntilde;o</a>
-                <a href="05_flow_std_to_actual.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]">Flujo Est&aacute;ndar a Actual</a>
-                <a href="06_gas_properties.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]">Propiedades de Gases</a>
-                <a href="10_z_factor_cnga.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]">Factor Z (CNGA)</a>
-                <a href="07_velocidad_erosional_-_eng_esp.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]">Velocidad Erosional</a>
-                <a href="08_gas_compression.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]">Compresi&oacute;n de Gas</a>
-                <a href="09_tank_volume.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]">Volumen de Tanques</a>
-                <a href="11_line_pack.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]">Line Pack (Empaquetamiento)</a>
+              <div
+                class="absolute left-0 mt-0 w-80 bg-white rounded-md shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[100] border border-gray-100 py-2"
+              >
+                <a
+                  href="01_pipe_thickness.html"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
+                  >Espesores de Tuber&iacute;a</a
+                >
+                <a
+                  href="02_hoop_stress.html"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
+                  >Esfuerzo Circunferencial</a
+                >
+                <a
+                  href="12_pipe_weight.html"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
+                  >Peso de Tuber&iacute;as</a
+                >
+                <a
+                  href="00_mawp_calculator.html"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
+                  >Calculadora MAWP</a
+                >
+                <a
+                  href="03_max_design_pressure.html"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
+                  >Presi&oacute;n M&aacute;xima Dise&ntilde;o</a
+                >
+                <a
+                  href="05_flow_std_to_actual.html"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
+                  >Flujo Est&aacute;ndar a Actual</a
+                >
+                <a
+                  href="06_gas_properties.html"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
+                  >Propiedades de Gases</a
+                >
+                <a
+                  href="10_z_factor_cnga.html"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
+                  >Factor Z (CNGA)</a
+                >
+                <a
+                  href="07_velocidad_erosional_-_eng_esp.html"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
+                  >Velocidad Erosional</a
+                >
+                <a
+                  href="08_gas_compression.html"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
+                  >Compresi&oacute;n de Gas</a
+                >
+                <a
+                  href="09_tank_volume.html"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
+                  >Volumen de Tanques</a
+                >
+                <a
+                  href="11_line_pack.html"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
+                  >Line Pack (Empaquetamiento)</a
+                >
               </div>
             </div>
-            <a href="../index.html#contact" class="btn-contact-custom ml-4">CONTACTAR</a>
+            <a href="../index.html#contact" class="btn-contact-custom ml-4"
+              >CONTACTAR</a
+            >
           </div>
 
           <!-- Mobile Menu Button -->
           <div class="flex items-center sm:hidden">
-            <button id="mobile-menu-button" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-[#334155] hover:bg-gray-100 focus:outline-none transition-colors" aria-controls="mobile-menu" aria-expanded="false">
+            <button
+              id="mobile-menu-button"
+              type="button"
+              class="inline-flex items-center justify-center p-2 rounded-md text-[#334155] hover:bg-gray-100 focus:outline-none transition-colors"
+              aria-controls="mobile-menu"
+              aria-expanded="false"
+            >
               <span class="sr-only">Abrir men&uacute;</span>
-              <svg id="menu-icon" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+              <svg
+                id="menu-icon"
+                class="block h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
               </svg>
-              <svg id="close-icon" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              <svg
+                id="close-icon"
+                class="hidden h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
           </div>
@@ -113,265 +242,538 @@
       </nav>
 
       <!-- Mobile Menu -->
-      <div id="mobile-menu" class="hidden sm:hidden bg-white border-t border-gray-100 overflow-y-auto max-h-[calc(100vh-80px)] shadow-xl">
+      <div
+        id="mobile-menu"
+        class="hidden sm:hidden bg-white border-t border-gray-100 overflow-y-auto max-h-[calc(100vh-80px)] shadow-xl"
+      >
         <div class="px-4 pt-4 pb-6 space-y-2">
-          <a href="../index.html" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors">Inicio</a>
-          <a href="../index.html#expertise" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors">Expertise</a>
-          <a href="../index.html#projects" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors">Proyectos</a>
-          <a href="../index.html#experience" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors">Experiencia</a>
+          <a
+            href="../index.html"
+            class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors"
+            >Inicio</a
+          >
+          <a
+            href="../index.html#expertise"
+            class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors"
+            >Expertise</a
+          >
+          <a
+            href="../index.html#projects"
+            class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors"
+            >Proyectos</a
+          >
+          <a
+            href="../index.html#experience"
+            class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors"
+            >Experiencia</a
+          >
 
           <!-- Mobile Accordion -->
           <div>
-            <button id="mobile-tools-toggle" class="w-full flex items-center justify-between text-[#0F172A] px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors">
+            <button
+              id="mobile-tools-toggle"
+              class="w-full flex items-center justify-between text-[#0F172A] px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors"
+            >
               Herramientas
-              <svg id="mobile-tools-arrow" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              <svg
+                id="mobile-tools-arrow"
+                class="w-4 h-4 transition-transform duration-200"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
               </svg>
             </button>
-            <div id="mobile-tools-menu" class="hidden pl-2 space-y-1 bg-gray-50 rounded-md mt-2 border border-gray-100">
-              <a href="00_mawp_calculator.html" class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0">Calculadora MAWP</a>
-              <a href="01_pipe_thickness.html" class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0">Espesores de Tuber&iacute;a</a>
-              <a href="02_hoop_stress.html" class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0">Esfuerzo Circunferencial</a>
-              <a href="03_max_design_pressure.html" class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0">Presi&oacute;n M&aacute;xima Dise&ntilde;o</a>
-              <a href="05_flow_std_to_actual.html" class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0">Flujo Est&aacute;ndar a Actual</a>
-              <a href="06_gas_properties.html" class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0">Propiedades de Gases</a>
-              <a href="07_velocidad_erosional_-_eng_esp.html" class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0">Velocidad Erosional</a>
-              <a href="08_gas_compression.html" class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0">Compresi&oacute;n de Gas</a>
-              <a href="09_tank_volume.html" class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0">Volumen de Tanques</a>
-              <a href="10_z_factor_cnga.html" class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0">Factor Z (CNGA)</a>
-              <a href="11_line_pack.html" class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0">Line Pack</a>
-              <a href="12_pipe_weight.html" class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0">Peso de Tuber&iacute;as</a>
+            <div
+              id="mobile-tools-menu"
+              class="hidden pl-2 space-y-1 bg-gray-50 rounded-md mt-2 border border-gray-100"
+            >
+              <a
+                href="00_mawp_calculator.html"
+                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
+                >Calculadora MAWP</a
+              >
+              <a
+                href="01_pipe_thickness.html"
+                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
+                >Espesores de Tuber&iacute;a</a
+              >
+              <a
+                href="02_hoop_stress.html"
+                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
+                >Esfuerzo Circunferencial</a
+              >
+              <a
+                href="03_max_design_pressure.html"
+                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
+                >Presi&oacute;n M&aacute;xima Dise&ntilde;o</a
+              >
+              <a
+                href="05_flow_std_to_actual.html"
+                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
+                >Flujo Est&aacute;ndar a Actual</a
+              >
+              <a
+                href="06_gas_properties.html"
+                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
+                >Propiedades de Gases</a
+              >
+              <a
+                href="07_velocidad_erosional_-_eng_esp.html"
+                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
+                >Velocidad Erosional</a
+              >
+              <a
+                href="08_gas_compression.html"
+                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
+                >Compresi&oacute;n de Gas</a
+              >
+              <a
+                href="09_tank_volume.html"
+                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
+                >Volumen de Tanques</a
+              >
+              <a
+                href="10_z_factor_cnga.html"
+                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
+                >Factor Z (CNGA)</a
+              >
+              <a
+                href="11_line_pack.html"
+                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
+                >Line Pack</a
+              >
+              <a
+                href="12_pipe_weight.html"
+                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
+                >Peso de Tuber&iacute;as</a
+              >
             </div>
           </div>
-          <a href="../index.html#contact" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors mb-4">Contacto</a>
+          <a
+            href="../index.html#contact"
+            class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors mb-4"
+            >Contacto</a
+          >
           <div class="pt-4 border-t border-gray-100">
-            <a href="../index.html#contact" class="w-full text-center block bg-[#0F172A] text-[#D4E157] border border-[#0F172A] px-5 py-3 rounded-full text-base font-bold hover:bg-white hover:text-[#0F172A] transition-all tracking-wide shadow-md">
+            <a
+              href="../index.html#contact"
+              class="w-full text-center block bg-[#0F172A] text-[#D4E157] border border-[#0F172A] px-5 py-3 rounded-full text-base font-bold hover:bg-white hover:text-[#0F172A] transition-all tracking-wide shadow-md"
+            >
               CONTACTAR
             </a>
           </div>
         </div>
       </div>
     </header>
-<main class="pt-20">
-<section class="bg-background min-h-screen pt-8 pb-12"><div class="container mx-auto px-4 pt-2 pb-12 is-tool-content">
-      <!-- Breadcrumb -->
-      <nav
-        class="flex mb-6 text-xs font-medium text-gray-400 uppercase-none"
-        aria-label="Breadcrumb"
-      >
-        <ol class="inline-flex items-center space-x-2">
-          <li>
-            <a
-              href="../index.html"
-              class="text-gray-600 hover:text-primary transition-colors"
-              >Inicio</a
-            >
-          </li>
-          <li><span class="mx-2">/</span></li>
-          <li>
-            <a
-              href="../herramientas.html"
-              class="text-gray-600 hover:text-primary transition-colors"
-              >Herramientas</a
-            >
-          </li>
-          <li><span class="mx-2">/</span></li>
-          <li class="text-gray-900 font-bold">Flujo Est&aacute;ndar a Actual</li>
-        </ol>
-      </nav>
 
-      <div class="title-box mb-8 relative z-10">
-        <h1 class="text-3xl font-bold text-gray-900 tracking-tight">
-          Gas Flow Rate Conversion
-        </h1>
-        <p class="text-gray-500 mt-2 text-sm font-medium">
-          Standard (SCFH/SCFD) to Actual (ACFH/ACFD) Flow Conditions
-        </p>
-      </div>
+    <main class="pt-20">
+      <section class="bg-background min-h-screen pt-8 pb-12">
+        <div class="container mx-auto px-4 pt-2 pb-12 is-tool-content">
+          <!-- Breadcrumb -->
+          <nav
+            class="flex mb-6 text-xs font-medium text-gray-400 uppercase-none"
+            aria-label="Breadcrumb"
+          >
+            <ol class="inline-flex items-center space-x-2">
+              <li>
+                <a
+                  href="../index.html"
+                  class="text-gray-600 hover:text-primary transition-colors"
+                  >Inicio</a
+                >
+              </li>
+              <li><span class="mx-2 text-gray-300">/</span></li>
+              <li>
+                <a
+                  href="../herramientas.html"
+                  class="text-gray-600 hover:text-primary transition-colors"
+                  >Herramientas</a
+                >
+              </li>
+              <li><span class="mx-2 text-gray-300">/</span></li>
+              <li class="text-gray-900 font-bold">Standard to Actual Flow</li>
+            </ol>
+          </nav>
 
-      <div class="card">
-        <h2>Standard Flow Parameters</h2>
-        <div class="input-row">
-          <div class="input-group">
-            <label for="flowStd" class="required"
-              >Standard Flow (MMSCFD):</label
-            >
-            <input
-              type="number"
-              id="flowStd"
-              placeholder="e.g. 10.5"
-              step="0.1"
-              required
-            />
-            <span class="text-xs text-gray-500 mt-1"
-              >Million Std Cubic Feet per Day (60&deg;F, 14.7 psia)</span
-            >
-          </div>
-          <div class="input-group">
-            <label for="tempActual" class="required"
-              >Actual Temperature (&deg;F):</label
-            >
-            <input
-              type="number"
-              id="tempActual"
-              placeholder="e.g. 80"
-              step="0.1"
-              required
-            />
-          </div>
-          <div class="input-group">
-            <label for="pressActual" class="required"
-              >Actual Pressure (psig):</label
-            >
-            <input
-              type="number"
-              id="pressActual"
-              placeholder="e.g. 500"
-              step="0.1"
-              required
-            />
-          </div>
-        </div>
-
-        <div class="input-row mt-4">
-          <div class="input-group">
-            <label for="zFactor">Compressibility Factor (Z):</label>
-            <input
-              type="number"
-              id="zFactor"
-              value="1.0"
-              step="0.001"
-              placeholder="Normally 0.8-1.0"
-            />
-            <span class="text-xs text-gray-500 mt-1"
-              >At actual operating conditions</span
-            >
-          </div>
-          <div class="input-group"></div>
-          <!-- Spacer -->
-          <div class="input-group"></div>
-          <!-- Spacer -->
-        </div>
-
-        <div class="flex gap-4 mt-6">
-          <button id="calculateBtn" class="flex-1" onclick="calculateFlow()">Convert Flow</button>
-          <button class="bg-gray-500 hover:bg-gray-600" onclick="clearFields()">
-            Clear
-          </button>
-        </div>
-      </div>
-
-      <div class="card" id="resultsCard" style="display: none">
-        <h2>Conversion Results</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div>
-            <div class="factors-info" style="border-left-color: var(--primary)">
-              <p
-                class="text-gray-600 text-sm mb-1 uppercase tracking-wider font-semibold"
-              >
-                Actual Flow Rate (ACFM)
-              </p>
-              <p class="text-4xl font-bold" style="color: var(--primary)">
-                <span id="acfmResult">0.00</span>
-                <span class="text-lg font-medium text-gray-500">ft&sup3;/min</span>
-              </p>
-            </div>
-            <div class="mt-4 space-y-2 text-sm text-gray-600">
-              <p>
-                <strong>Std Flow:</strong> <span id="resStd">-</span> MMSCFD
-              </p>
-              <p><strong>Actual T:</strong> <span id="resT">-</span> &deg;F</p>
-              <p><strong>Actual P:</strong> <span id="resP">-</span> psig</p>
-            </div>
-          </div>
-          <div class="bg-gray-50 p-6 rounded-2xl flex flex-col justify-center">
-            <h3
-              class="text-sm font-bold uppercase text-gray-500 mb-4 tracking-widest"
-            >
-              Engineering Check
-            </h3>
-            <div id="checkBadge" class="p-4 rounded-xl border-2 text-center">
-              <span id="checkIcon" class="text-2xl block"></span>
-              <span id="checkText" class="text-sm font-semibold"></span>
-            </div>
-            <p class="text-xs text-gray-400 mt-4 text-center italic">
-              Calculated using Ideal Gas Law with Z-Correction
+          <div class="title-box mb-8 relative z-10">
+            <h1 class="text-3xl font-bold text-gray-900 tracking-tight">
+              Gas Flow Rate Conversion
+            </h1>
+            <p class="text-gray-500 mt-2 text-sm font-medium">
+              Convert Standard Flow (MMSCFD, SCFM) to Actual Flow (ACFM, ACFD)
             </p>
           </div>
-        </div>
 
-        <div
-          class="calculation-formula mt-8 bg-blue-50 border-blue-100 text-blue-800"
-        >
-          <strong>Formula:</strong> Qa = Qs &times; (Ps/Pa) &times; (Ta/Ts) &times; (Za/Zs) / 1440
-          <br />
-          <span class="text-xs opacity-75"
-            >where s: standard (14.7 psia, 60&deg;F, Z=1.0), a: actual operating
-            conditions.</span
+          <!-- Main Input Card -->
+          <div
+            class="card p-8 bg-white shadow-lg rounded-2xl border border-gray-100"
           >
-        </div>
-      </div>    </div>
+            <h2
+              class="text-lg font-bold text-gray-800 mb-6 border-b border-gray-100 pb-2"
+            >
+              Input Parameters
+            </h2>
 
-    <!-- Footer -->
-</section>
-</main>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Standard Flow -->
+              <div class="space-y-1">
+                <label
+                  for="flowStd"
+                  class="block text-sm font-semibold text-gray-700"
+                  >Standard Flow Rate (MMSCFD)</label
+                >
+                <input
+                  type="number"
+                  id="flowStd"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary transition-all"
+                  placeholder="e.g. 10.5"
+                  step="0.1"
+                />
+                <p class="text-xs text-gray-400 mt-1">
+                  Million Standard Cubic Feet per Day (at 14.7 psia & 60&deg;F)
+                </p>
+              </div>
+
+              <!-- Z-Factor -->
+              <div class="space-y-1">
+                <label
+                  for="zFactor"
+                  class="block text-sm font-semibold text-gray-700"
+                  >Compressibility Factor (Z)</label
+                >
+                <input
+                  type="number"
+                  id="zFactor"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary transition-all"
+                  placeholder="1.0"
+                  value="1.0"
+                  step="0.001"
+                />
+                <p id="zHelp" class="text-xs text-gray-400 mt-1">
+                  Usually 0.8 - 1.0. Assumes 1.0 if left empty.
+                </p>
+              </div>
+
+              <!-- Temperature -->
+              <div class="space-y-1">
+                <label
+                  for="tempActual"
+                  class="block text-sm font-semibold text-gray-700"
+                  >Actual Temperature (&deg;F)</label
+                >
+                <input
+                  type="number"
+                  id="tempActual"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary transition-all"
+                  placeholder="e.g. 80"
+                  step="0.1"
+                />
+                <div
+                  id="tempBadge"
+                  class="hidden inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-800"
+                >
+                  Abs: <span id="tempAbs" class="ml-1"></span> &deg;R
+                </div>
+              </div>
+
+              <!-- Pressure -->
+              <div class="space-y-1">
+                <label
+                  for="pressActual"
+                  class="block text-sm font-semibold text-gray-700"
+                  >Actual Pressure (psig)</label
+                >
+                <input
+                  type="number"
+                  id="pressActual"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary transition-all"
+                  placeholder="e.g. 500"
+                  step="0.1"
+                />
+                <div
+                  id="pressBadge"
+                  class="hidden inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-800"
+                >
+                  Abs: <span id="pressAbs" class="ml-1"></span> psia
+                </div>
+              </div>
+            </div>
+
+            <!-- Formula Visualization -->
+            <div
+              class="mt-8 mb-6 p-4 bg-indigo-50 border border-indigo-100 rounded-xl"
+            >
+              <p
+                class="text-center text-indigo-900 font-medium text-sm md:text-base font-mono"
+              >
+                Q<sub>actual</sub> = Q<sub>std</sub> &times;
+                <span class="inline-block align-middle">
+                  <span class="block border-b border-indigo-300"
+                    >P<sub>std</sub></span
+                  >
+                  <span class="block">P<sub>act</sub></span>
+                </span>
+                &times;
+                <span class="inline-block align-middle">
+                  <span class="block border-b border-indigo-300"
+                    >T<sub>act</sub></span
+                  >
+                  <span class="block">T<sub>std</sub></span>
+                </span>
+                &times;
+                <span class="inline-block align-middle">
+                  <span class="block border-b border-indigo-300"
+                    >Z<sub>act</sub></span
+                  >
+                  <span class="block">Z<sub>std</sub></span>
+                </span>
+              </p>
+            </div>
+
+            <div class="flex gap-4">
+              <button
+                id="calculateBtn"
+                class="flex-1 bg-[#0F172A] text-[#D4E157] font-bold py-3 px-6 rounded-xl hover:bg-opacity-90 transition-all shadow-md hover:shadow-lg text-sm uppercase tracking-wide"
+                onclick="calculateFlow()"
+              >
+                Calculate
+              </button>
+              <button
+                class="px-6 py-3 rounded-xl border border-gray-300 text-gray-600 hover:bg-gray-50 font-medium transition-colors text-sm"
+                onclick="clearFields()"
+              >
+                Clear
+              </button>
+            </div>
+          </div>
+
+          <!-- Results Card (Hidden by default) -->
+          <div
+            id="resultsCard"
+            class="card p-8 bg-white shadow-lg rounded-2xl border border-gray-100 mt-6 hidden"
+          >
+            <h2
+              class="text-lg font-bold text-gray-800 mb-6 border-b border-gray-100 pb-2"
+            >
+              Calculation Results
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              <!-- ACFM Result -->
+              <div
+                class="bg-blue-50 p-6 rounded-2xl border border-blue-100 shadow-sm"
+              >
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-bold text-blue-500 uppercase"
+                    >Actual Gas Flow</span
+                  >
+                  <span class="bg-blue-200 text-blue-800 text-[10px] px-2 py-0.5 rounded-full font-bold">ACFM</span>
+                </div>
+                <div class="flex items-baseline gap-2">
+                  <span
+                    id="acfmResult"
+                    class="text-4xl font-extrabold text-blue-900"
+                    >-</span
+                  >
+                  <span class="text-sm font-medium text-blue-600"
+                    >ft&sup3;/min</span
+                  >
+                </div>
+              </div>
+
+                <!-- ACFD Result -->
+                <div
+                class="bg-emerald-50 p-6 rounded-2xl border border-emerald-100 shadow-sm"
+              >
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-bold text-emerald-500 uppercase"
+                    >Actual Daily Flow</span
+                  >
+                  <span class="bg-emerald-200 text-emerald-800 text-[10px] px-2 py-0.5 rounded-full font-bold">ACFD</span>
+                </div>
+                <div class="flex items-baseline gap-2">
+                  <span
+                    id="acfdResult"
+                    class="text-4xl font-extrabold text-emerald-900"
+                    >-</span
+                  >
+                  <span class="text-sm font-medium text-emerald-600"
+                    >ft&sup3;/day</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Calculation Breakdown -->
+            <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                <h3 class="text-sm font-bold text-gray-700 mb-3 border-b border-gray-200 pb-2">Calculation Step-by-Step</h3>
+                <div id="formulaDetails" class="font-mono text-xs md:text-sm text-gray-600 space-y-3">
+                    <!-- Injected via JS -->
+                </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
     <!-- Footer Pro -->
-    <footer id="contact" class="bg-gray-900 text-white border-t-4 border-[#008F4C]">
+    <footer
+      id="contact"
+      class="bg-gray-900 text-white border-t-4 border-[#008F4C]"
+    >
       <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          
           <!-- Column 1: Brand -->
           <div>
-            <h3 class="text-xl font-bold font-heading mb-4 text-[#D4E157]">Freddy Roa Monsalvo</h3>
+            <h3 class="text-xl font-bold font-heading mb-4 text-[#D4E157]">
+              Freddy Roa Monsalvo
+            </h3>
             <p class="text-gray-400 text-sm leading-relaxed mb-4">
-              Ingeniero Mec&aacute;nico Senior especializado en proyectos de infraestructura energ&eacute;tica, dise�o de estaciones compresoras y gesti&oacute;n de activos con RCM2.
+              Ingeniero Mec&aacute;nico Senior especializado en proyectos de
+              infraestructura energ&eacute;tica, diseo de estaciones
+              compresoras y gesti&oacute;n de activos con RCM2.
             </p>
             <div class="flex space-x-4">
-               <!-- LinkedIn -->
-               <a href="https://www.linkedin.com/in/freddyroa/" target="_blank" class="text-gray-400 hover:text-white transition-colors">
-                  <span class="sr-only">LinkedIn</span>
-                  <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-               </a>
+              <!-- LinkedIn -->
+              <a
+                href="https://www.linkedin.com/in/freddyroa/"
+                target="_blank"
+                class="text-gray-400 hover:text-white transition-colors"
+              >
+                <span class="sr-only">LinkedIn</span>
+                <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+                  />
+                </svg>
+              </a>
             </div>
           </div>
 
           <!-- Column 2: Quick Links -->
           <div>
-            <h3 class="text-lg font-bold font-heading mb-4 text-white">Enlaces R&aacute;pidos</h3>
+            <h3 class="text-lg font-bold font-heading mb-4 text-white">
+              Enlaces R&aacute;pidos
+            </h3>
             <ul class="space-y-2">
-              <li><a href="../index.html" class="text-gray-400 hover:text-[#D4E157] text-sm transition-colors">Inicio</a></li>
-              <li><a href="../herramientas.html" class="text-gray-400 hover:text-[#D4E157] text-sm transition-colors">Herramientas de C&aacute;lculo</a></li>
-              <li><a href="../index.html#expertise" class="text-gray-400 hover:text-[#D4E157] text-sm transition-colors">Expertise & &Aacute;reas</a></li>
-              <li><a href="../index.html#projects" class="text-gray-400 hover:text-[#D4E157] text-sm transition-colors">Proyectos Destacados</a></li>
+              <li>
+                <a
+                  href="../index.html"
+                  class="text-gray-400 hover:text-[#D4E157] text-sm transition-colors"
+                  >Inicio</a
+                >
+              </li>
+              <li>
+                <a
+                  href="../herramientas.html"
+                  class="text-gray-400 hover:text-[#D4E157] text-sm transition-colors"
+                  >Herramientas de C&aacute;lculo</a
+                >
+              </li>
+              <li>
+                <a
+                  href="../index.html#expertise"
+                  class="text-gray-400 hover:text-[#D4E157] text-sm transition-colors"
+                  >Expertise & &Aacute;reas</a
+                >
+              </li>
+              <li>
+                <a
+                  href="../index.html#projects"
+                  class="text-gray-400 hover:text-[#D4E157] text-sm transition-colors"
+                  >Proyectos Destacados</a
+                >
+              </li>
             </ul>
           </div>
 
           <!-- Column 3: Contact Info -->
           <div>
-            <h3 class="text-lg font-bold font-heading mb-4 text-white">Contacto Profesional</h3>
+            <h3 class="text-lg font-bold font-heading mb-4 text-white">
+              Contacto Profesional
+            </h3>
             <ul class="space-y-3">
               <li class="flex items-start">
-                <svg class="h-5 w-5 text-[#D4E157] mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                <a href="mailto:freddy.roa76@gmail.com" class="text-gray-400 hover:text-white text-sm transition-colors">freddy.roa76@gmail.com</a>
+                <svg
+                  class="h-5 w-5 text-[#D4E157] mr-2 mt-0.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
+                </svg>
+                <a
+                  href="mailto:freddy.roa76@gmail.com"
+                  class="text-gray-400 hover:text-white text-sm transition-colors"
+                  >freddy.roa76@gmail.com</a
+                >
               </li>
               <li class="flex items-start">
-                <svg class="h-5 w-5 text-[#D4E157] mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                <svg
+                  class="h-5 w-5 text-[#D4E157] mr-2 mt-0.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                  />
+                </svg>
                 <span class="text-gray-400 text-sm">+57 311 253 1330</span>
               </li>
               <li class="flex items-start">
-                <svg class="h-5 w-5 text-[#D4E157] mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                <span class="text-gray-400 text-sm">Bogot&aacute; D.C., Colombia</span>
+                <svg
+                  class="h-5 w-5 text-[#D4E157] mr-2 mt-0.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
+                <span class="text-gray-400 text-sm"
+                  >Bogot&aacute; D.C., Colombia</span
+                >
               </li>
             </ul>
           </div>
-
         </div>
 
-        <div class="mt-12 border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
-          <p>&copy; <span class="copyright-year">2026</span> Freddy Roa Monsalvo. Todos los derechos reservados.</p>
+        <div
+          class="mt-12 border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500"
+        >
+          <p>
+            &copy; <span class="copyright-year">2026</span> Freddy Roa Monsalvo.
+            Todos los derechos reservados.
+          </p>
           <div class="flex space-x-6 mt-4 md:mt-0">
-             <a href="#" class="hover:text-gray-300">Privacidad</a>
-             <a href="#" class="hover:text-gray-300">T&eacute;rminos</a>
+            <a href="#" class="hover:text-gray-300">Privacidad</a>
+            <a href="#" class="hover:text-gray-300">T&eacute;rminos</a>
           </div>
         </div>
       </div>
@@ -398,24 +800,131 @@
         />
       </svg>
     </a>
+
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        // Header scroll effect
-        const header = document.querySelector("header");
-        if (header) {
-          window.addEventListener("scroll", () => {
-            if (window.scrollY > 10) {
-              header.classList.add("bg-surface", "shadow-md");
-              if (header.classList.contains("bg-transparent")) { 
-                  header.classList.remove("bg-transparent");
-              }
+      // Constants
+      const P_STD = 14.7; // psia
+      const T_STD = 519.67; // Rankine (60F)
+      const Z_STD = 1.0;
+
+      // Logic
+      function calculateFlow() {
+        const Qs_mmscfd = parseFloat(document.getElementById("flowStd").value);
+        const Ta_f = parseFloat(document.getElementById("tempActual").value);
+        const Pa_g = parseFloat(document.getElementById("pressActual").value);
+        let Za = parseFloat(document.getElementById("zFactor").value);
+
+        // Validation
+        let hasError = false;
+        
+        const inputs = [
+            document.getElementById("flowStd"),
+            document.getElementById("tempActual"),
+            document.getElementById("pressActual")
+        ];
+
+        inputs.forEach(input => {
+            if(!input.value || isNaN(input.value)) {
+                input.classList.add("border-red-500", "focus:ring-red-500");
+                hasError = true;
             } else {
-              header.classList.add("bg-surface", "shadow-md"); 
+                input.classList.remove("border-red-500", "focus:ring-red-500");
             }
-          });
+        });
+
+        if (isNaN(Za) || !Za) {
+            Za = 1.0;
+            document.getElementById("zFactor").value = "1.0";
         }
 
-        // Mobile Menu Toggle
+        if (hasError) {
+            alert("Please fill in all required fields with valid numbers.");
+            return;
+        }
+
+        // Calculations
+        const Qs_scfd = Qs_mmscfd * 1e6;
+        const Pa_abs = Pa_g + P_STD;
+        const Ta_abs = Ta_f + 459.67;
+
+        // Formula: Qa = Qs * (Ps/Pa) * (Ta/Ts) * (Za/Zs)
+        const factorP = P_STD / Pa_abs;
+        const factorT = Ta_abs / T_STD;
+        const factorZ = Za / Z_STD;
+
+        const Qa_scfd = Qs_scfd * factorP * factorT * factorZ; // Actual Cubic Feet per Day
+        const Qa_scfm = Qa_scfd / 1440; // Actual Cubic Feet per Minute
+
+        // Display Results
+        document.getElementById("resultsCard").classList.remove("hidden");
+        document.getElementById("acfmResult").textContent = Qa_scfm.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 2 });
+        document.getElementById("acfdResult").textContent = Qa_scfd.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+
+        // Breakdown with formatting
+        const details = document.getElementById("formulaDetails");
+        details.innerHTML = `
+            <div class="flex flex-col gap-2">
+                <div class="pb-2 border-b border-dashed border-gray-200">
+                    <span class="text-gray-500 block text-xs">1. Convert Inputs to Absolute:</span>
+                    <div>P<sub>act</sub> = ${Pa_g} + 14.7 = <strong>${Pa_abs.toFixed(1)} psia</strong></div>
+                    <div>T<sub>act</sub> = ${Ta_f} + 459.67 = <strong>${Ta_abs.toFixed(1)} &deg;R</strong></div>
+                </div>
+                
+                <div class="pb-2 border-b border-dashed border-gray-200">
+                    <span class="text-gray-500 block text-xs">2. Setup Equation (Daily Basis):</span>
+                    <div>Q<sub>act</sub> (day) = ${Qs_mmscfd}e6 &times; (${P_STD}/${Pa_abs.toFixed(1)}) &times; (${Ta_abs.toFixed(1)}/${T_STD}) &times; (${Za}/${Z_STD})</div>
+                </div>
+
+                <div class="pb-2 text-indigo-600 font-bold">
+                    <span class="text-indigo-400 block text-xs font-normal mb-1">3. Final Calculation:</span>
+                    <div>Q<sub>act</sub> = ${Math.round(Qa_scfd).toLocaleString()} ACFD</div>
+                    <div>Q<sub>act</sub> (min) = ${Math.round(Qa_scfd).toLocaleString()} / 1440 = <strong>${Qa_scfm.toFixed(2)} ACFM</strong></div>
+                </div>
+            </div>
+        `;
+
+        // Smooth Scroll
+        document.getElementById("resultsCard").scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+
+      function clearFields() {
+        document.querySelectorAll("input").forEach((i) => {
+            i.value = "";
+            i.classList.remove("border-red-500");
+        });
+        document.getElementById("zFactor").value = "1.0";
+        document.getElementById("resultsCard").classList.add("hidden");
+        document.getElementById("tempBadge").classList.add("hidden");
+        document.getElementById("pressBadge").classList.add("hidden");
+      }
+
+      // Micro-interactions
+      document.addEventListener("DOMContentLoaded", () => {
+        // Temperature Badge
+        document.getElementById("tempActual").addEventListener("input", function() {
+            const val = parseFloat(this.value);
+            const badge = document.getElementById("tempBadge");
+            if(!isNaN(val)) {
+                badge.classList.remove("hidden");
+                document.getElementById("tempAbs").textContent = (val + 459.67).toFixed(1);
+            } else {
+                badge.classList.add("hidden");
+            }
+        });
+
+        // Pressure Badge
+        document.getElementById("pressActual").addEventListener("input", function() {
+            const val = parseFloat(this.value);
+            const badge = document.getElementById("pressBadge");
+            if(!isNaN(val)) {
+                badge.classList.remove("hidden");
+                document.getElementById("pressAbs").textContent = (val + 14.7).toFixed(1);
+            } else {
+                badge.classList.add("hidden");
+            }
+        });
+
+        // Mobile Menu Logic
         const mobileMenuButton = document.getElementById("mobile-menu-button");
         const mobileMenu = document.getElementById("mobile-menu");
         const menuIcon = document.getElementById("menu-icon");
@@ -442,7 +951,7 @@
           }
 
           const mobileLinks = mobileMenu.querySelectorAll("a");
-          mobileLinks.forEach((link) => {
+          mobileLinks.forEach(link => {
             if (link.id !== "mobile-tools-toggle") {
               link.addEventListener("click", () => {
                 mobileMenu.classList.add("hidden");
@@ -453,7 +962,7 @@
             }
           });
         }
-
+        
         // Update copyright year
         const yearSpan = document.querySelector(".copyright-year");
         if (yearSpan) {
@@ -462,180 +971,4 @@
       });
     </script>
   </body>
-<script>
-      document.addEventListener("DOMContentLoaded", () => {
-        // Header scroll effect
-        const header = document.querySelector("header");
-        if (header) {
-          window.addEventListener("scroll", () => {
-            if (window.scrollY > 10) {
-              header.classList.add("bg-surface", "shadow-md");
-              if (header.classList.contains("bg-transparent")) { 
-                  header.classList.remove("bg-transparent");
-              }
-            } else {
-              header.classList.add("bg-surface", "shadow-md"); 
-            }
-          });
-        }
-
-        // Mobile Menu Toggle
-        const mobileMenuButton = document.getElementById("mobile-menu-button");
-        const mobileMenu = document.getElementById("mobile-menu");
-        const menuIcon = document.getElementById("menu-icon");
-        const closeIcon = document.getElementById("close-icon");
-        const mobileToolsToggle = document.getElementById("mobile-tools-toggle");
-        const mobileToolsMenu = document.getElementById("mobile-tools-menu");
-        const mobileToolsArrow = document.getElementById("mobile-tools-arrow");
-
-        if (mobileMenuButton && mobileMenu) {
-          mobileMenuButton.addEventListener("click", () => {
-            const isExpanded = mobileMenuButton.getAttribute("aria-expanded") === "true";
-            mobileMenu.classList.toggle("hidden");
-            menuIcon.classList.toggle("hidden");
-            closeIcon.classList.toggle("hidden");
-            mobileMenuButton.setAttribute("aria-expanded", !isExpanded);
-          });
-
-          if (mobileToolsToggle && mobileToolsMenu) {
-            mobileToolsToggle.addEventListener("click", (e) => {
-              e.preventDefault();
-              mobileToolsMenu.classList.toggle("hidden");
-              if (mobileToolsArrow) mobileToolsArrow.classList.toggle("rotate-180");
-            });
-          }
-
-          const mobileLinks = mobileMenu.querySelectorAll("a");
-          mobileLinks.forEach((link) => {
-            if (link.id !== "mobile-tools-toggle") {
-              link.addEventListener("click", () => {
-                mobileMenu.classList.add("hidden");
-                menuIcon.classList.remove("hidden");
-                closeIcon.classList.add("hidden");
-                mobileMenuButton.setAttribute("aria-expanded", "false");
-              });
-            }
-          });
-        }
-
-        // Update copyright year
-        const yearSpan = document.querySelector(".copyright-year");
-        if (yearSpan) {
-          yearSpan.textContent = new Date().getFullYear();
-        }
-      });
-    </script>
-<script>
-      function calculateFlow() {
-        const Qs = parseFloat(document.getElementById("flowStd").value);
-        const TaF = parseFloat(document.getElementById("tempActual").value);
-        const Pag = parseFloat(document.getElementById("pressActual").value);
-        const Za = parseFloat(document.getElementById("zFactor").value) || 1.0;
-
-        if (isNaN(Qs) || isNaN(TaF) || isNaN(Pag)) {
-          alert("Please enter valid numeric values.");
-          return;
-        }
-
-        const Ps = 14.7;
-        const Ts = 60 + 459.67;
-        const Zs = 1.0;
-        const Ta = TaF + 459.67;
-        const Pa = Pag + 14.7;
-
-        // Flow Calculation
-        // Qs is in Million SCFD -> convert to SCFD
-        const Qs_scfd = Qs * 1e6;
-        const Qa_scfm =
-          (Qs_scfd * (Ps / Pa) * (Ta / Ts) * (Za / Zs)) / (24 * 60);
-
-        document.getElementById("resultsCard").style.display = "block";
-        document.getElementById("acfmResult").textContent =
-          Qa_scfm.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          });
-        document.getElementById("resStd").textContent = Qs.toFixed(2);
-        document.getElementById("resT").textContent = TaF.toFixed(1);
-        document.getElementById("resP").textContent = Pag.toFixed(1);
-
-        const badge = document.getElementById("checkBadge");
-        const icon = document.getElementById("checkIcon");
-        const text = document.getElementById("checkText");
-
-        if (Za < 0.7 || Za > 1.2) {
-          badge.className =
-            "p-4 rounded-xl border-2 text-center bg-yellow-50 border-yellow-200 text-yellow-700";
-          icon.textContent = "??";
-          text.textContent = "Verify Z-Factor range (typ. 0.8-1.0)";
-        } else {
-          badge.className =
-            "p-4 rounded-xl border-2 text-center bg-green-50 border-green-200 text-green-700";
-          icon.textContent = "?";
-          text.textContent = "Parameters within typical range";
-        }
-
-        document
-          .getElementById("resultsCard")
-          .scrollIntoView({ behavior: "smooth" });
-      }
-
-      function clearFields() {
-        document.querySelectorAll("input").forEach((i) => (i.value = ""));
-        document.getElementById("zFactor").value = "1.0";
-        document.getElementById("resultsCard").style.display = "none";
-      }
-      document.addEventListener("DOMContentLoaded", () => {
-        // Mobile Menu Toggle
-        const mobileMenuButton = document.getElementById("mobile-menu-button");
-        const mobileMenu = document.getElementById("mobile-menu");
-        const menuIcon = document.getElementById("menu-icon");
-        const closeIcon = document.getElementById("close-icon");
-        const mobileToolsToggle = document.getElementById(
-          "mobile-tools-toggle",
-        );
-        const mobileToolsMenu = document.getElementById("mobile-tools-menu");
-        const mobileToolsArrow = document.getElementById("mobile-tools-arrow");
-
-        if (mobileMenuButton && mobileMenu) {
-          mobileMenuButton.addEventListener("click", () => {
-            const isExpanded =
-              mobileMenuButton.getAttribute("aria-expanded") === "true";
-            mobileMenu.classList.toggle("hidden");
-            menuIcon.classList.toggle("hidden");
-            closeIcon.classList.toggle("hidden");
-            mobileMenuButton.setAttribute("aria-expanded", !isExpanded);
-          });
-
-          // Mobile Tools Accordion
-          if (mobileToolsToggle && mobileToolsMenu) {
-            mobileToolsToggle.addEventListener("click", (e) => {
-              e.preventDefault();
-              mobileToolsMenu.classList.toggle("hidden");
-              if (mobileToolsArrow)
-                mobileToolsArrow.classList.toggle("rotate-180");
-            });
-          }
-
-          // Close menu when clicking a link (except tools toggle)
-          const mobileLinks = mobileMenu.querySelectorAll("a");
-          mobileLinks.forEach((link) => {
-            if (link.id !== "mobile-tools-toggle") {
-              link.addEventListener("click", () => {
-                mobileMenu.classList.add("hidden");
-                menuIcon.classList.remove("hidden");
-                closeIcon.classList.add("hidden");
-                mobileMenuButton.setAttribute("aria-expanded", "false");
-              });
-            }
-          });
-        }
-      });
-    </script>
 </html>
-
-
-
-
-
-
