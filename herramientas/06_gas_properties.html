@@ -152,55 +152,58 @@
         </div>
       </div>
     </header>
-<main class="pt-20">
+ <main class="pt-20">
 <section class="bg-background min-h-screen pt-8 pb-12"><div class="container mx-auto px-4 pt-2 pb-12 is-tool-content">
       <!-- Breadcrumb -->
       <nav
-        class="flex mb-6 text-xs font-medium text-gray-400 uppercase-none"
+        class="flex mb-6 text-xs font-medium text-gray-400"
         aria-label="Breadcrumb"
       >
         <ol class="inline-flex items-center space-x-2">
           <li>
             <a
               href="../index.html"
-              class="text-gray-600 hover:text-primary transition-colors"
-              >Inicio</a
+              class="hover:text-primary transition-colors"
+              >Home</a
             >
           </li>
           <li><span class="mx-2">/</span></li>
           <li>
             <a
               href="../herramientas.html"
-              class="text-gray-600 hover:text-primary transition-colors"
-              >Herramientas</a
+              class="hover:text-primary transition-colors"
+              >Tools</a
             >
           </li>
           <li><span class="mx-2">/</span></li>
-          <li class="text-gray-900 font-bold">Propiedades de Gases</li>
+          <li class="text-gray-900 font-bold">Gas Properties</li>
         </ol>
       </nav>
 
       <div class="title-box mb-8 relative z-10">
         <h1 class="text-3xl font-bold text-gray-900 tracking-tight">
-            Natural Gas Properties
+            Natural Gas Properties Calculator
         </h1>
         <p class="text-gray-500 mt-2 text-sm font-medium">
-            Thermodynamic analysis using Dranchuk-Abou-Kassem EOS & GPSA correlations.
+            Multi-component Analysis • Dranchuk-Abou-Kassem EOS • GPSA Correlations
         </p>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Left Column: Composition (Takes 2/3 width) -->
         <div class="lg:col-span-2">
-            <div class="card">
-                <div class="flex justify-between items-center mb-4">
+            <div class="card p-8 bg-white shadow-lg rounded-2xl border border-gray-100">
+                <div class="flex justify-between items-center mb-6 border-b border-gray-100 pb-4">
                   <div>
-                      <h2>Gas Composition</h2>
-                      <p class="text-xs text-gray-500">Mole Fraction (Sum should be 1.0)</p>
+                      <h2 class="text-2xl font-bold text-primary flex items-center gap-2 m-0">
+                          <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+                          Gas Composition
+                      </h2>
+                      <p class="text-xs text-gray-500 mt-1">Mole Fraction (Sum should equal 1.0)</p>
                   </div>
-                  <div class="flex flex-col items-end gap-1">
-                    <div class="text-sm">
-                        Sum: <span id="moleSum" class="font-mono">0.0000</span>
+                  <div class="flex flex-col items-end gap-2">
+                    <div class="text-sm font-semibold">
+                        Sum: <span id="moleSum" class="font-mono text-lg">0.0000</span>
                     </div>
                     <div class="flex gap-2">
                       <button
@@ -227,34 +230,72 @@
 
         <!-- Right Column: Operating Conditions & Actions -->
         <div>
-            <div class="card sticky top-24">
-              <h2>Operating Conditions</h2>
+            <div class="card p-8 bg-white shadow-lg rounded-2xl border border-gray-100 sticky top-24">
+              <h2 class="text-2xl font-bold text-primary flex items-center gap-2 border-b border-gray-100 pb-4 mb-6">
+                  <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                  Operating Conditions
+              </h2>
+              
               <div class="space-y-5">
-                <div class="input-group">
-                  <label for="pOp" class="required font-bold text-gray-700"
-                    >Operating Pressure <span class="units font-normal">(psig)</span></label
-                  >
-                  <input type="number" id="pOp" placeholder="e.g. 500" required class="font-mono text-lg" />
+                <div>
+                  <label for="pOp" class="block text-sm font-semibold text-gray-700 mb-1">
+                      Operating Pressure <span class="text-red-500">*</span>
+                  </label>
+                  <div class="relative">
+                      <input type="number" id="pOp" placeholder="e.g. 500" required 
+                             class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-green-600 focus:ring-green-600 transition-all py-2.5 pl-3 pr-16 bg-white text-gray-900 font-mono text-lg" />
+                      <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400 text-sm font-medium">psig</div>
+                  </div>
                 </div>
-                <div class="input-group">
-                  <label for="tOp" class="required font-bold text-gray-700"
-                    >Operating Temperature <span class="units font-normal">(&deg;F)</span></label
-                  >
-                  <input type="number" id="tOp" placeholder="e.g. 80" required class="font-mono text-lg" />
+                
+                <div>
+                  <label for="tOp" class="block text-sm font-semibold text-gray-700 mb-1">
+                      Operating Temperature <span class="text-red-500">*</span>
+                  </label>
+                  <div class="relative">
+                      <input type="number" id="tOp" placeholder="e.g. 80" required 
+                             class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-green-600 focus:ring-green-600 transition-all py-2.5 pl-3 pr-16 bg-white text-gray-900 font-mono text-lg" />
+                      <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400 text-sm font-medium">°F</div>
+                  </div>
                 </div>
-                <div class="input-group">
-                  <label for="pAtm" class="text-gray-600"
-                    >Atmos. Pressure <span class="units font-normal">(psia)</span></label
-                  >
-                  <input type="number" id="pAtm" placeholder="14.7" class="font-mono" />
+                
+                <div>
+                  <label for="pAtm" class="block text-sm font-semibold text-gray-600 mb-1">
+                      Atmospheric Pressure
+                  </label>
+                  <div class="relative">
+                      <input type="number" id="pAtm" placeholder="14.7" 
+                             class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-green-600 focus:ring-green-600 transition-all py-2.5 pl-3 pr-16 bg-white text-gray-900 font-mono" />
+                      <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400 text-sm font-medium">psia</div>
+                  </div>
+                  <div class="mt-2 flex items-center justify-between text-xs text-gray-500 bg-gray-50 rounded px-2 py-1 border border-gray-100">
+                      <span>Standard:</span>
+                      <span class="font-bold text-blue-600">14.7 psia</span>
+                  </div>
+                </div>
+
+                <!-- Formula Visualization -->
+                <div class="bg-indigo-50 border border-indigo-100 rounded-lg p-4 mt-6">
+                    <div class="flex items-start gap-3">
+                        <svg class="w-5 h-5 text-indigo-500 mt-1 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <div class="text-sm text-indigo-900">
+                            <strong>Dranchuk-Abou-Kassem EOS:</strong> 
+                            <div class="font-mono bg-white px-2 py-1 rounded border border-indigo-100 mt-2 text-xs">
+                                Z = f(P<sub>r</sub>, T<sub>r</sub>) | ρ = (P·MW)/(Z·R·T)
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="pt-4 border-t border-gray-100">
-                  <button id="calculateBtn" class="w-full py-3 text-lg shadow-lg hover:shadow-xl transform transition-all active:scale-[0.98]" onclick="calculate()">
-                    Analyze Properties
+                  <button id="calculateBtn" 
+                          class="w-full bg-primary text-accent hover:bg-slate-800 text-base font-bold py-3.5 px-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 transform active:scale-95" 
+                          onclick="calculate()">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                      Analyze Properties
                   </button>
                   <button
-                    class="w-full mt-3 py-2 text-sm text-gray-500 hover:text-gray-700 bg-transparent hover:bg-gray-50 rounded"
+                    class="w-full mt-3 bg-white text-slate-500 border border-slate-200 hover:bg-slate-50 hover:text-slate-700 font-semibold py-2.5 px-6 rounded-xl transition-all duration-200"
                     onclick="clearFields()"
                   >
                     Reset Form
@@ -270,7 +311,7 @@
         <!-- Header -->
         <div class="bg-gray-50 border-b border-gray-200 px-6 py-4 flex justify-between items-center">
             <h2 class="flex items-center gap-2 text-lg font-bold text-gray-800 m-0">
-                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 Calculated Properties
             </h2>
             <span class="px-3 py-1 bg-green-100 text-green-700 text-[10px] font-bold uppercase rounded-full tracking-wide">Analysis Complete</span>
@@ -322,7 +363,7 @@
             </div>
 
             <!-- Secondary Details Row -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-gray-100">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-gray-100 mb-6">
                 <div class="flex justify-between items-center bg-gray-50 px-3 py-2 rounded">
                     <span class="text-xs text-gray-500">Mol. Weight</span>
                     <span class="font-mono text-sm font-bold text-gray-800" id="mwRes">-</span>
@@ -338,6 +379,14 @@
                 <div class="flex justify-between items-center bg-gray-50 px-3 py-2 rounded">
                     <span class="text-xs text-gray-500">Quality</span>
                     <span id="qualityRes" class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-gray-200 text-gray-600">-</span>
+                </div>
+            </div>
+
+            <!-- Calculation Breakdown -->
+            <div class="bg-white border border-slate-200 rounded-lg p-5 shadow-sm mt-6">
+                <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-3 border-b border-slate-100 pb-2">Calculation Breakdown</h3>
+                <div class="font-mono text-sm text-slate-600 space-y-2 overflow-x-auto" id="formulaDetails">
+                     <!-- Details injected via JS -->
                 </div>
             </div>
         </div>
@@ -821,19 +870,18 @@
         // 7. DISPLAY RESULTS
         const resultsCard = document.getElementById("resultsCard");
         resultsCard.classList.remove("hidden");
-        // resultsCard.style.display = "block"; // Using Tailwind hidden class now
 
         document.getElementById("zRes").textContent = z.toFixed(4);
         document.getElementById("sgRes").textContent = sg.toFixed(4);
         document.getElementById("rhoRes").textContent = density.toFixed(3);
         document.getElementById("kRes").textContent = k.toFixed(3);
-        document.getElementById("ghvRes").textContent = ghv_mix.toFixed(1); // Added GHV Line
+        document.getElementById("ghvRes").textContent = ghv_mix.toFixed(1);
         
-        document.getElementById("mwRes").textContent = mw_mix.toFixed(3); // lb/lbmol
-        document.getElementById("ppcRes").textContent = ppc_corr.toFixed(1); // psia
-        document.getElementById("tpcRes").textContent = tpc_corr.toFixed(1); // &deg;R
+        document.getElementById("mwRes").textContent = mw_mix.toFixed(3);
+        document.getElementById("ppcRes").textContent = ppc_corr.toFixed(1);
+        document.getElementById("tpcRes").textContent = tpc_corr.toFixed(1);
 
-        // Quality Flag (Simple HHV check logic or Composition)
+        // Quality Flag
         const q = document.getElementById("qualityRes");
         if (ghv_mix > 1150) {
             q.textContent = "Rich Gas";
@@ -845,6 +893,56 @@
              q.textContent = "Standard";
              q.className = "px-2 py-0.5 rounded-full text-[10px] bg-blue-100 text-blue-700 font-bold uppercase";
         }
+
+        // 8. CALCULATION BREAKDOWN
+        const formulaDetails = document.getElementById("formulaDetails");
+        formulaDetails.innerHTML = `
+            <div class="space-y-3">
+                <div class="bg-blue-50 p-3 rounded border border-blue-100">
+                    <p class="text-xs font-bold text-blue-700 mb-1">Step 1: Mixture Properties (Kay's Rule)</p>
+                    <p class="text-xs">MW<sub>mix</sub> = Σ(y<sub>i</sub> · MW<sub>i</sub>) = ${mw_mix.toFixed(3)} lb/lbmol</p>
+                    <p class="text-xs">P<sub>pc</sub> = Σ(y<sub>i</sub> · P<sub>c,i</sub>) = ${ppc_mix.toFixed(1)} psia</p>
+                    <p class="text-xs">T<sub>pc</sub> = Σ(y<sub>i</sub> · T<sub>c,i</sub>) = ${tpc_mix.toFixed(1)} °R</p>
+                    <p class="text-xs">GHV = Σ(y<sub>i</sub> · GHV<sub>i</sub>) = ${ghv_mix.toFixed(1)} Btu/scf</p>
+                </div>
+
+                <div class="bg-purple-50 p-3 rounded border border-purple-100">
+                    <p class="text-xs font-bold text-purple-700 mb-1">Step 2: Wichert-Aziz Correction (Sour Gas)</p>
+                    <p class="text-xs">ε = 120(A<sup>0.9</sup> - A<sup>1.6</sup>) + 15(B<sup>0.5</sup> - B<sup>4</sup>)</p>
+                    <p class="text-xs">where A = y<sub>CO2</sub> + y<sub>H2S</sub> = ${(y_sour_co2 + y_sour_h2s).toFixed(4)}, B = y<sub>H2S</sub> = ${y_sour_h2s.toFixed(4)}</p>
+                    <p class="text-xs">ε = ${epsilon.toFixed(2)} °R</p>
+                    <p class="text-xs mt-1 font-semibold">T<sub>pc,corr</sub> = ${tpc_corr.toFixed(1)} °R | P<sub>pc,corr</sub> = ${ppc_corr.toFixed(1)} psia</p>
+                </div>
+
+                <div class="bg-green-50 p-3 rounded border border-green-100">
+                    <p class="text-xs font-bold text-green-700 mb-1">Step 3: Reduced Properties</p>
+                    <p class="text-xs">P<sub>abs</sub> = ${popg} + ${patm.toFixed(1)} = ${p_abs.toFixed(1)} psia</p>
+                    <p class="text-xs">T<sub>abs</sub> = ${topf} + 459.67 = ${t_abs.toFixed(1)} °R</p>
+                    <p class="text-xs mt-1">P<sub>r</sub> = P<sub>abs</sub> / P<sub>pc,corr</sub> = ${p_abs.toFixed(1)} / ${ppc_corr.toFixed(1)} = ${Pr.toFixed(4)}</p>
+                    <p class="text-xs">T<sub>r</sub> = T<sub>abs</sub> / T<sub>pc,corr</sub> = ${t_abs.toFixed(1)} / ${tpc_corr.toFixed(1)} = ${Tr.toFixed(4)}</p>
+                </div>
+
+                <div class="bg-indigo-50 p-3 rounded border border-indigo-100">
+                    <p class="text-xs font-bold text-indigo-700 mb-1">Step 4: Z-Factor (Dranchuk-Abou-Kassem EOS)</p>
+                    <p class="text-xs">Iterative solution for reduced density ρ<sub>r</sub> using DAK equation</p>
+                    <p class="text-xs mt-1 font-semibold">Z = 0.27 · P<sub>r</sub> / (ρ<sub>r</sub> · T<sub>r</sub>) = ${z.toFixed(4)}</p>
+                </div>
+
+                <div class="bg-orange-50 p-3 rounded border border-orange-100">
+                    <p class="text-xs font-bold text-orange-700 mb-1">Step 5: Density Calculation</p>
+                    <p class="text-xs">ρ = (P · MW) / (Z · R · T)</p>
+                    <p class="text-xs">ρ = (${p_abs.toFixed(1)} · ${mw_mix.toFixed(3)}) / (${z.toFixed(4)} · 10.7316 · ${t_abs.toFixed(1)})</p>
+                    <p class="text-xs mt-1 font-semibold">ρ = ${density.toFixed(3)} lb/ft³</p>
+                </div>
+
+                <div class="bg-yellow-50 p-3 rounded border border-yellow-100">
+                    <p class="text-xs font-bold text-yellow-700 mb-1">Step 6: Specific Gravity & Heat Capacity</p>
+                    <p class="text-xs">SG = MW<sub>mix</sub> / MW<sub>air</sub> = ${mw_mix.toFixed(3)} / 28.9625 = ${sg.toFixed(4)}</p>
+                    <p class="text-xs mt-1">C<sub>p</sub> = Σ(y<sub>i</sub> · C<sub>p,i</sub>(T)) via polynomial correlations</p>
+                    <p class="text-xs">k = C<sub>p</sub> / C<sub>v</sub> = C<sub>p</sub> / (C<sub>p</sub> - R) = ${k.toFixed(3)}</p>
+                </div>
+            </div>
+        `;
 
         document.getElementById("resultsCard").scrollIntoView({ behavior: "smooth" });
       }
