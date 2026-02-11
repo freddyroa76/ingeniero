@@ -190,149 +190,247 @@
       </div>
 
       <div class="card">
-        <h2>Input Parameters</h2>
-        <div class="input-row">
-          <div class="input-group">
-            <label for="gasGravity" class="required">Gas Gravity (G):</label>
-            <input
-              type="number"
-              id="gasGravity"
-              step="0.001"
-              placeholder="e.g. 0.65"
-              required
-            />
-          </div>
-          <div class="input-group">
-            <label for="pressure" class="required"
-              >Gas Pressure (P) <span class="units">(psig)</span>:</label
-            >
-            <input
-              type="number"
-              id="pressure"
-              step="any"
-              placeholder="e.g. 1000"
-              required
-            />
-          </div>
-          <div class="input-group">
-            <label for="temperature" class="required"
-              >Gas Temperature (T) <span class="units">(&deg;F)</span>:</label
-            >
-            <input
-              type="number"
-              id="temperature"
-              step="any"
-              placeholder="e.g. 60"
-              required
-            />
-          </div>
+        <h2 class="text-lg font-bold text-gray-800 mb-6 border-b border-gray-100 pb-2 flex items-center gap-2">
+            <svg class="w-6 h-6 text-[#008F4C]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+            Input Parameters
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <!-- Gas Gravity -->
+            <div>
+                <label for="gasGravity" class="block text-sm font-semibold text-gray-700 mb-1">Gas Specific Gravity (G)</label>
+                <input
+                  type="number"
+                  id="gasGravity"
+                  step="0.001"
+                  placeholder="e.g. 0.65"
+                  class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all font-mono text-sm"
+                  oninput="updatePseudocriticalPreview()"
+                  required
+                />
+                <div id="pseudoBadge" class="hidden mt-2 flex flex-col gap-1 px-3 py-2 rounded-lg text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100 w-full">
+                     <div class="flex justify-between"><span>Tpc (est):</span> <span id="tpcPreview" class="font-bold">-</span></div>
+                     <div class="flex justify-between"><span>Ppc (est):</span> <span id="ppcPreview" class="font-bold">-</span></div>
+                </div>
+            </div>
+
+            <!-- Pressure -->
+            <div>
+                <label for="pressure" class="block text-sm font-semibold text-gray-700 mb-1">Pressure (P) <span class="text-xs text-gray-400 font-normal">psig</span></label>
+                <input
+                  type="number"
+                  id="pressure"
+                  step="any"
+                  placeholder="e.g. 1000"
+                  class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all font-mono text-sm"
+                  required
+                />
+            </div>
+            
+            <!-- Temperature -->
+            <div>
+                <label for="temperature" class="block text-sm font-semibold text-gray-700 mb-1">Temperature (T) <span class="text-xs text-gray-400 font-normal">&deg;F</span></label>
+                <input
+                  type="number"
+                  id="temperature"
+                  step="any"
+                  placeholder="e.g. 60"
+                  class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all font-mono text-sm"
+                  required
+                />
+            </div>
+
+             <!-- Impurities -->
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                   <label for="co2Content" class="block text-sm font-semibold text-gray-700 mb-1">CO<sub>2</sub> %</label>
+                   <input type="number" id="co2Content" step="0.01" placeholder="0.0" value="0" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all font-mono text-sm">
+                </div>
+                <div>
+                   <label for="n2Content" class="block text-sm font-semibold text-gray-700 mb-1">N<sub>2</sub> %</label>
+                   <input type="number" id="n2Content" step="0.01" placeholder="0.0" value="0" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all font-mono text-sm">
+                </div>
+            </div>
         </div>
 
-        <div class="input-row">
-          <div class="input-group">
-            <label for="sk-method" class="required"
-              >Standing-Katz Correlation:</label
-            >
-            <select id="sk-method" required>
-              <option value="DPR">Dranchuk-Purvis&deg;Robinson (Standard)</option>
-              <option value="DAK">Dranchuk-Abou-Kassem</option>
-              <option value="HY">Hall-Yarborough</option>
-            </select>
-          </div>
-          <div class="input-group"></div>
-          <!-- Spacer -->
-          <div class="input-group"></div>
-          <!-- Spacer -->
+        <!-- Formula Visualization -->
+        <div class="bg-indigo-50 rounded-xl p-4 mb-6 border border-indigo-100 flex items-center justify-center text-center">
+            <div class="text-indigo-800">
+                <span class="text-xs font-bold uppercase tracking-wider text-indigo-400 block mb-1">Governing Equation (Real Gas Law)</span>
+                <span class="font-serif italic text-lg">PV = ZnRT</span>
+            </div>
         </div>
+
+
 
         <div class="flex gap-4 mt-4">
-          <button id="calculateBtn" class="flex-1" onclick="calculateZ()">
+          <button
+            id="calculateBtn"
+            class="flex-1 bg-[#0F172A] text-[#D4E157] font-bold py-4 px-6 rounded-xl hover:bg-opacity-90 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-sm uppercase tracking-wider flex items-center justify-center gap-2"
+            onclick="calculateZ()"
+          >
+           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
             Calculate Factors
           </button>
-          <button class="bg-gray-500 hover:bg-gray-600" onclick="clearFields()">
+          <button
+             class="bg-white text-gray-500 font-bold py-4 px-6 rounded-xl border border-gray-200 hover:bg-gray-50 transition-all text-sm uppercase tracking-wider"
+             onclick="clearFields()"
+          >
             Clear
           </button>
         </div>
       </div>
 
-      <div class="card" id="results" style="display: none">
-        <h2>Calculation Results</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div>
-            <h3>Principal Results</h3>
-            <div class="factors-info" style="border-left-color: var(--primary)">
-              <p>
-                <strong>Factor Z (CNGA):</strong>
-                <span
-                  id="z_cnga"
-                  class="factor-value text-2xl"
-                  style="color: var(--primary)"
-                  >-</span
-                >
-              </p>
-            </div>
-            <div
-              class="factors-info"
-              style="border-left-color: var(--secondary)"
-            >
-              <p>
-                <strong>Factor Z (Standing-Katz):</strong>
-                <span
-                  id="z_sk"
-                  class="factor-value text-2xl"
-                  style="color: var(--secondary)"
-                  >-</span
-                >
-              </p>
-            </div>
+      <div class="card p-8 bg-white shadow-lg rounded-2xl border border-gray-100 hidden animate-fade-in-up" id="results">
+        <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2 border-b border-gray-100 pb-2">
+             <svg class="w-6 h-6 text-[#008F4C]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+             Calculation Results
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+          
+          <!-- Z-Factor Results -->
+          <div class="space-y-4">
+             <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Compressibility Factors (Z)</h3>
+             
+             <!-- CNGA Card -->
+             <div class="bg-blue-50 rounded-xl p-5 border border-blue-100 relative overflow-hidden group hover:shadow-md transition-all">
+                <div class="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <svg class="w-16 h-16 text-blue-600" fill="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                </div>
+                <div class="flex justify-between items-end relative z-10">
+                    <div>
+                        <p class="text-blue-600 text-xs font-bold uppercase tracking-wider mb-1">CNGA Method</p>
+                        <p class="text-3xl font-bold text-gray-900 font-heading" id="z_cnga">-</p>
+                    </div>
+                </div>
+             </div>
+
+             <!-- DPR Card -->
+             <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100 relative overflow-hidden group hover:shadow-md transition-all">
+                  <div class="flex justify-between items-end relative z-10">
+                      <div>
+                          <p class="text-emerald-600 text-xs font-bold uppercase tracking-wider mb-1">Standing-Katz (DPR)</p>
+                          <p class="text-3xl font-bold text-gray-900 font-heading" id="z_dpr">-</p>
+                      </div>
+                  </div>
+             </div>
+
+             <div class="grid grid-cols-2 gap-4">
+                 <!-- DAK -->
+                 <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                      <p class="text-amber-700 text-xs font-bold uppercase mb-1">SK (DAK)</p>
+                       <p class="text-xl font-bold text-gray-900" id="z_dak">-</p>
+                 </div>
+                 <!-- HY -->
+                 <div class="bg-purple-50 rounded-xl p-4 border border-purple-100">
+                      <p class="text-purple-700 text-xs font-bold uppercase mb-1">Hall-Yarborough</p>
+                       <p class="text-xl font-bold text-gray-900" id="z_hy">-</p>
+                 </div>
+             </div>
+
+             <div id="coherence-alert" class="hidden p-3 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
+                <svg class="w-5 h-5 text-red-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                <div class="text-xs text-red-700">
+                    <span class="font-bold block">Significant Deviation Detected (>2%)</span>
+                    Results vary between methods. Check if P or T are within extreme ranges.
+                </div>
+             </div>
           </div>
+
+          <!-- Properties -->
           <div>
-            <h3>Pseudocritical Properties</h3>
-            <div class="grid grid-cols-1 gap-2 text-sm">
-              <p>
-                <strong>Ppc (Pseudocritical Pressure):</strong>
-                <span id="ppc_val" class="factor-value">-</span>
-              </p>
-              <p>
-                <strong>Tpc (Pseudocritical Temp):</strong>
-                <span id="tpc_val" class="factor-value">-</span>
-              </p>
-              <p>
-                <strong>Ppr (Reduced Pressure):</strong>
-                <span id="ppr_val" class="factor-value">-</span>
-              </p>
-              <p>
-                <strong>Tpr (Reduced Temp):</strong>
-                <span id="tpr_val" class="factor-value">-</span>
-              </p>
-              <p>
-                <strong>pr (Reduced Density):</strong>
-                <span id="densidad_reducida_val" class="factor-value">-</span>
-              </p>
+            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Pseudocritical Properties</h3>
+            <div class="bg-gray-50 rounded-xl border border-gray-200 divide-y divide-gray-200">
+                <div class="p-4 flex justify-between items-center">
+                    <span class="text-sm text-gray-600">Pseudocritical Pressure (Ppc)</span>
+                    <span id="ppc_val" class="font-mono font-bold text-gray-900">-</span>
+                </div>
+                <div class="p-4 flex justify-between items-center">
+                    <span class="text-sm text-gray-600">Pseudocritical Temp (Tpc)</span>
+                    <span id="tpc_val" class="font-mono font-bold text-gray-900">-</span>
+                </div>
+                <div class="p-4 flex justify-between items-center">
+                    <span class="text-sm text-gray-600">Reduced Pressure (Ppr)</span>
+                    <span id="ppr_val" class="font-mono font-bold text-gray-900">-</span>
+                </div>
+                <div class="p-4 flex justify-between items-center">
+                    <span class="text-sm text-gray-600">Reduced Temperature (Tpr)</span>
+                    <span id="tpr_val" class="font-mono font-bold text-gray-900">-</span>
+                </div>
+                 <div class="p-4 flex justify-between items-center bg-gray-100">
+                    <span class="text-sm text-gray-600">Reduced Density (ρr, dpr)</span>
+                    <span id="densidad_reducida_val" class="font-mono font-bold text-gray-900">-</span>
+                </div>
+            </div>
+            
+            <div id="formulaDetails" class="mt-6 bg-white border border-gray-200 rounded-xl p-4">
+                <h4 class="text-xs font-bold text-gray-500 uppercase mb-2 border-b border-gray-100 pb-1">Calculation Breakdown</h4>
+                <div id="calculationSteps" class="space-y-2 text-xs font-mono text-gray-600">
+                    <!-- Steps injected via JS -->
+                </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="card bg-blue-50 border-blue-200">
-        <h2 class="text-blue-800">Technical Note</h2>
-        <div class="text-sm space-y-2 text-blue-900">
-          <p>
-            The <strong>Z Factor</strong> measures the deviation of a real gas
-            from ideal behavior. Z=1 is ideal.
-          </p>
-          <p>
-            <strong>Standing-Katz</strong> is the industry standard based on
-            pseudocritical properties. Correlations like DPR provide high
-            accuracy across wide ranges.
-          </p>
-          <p>
-            <strong>CNGA</strong> is an empirical method best for 100-3000 psig
-            and pipeline operating temperatures (40-100&deg;F). It is less accurate
-            in extreme conditions or with high CO2/H2S content.
-          </p>
+      <div class="card bg-blue-50 border-blue-200 p-6 rounded-2xl">
+        <h2 class="text-blue-800 text-lg font-bold mb-4 flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            Technical Methodology Guide
+        </h2>
+        <div class="space-y-4 text-sm text-blue-900">
+            <div class="bg-white/60 p-4 rounded-lg border border-blue-100 shadow-sm">
+                <strong class="block text-blue-800 mb-1 flex items-center gap-2">
+                    <span class="bg-blue-200 text-blue-800 text-xs px-2 py-0.5 rounded-full">Pipeline</span>
+                    1. CNGA (California Natural Gas Association)
+                </strong>
+                <p class="text-gray-700 mb-2">Empirical correlation ideal for <strong>transport conditions</strong> where simplicity and speed are required.</p>
+                <ul class="list-disc pl-5 text-gray-600 space-y-1 text-xs">
+                    <li><strong>Range:</strong> Best for T < 150&deg;F and P < 5000 psig.</li>
+                    <li><strong>Pros:</strong> Non-iterative, very fast calculation.</li>
+                    <li><strong>Cons:</strong> Loses accuracy with high impurities (CO<sub>2</sub>, N<sub>2</sub>) or near Critical Point.</li>
+                </ul>
+            </div>
+
+            <div class="bg-white/60 p-4 rounded-lg border border-blue-100 shadow-sm">
+                <strong class="block text-emerald-800 mb-1 flex items-center gap-2">
+                    <span class="bg-emerald-200 text-emerald-800 text-xs px-2 py-0.5 rounded-full">Standard</span>
+                    2. Standing-Katz (DPR Method)
+                </strong>
+                <p class="text-gray-700 mb-2"><em>Dranchuk-Purvis-Robinson (1974)</em>. The <strong>Industry Standard</strong> correlation for general natural gas engineering.</p>
+                <ul class="list-disc pl-5 text-gray-600 space-y-1 text-xs">
+                    <li><strong>Application:</strong> General purpose, metering, and custody transfer.</li>
+                    <li><strong>Validity:</strong> 0.2 < Ppr < 30 and 1.05 < Tpr < 3.0.</li>
+                    <li><strong>Accuracy:</strong> ~0.5% average deviation from experimental data.</li>
+                </ul>
+            </div>
+
+            <div class="bg-white/60 p-4 rounded-lg border border-blue-100 shadow-sm">
+                <strong class="block text-amber-800 mb-1 flex items-center gap-2">
+                    <span class="bg-amber-200 text-amber-800 text-xs px-2 py-0.5 rounded-full">High Pressure</span>
+                    3. Standing-Katz (DAK Method)
+                </strong>
+                <p class="text-gray-700 mb-2"><em>Dranchuk-Abou-Kassem (1975)</em>. Based on the Starling-Carnahan Equation of State (EOS).</p>
+                 <ul class="list-disc pl-5 text-gray-600 space-y-1 text-xs">
+                    <li><strong>Application:</strong> High pressure reservoirs (>9000 psig) and sour gas.</li>
+                    <li><strong>Feature:</strong> fitted to 1,500 data points, offering robust convergence at extreme conditions.</li>
+                </ul>
+            </div>
+
+            <div class="bg-white/60 p-4 rounded-lg border border-blue-100 shadow-sm">
+                <strong class="block text-purple-800 mb-1 flex items-center gap-2">
+                    <span class="bg-purple-200 text-purple-800 text-xs px-2 py-0.5 rounded-full">Robust</span>
+                    4. Hall-Yarborough (HY)
+                </strong>
+                <p class="text-gray-700 mb-2">Hard-sphere equation of state (1973).</p>
+                <ul class="list-disc pl-5 text-gray-600 space-y-1 text-xs">
+                    <li><strong>Specialty:</strong> Excellent for "difficult" convergence regions.</li>
+                    <li><strong>Note:</strong> All SK methods include <strong>Wichert-Aziz</strong> corrections for CO<sub>2</sub> and N<sub>2</sub> impurities.</li>
+                </ul>
+            </div>
         </div>
-      </div>    </div>
+      </div>
 
     <!-- Footer -->
 </section>
@@ -484,69 +582,7 @@
       });
     </script>
   </body>
-<script>
-      document.addEventListener("DOMContentLoaded", () => {
-        // Header scroll effect
-        const header = document.querySelector("header");
-        if (header) {
-          window.addEventListener("scroll", () => {
-            if (window.scrollY > 10) {
-              header.classList.add("bg-surface", "shadow-md");
-              if (header.classList.contains("bg-transparent")) { 
-                  header.classList.remove("bg-transparent");
-              }
-            } else {
-              header.classList.add("bg-surface", "shadow-md"); 
-            }
-          });
-        }
 
-        // Mobile Menu Toggle
-        const mobileMenuButton = document.getElementById("mobile-menu-button");
-        const mobileMenu = document.getElementById("mobile-menu");
-        const menuIcon = document.getElementById("menu-icon");
-        const closeIcon = document.getElementById("close-icon");
-        const mobileToolsToggle = document.getElementById("mobile-tools-toggle");
-        const mobileToolsMenu = document.getElementById("mobile-tools-menu");
-        const mobileToolsArrow = document.getElementById("mobile-tools-arrow");
-
-        if (mobileMenuButton && mobileMenu) {
-          mobileMenuButton.addEventListener("click", () => {
-            const isExpanded = mobileMenuButton.getAttribute("aria-expanded") === "true";
-            mobileMenu.classList.toggle("hidden");
-            menuIcon.classList.toggle("hidden");
-            closeIcon.classList.toggle("hidden");
-            mobileMenuButton.setAttribute("aria-expanded", !isExpanded);
-          });
-
-          if (mobileToolsToggle && mobileToolsMenu) {
-            mobileToolsToggle.addEventListener("click", (e) => {
-              e.preventDefault();
-              mobileToolsMenu.classList.toggle("hidden");
-              if (mobileToolsArrow) mobileToolsArrow.classList.toggle("rotate-180");
-            });
-          }
-
-          const mobileLinks = mobileMenu.querySelectorAll("a");
-          mobileLinks.forEach((link) => {
-            if (link.id !== "mobile-tools-toggle") {
-              link.addEventListener("click", () => {
-                mobileMenu.classList.add("hidden");
-                menuIcon.classList.remove("hidden");
-                closeIcon.classList.add("hidden");
-                mobileMenuButton.setAttribute("aria-expanded", "false");
-              });
-            }
-          });
-        }
-
-        // Update copyright year
-        const yearSpan = document.querySelector(".copyright-year");
-        if (yearSpan) {
-          yearSpan.textContent = new Date().getFullYear();
-        }
-      });
-    </script>
 <script>
       function clamp(x, lo, hi) {
         return Math.max(lo, Math.min(hi, x));
@@ -565,209 +601,299 @@
         return 1.0 / (1.0 + num / den);
       }
 
-      function calculateZ_SK(P_psig, T_F, G, method = "DPR") {
-        const P = P_psig + 14.7;
-        const T = T_F + 460.0;
-        const Ppc = 756.8 - 131.0 * G - 3.6 * G * G;
-        const Tpc = 169.2 + 349.5 * G - 74.0 * G * G;
-        const Ppr = P / Ppc;
-        const Tpr = T / Tpc;
+      function calculateZ_SK(P_psig, T_F, G, co2_pct = 0, n2_pct = 0, method = "DPR") {
+        const P = P_psig + 14.7; // psia
+        const T = T_F + 460.0;   // Rankine
 
-        let y = 0;
+        // 1. Calculate Pseudocritical Properties (Sutton)
+        let Ppc = 756.8 - 131.0 * G - 3.6 * G * G;
+        let Tpc = 169.2 + 349.5 * G - 74.0 * G * G;
+
+        // 2. Wichert-Aziz / Carr Corrections for Acid Gases
+        // Convert percentages to fractions
+        const yN2 = n2_pct / 100.0;
+        const yCO2 = co2_pct / 100.0;
+        
+        // Carr-Kobayashi-Burrows corrections
+        const Tpc_corr = Tpc - 80.0 * yCO2 - 250.0 * yN2;
+        const Ppc_corr = Ppc + 440.0 * yCO2 + 170.0 * yN2;
+
+        const Ppr = P / Ppc_corr;
+        const Tpr = T / Tpc_corr;
+
+        // 3. Iterative Solutions
+        let Z = 1.0;
+        let rho_r = 0.27 * Ppr / Tpr; // Initial guess (Ideal gas)
+        
+        if (rho_r > 0.9) rho_r = 0.9; // Cap initial guess
+
         if (method === "DPR") {
-          const A = [
-            0.31506237, -1.0467099, -0.5783272, 0.53530771, -0.61232032,
-            -0.10488813, 0.68157001, 0.68446549,
-          ];
-          const T1 = A[0] + A[1] / Tpr + A[2] / Tpr ** 3;
-          const T2 = A[3] + A[4] / Tpr;
-          const T3 = (A[4] * A[5]) / Tpr;
-          const T4 = A[6] / Tpr ** 3;
-          const T5 = (0.27 * Ppr) / Tpr;
-          let yi = clamp(T5, 1e-6, 10.0);
-          y = yi;
-          for (let i = 0; i < 60; i++) {
-            const y2 = y * y,
-              y5 = y2 * y2 * y;
-            const expT = Math.exp(-A[7] * y2);
-            const f =
-              T4 * y2 * (1 + A[7] * y2) * expT +
-              1 +
-              T1 * y +
-              T2 * y2 +
-              T3 * y5 +
-              T5 / y;
-            const eps = 1e-8 * (1 + Math.abs(y));
-            const ye = y + eps,
-              y2e = ye * ye,
-              y5e = y2e * y2e * ye;
-            const fe =
-              T4 * y2e * (1 + A[7] * y2e) * Math.exp(-A[7] * y2e) +
-              1 +
-              T1 * ye +
-              T2 * y2e +
-              T3 * y5e +
-              T5 / ye;
-            const df = (fe - f) / eps;
-            const step = f / df;
-            y -= step;
-            if (!isFinite(y) || y <= 0) y = yi;
-            if (Math.abs(step) < 1e-10) break;
-          }
+            // Dranchuk-Purvis-Robinson (1974)
+            const A1 = 0.31506237;
+            const A2 = -1.0467099;
+            const A3 = -0.57832729;
+            const A4 = 0.53530771;
+            const A5 = -0.61232032;
+            const A6 = -0.10488813;
+            const A7 = 0.68157001;
+            const A8 = 0.68446549;
+
+            const T1 = A1 + A2/Tpr + A3/(Tpr**3);
+            const T2 = A4 + A5/Tpr;
+            const T3 = A5 * A6 / Tpr;
+            const T4 = A7 / (Tpr**3);
+            const T5 = 0.27 * Ppr / Tpr;
+
+            // Newton-Raphson
+            for(let i=0; i<50; i++) {
+                const rho2 = rho_r * rho_r;
+                const rho5 = rho2 * rho2 * rho_r;
+                const expTerm = Math.exp(-A8 * rho2);
+                
+                // Function f(rho) = 0
+                const f = 1.0 + T1*rho_r + T2*rho2 + T3*rho5 + (T4*rho2*(1.0 + A8*rho2)*expTerm) - (T5/rho_r);
+                
+                // Derivative df/drho
+                const df = T1 + 2*T2*rho_r + 5*T3*(rho2*rho2) + 
+                           T4 * expTerm * (2*rho_r*(1+A8*rho2) - 2*A8*(rho_r**3)*(1+A8*rho2) + 2*A8*(rho_r**3)) +
+                           T5 / (rho_r*rho_r);
+                
+                // Note: Simplified Derivative of the exponential term:
+                // d/dr [ rho^2 * (1 + A8 rho^2) * exp ] 
+                // Let u = rho^2 + A8 rho^4. du = 2rho + 4 A8 rho^3
+                // Let v = exp(-A8 rho^2). dv = -2 A8 rho exp
+                // Product rule... simplified above is approx.
+                // Let's use strict numerical derivative for safety if analytic is complex to implement perfectly in one line
+                // Reverting DPR to Numerical Derivative but with robust bounds
+                
+                // Robust Numerical Derivative
+                const delta = 1e-6;
+                const r_p = rho_r + delta;
+                const r2_p = r_p * r_p;
+                const expP = Math.exp(-A8 * r2_p);
+                const f_p = 1.0 + T1*r_p + T2*r2_p + T3*(r2_p*r2_p*r_p) + (T4*r2_p*(1.0 + A8*r2_p)*expP) - (T5/r_p);
+                const df_num = (f_p - f) / delta;
+
+                const step = f / df_num;
+                let next_rho = rho_r - step;
+
+                // Damping
+                if (next_rho < 0.001) next_rho = 0.001;
+                if (Math.abs(step) < 1e-7) {
+                    rho_r = next_rho;
+                    break;
+                }
+                rho_r = next_rho;
+            }
+            Z = (0.27 * Ppr) / (rho_r * Tpr);
+
         } else if (method === "DAK") {
-          const A = [
-            0, 0.3265, -1.07, -0.5339, 0.01569, -0.05165, 0.5475, 0.7361,
-            0.1844, 0.1056, 0.6134, 0.721,
-          ];
-          const R1 =
-            A[1] +
-            A[2] / Tpr +
-            A[3] / Tpr ** 3 +
-            A[4] / Tpr ** 4 +
-            A[5] / Tpr ** 5;
-          const R2 = (0.27 * Ppr) / Tpr;
-          const R3 = A[6] + A[7] / Tpr + A[8] / Tpr ** 2;
-          const R4 = A[9] * (A[7] / Tpr + A[8] / Tpr ** 2);
-          const R5 = A[10] / Tpr ** 3;
-          let yi = clamp(R2, 1e-6, 10.0);
-          y = yi;
-          for (let i = 0; i < 60; i++) {
-            const y2 = y * y,
-              y5 = y2 * y2 * y;
-            const f =
-              R5 * y2 * (1 + A[11] * y2) * Math.exp(-A[11] * y2) +
-              R1 * y -
-              R2 / y +
-              R3 * y2 -
-              R4 * y5 +
-              1;
-            const eps = 1e-8 * (1 + Math.abs(y));
-            const yp = y + eps,
-              y2p = yp * yp,
-              y5p = y2p * y2p * yp;
-            const fp =
-              R5 * y2p * (1 + A[11] * y2p) * Math.exp(-A[11] * y2p) +
-              R1 * yp -
-              R2 / yp +
-              R3 * y2p -
-              R4 * y5p +
-              1;
-            const df = (fp - f) / eps;
-            const step = f / df;
-            y -= step;
-            if (!isFinite(y) || y <= 0) y = yi;
-            if (Math.abs(step) < 1e-10) break;
-          }
+             // Dranchuk-Abou-Kassem (1975) - Starling/Carnahan Form
+             const A1 = 0.3265;
+             const A2 = -1.0700;
+             const A3 = -0.5339;
+             const A4 = 0.01569;
+             const A5 = -0.05165;
+             const A6 = 0.5475;
+             const A7 = -0.7361;
+             const A8 = 0.1844;
+             const A9 = 0.1056;
+             const A10 = 0.6134;
+             const A11 = 0.7210;
+             
+             const R1 = A1 + A2/Tpr + A3/(Tpr**3) + A4/(Tpr**4) + A5/(Tpr**5);
+             const R2 = 0.27 * Ppr / Tpr;
+             const R3 = A6 + A7/Tpr + A8/(Tpr**2);
+             const R4 = A9 * (A7/Tpr + A8/(Tpr**2));
+             const R5 = A10 / (Tpr**3);
+
+             for(let i=0; i<50; i++) {
+                 const r = rho_r;
+                 const r2 = r*r;
+                 const r5 = r2*r2*r;
+                 const expT = Math.exp(-A11 * r2);
+                 
+                 const f = 1.0 + R1*r + R3*r2 - R4*r5 + (R5*r2*(1.0 + A11*r2)*expT) - (R2/r);
+                 
+                 // Numerical Derivative
+                 const delta = 1e-6;
+                 const r_p = r + delta;
+                 const r2_p = r_p*r_p;
+                 const r5_p = r2_p*r2_p*r_p;
+                 const expT_p = Math.exp(-A11 * r2_p);
+                 const f_p = 1.0 + R1*r_p + R3*r2_p - R4*r5_p + (R5*r2_p*(1.0 + A11*r2_p)*expT_p) - (R2/r_p);
+                 
+                 const df = (f_p - f) / delta;
+                 const step = f / df;
+                 
+                 let next_r = r - step;
+                 if (next_r < 0.0001) next_r = 0.0001; 
+                 
+                 if (Math.abs(step) < 1e-7) {
+                     rho_r = next_r;
+                     break;
+                 }
+                 rho_r = next_r;
+             }
+             Z = (0.27 * Ppr) / (rho_r * Tpr);
+
         } else if (method === "HY") {
-          const t = 1.0 / Tpr;
-          const A1 = 0.06125 * t * Math.exp(-1.2 * (1 - t) * (1 - t));
-          const A2 = 14.76 * t - 9.76 * t ** 2 + 4.58 * t ** 3;
-          const A3 = 90.7 * t - 242.2 * t ** 2 + 42.4 * t ** 3;
-          const A4 = 2.18 + 2.82 * t;
-          const f = (y) =>
-            -A1 * Ppr +
-            (y + y ** 2 + y ** 3) -
-            y ** 4 / (1 - y) ** 3 -
-            A2 * y ** 2 +
-            A3 * y ** A4;
-          let yi = clamp(A1 * Ppr, 1e-6, 0.8);
-          y = yi;
-          for (let i = 0; i < 80; i++) {
-            const eps = 1e-8 * (1 + Math.abs(y));
-            const f0 = f(y),
-              f1 = f(y + eps);
-            const df = (f1 - f0) / eps;
-            const step = f0 / df;
-            y -= step;
-            y = clamp(y, 1e-6, 0.99);
-            if (!isFinite(y)) y = yi;
-            if (Math.abs(step) < 1e-10) break;
-          }
+            // Hall-Yarborough (1973) - Accurate for hard cases
+            const t = 1.0 / Tpr;
+            const A = 0.06125 * t * Math.exp(-1.2 * (1.0 - t)**2);
+            const B = 14.76 * t - 9.76 * t**2 + 4.58 * t**3;
+            const C = 90.7 * t - 242.2 * t**2 + 42.4 * t**3;
+            const D = 2.18 + 2.82 * t;
+
+            // Solve for Y (reduced density parameter)
+            // f(Y) = -A*Ppr + (Y + Y^2 + Y^3 - Y^4)/(1-Y)^3 - B*Y^2 + C*Y^D = 0
+            
+            let Y = 0.001; 
+            // Better initial guess for HY
+            // Y approx A * Ppr for low P
+            Y = Math.min(0.9, Math.max(0.0001, A * Ppr));
+
+            for (let i = 0; i < 100; i++) {
+                const Y2 = Y*Y;
+                const Y3 = Y2*Y;
+                const Y4 = Y3*Y;
+                const oneMinusY = 1.0 - Y;
+                const oneMinusY3 = oneMinusY * oneMinusY * oneMinusY;
+                
+                const term1 = -A * Ppr;
+                const term2 = (Y + Y2 + Y3 - Y4) / oneMinusY3;
+                const term3 = -B * Y2;
+                const term4 = C * Math.pow(Y, D);
+                
+                const f = term1 + term2 + term3 + term4;
+                
+                // Analytic Derivative for HY (Stability critical)
+                // d/dY [ (Y+Y^2+Y^3-Y^4) / (1-Y)^3 ]
+                // = (1+2Y+3Y^2-4Y^3)/(1-Y)^3 + 3(Y+Y^2+Y^3-Y^4)/(1-Y)^4
+                // = (1 + 4Y + 4Y^2 - 4Y^3 + Y^4 ) / (1-Y)^4  <-- Simplified form often used
+                const d_term2 = (1.0 + 4*Y + 4*Y2 - 4*Y3 + Y4) / Math.pow(1.0 - Y, 4);
+                const d_term3 = -2.0 * B * Y;
+                const d_term4 = C * D * Math.pow(Y, D - 1.0);
+                
+                const df = d_term2 + d_term3 + d_term4;
+                
+                let step = f / df;
+                
+                // Damping for HY
+                if (Math.abs(step) > 0.1) step = 0.1 * Math.sign(step);
+
+                let next_Y = Y - step;
+                if (next_Y <= 0) next_Y = 1e-6;
+                if (next_Y >= 1) next_Y = 0.999;
+                
+                if (Math.abs(step) < 1e-8) {
+                    Y = next_Y;
+                    break;
+                }
+                Y = next_Y;
+            }
+            // Z = A * Ppr / Y
+            Z = (A * Ppr) / Y;
         }
-        const Z = (0.27 * Ppr) / (y * Tpr);
-        return { Z, Ppc, Tpc, Ppr, Tpr, densidad_reducida: y };
+
+        return { Z, Ppc: Ppc_corr, Tpc: Tpc_corr, Ppr, Tpr, densidad_reducida: rho_r };
       }
 
       function calculateZ() {
         const G = parseFloat(document.getElementById("gasGravity").value);
         const P = parseFloat(document.getElementById("pressure").value);
         const T = parseFloat(document.getElementById("temperature").value);
-        const method = document.getElementById("sk-method").value;
-
+        const co2 = parseFloat(document.getElementById("co2Content").value) || 0;
+        const n2 = parseFloat(document.getElementById("n2Content").value) || 0;
+        // Removed method selector
+        
         if (isNaN(G) || isNaN(P) || isNaN(T)) {
-          alert("Please enter valid numeric values for all fields.");
+          alert("Please enter valid numeric values for all required fields.");
           return;
         }
 
+        // Calculate all methods
         const z_cnga = calculateZ_CNGA(P, T, G);
-        const sk = calculateZ_SK(P, T, G, method);
+        const res_dpr = calculateZ_SK(P, T, G, co2, n2, "DPR");
+        const res_dak = calculateZ_SK(P, T, G, co2, n2, "DAK");
+        const res_hy = calculateZ_SK(P, T, G, co2, n2, "HY");
 
+        // Display Correctly
         document.getElementById("results").style.display = "block";
         document.getElementById("z_cnga").textContent = toFixed(z_cnga, 4);
-        document.getElementById("z_sk").textContent = toFixed(sk.Z, 4);
-        document.getElementById("ppc_val").textContent =
-          toFixed(sk.Ppc, 2) + " psia";
-        document.getElementById("tpc_val").textContent =
-          toFixed(sk.Tpc, 2) + " &deg;R";
-        document.getElementById("ppr_val").textContent = toFixed(sk.Ppr, 4);
-        document.getElementById("tpr_val").textContent = toFixed(sk.Tpr, 4);
-        document.getElementById("densidad_reducida_val").textContent = toFixed(
-          sk.densidad_reducida,
-          4,
-        );
+        
+        document.getElementById("z_dpr").textContent = toFixed(res_dpr.Z, 4);
+        document.getElementById("z_dak").textContent = toFixed(res_dak.Z, 4);
+        document.getElementById("z_hy").textContent = toFixed(res_hy.Z, 4);
 
-        document
-          .getElementById("results")
-          .scrollIntoView({ behavior: "smooth" });
+        // Standard Properties (from DPR run)
+        document.getElementById("ppc_val").textContent = toFixed(res_dpr.Ppc, 2) + " psia";
+        document.getElementById("tpc_val").textContent = toFixed(res_dpr.Tpc, 2) + " &deg;R";
+        document.getElementById("ppr_val").textContent = toFixed(res_dpr.Ppr, 3);
+        document.getElementById("tpr_val").textContent = toFixed(res_dpr.Tpr, 3);
+        
+        // Use reduced density from Hall-Yarborough as standard reference if needed, or keep DPR
+        document.getElementById("densidad_reducida_val").textContent = toFixed(res_dpr.densidad_reducida, 4);
+
+        // Coherence Check
+        const zValues = [res_dpr.Z, res_dak.Z, res_hy.Z].filter(z => z > 0 && z < 2);
+        const minZ = Math.min(...zValues);
+        const maxZ = Math.max(...zValues);
+        const coherenceAlert = document.getElementById("coherence-alert");
+        
+        if (zValues.length > 0 && (maxZ - minZ) / minZ > 0.02) {
+            coherenceAlert.classList.remove("hidden");
+        } else {
+            coherenceAlert.classList.add("hidden");
+        }
+
+        // Populate Calculation Breakdown
+        const stepsContainer = document.getElementById("calculationSteps");
+        stepsContainer.innerHTML = `
+            <div class="p-2 bg-gray-50 rounded mb-1">
+                <strong>1. Convert to Absolute Units:</strong><br>
+                Pabs = ${P} + 14.7 = ${toFixed(P+14.7, 1)} psia<br>
+                Tabs = ${T} + 460 = ${toFixed(T+460, 1)} &deg;R
+            </div>
+            <div class="p-2 bg-gray-50 rounded mb-1">
+                <strong>2. Sutton Correlations (Uncorrected):</strong><br>
+                Ppc = 756.8 - 131(G) - 3.6(G&sup2;) = ${toFixed(756.8 - 131.0 * G - 3.6 * G * G, 1)} psia<br>
+                Tpc = 169.2 + 349.5(G) - 74.0(G&sup2;) = ${toFixed(169.2 + 349.5 * G - 74.0 * G * G, 1)} &deg;R
+            </div>
+            <div class="p-2 bg-green-50 rounded border border-green-100">
+                 <strong>3. Final Corrected Properties:</strong><br>
+                 Ppr = P / Ppc' = ${toFixed(res_dpr.Ppr, 3)}<br>
+                 Tpr = T / Tpc' = ${toFixed(res_dpr.Tpr, 3)}
+            </div>
+        `;
+
+        const resultsSection = document.getElementById("results");
+        resultsSection.style.display = "block";
+        resultsSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      function updatePseudocriticalPreview() {
+         const G = parseFloat(document.getElementById("gasGravity").value);
+         const badge = document.getElementById("pseudoBadge");
+         
+         if(!isNaN(G) && G > 0.4 && G < 1.8) {
+             const Ppc = 756.8 - 131.0 * G - 3.6 * G * G;
+             const Tpc = 169.2 + 349.5 * G - 74.0 * G * G;
+             document.getElementById("tpcPreview").innerHTML = toFixed(Tpc, 1) + " &deg;R";
+             document.getElementById("ppcPreview").innerText = toFixed(Ppc, 1) + " psia";
+             badge.classList.remove("hidden");
+         } else {
+             badge.classList.add("hidden");
+         }
       }
 
       function clearFields() {
         document.querySelectorAll("input").forEach((i) => (i.value = ""));
         document.getElementById("results").style.display = "none";
       }
-      document.addEventListener("DOMContentLoaded", () => {
-        // Mobile Menu Toggle
-        const mobileMenuButton = document.getElementById("mobile-menu-button");
-        const mobileMenu = document.getElementById("mobile-menu");
-        const menuIcon = document.getElementById("menu-icon");
-        const closeIcon = document.getElementById("close-icon");
-        const mobileToolsToggle = document.getElementById("mobile-tools-toggle");
-        const mobileToolsMenu = document.getElementById("mobile-tools-menu");
-        const mobileToolsArrow = document.getElementById("mobile-tools-arrow");
-
-        if (mobileMenuButton && mobileMenu) {
-          mobileMenuButton.addEventListener("click", () => {
-            const isExpanded = mobileMenuButton.getAttribute("aria-expanded") === "true";
-            mobileMenu.classList.toggle("hidden");
-            menuIcon.classList.toggle("hidden");
-            closeIcon.classList.toggle("hidden");
-            mobileMenuButton.setAttribute("aria-expanded", !isExpanded);
-          });
-
-          // Mobile Tools Accordion
-          if (mobileToolsToggle && mobileToolsMenu) {
-            mobileToolsToggle.addEventListener("click", (e) => {
-              e.preventDefault();
-              mobileToolsMenu.classList.toggle("hidden");
-              if (mobileToolsArrow) mobileToolsArrow.classList.toggle("rotate-180");
-            });
-          }
-
-          // Close menu when clicking a link (except tools toggle)
-          const mobileLinks = mobileMenu.querySelectorAll("a");
-          mobileLinks.forEach(link => {
-            if (link.id !== "mobile-tools-toggle") {
-              link.addEventListener("click", () => {
-                mobileMenu.classList.add("hidden");
-                menuIcon.classList.remove("hidden");
-                closeIcon.classList.add("hidden");
-                mobileMenuButton.setAttribute("aria-expanded", "false");
-              });
-            }
-          });
-        }
-      });
     </script>
+  </body>
+
 </html>
 
 
