@@ -272,14 +272,11 @@
                             Longitudinal Weld Joint Quality Factor (E) <span class="text-red-500">*</span>
                         </label>
                         <select id="jointFactor" required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-green-600 focus:ring-green-600 transition-all py-2.5 px-3 bg-white text-gray-900">
-                            <option value="">Select E factor</option>
-                            <option value="1.0">Seamless (E = 1.00)</option>
-                            <option value="1.0">Electric-resistance welded (E = 1.00)</option>
-                            <option value="0.60">Furnace-buttwelded, continuous weld (E = 0.60)</option>
-                            <option value="0.80">Electric-fusion welded – Classes 13, 23, 33, 43, 53 (E = 0.80)</option>
-                            <option value="1.0">Electric-fusion welded – Classes 12, 22, 32, 42, 52 (E = 1.00)</option>
-                            <option value="1.0">Submerged-arc welded (straight seam or helical seam) (E = 1.00)</option>
-                            <option value="1.0">Combination welded (E = 1.00)</option>
+                            <option value="">Select joint factor</option>
+                            <option value="1.00">1.00 - Seamless / ERW / DSAW / Flash Weld</option>
+                            <option value="0.80">0.80 - Spiral Weld (API 5L)</option>
+                            <option value="0.60">0.60 - Furnace Butt Weld / Continuous Weld</option>
+                            <option value="0.80">0.80 - Fusion Weld (ASTM A 134/A 139)</option>
                         </select>
                         <div class="mt-2 flex items-center justify-between text-xs text-gray-500 bg-gray-50 rounded px-2 py-1 border border-gray-100">
                             <span>Joint Factor (E):</span>

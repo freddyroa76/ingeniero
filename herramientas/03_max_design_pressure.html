@@ -153,225 +153,178 @@
       </div>
     </header>
 <main class="pt-20">
-<section class="bg-background min-h-screen pt-8 pb-12"><div class="container mx-auto px-4 pt-2 pb-12 is-tool-content">
-      <!-- Breadcrumb -->
-      <nav
-        class="flex mb-6 text-xs font-medium text-gray-400 uppercase-none"
-        aria-label="Breadcrumb"
-      >
-        <ol class="inline-flex items-center space-x-2">
-          <li>
-            <a
-              href="../index.html"
-              class="text-gray-600 hover:text-primary transition-colors"
-              >Inicio</a
-            >
-          </li>
-          <li><span class="mx-2">/</span></li>
-          <li>
-            <a
-              href="../herramientas.html"
-              class="text-gray-600 hover:text-primary transition-colors"
-              >Herramientas</a
-            >
-          </li>
-          <li><span class="mx-2">/</span></li>
-          <li class="text-gray-900 font-bold">Presi&oacute;n M&aacute;xima Dise&ntilde;o</li>
-        </ol>
-      </nav>
+    <section class="bg-gray-50 min-h-screen pt-8 pb-12">
+        <div class="container mx-auto px-4 max-w-5xl is-tool-content">
+            <!-- Breadcrumb -->
+            <nav class="flex mb-6 text-xs font-medium text-gray-400" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-2">
+                    <li><a href="../index.html" class="text-gray-600 hover:text-[#0F172A] transition-colors">Home</a></li>
+                    <li><span class="mx-2">/</span></li>
+                    <li><a href="../herramientas.html" class="text-gray-600 hover:text-[#0F172A] transition-colors">Tools</a></li>
+                    <li><span class="mx-2">/</span></li>
+                    <li class="text-gray-900 font-bold">Max Design Pressure</li>
+                </ol>
+            </nav>
 
-      <div class="title-box mb-8 relative z-10">
-        <h1 class="text-3xl font-bold text-gray-900 tracking-tight">
-          Maximum Design Pressure Calculator
-        </h1>
-        <p class="text-gray-500 mt-2 text-sm font-medium">
-          ASME B31.8-2022 &ndash; Steel Pipe Design Pressure
-        </p>
-      </div>
+            <div class="title-box mb-8 relative z-10">
+                <h1 class="text-3xl font-bold text-gray-900 tracking-tight">
+                    Maximum Design Pressure Calculator
+                </h1>
+                <p class="text-gray-500 mt-2 text-sm font-medium">
+                    ASME B31.8 Standards • Steel Pipe Design • Barlow's Formula
+                </p>
+            </div>
 
-      <div class="card">
-        <h2>Pipe Dimensions & Grade</h2>
-        <div class="input-row">
-          <div class="input-group">
-            <label for="pipeSize" class="required"
-              >Nominal Pipe Size (NPS):</label
-            >
-            <select id="pipeSize" onchange="updatePipeDimensions()" required>
-              <option value="">Select size</option>
-              <option value="0.125">NPS 1/8 (DN 6)</option>
-              <option value="0.25">NPS 1/4 (DN 8)</option>
-              <option value="0.375">NPS 3/8 (DN 10)</option>
-              <option value="0.5">NPS 1/2 (DN 15)</option>
-              <option value="0.75">NPS 3/4 (DN 20)</option>
-              <option value="1">NPS 1 (DN 25)</option>
-              <option value="1.25">NPS 1-1/4 (DN 32)</option>
-              <option value="1.5">NPS 1-1/2 (DN 40)</option>
-              <option value="2">NPS 2 (DN 50)</option>
-              <option value="2.5">NPS 2-1/2 (DN 65)</option>
-              <option value="3">NPS 3 (DN 80)</option>
-              <option value="3.5">NPS 3-1/2 (DN 90)</option>
-              <option value="4">NPS 4 (DN 100)</option>
-              <option value="5">NPS 5 (DN 125)</option>
-              <option value="6">NPS 6 (DN 150)</option>
-              <option value="8">NPS 8 (DN 200)</option>
-              <option value="10">NPS 10 (DN 250)</option>
-              <option value="12">NPS 12 (DN 300)</option>
-              <option value="14">NPS 14 (DN 350)</option>
-              <option value="16">NPS 16 (DN 400)</option>
-              <option value="18">NPS 18 (DN 450)</option>
-              <option value="20">NPS 20 (DN 500)</option>
-              <option value="22">NPS 22 (DN 550)</option>
-            <option value="24">NPS 24 (DN 600)</option>
-              <option value="30">NPS 30 (DN 750)</option>
-              <option value="32">NPS 32 (DN 800)</option>
-              <option value="34">NPS 34 (DN 850)</option>
-              <option value="36">NPS 36 (DN 900)</option>
-              <option value="42">NPS 42 (DN 1050)</option>
-            </select>
-          </div>
+            <!-- Input Card -->
+            <div class="card p-8 bg-white shadow-lg rounded-2xl border border-gray-100 mb-8">
+                <h2 class="text-lg font-bold text-gray-900 mb-6 border-b border-gray-100 pb-2">
+                    Pipe & Design Parameters
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 mb-8">
+                    <!-- NPS -->
+                    <div>
+                        <label for="pipeSize" class="block text-sm font-semibold text-gray-700 mb-1">Nominal Pipe Size (NPS)</label>
+                        <select id="pipeSize" class="w-full rounded-lg border-gray-300 border focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all text-sm py-2 px-3 shadow-sm bg-white" onchange="updatePipeDimensions()" required>
+                           <option value="">Select Size</option>
+                           <option value="0.125">NPS 1/8 (DN 6)</option>
+                           <option value="0.25">NPS 1/4 (DN 8)</option>
+                           <option value="0.375">NPS 3/8 (DN 10)</option>
+                           <option value="0.5">NPS 1/2 (DN 15)</option>
+                           <option value="0.75">NPS 3/4 (DN 20)</option>
+                           <option value="1">NPS 1 (DN 25)</option>
+                           <option value="1.25">NPS 1-1/4 (DN 32)</option>
+                           <option value="1.5">NPS 1-1/2 (DN 40)</option>
+                           <option value="2">NPS 2 (DN 50)</option>
+                           <option value="2.5">NPS 2-1/2 (DN 65)</option>
+                           <option value="3">NPS 3 (DN 80)</option>
+                           <option value="3.5">NPS 3-1/2 (DN 90)</option>
+                           <option value="4">NPS 4 (DN 100)</option>
+                           <option value="5">NPS 5 (DN 125)</option>
+                           <option value="6">NPS 6 (DN 150)</option>
+                           <option value="8">NPS 8 (DN 200)</option>
+                           <option value="10">NPS 10 (DN 250)</option>
+                           <option value="12">NPS 12 (DN 300)</option>
+                           <option value="14">NPS 14 (DN 350)</option>
+                           <option value="16">NPS 16 (DN 400)</option>
+                           <option value="18">NPS 18 (DN 450)</option>
+                           <option value="20">NPS 20 (DN 500)</option>
+                           <option value="22">NPS 22 (DN 550)</option>
+                           <option value="24">NPS 24 (DN 600)</option>
+                           <option value="30">NPS 30 (DN 750)</option>
+                           <option value="32">NPS 32 (DN 800)</option>
+                           <option value="34">NPS 34 (DN 850)</option>
+                           <option value="36">NPS 36 (DN 900)</option>
+                           <option value="42">NPS 42 (DN 1050)</option>
+                        </select>
+                        <div id="odBadge" class="hidden mt-2 inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
+                             OD: <span id="odVal" class="ml-1 font-bold">-</span>
+                        </div>
+                    </div>
 
-          <div class="input-group">
-            <label for="schedule" class="required">Schedule:</label>
-            <select
-              id="schedule"
-              onchange="updateWallThickness()"
-              disabled
-              required
-            >
-              <option value="">Select size first</option>
-            </select>
-          </div>
+                    <!-- Wall Thickness -->
+                    <div>
+                        <label for="schedule" class="block text-sm font-semibold text-gray-700 mb-1">Pipe Schedule</label>
+                        <select id="schedule" class="w-full rounded-lg border-gray-300 border focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all text-sm py-2 px-3 shadow-sm bg-white" onchange="updateWallThickness()" disabled required>
+                           <option value="">Select Size First</option>
+                        </select>
+                        <div id="wallBadge" class="hidden mt-2 inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-100">
+                             Wall Thickness (t): <span id="wallVal" class="ml-1 font-bold">-</span>
+                        </div>
+                    </div>
 
-          <div class="input-group">
-            <label for="pipeGrade" class="required">Pipe Grade:</label>
-            <select id="pipeGrade" onchange="updateSMYS()" required>
-              <option value="">Select grade</option>
-              <option value="A">API Grade A</option>
-              <option value="B">API Grade B</option>
-              <option value="X42">API Grade X42</option>
-              <option value="X52">API Grade X52</option>
-              <option value="X60">API Grade X60</option>
-              <option value="X65">API Grade X65</option>
-              <option value="X70">API Grade X70</option>
-            </select>
-          </div>
+                    <!-- Material Grade -->
+                    <div>
+                        <label for="pipeGrade" class="block text-sm font-semibold text-gray-700 mb-1">Material Grade</label>
+                        <select id="pipeGrade" class="w-full rounded-lg border-gray-300 border focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all text-sm py-2 px-3 shadow-sm bg-white" onchange="updateSMYS()" required>
+                            <option value="">Select Grade</option>
+                            <option value="A">API Grade A</option>
+                            <option value="B">API Grade B</option>
+                            <option value="X42">API Grade X42</option>
+                            <option value="X52">API Grade X52</option>
+                            <option value="X60">API Grade X60</option>
+                            <option value="X65">API Grade X65</option>
+                            <option value="X70">API Grade X70</option>
+                        </select>
+                        <div id="smysBadge" class="hidden mt-2 inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-purple-50 text-purple-700 border border-purple-100">
+                             SMYS: <span id="smysVal" class="ml-1 font-bold">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Location Class -->
+                     <div>
+                        <label for="locationClass" class="block text-sm font-semibold text-gray-700 mb-1">Location Class</label>
+                        <select id="locationClass" class="w-full rounded-lg border-gray-300 border focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all text-sm py-2 px-3 shadow-sm bg-white" onchange="updateDesignFactor()" required>
+                            <option value="">Select Class</option>
+                            <option value="1-div1">Class 1, Div 1</option>
+                            <option value="1-div2">Class 1, Div 2</option>
+                            <option value="2">Class 2</option>
+                            <option value="3">Class 3</option>
+                            <option value="4">Class 4</option>
+                        </select>
+                        <div id="dfBadge" class="hidden mt-2 inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-amber-50 text-amber-700 border border-amber-100">
+                             Design Factor (F): <span id="dfVal" class="ml-1 font-bold">-</span>
+                        </div>
+                    </div>
+
+                     <!-- Joint Factor -->
+                     <div>
+                        <label for="jointFactor" class="block text-sm font-semibold text-gray-700 mb-1">Joint Factor (E)</label>
+                        <select id="jointFactor" class="w-full rounded-lg border-gray-300 border focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all text-sm py-2 px-3 shadow-sm bg-white" required>
+                             <option value="">Select Joint Factor</option>
+                             <option value="1.00">1.00 - Seamless / ERW / DSAW / Flash Weld</option>
+                             <option value="0.80">0.80 - Spiral Weld (API 5L)</option>
+                             <option value="0.60">0.60 - Furnace Butt Weld / Continuous Weld</option>
+                             <option value="0.80">0.80 - Fusion Weld (ASTM A 134/A 139)</option>
+                        </select>
+                    </div>
+
+                     <!-- Temp Factor -->
+                     <div>
+                        <label for="tempFactor" class="block text-sm font-semibold text-gray-700 mb-1">Temperature Factor (T)</label>
+                        <select id="tempFactor" class="w-full rounded-lg border-gray-300 border focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all text-sm py-2 px-3 shadow-sm bg-white" required>
+                             <option value="">Select Temp Factor</option>
+                             <option value="1.0">1.0 (≤ 250°F)</option>
+                             <option value="0.967">0.967 (300°F)</option>
+                             <option value="0.933">0.933 (350°F)</option>
+                             <option value="0.900">0.900 (400°F)</option>
+                             <option value="0.867">0.867 (450°F)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Formula Visualization -->
+                <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-6 mb-8 flex flex-col items-center justify-center">
+                    <span class="text-xs text-indigo-500 font-bold uppercase tracking-wider mb-2">Design Pressure Formula (ASME B31.8)</span>
+                    <span class="font-serif text-2xl italic text-indigo-900 tracking-wide">
+                       P = (2 · S · t · F · E · T) / D
+                    </span>
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex gap-4">
+                    <button id="calculateBtn" onclick="calculatePressure()" class="flex-1 bg-[#0F172A] hover:bg-black text-[#D4E157] font-bold py-3 px-6 rounded-lg shadow-md transition-all transform hover:scale-[1.01] focus:ring-2 focus:ring-offset-2 focus:ring-gray-900">
+                        Calculate Pressure
+                    </button>
+                    <button onclick="clearFields()" class="px-6 py-3 bg-white text-gray-700 border border-gray-300 font-bold rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 transition-all">
+                        Clear
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Card -->
+             <div id="resultsCard" class="card p-8 bg-white shadow-lg rounded-2xl border border-gray-100 hidden">
+                <h2 class="text-lg font-bold text-gray-900 mb-6 border-b border-gray-100 pb-2 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Calculation Results
+                </h2>
+
+                <div id="formulaDetails" class="animate-fade-in-up">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
         </div>
-
-        <div class="input-row">
-          <div class="input-group">
-            <label>Outside Diameter (D):</label>
-            <input
-              type="text"
-              id="outsideDiameter"
-              readonly
-              placeholder='0.000"'
-            />
-          </div>
-          <div class="input-group">
-            <label>Wall Thickness (t):</label>
-            <input
-              type="text"
-              id="wallThickness"
-              readonly
-              placeholder='0.000"'
-            />
-          </div>
-          <div class="input-group">
-            <label>SMYS (S):</label>
-            <input type="text" id="pipeSMYS" readonly placeholder="0 psi" />
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>Design Factors</h2>
-        <div class="input-row">
-          <div class="input-group">
-            <label for="jointFactor" class="required">Joint Factor (E):</label>
-            <select id="jointFactor" required>
-              <option value="1.0">1.0 (Seamless, ERW, EFW, SAW)</option>
-              <option value="0.6">0.6 (Furnace Butt Weld & Others)</option>
-            </select>
-          </div>
-
-          <div class="input-group">
-            <label for="tempFactor" class="required">Temp Factor (T):</label>
-            <select id="tempFactor" required>
-              <option value="1.0">1.0 (=250&deg;F / 121&deg;C)</option>
-              <option value="0.967">0.967 (300&deg;F / 149&deg;C)</option>
-              <option value="0.933">0.933 (350&deg;F / 177&deg;C)</option>
-              <option value="0.900">0.900 (400&deg;F / 204&deg;C)</option>
-              <option value="0.867">0.867 (450&deg;F / 232&deg;C)</option>
-            </select>
-          </div>
-
-          <div class="input-group">
-            <label for="locationClass" class="required">Location Class:</label>
-            <select id="locationClass" onchange="updateDesignFactor()" required>
-              <option value="">Select class</option>
-              <option value="1-div1">Class 1, Div 1 (F=0.80)</option>
-              <option value="1-div2">Class 1, Div 2 (F=0.72)</option>
-              <option value="2">Class 2 (F=0.60)</option>
-              <option value="3">Class 3 (F=0.50)</option>
-              <option value="4">Class 4 (F=0.40)</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="input-row">
-          <div class="input-group">
-            <label>Design Factor (F):</label>
-            <input type="text" id="designFactor" readonly placeholder="0.00" />
-          </div>
-          <div class="input-group"></div>
-          <!-- Spacer -->
-          <div class="input-group"></div>
-          <!-- Spacer -->
-        </div>
-
-        <div class="calculation-formula">
-          <strong>Formula:</strong> P = (2 &times; t &times; S &times; F &times; E &times; T) / D <br />where
-          P = max design pressure (psi), t = wall thickness (in), S = SMYS
-          (psi), F = design factor, E = joint factor, T = temp factor, D =
-          outside diameter (in).
-        </div>
-
-        <div class="flex gap-4">
-          <button id="calculateBtn" class="flex-1" onclick="calculatePressure()">
-            Calculate Design Pressure
-          </button>
-          <button class="bg-gray-500 hover:bg-gray-600" onclick="clearFields()">
-            Clear
-          </button>
-        </div>
-      </div>
-
-      <div class="card" id="resultsCard" style="display: none">
-        <h2>Calculation Results</h2>
-        <div class="factors-info" style="border-left-color: var(--primary)">
-          <p style="font-size: 1.1rem">
-            Maximum Design Pressure (P):
-            <span
-              id="maxPressureValue"
-              class="factor-value"
-              style="font-size: 2rem; color: var(--danger)"
-              >0</span
-            >
-            <span style="font-size: 1.2rem; color: var(--danger)">psi</span>
-          </p>
-        </div>
-
-        <div class="calculation-formula" id="formulaDetails">
-          <!-- Formula details will be inserted here -->
-        </div>
-
-        <div class="calculation-formula" id="formulaDetails">
-          <!-- Formula details will be inserted here -->
-        </div>
-      </div>    </div>
-
-    <!-- Footer -->
-</section>
+    </section>
 </main>
     <!-- Footer Pro -->
     <footer id="contact" class="bg-gray-900 text-white border-t-4 border-[#008F4C]">
@@ -893,13 +846,15 @@
       function updatePipeDimensions() {
         const pipeSize = document.getElementById("pipeSize").value;
         const scheduleSelect = document.getElementById("schedule");
-        const odField = document.getElementById("outsideDiameter");
+        const odBadge = document.getElementById("odBadge");
+        const odVal = document.getElementById("odVal");
 
         scheduleSelect.innerHTML = '<option value="">Select Schedule</option>';
 
         if (pipeSize && pipeDimensions[pipeSize]) {
           const pipe = pipeDimensions[pipeSize];
-          odField.value = pipe.OD.toFixed(3) + '"';
+          odBadge.classList.remove("hidden");
+          odVal.textContent = pipe.OD.toFixed(3) + '"';
 
           const availableSchedules = Object.keys(pipe.schedules);
           const ordered = scheduleOrder.filter(s => availableSchedules.includes(s));
@@ -914,41 +869,60 @@
           });
           scheduleSelect.disabled = false;
         } else {
-          odField.value = "";
+          odBadge.classList.add("hidden");
+          odVal.textContent = "-";
           scheduleSelect.disabled = true;
+          document.getElementById("wallBadge").classList.add("hidden");
         }
-        document.getElementById("wallThickness").value = "";
       }
 
       function updateWallThickness() {
         const pipeSize = document.getElementById("pipeSize").value;
         const schedule = document.getElementById("schedule").value;
-        const wallField = document.getElementById("wallThickness");
+        const wallBadge = document.getElementById("wallBadge");
+        const wallVal = document.getElementById("wallVal");
         
         if (pipeSize && schedule && pipeDimensions[pipeSize]) {
            const schEntry = pipeDimensions[pipeSize].schedules[schedule];
            if (schEntry && schEntry.t !== undefined) {
-             wallField.value = schEntry.t.toFixed(3) + '"';
+             wallBadge.classList.remove("hidden");
+             wallVal.textContent = schEntry.t.toFixed(3) + '"';
            } else {
-             wallField.value = "";
+             wallBadge.classList.add("hidden");
+             wallVal.textContent = "-";
            }
         } else {
-          wallField.value = "";
+          wallBadge.classList.add("hidden");
+          wallVal.textContent = "-";
         }
       }
 
       function updateSMYS() {
         const grade = document.getElementById("pipeGrade").value;
-        const smysField = document.getElementById("pipeSMYS");
-        if (grade && materialGrades[grade]) smysField.value = materialGrades[grade].toLocaleString() + " psi";
-        else smysField.value = "";
+        const smysBadge = document.getElementById("smysBadge");
+        const smysVal = document.getElementById("smysVal");
+        
+        if (grade && materialGrades[grade]) {
+            smysBadge.classList.remove("hidden");
+            smysVal.textContent = materialGrades[grade].toLocaleString() + " psi";
+        } else {
+            smysBadge.classList.add("hidden");
+            smysVal.textContent = "-";
+        }
       }
 
       function updateDesignFactor() {
         const locationClass = document.getElementById("locationClass").value;
-        const designFactorField = document.getElementById("designFactor");
-        if (locationClass && designFactors[locationClass]) designFactorField.value = designFactors[locationClass].toFixed(2);
-        else designFactorField.value = "";
+        const dfBadge = document.getElementById("dfBadge");
+        const dfVal = document.getElementById("dfVal");
+        
+        if (locationClass && designFactors[locationClass]) {
+            dfBadge.classList.remove("hidden");
+            dfVal.textContent = designFactors[locationClass].toFixed(2);
+        } else {
+            dfBadge.classList.add("hidden");
+            dfVal.textContent = "-";
+        }
       }
 
       function calculatePressure() {
@@ -956,10 +930,22 @@
         const grade = document.getElementById("pipeGrade").value;
         const locClass = document.getElementById("locationClass").value;
         const schedule = document.getElementById("schedule").value;
+        const jointFactor = document.getElementById("jointFactor").value;
+        const tempFactor = document.getElementById("tempFactor").value;
 
         if (!pipeSize || !grade || !locClass || !schedule) {
-           alert("Please complete all required fields.");
-           return;
+           // Simple alert or shake effect could be added here
+           const inputs = document.querySelectorAll("select:required");
+           let valid = true;
+           inputs.forEach(input => {
+               if (!input.value) {
+                   input.classList.add("border-red-500", "ring-1", "ring-red-200");
+                   valid = false;
+               } else {
+                   input.classList.remove("border-red-500", "ring-1", "ring-red-200");
+               }
+           });
+           if (!valid) return;
         }
 
         const pipeEntry = pipeDimensions[pipeSize];
@@ -974,51 +960,103 @@
         const D = pipeEntry.OD;
         const S = materialGrades[grade];
         const F = designFactors[locClass];
-        const E = parseFloat(document.getElementById("jointFactor").value);
-        const T = parseFloat(document.getElementById("tempFactor").value);
+        const E = parseFloat(jointFactor);
+        const T = parseFloat(tempFactor);
 
-        const P_max = (2 * t * S * F * E * T) / D;
+        const P_max = (2 * S * t * F * E * T) / D;
 
-        document.getElementById("resultsCard").style.display = "block";
-        document.getElementById("maxPressureValue").textContent = Math.round(P_max).toLocaleString();
-
+        // Display results
+        const resultsCard = document.getElementById("resultsCard");
+        resultsCard.style.display = "block";
+        resultsCard.classList.remove("hidden");
+        
+        // Counter animation for number could be nice, but simple text is fine for vanilla
+        // Calculate Results Content
         const html = `
-                <div class="overflow-x-auto">
-                  <table class="w-full text-sm text-left text-gray-500">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                        <tr><th class="px-6 py-3">Parameter</th><th class="px-6 py-3">Value</th><th class="px-6 py-3">Description</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr class="bg-white border-b"><td class="px-6 py-4 font-medium text-gray-900">D (Diameter)</td><td class="px-6 py-4">${D.toFixed(3)}"</td><td class="px-6 py-4">Outside Diameter</td></tr>
-                        <tr class="bg-white border-b"><td class="px-6 py-4 font-medium text-gray-900">t (Thickness)</td><td class="px-6 py-4">${t.toFixed(4)}"</td><td class="px-6 py-4">Wall Thickness</td></tr>
-                        <tr class="bg-white border-b"><td class="px-6 py-4 font-medium text-gray-900">S (SMYS)</td><td class="px-6 py-4">${S.toLocaleString()} psi</td><td class="px-6 py-4">Specified Minimum Yield Strength</td></tr>
-                        <tr class="bg-white border-b"><td class="px-6 py-4 font-medium text-gray-900">F (Design)</td><td class="px-6 py-4">${F.toFixed(2)}</td><td class="px-6 py-4">Design Factor</td></tr>
-                        <tr class="bg-white border-b"><td class="px-6 py-4 font-medium text-gray-900">E (Joint)</td><td class="px-6 py-4">${E.toFixed(2)}</td><td class="px-6 py-4">Longitudinal Joint Factor</td></tr>
-                        <tr class="bg-white border-b"><td class="px-6 py-4 font-medium text-gray-900">T (Temp)</td><td class="px-6 py-4">${T.toFixed(3)}</td><td class="px-6 py-4">Temperature Derating Factor</td></tr>
-                    </tbody>
-                  </table>
+                <!-- Main Result -->
+                <div class="mb-8 text-center bg-gray-50 rounded-2xl p-8 border border-gray-100 relative group hover:border-blue-200 transition-colors">
+                    <div class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-2">Maximum Allowable Operating Pressure</div>
+                    <div class="text-5xl font-black text-blue-600 mb-2 tracking-tight group-hover:scale-105 transition-transform">${Math.round(P_max).toLocaleString()}</div>
+                    <div class="text-sm text-gray-400 font-medium bg-white inline-block px-3 py-1 rounded-full border border-gray-200 shadow-sm">MAOP (psi)</div>
                 </div>
-                <div class="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                    <h4 class="text-sm font-bold text-gray-900 uppercase mb-2">Calculation Step-by-Step</h4>
-                    <p class="font-mono text-sm text-gray-700 mb-2">P = (2 &times; S &times; t &times; F &times; E &times; T) / D</p>
-                    <p class="font-mono text-sm text-gray-700 mb-2">P = (2 &times; ${S} &times; ${t.toFixed(4)} &times; ${F} &times; ${E} &times; ${T}) / ${D.toFixed(3)}</p>
-                    <p class="font-mono text-sm text-gray-700 mb-4">P = ${(2 * t * S * F * E * T).toFixed(2)} / ${D.toFixed(3)}</p>
-                    <div class="flex items-center gap-3 pt-4 border-t border-gray-200">
-                        <span class="text-xs font-bold text-gray-500 uppercase">Calculated Result:</span>
-                        <span class="text-xl font-bold text-[#008F4C]">${Math.round(P_max).toLocaleString()} psi</span>
+
+                <div class="mb-8">
+                    <h4 class="text-xs font-bold text-gray-500 uppercase mb-4 flex items-center gap-2">
+                        <div class="w-1 h-4 bg-secondary rounded-full"></div> Design Parameters
+                    </h4>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                        <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="text-xs font-semibold text-gray-400 mb-1">SMYS (S)</div>
+                            <div class="text-lg font-bold text-gray-800">${S.toLocaleString()}</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="text-xs font-semibold text-gray-400 mb-1">Thick (t)</div>
+                            <div class="text-lg font-bold text-gray-800">${t.toFixed(3)}</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="text-xs font-semibold text-gray-400 mb-1">Design (F)</div>
+                            <div class="text-lg font-bold text-gray-800">${F.toFixed(2)}</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="text-xs font-semibold text-gray-400 mb-1">Joint (E)</div>
+                            <div class="text-lg font-bold text-gray-800">${E.toFixed(2)}</div>
+                        </div>
+                         <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="text-xs font-semibold text-gray-400 mb-1">Temp (T)</div>
+                            <div class="text-lg font-bold text-gray-800">${T.toFixed(3)}</div>
+                        </div>
+                         <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="text-xs font-semibold text-gray-400 mb-1">Diam (D)</div>
+                            <div class="text-lg font-bold text-gray-800">${D.toFixed(3)}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-6 text-sm text-slate-700 leading-relaxed shadow-inner">
+                    <h4 class="text-xs font-bold text-indigo-600 uppercase mb-3 tracking-wide border-b border-indigo-100 pb-2">Step-by-Step Substitution</h4>
+                    <div class="space-y-3 font-sans">
+                        <div class="flex items-center gap-2 text-gray-600">
+                            <span class="font-bold text-gray-400 w-6">1.</span>
+                            <span>P = (2 · S · t · F · E · T) / D</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-gray-700 pl-4 border-l-2 border-indigo-200">
+                            <span class="font-bold text-gray-400 w-6">2.</span>
+                             <span>P = (2 · ${S} · ${t} · ${F} · ${E} · ${T}) / ${D}</span>
+                        </div>
+                         <div class="flex items-center gap-2 text-gray-700 pl-4 border-l-2 border-indigo-200">
+                            <span class="font-bold text-gray-400 w-6">3.</span>
+                            <span>P = ${(2 * S * t * F * E * T).toFixed(3)} / ${D}</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-blue-800 font-bold pl-4 border-l-4 border-blue-500 bg-blue-50 py-2 rounded-r pr-4 shadow-sm mt-2">
+                            <span class="text-blue-400 w-6">4.</span>
+                            <span>P = ${P_max.toFixed(2)} psi</span>
+                        </div>
                     </div>
                 </div>`;
         
         document.getElementById("formulaDetails").innerHTML = html;
-        document.getElementById("resultsCard").scrollIntoView({ behavior: "smooth" });
+        resultsCard.scrollIntoView({ behavior: "smooth" });
       }
 
       function clearFields() {
-        document.querySelectorAll("select").forEach((s) => (s.selectedIndex = 0));
-        updatePipeDimensions();
-        updateSMYS();
-        updateDesignFactor();
-        document.getElementById("resultsCard").style.display = "none";
+        document.querySelectorAll("select").forEach((s) => {
+            s.selectedIndex = 0;
+            s.classList.remove("border-red-500", "ring-1", "ring-red-200");
+        });
+        
+        // Hide all badges
+        document.getElementById("odBadge").classList.add("hidden");
+        document.getElementById("wallBadge").classList.add("hidden");
+        document.getElementById("smysBadge").classList.add("hidden");
+        document.getElementById("dfBadge").classList.add("hidden");
+        
+        document.getElementById("schedule").disabled = true;
+        
+        const resultsCard = document.getElementById("resultsCard");
+        resultsCard.classList.add("hidden");
+        resultsCard.style.display = "none";
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
       document.addEventListener("DOMContentLoaded", () => {

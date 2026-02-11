@@ -323,8 +323,11 @@
                             Longitudinal Joint Factor (E) <span class="text-red-500">*</span>
                         </label>
                         <select id="jointFactor" required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-green-600 focus:ring-green-600 transition-all py-2.5 px-3 bg-white text-gray-900">
-                            <option value="1.0">1.0 (Seamless, ERW, EFW, SAW)</option>
-                            <option value="0.6">0.6 (Furnace Butt Weld & Others)</option>
+                            <option value="">Select joint factor</option>
+                            <option value="1.00">1.00 - Seamless / ERW / DSAW / Flash Weld</option>
+                            <option value="0.80">0.80 - Spiral Weld (API 5L)</option>
+                            <option value="0.60">0.60 - Furnace Butt Weld / Continuous Weld</option>
+                            <option value="0.80">0.80 - Fusion Weld (ASTM A 134/A 139)</option>
                         </select>
                     </div>
 
@@ -333,6 +336,7 @@
                             Temperature Factor (T) <span class="text-red-500">*</span>
                         </label>
                         <select id="tempFactor" required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-green-600 focus:ring-green-600 transition-all py-2.5 px-3 bg-white text-gray-900">
+                            <option value="">Select temp factor</option>
                             <option value="1.0">&le; 250&deg;F (121&deg;C) (T=1.000)</option>
                             <option value="0.967">300&deg;F (149&deg;C) (T=0.967)</option>
                             <option value="0.933">350&deg;F (177&deg;C) (T=0.933)</option>

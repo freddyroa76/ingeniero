@@ -271,7 +271,7 @@
                     </div>
                     <div class="input-group">
                       <label for="effM" class="text-xs text-gray-600">Mechanical Eff (?m)</label>
-                      <input type="number" id="effM" value="0.95" step="0.01" class="text-sm py-1" />
+                      <input type="number" id="effM" placeholder="0.95" step="0.01" class="text-sm py-1" />
                     </div>
                 </div>
 
@@ -716,8 +716,8 @@
                        step="0.000001" 
                        min="0" 
                        max="1" 
-                       placeholder="0.000000"
-                       value="0">
+                       max="1" 
+                       placeholder="0.000000">
             </div>
             <div class="text-gray-400 font-mono text-[10px]">${compData.MW.toFixed(1)}</div>
           `;
@@ -768,7 +768,7 @@
         const t1f = parseFloat(document.getElementById("t1").value);
         const flow = parseFloat(document.getElementById("flow").value);
         const compType = document.getElementById("compType").value;
-        const nm = parseFloat(document.getElementById("effM").value);        
+        const nm = parseFloat(document.getElementById("effM").value) || 0.95;        
 
         if ([p1_g, p2_g, t1f, flow].some(isNaN)) {
           alert("Please fill all operational parameters.");

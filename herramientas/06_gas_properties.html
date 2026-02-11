@@ -630,7 +630,8 @@
                        min="0" 
                        max="1" 
                        placeholder="0.000000"
-                       value="0">
+                       max="1" 
+                       placeholder="0.000000">
             </div>
             <div class="h-6 w-full bg-gray-100 rounded overflow-hidden flex items-center px-1">
                 <div class="h-4 bg-green-500 rounded-sm transition-all duration-300 comp-bar" style="width: 0%"></div>
@@ -737,7 +738,7 @@
       function calculate() {
         const popg = parseFloat(document.getElementById("pOp").value); // psig
         const topf = parseFloat(document.getElementById("tOp").value); // &deg;F
-        const patm = parseFloat(document.getElementById("pAtm").value); // psia
+        const patm = parseFloat(document.getElementById("pAtm").value) || 14.7; // psia
         
         if (isNaN(popg) || isNaN(topf) || isNaN(patm)) {
           alert("Por favor ingrese Presi&oacute;n y Temperatura de operaci�n y Presi&oacute;n Atmosf�rica.");

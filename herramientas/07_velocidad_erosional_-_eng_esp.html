@@ -1070,8 +1070,8 @@
                        step="0.000001" 
                        min="0" 
                        max="1" 
-                       placeholder="0.0"
-                       value="0">
+                       max="1" 
+                       placeholder="0.0">
             </div>
             <div class="w-16 text-center font-mono text-xs text-gray-500">${compData.MW.toFixed(1)}</div>
             <div class="w-16 text-center font-mono text-xs text-gray-500">${Math.round(compData.Pc)}</div>
@@ -1274,8 +1274,8 @@
         const popg = parseFloat(document.getElementById("pOp").value);
         const topf = parseFloat(document.getElementById("tOp").value);
         const flow = parseFloat(document.getElementById("flow").value);
-        const patm = parseFloat(document.getElementById("pAtm").value);
-        const cConst = parseFloat(document.getElementById("cConst").value);
+        const patm = parseFloat(document.getElementById("pAtm").value) || 14.7;
+        const cConst = parseFloat(document.getElementById("cConst").value) || 100;
         const id = parseFloat(document.getElementById("idVal").textContent);
 
         if ([popg, topf, flow, patm, id].some(isNaN)) {
