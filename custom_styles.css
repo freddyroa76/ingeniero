@@ -641,3 +641,84 @@ table tr:hover td {
   font-weight: 600;
   color: var(--text-heading);
 }
+
+/* ---------------------------------------------------- */
+/* PRINT MEDIA STYLES - "Memoria de Cálculo"            */
+/* ---------------------------------------------------- */
+@media print {
+  /* Hide UI elements not needed in report */
+  header, nav, footer, .no-print, 
+  .btn-contact-custom, #mobile-menu-button, #mobile-nav,
+  button, .input-group button, #calculateBtn, #clearBtn, 
+  .print-btn-hide, .floating-whatsapp {
+    display: none !important;
+  }
+  
+  /* Reset body for paper */
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 11pt;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Expand containers */
+  .container, .max-w-7xl, .w-full, main, section {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: auto !important;
+  }
+
+  /* Card styling for clean print */
+  .card {
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+    margin-bottom: 20px !important;
+    break-inside: avoid; /* Prevent splitting cards across pages */
+  }
+
+  /* Inputs: Show values as text */
+  input, select, textarea {
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    font-weight: bold;
+    color: black !important;
+    /* Attempt to remove arrow from selects */
+    appearance: none; 
+    -webkit-appearance: none;
+  }
+  
+  /* Hide placeholders if empty? Hard to do with CSS only, but values will show */
+
+  /* Ensure colors print */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Show the injected footer */
+  #print-footer {
+    display: block !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-top: 2px solid #008F4C;
+    padding-top: 10px;
+    background: white;
+    z-index: 9999;
+  }
+  
+  /* Adjust main content to not overlap footer */
+  body {
+    padding-bottom: 50px !important;
+  }
+}
+
+/* Hide print footer on screen */
+#print-footer { display: none; }
