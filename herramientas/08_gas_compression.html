@@ -284,7 +284,25 @@
                     </div>
                     <div class="input-group">
                       <label for="effM" class="text-xs text-gray-600">Mechanical Eff (&eta;m)</label>
-                      <input type="number" id="effM" placeholder="0.95" step="0.01" class="text-sm py-1" />
+                      <select id="effM" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 font-mono text-sm py-1">
+                        <option value="0.97">97% &mdash; Electric motor (direct)</option>
+                        <option value="0.95">95% &mdash; Electric motor + gearbox</option>
+                        <option value="0.93">93% &mdash; Gas turbine</option>
+                        <option value="0.91">91% &mdash; Gas turbine + gearbox</option>
+                        <option value="0.92">92% &mdash; Gas engine</option>
+                        <option value="0.90" selected>90% &mdash; Gas engine + gearbox</option>
+                      </select>
+                    </div>
+                    <div class="input-group">
+                      <label for="effMPenalty" class="text-xs text-gray-600">Derating Factor</label>
+                      <select id="effMPenalty" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 font-mono text-sm py-1">
+                        <option value="0" selected>0% &mdash; New / optimal condition</option>
+                        <option value="0.01">-1% &mdash; Good condition</option>
+                        <option value="0.02">-2% &mdash; Normal wear</option>
+                        <option value="0.03">-3% &mdash; Aged equipment</option>
+                        <option value="0.05">-5% &mdash; Conservative / end of life</option>
+                      </select>
+                      <p class="text-[10px] text-gray-400 mt-1">Additional penalty for aging, fouling or conservative design</p>
                     </div>
                 </div>
 
@@ -663,7 +681,9 @@
         const t1f = parseFloat(document.getElementById("t1").value);
         const flow = parseFloat(document.getElementById("flow").value);
         const compType = document.getElementById("compType").value;
-        const nm = parseFloat(document.getElementById("effM").value) || 0.95;        
+        const nm_base = parseFloat(document.getElementById("effM").value) || 0.90;
+        const nm_penalty = parseFloat(document.getElementById("effMPenalty").value) || 0;
+        const nm = nm_base - nm_penalty;
 
         if ([p1_g, p2_g, t1f, flow].some(isNaN)) {
           alert("Please fill all operational parameters.");
@@ -1024,7 +1044,11 @@
         document.getElementById("massVal").textContent = m_dot_hr.toLocaleString(undefined, { maximumFractionDigits: 0 });
         
         document.getElementById("flowValDisplay").textContent = flow.toFixed(2);
-        document.getElementById("mechEffDisplay").textContent = (nm * 100).toFixed(1) + "%";
+        let mechEffText = (nm * 100).toFixed(1) + "%";
+        if (nm_penalty > 0) {
+            mechEffText += " <span class='text-[10px] font-normal text-gray-400 ml-1'>(" + (nm_base*100).toFixed(0) + "% - " + (nm_penalty*100).toFixed(0) + "% derating)</span>";
+        }
+        document.getElementById("mechEffDisplay").innerHTML = mechEffText;
 
         // Stage Breakdown Table (only if multi-stage)
         let stageSection = document.getElementById("stageBreakdown");
@@ -1074,7 +1098,7 @@
                     </tbody>
                 </table>
                 </div>
-                <p class="text-[10px] text-gray-400 mt-2">* Intercooler assumed: gas cooled to T1 + 15&deg;F between stages</p>
+                <p class="text-[10px] text-gray-400 mt-2">* Intercooler: gas cooled to T<sub>suction</sub> + ${intercoolApproach}&deg;F between stages</p>
             </div>`;
             stageSection.innerHTML = tableHTML;
         } else {
