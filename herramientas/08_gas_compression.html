@@ -185,7 +185,7 @@
             Gas Compression Expert
         </h1>
         <p class="text-gray-500 mt-2 text-sm font-medium">
-            Dise&ntilde;o de estaciones compresoras seg�n GPSA Sec. 13 & API 617/618. 
+            Dise&ntilde;o de estaciones compresoras seg&uacute;n GPSA Sec. 13 &amp; API 617/618. 
         </p>
       </div>
 
@@ -262,15 +262,28 @@
                     <option value="centrifugal">Centrifugal</option>
                   </select>
                 </div>
+
+                <div id="intercoolerGroup" class="input-group hidden">
+                  <label for="intercoolApproach" class="text-xs text-gray-600">Intercooler Approach &Delta;T <span class="text-gray-400">(multi-stage only)</span></label>
+                  <select id="intercoolApproach" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 font-mono text-sm py-2">
+                    <option value="15" selected>15&deg;F &mdash; Water-cooled (typical)</option>
+                    <option value="10">10&deg;F &mdash; Water-cooled (efficient)</option>
+                    <option value="20">20&deg;F &mdash; Water-cooled (conservative)</option>
+                    <option value="25">25&deg;F &mdash; Air-cooled (efficient)</option>
+                    <option value="30">30&deg;F &mdash; Air-cooled (typical)</option>
+                    <option value="40">40&deg;F &mdash; Air-cooled (hot climate)</option>
+                  </select>
+                  <p class="text-[10px] text-gray-400 mt-1">&deg;F above T<sub>suction</sub>. Only applies when Rc requires multiple stages.</p>
+                </div>
                 
                 <div class="grid grid-cols-2 gap-4 pt-2">
                     <div class="input-group">
-                      <label for="effA" class="text-xs text-gray-600">Adiabatic Eff (?a)</label>
+                      <label for="effA" id="effALabel" class="text-xs text-gray-600">Efficiency (&eta;)</label>
                       <input type="number" id="effA" placeholder="Auto" readonly class="text-sm py-1 bg-gray-50 text-gray-500 cursor-not-allowed" />
-                      <p class="text-[10px] text-gray-400 mt-1">Estimated by GPSA based on Type & Rc</p>
+                      <p class="text-[10px] text-gray-400 mt-1">Estimated by GPSA based on Type &amp; Rc</p>
                     </div>
                     <div class="input-group">
-                      <label for="effM" class="text-xs text-gray-600">Mechanical Eff (?m)</label>
+                      <label for="effM" class="text-xs text-gray-600">Mechanical Eff (&eta;m)</label>
                       <input type="number" id="effM" placeholder="0.95" step="0.01" class="text-sm py-1" />
                     </div>
                 </div>
@@ -354,7 +367,7 @@
                 <!-- Head -->
                 <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-inner flex flex-col justify-between h-32">
                      <div>
-                        <p class="text-gray-500 text-xs font-bold uppercase tracking-wider mb-1">Isentropic Head</p>
+                        <p id="headLabel" class="text-gray-500 text-xs font-bold uppercase tracking-wider mb-1">Isentropic Head</p>
                         <div class="flex items-baseline gap-2">
                             <span id="headVal" class="text-3xl font-bold text-gray-700">-</span>
                         </div>
@@ -377,11 +390,19 @@
                             <span class="text-base font-bold text-gray-800" id="rcVal">-</span>
                          </div>
                          <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                            <span class="text-sm text-gray-600 font-medium">Adiabatic Eff. (?a)</span>
+                            <span class="text-sm text-gray-600 font-medium" id="effLabel">Adiabatic Eff. (&eta;a)</span>
                             <span class="text-base font-bold text-blue-600" id="effUsed">-</span>
                          </div>
+                         <div id="polyEffRow" class="flex justify-between items-center py-2 border-b border-gray-100 hidden">
+                            <span class="text-sm text-gray-600 font-medium">Polytropic Eff. (&eta;p)</span>
+                            <span class="text-base font-bold text-purple-600" id="polyEffDisplay">-</span>
+                         </div>
+                         <div id="stagesRow" class="flex justify-between items-center py-2 border-b border-gray-100 hidden">
+                            <span class="text-sm text-gray-600 font-medium" id="stagesLabel">Stages</span>
+                            <span class="text-base font-bold text-gray-800" id="stagesDisplay">-</span>
+                         </div>
                          <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                            <span class="text-sm text-gray-600 font-medium">Mech. Efficiency (?m)</span>
+                            <span class="text-sm text-gray-600 font-medium">Mech. Efficiency (&eta;m)</span>
                             <span class="text-base font-bold text-gray-800" id="mechEffDisplay">95.0%</span>
                          </div>
                     </div>
@@ -446,7 +467,7 @@
           <div>
             <h3 class="text-xl font-bold font-heading mb-4 text-[#D4E157]">Freddy Roa Monsalvo</h3>
             <p class="text-gray-400 text-sm leading-relaxed mb-4">
-              Ingeniero Mec&aacute;nico Senior especializado en proyectos de infraestructura energ&eacute;tica, dise�o de estaciones compresoras y gesti&oacute;n de activos con RCM2.
+              Ingeniero Mec&aacute;nico Senior especializado en proyectos de infraestructura energ&eacute;tica, dise&ntilde;o de estaciones compresoras y gesti&oacute;n de activos con RCM2.
             </p>
             <div class="flex space-x-4">
                <!-- LinkedIn -->
@@ -520,133 +541,8 @@
         />
       </svg>
     </a>
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        // Header scroll effect
-        const header = document.querySelector("header");
-        if (header) {
-          window.addEventListener("scroll", () => {
-            if (window.scrollY > 10) {
-              header.classList.add("bg-surface", "shadow-md");
-              if (header.classList.contains("bg-transparent")) { 
-                  header.classList.remove("bg-transparent");
-              }
-            } else {
-              header.classList.add("bg-surface", "shadow-md"); 
-            }
-          });
-        }
 
-        // Mobile Menu Toggle
-        const mobileMenuButton = document.getElementById("mobile-menu-button");
-        const mobileMenu = document.getElementById("mobile-menu");
-        const menuIcon = document.getElementById("menu-icon");
-        const closeIcon = document.getElementById("close-icon");
-        const mobileToolsToggle = document.getElementById("mobile-tools-toggle");
-        const mobileToolsMenu = document.getElementById("mobile-tools-menu");
-        const mobileToolsArrow = document.getElementById("mobile-tools-arrow");
 
-        if (mobileMenuButton && mobileMenu) {
-          mobileMenuButton.addEventListener("click", () => {
-            const isExpanded = mobileMenuButton.getAttribute("aria-expanded") === "true";
-            mobileMenu.classList.toggle("hidden");
-            menuIcon.classList.toggle("hidden");
-            closeIcon.classList.toggle("hidden");
-            mobileMenuButton.setAttribute("aria-expanded", !isExpanded);
-          });
-
-          if (mobileToolsToggle && mobileToolsMenu) {
-            mobileToolsToggle.addEventListener("click", (e) => {
-              e.preventDefault();
-              mobileToolsMenu.classList.toggle("hidden");
-              if (mobileToolsArrow) mobileToolsArrow.classList.toggle("rotate-180");
-            });
-          }
-
-          const mobileLinks = mobileMenu.querySelectorAll("a");
-          mobileLinks.forEach((link) => {
-            if (link.id !== "mobile-tools-toggle") {
-              link.addEventListener("click", () => {
-                mobileMenu.classList.add("hidden");
-                menuIcon.classList.remove("hidden");
-                closeIcon.classList.add("hidden");
-                mobileMenuButton.setAttribute("aria-expanded", "false");
-              });
-            }
-          });
-        }
-
-        // Update copyright year
-        const yearSpan = document.querySelector(".copyright-year");
-        if (yearSpan) {
-          yearSpan.textContent = new Date().getFullYear();
-        }
-      });
-    </script>
-  </body>
-<script>
-      document.addEventListener("DOMContentLoaded", () => {
-        // Header scroll effect
-        const header = document.querySelector("header");
-        if (header) {
-          window.addEventListener("scroll", () => {
-            if (window.scrollY > 10) {
-              header.classList.add("bg-surface", "shadow-md");
-              if (header.classList.contains("bg-transparent")) { 
-                  header.classList.remove("bg-transparent");
-              }
-            } else {
-              header.classList.add("bg-surface", "shadow-md"); 
-            }
-          });
-        }
-
-        // Mobile Menu Toggle
-        const mobileMenuButton = document.getElementById("mobile-menu-button");
-        const mobileMenu = document.getElementById("mobile-menu");
-        const menuIcon = document.getElementById("menu-icon");
-        const closeIcon = document.getElementById("close-icon");
-        const mobileToolsToggle = document.getElementById("mobile-tools-toggle");
-        const mobileToolsMenu = document.getElementById("mobile-tools-menu");
-        const mobileToolsArrow = document.getElementById("mobile-tools-arrow");
-
-        if (mobileMenuButton && mobileMenu) {
-          mobileMenuButton.addEventListener("click", () => {
-            const isExpanded = mobileMenuButton.getAttribute("aria-expanded") === "true";
-            mobileMenu.classList.toggle("hidden");
-            menuIcon.classList.toggle("hidden");
-            closeIcon.classList.toggle("hidden");
-            mobileMenuButton.setAttribute("aria-expanded", !isExpanded);
-          });
-
-          if (mobileToolsToggle && mobileToolsMenu) {
-            mobileToolsToggle.addEventListener("click", (e) => {
-              e.preventDefault();
-              mobileToolsMenu.classList.toggle("hidden");
-              if (mobileToolsArrow) mobileToolsArrow.classList.toggle("rotate-180");
-            });
-          }
-
-          const mobileLinks = mobileMenu.querySelectorAll("a");
-          mobileLinks.forEach((link) => {
-            if (link.id !== "mobile-tools-toggle") {
-              link.addEventListener("click", () => {
-                mobileMenu.classList.add("hidden");
-                menuIcon.classList.remove("hidden");
-                closeIcon.classList.add("hidden");
-                mobileMenuButton.setAttribute("aria-expanded", "false");
-              });
-            }
-          });
-        }
-
-        // Update copyright year
-        const yearSpan = document.querySelector(".copyright-year");
-        if (yearSpan) {
-          yearSpan.textContent = new Date().getFullYear();
-        }
-      });
-    </script>
 <script>
       // GPSA Engineering Data Book & NIST Standard Values
       // Ordered for vertical display: Non-hydrocarbons -> Hydrocarbons (C1-C10)
@@ -716,7 +612,6 @@
                        step="0.000001" 
                        min="0" 
                        max="1" 
-                       max="1" 
                        placeholder="0.000000">
             </div>
             <div class="text-gray-400 font-mono text-[10px]">${compData.MW.toFixed(1)}</div>
@@ -774,39 +669,85 @@
           alert("Please fill all operational parameters.");
           return;
         }
+        if (p1_g < 0 || p2_g < 0 || flow <= 0) {
+          alert("Pressures must be >= 0 and Flow must be > 0.");
+          return;
+        }
 
-        // Convert Gauge to Absolute for Calculations (Standard 14.7 psi atm)
+        // Convert Gauge to Absolute (Standard 14.7 psia atmosphere)
         const p1 = p1_g + 14.7;
         const p2 = p2_g + 14.7;
 
-        const rc = p2 / p1;
+        if (p2 <= p1) {
+          alert("Discharge pressure must be greater than suction pressure.");
+          return;
+        }
+
+        // Overall compression ratio
+        const rc_overall = p2 / p1;
         
-        // Estimate Adiabatic Efficiency based on Type & Ratio
-        let na_used;
+        // --- MULTI-STAGE LOGIC per GPSA Sec 13 ---
+        // Max Rc per stage: Reciprocating ~4.0, Centrifugal ~3.5
+        const maxRcPerStage = (compType === "recip") ? 4.0 : 3.5;
+        
+        // Calculate number of stages needed
+        let numStages = 1;
+        if (rc_overall > maxRcPerStage) {
+            numStages = Math.ceil(Math.log(rc_overall) / Math.log(maxRcPerStage));
+        }
+        
+        // Show/hide intercooler field based on multi-stage need
+        const intercoolerGroup = document.getElementById("intercoolerGroup");
+        if (numStages > 1) {
+            intercoolerGroup.classList.remove("hidden");
+        } else {
+            intercoolerGroup.classList.add("hidden");
+        }
+        
+        // Rc per stage (equal ratio per stage)
+        const rc_per_stage = Math.pow(rc_overall, 1.0 / numStages);
+        
+        // --- EFFICIENCY ESTIMATION ---
+        // Reciprocating: uses ADIABATIC efficiency (ηa)
+        // Centrifugal: uses POLYTROPIC efficiency (ηp), then converts to adiabatic
+        let na_used;   // adiabatic efficiency (always needed for T2 calc)
+        let np_used;   // polytropic efficiency (centrifugal only)
+        let effDisplayValue; // value shown in input field
         
         if (compType === "recip") {
-            // Reciprocating: Higher efficiency, decreases with ratio
-            // GPSA Approx: 0.98 - 0.035 * Rc
-            let est = 0.98 - 0.035 * rc;
+            // Reciprocating: GPSA adiabatic eff based on Rc per stage
+            let est = 0.98 - 0.035 * rc_per_stage;
             if (est > 0.92) est = 0.92;
             if (est < 0.75) est = 0.75;
             na_used = est;
+            np_used = null; // not applicable
+            effDisplayValue = na_used;
         } else {
-            // Centrifugal: Generally lower adiabatic efficiency
-            // Approx: 0.82 - 0.02 * Rc (Conservative)
-            let est = 0.80 - 0.015 * rc; 
-            if (est > 0.85) est = 0.85;
-            if (est < 0.70) est = 0.70;
-            na_used = est;
+            // Centrifugal: GPSA polytropic efficiency (ηp)
+            // Typical range: 72-85% depending on flow and machine size
+            let est_p = 0.82 - 0.012 * rc_per_stage;
+            if (est_p > 0.82) est_p = 0.82;
+            if (est_p < 0.72) est_p = 0.72;
+            np_used = est_p;
+            effDisplayValue = np_used;
+            // na_used will be calculated after k is determined (needs k)
+            na_used = null; // placeholder
         }
 
         // Show estimated efficiency in input field
         const effInput = document.getElementById("effA");
-        effInput.value = na_used.toFixed(3);
+        const effALabel = document.getElementById("effALabel");
+        effInput.value = effDisplayValue.toFixed(3);
         effInput.classList.remove("text-gray-500", "bg-gray-50");
         effInput.classList.add("text-blue-600", "font-bold", "bg-blue-50");
+        
+        if (compType === "recip") {
+            effALabel.innerHTML = "Adiabatic Eff (&eta;a)";
+        } else {
+            effALabel.innerHTML = "Polytropic Eff (&eta;p)";
+        }
 
-        // ... composition ...
+        // Gas composition
         const components = getComponents();
         if (components.length === 0) {
             alert("Please enter gas composition.");
@@ -819,7 +760,7 @@
            components.forEach(c => c.y = c.y / moleSum);
         }
 
-        // ... properties ...
+        // Mixture pseudo-critical properties (Kay's Rule)
         let ppc_mix = 0; let tpc_mix = 0; let mw_mix = 0;
         let y_sour_co2 = 0; let y_sour_h2s = 0;
 
@@ -832,26 +773,22 @@
             if (c.id === 'H2S') y_sour_h2s = c.y;
         });
 
-        // Wichert-Aziz
+        // Wichert-Aziz sour gas correction
         const A_sour = y_sour_co2 + y_sour_h2s;
         const B_sour = y_sour_h2s;
         const epsilon = 120 * (Math.pow(A_sour, 0.9) - Math.pow(A_sour, 1.6)) + 15 * (Math.pow(B_sour, 0.5) - Math.pow(B_sour, 4.0));
         const tpc_corr = tpc_mix - epsilon;
         const ppc_corr = (ppc_mix * tpc_corr) / (tpc_mix + y_sour_h2s * (1 - y_sour_h2s) * epsilon);
 
-        const t1r = t1f + 459.67;
+        const t1r = t1f + 459.67; // Suction temperature in Rankine
         const pr1 = p1 / ppc_corr;
         const tr1 = t1r / tpc_corr;
-
         const z1 = calculateDAK(pr1, tr1);
 
-        // ---- Iterative Calculation for k-Value and Z-Factor (GPSA Method) ----
-        
-        const R_univ = 10.7316; // psia.ft3/(lbmol.R)
-        const R_head = 1545;    // ft.lbf/(lbmol.R) for Head Calculation
+        const R_head = 1545; // ft-lbf/(lbmol-R)
 
-        // 1. Initial Guess (using Suction Properties)
-        const t1k = t1r / 1.8; // Rankine to Kelvin for correlation
+        // --- Calculate k (ratio of specific heats) at average temperature ---
+        const t1k = t1r / 1.8; // Rankine to Kelvin
         let cp_mix_molar = 0;
         components.forEach(c => {
             const d = gasData[c.id].coeffs;
@@ -859,67 +796,140 @@
             cp_mix_molar += c.y * cp;
         }); 
         
-        // Initial k at Suction
-        // Note: Coeffs are in J/(mol.K), so use R = 8.3145 J/(mol.K)
+        // k = Cp / Cv = Cp / (Cp - R), R = 8.3145 J/(mol·K)
         let k = cp_mix_molar / (cp_mix_molar - 8.3145); 
         let expon = (k - 1) / k;
-        let t2s = t1r * Math.pow(rc, expon); // First estimate of T2 Isentropic
 
-        // 2. Iteration Loop (Refine k at Average Temperature)
-        for(let i=0; i<3; i++) {
-            let t_avg_r = (t1r + t2s) / 2;
+        // Iterate to refine k using average temperature
+        let t2s_overall = t1r * Math.pow(rc_overall, expon);
+        for (let i = 0; i < 5; i++) {
+            let t_avg_r = (t1r + t2s_overall) / 2;
             let t_avg_k = t_avg_r / 1.8;
-
             let cp_avg = 0;
             components.forEach(c => {
                 const d = gasData[c.id].coeffs;
                 const cp_k = d.a + d.b*t_avg_k + d.c*Math.pow(t_avg_k,2) + d.d*Math.pow(t_avg_k,3);
                 cp_avg += c.y * cp_k;
             });
-
-            k = cp_avg / (cp_avg - 8.3145); // k at Average Temp (Corrected R unit)
+            k = cp_avg / (cp_avg - 8.3145);
             expon = (k - 1) / k;
-            t2s = t1r * Math.pow(rc, expon); // Refined T2 Isentropic
+            t2s_overall = t1r * Math.pow(rc_overall, expon);
         }
 
-        // 3. Discharge Z-Factor (at T2 Isentropic for Head Calculation per GPSA)
-        const pr2 = p2 / ppc_corr;
-        const tr2s = t2s / tpc_corr;
-        const z2 = calculateDAK(pr2, tr2s);
+        // --- For centrifugal: convert polytropic eff to adiabatic eff ---
+        // ηa = (Rc^((k-1)/k) - 1) / (Rc^((k-1)/(k*ηp)) - 1)
+        let n_poly_expon = null; // polytropic exponent (n-1)/n
+        if (compType === "centrifugal") {
+            n_poly_expon = expon / np_used; // (n-1)/n = ((k-1)/k) / ηp
+            na_used = (Math.pow(rc_per_stage, expon) - 1) / (Math.pow(rc_per_stage, n_poly_expon) - 1);
+            // Clamp to reasonable range
+            if (na_used > 0.95) na_used = 0.95;
+            if (na_used < 0.60) na_used = 0.60;
+        }
+
+        // --- Intercooler approach temperature ---
+        const intercoolApproach = parseFloat(document.getElementById("intercoolApproach").value) || 15;
+
+        // --- STAGE-BY-STAGE CALCULATION ---
+        let totalHead = 0;
+        let stageResults = [];
+        let p_suction = p1;
+        let t_suction_r = t1r;
+        const t_intercool_r = t1r + intercoolApproach;
+
+        for (let stg = 1; stg <= numStages; stg++) {
+            const p_discharge = (stg === numStages) ? p2 : p_suction * rc_per_stage;
+            const rc_stg = p_discharge / p_suction;
+
+            // Z-factor at stage suction
+            const pr_s = p_suction / ppc_corr;
+            const tr_s = t_suction_r / tpc_corr;
+            const z_s = calculateDAK(pr_s, tr_s);
+
+            // Isentropic discharge temp for this stage
+            const t2s_stg = t_suction_r * Math.pow(rc_stg, expon);
+
+            // Z-factor at stage isentropic discharge
+            const pr_d = p_discharge / ppc_corr;
+            const tr_d = t2s_stg / tpc_corr;
+            const z_d = calculateDAK(pr_d, tr_d);
+            const z_avg_stg = (z_s + z_d) / 2;
+
+            // Head for this stage
+            let head_stg;
+            if (compType === "centrifugal" && n_poly_expon !== null) {
+                // Polytropic Head (GPSA Eq 13-18)
+                // Hp = (Zavg * 1545 * T1 / MW) * (n/(n-1)) * (Rc^((n-1)/n) - 1)
+                const n_ratio = 1 / n_poly_expon; // n/(n-1)
+                head_stg = (z_avg_stg * R_head * t_suction_r / mw_mix) * n_ratio * (Math.pow(rc_stg, n_poly_expon) - 1);
+            } else {
+                // Isentropic Head (GPSA Eq 13-4)
+                head_stg = (z_avg_stg * R_head * t_suction_r / mw_mix) * (k / (k - 1)) * (Math.pow(rc_stg, expon) - 1);
+            }
+            totalHead += head_stg;
+
+            // Actual discharge temperature
+            const t2_actual_stg = t_suction_r + (t2s_stg - t_suction_r) / na_used;
+
+            stageResults.push({
+                stage: stg,
+                p_in: p_suction,
+                p_out: p_discharge,
+                rc: rc_stg,
+                t_in_f: t_suction_r - 459.67,
+                t_out_f: t2_actual_stg - 459.67,
+                z_in: z_s,
+                z_out: z_d,
+                head: head_stg,
+                eta: na_used
+            });
+
+            // Next stage suction: after intercooler (except last stage)
+            if (stg < numStages) {
+                t_suction_r = t_intercool_r;
+            } else {
+                t_suction_r = t2_actual_stg;
+            }
+            p_suction = p_discharge;
+        }
+
+        // --- Impeller count for centrifugal ---
+        const MAX_HEAD_PER_IMPELLER = 10000; // ft-lbf/lbm (GPSA guideline)
+        let numImpellers = null;
+        if (compType === "centrifugal") {
+            numImpellers = Math.ceil(totalHead / MAX_HEAD_PER_IMPELLER);
+        }
+
+        // Final discharge temperature (from last stage)
+        const t2_actual = stageResults[stageResults.length - 1].t_out_f + 459.67;
+
+        // Discharge Z-Factor at final conditions
+        const pr2_final = p2 / ppc_corr;
+        const tr2_final = t2_actual / tpc_corr;
+        const z2 = calculateDAK(pr2_final, tr2_final);
         const z_avg = (z1 + z2) / 2;
 
-        // 4. Actual Discharge Temperature (Adiabatic Efficiency)
-        const t2_actual = t1r + (t2s - t1r) / na_used;
-
-        // 5. Isentropic Head Calculation (GPSA Eq 13-4)
-        // Head = (Zavg * R * T1 / MW) * (k/(k-1)) * ((Rc)^((k-1)/k) - 1)
-        // Note: 1545/MW is Gas Constant R_specific in ft-lbf/lbm-R
-        const term1 = (z_avg * R_head * t1r) / mw_mix;
-        const term2 = k / (k - 1);
-        const term3 = Math.pow(rc, expon) - 1;
-        
-        const head = term1 * term2 * term3;
-
-        // 6. Flows & Power
-        const m_dot_mmscfd = flow * 1e6; // SCFD
-        // Standard Density (Air=28.96, SCF at 14.7 psia, 60F)
-        // rho_std = MW / 379.48 [lb/scf]
-        const rho_std = mw_mix / 379.48; 
+        // --- FLOW & POWER ---
+        const m_dot_mmscfd = flow * 1e6; // SCF/day
+        const rho_std = mw_mix / 379.48; // lb/scf at std conditions
         const m_dot_lb_day = m_dot_mmscfd * rho_std;
         const m_dot_hr = m_dot_lb_day / 24;
         const m_dot_min = m_dot_hr / 60; // lb/min
 
-        // Actual Flow at Suction (ACFM)
-        // rho_suc = P * MW / (Z * R * T)
+        // Actual Volume at Suction (ACFM)
         const density_suc = (p1 * mw_mix) / (z1 * 10.7316 * t1r); 
         const acfm = m_dot_min / density_suc;
 
         // Brake Horsepower
-        // BHP = (Mass_Flow * Head) / (33000 * Efficiency_Adiabatic * Efficiency_Mechanical)
-        // Wait! Formula: GasHP = m * Head / (33000 * eff_p/a).
-        // Since Head is Isentropic, use Adiabatic Efficiency in denominator.
-        const gasHP = (m_dot_min * head) / (33000 * na_used);
-        const bhp = gasHP / nm;
+        let bhp;
+        if (compType === "centrifugal") {
+            // Centrifugal: BHP = (m_dot * Hp_poly) / (33000 * ηm)
+            // Polytropic head already accounts for polytropic efficiency
+            bhp = (m_dot_min * totalHead) / (33000 * nm);
+        } else {
+            // Reciprocating: BHP = (m_dot * Head_isen) / (33000 * ηa * ηm)
+            bhp = (m_dot_min * totalHead) / (33000 * na_used * nm);
+        }
 
         // Display Results
         document.getElementById("resultsCard").style.display = "block";
@@ -961,20 +971,115 @@
         }
 
         // Detailed Metrics Population
-        // Since efficiency is now always estimated based on Type & Rc, we can hardcode the label or check compType
         const method = (compType === "recip") ? "GPSA Recip." : "GPSA Centrif.";
-        document.getElementById("effUsed").innerHTML = (na_used * 100).toFixed(1) + "% <span class='text-[10px] font-normal text-gray-400 ml-1'>(" + method + ")</span>";
-        document.getElementById("rcVal").textContent = rc.toFixed(2);
+        
+        // Efficiency display - different for each type
+        const effLabel = document.getElementById("effLabel");
+        const polyEffRow = document.getElementById("polyEffRow");
+        const stagesRow = document.getElementById("stagesRow");
+        
+        if (compType === "centrifugal") {
+            // Show polytropic as primary, adiabatic as secondary
+            effLabel.innerHTML = "Adiabatic Eff. (&eta;a)";
+            document.getElementById("effUsed").innerHTML = (na_used * 100).toFixed(1) + "% <span class='text-[10px] font-normal text-gray-400 ml-1'>(derived)</span>";
+            polyEffRow.classList.remove("hidden");
+            document.getElementById("polyEffDisplay").innerHTML = (np_used * 100).toFixed(1) + "% <span class='text-[10px] font-normal text-gray-400 ml-1'>(" + method + ")</span>";
+        } else {
+            effLabel.innerHTML = "Adiabatic Eff. (&eta;a)";
+            document.getElementById("effUsed").innerHTML = (na_used * 100).toFixed(1) + "% <span class='text-[10px] font-normal text-gray-400 ml-1'>(" + method + ")</span>";
+            polyEffRow.classList.add("hidden");
+        }
+        
+        // Stages & Impellers display
+        if (numStages > 1 || compType === "centrifugal") {
+            stagesRow.classList.remove("hidden");
+            let stagesText = numStages + " stage" + (numStages > 1 ? "s" : "");
+            if (numImpellers !== null) {
+                document.getElementById("stagesLabel").textContent = "Stages / Impellers";
+                stagesText += " / " + numImpellers + " impeller" + (numImpellers > 1 ? "s" : "");
+            } else {
+                document.getElementById("stagesLabel").textContent = "Stages";
+            }
+            document.getElementById("stagesDisplay").textContent = stagesText;
+        } else {
+            stagesRow.classList.add("hidden");
+        }
+        
+        // Show Rc overall + per stage info
+        let rcDisplay = rc_overall.toFixed(2);
+        if (numStages > 1) {
+            rcDisplay += " <span class='text-[10px] font-normal text-gray-400 ml-1'>(" + numStages + " stg, " + rc_per_stage.toFixed(2) + "/stg)</span>";
+        }
+        document.getElementById("rcVal").innerHTML = rcDisplay;
+        
         document.getElementById("kVal").textContent = k.toFixed(3);
         document.getElementById("z1Val").textContent = z1.toFixed(4);
         document.getElementById("sgVal").textContent = (mw_mix / 28.9625).toFixed(4);
-        document.getElementById("headVal").textContent = head.toLocaleString(undefined, { maximumFractionDigits: 0 });
+        
+        // Head label: Isentropic for recip, Polytropic for centrifugal
+        document.getElementById("headLabel").textContent = (compType === "centrifugal") ? "Polytropic Head" : "Isentropic Head";
+        document.getElementById("headVal").textContent = totalHead.toLocaleString(undefined, { maximumFractionDigits: 0 });
         
         document.getElementById("acfmVal").textContent = acfm.toLocaleString(undefined, { maximumFractionDigits: 0 });
         document.getElementById("massVal").textContent = m_dot_hr.toLocaleString(undefined, { maximumFractionDigits: 0 });
         
         document.getElementById("flowValDisplay").textContent = flow.toFixed(2);
         document.getElementById("mechEffDisplay").textContent = (nm * 100).toFixed(1) + "%";
+
+        // Stage Breakdown Table (only if multi-stage)
+        let stageSection = document.getElementById("stageBreakdown");
+        if (!stageSection) {
+            stageSection = document.createElement("div");
+            stageSection.id = "stageBreakdown";
+            document.querySelector("#resultsCard .p-6").appendChild(stageSection);
+        }
+        
+        if (numStages > 1) {
+            let tableHTML = `
+            <div class="border-t border-gray-100 pt-6 mt-6">
+                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                    <span class="w-2 h-2 bg-orange-500 rounded-full"></span> Stage-by-Stage Breakdown (${numStages} Stages)
+                </h3>
+                <div class="overflow-x-auto">
+                <table class="w-full text-sm border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50 text-xs text-gray-500 uppercase">
+                            <th class="px-3 py-2 text-left">Stage</th>
+                            <th class="px-3 py-2 text-right">P in (psia)</th>
+                            <th class="px-3 py-2 text-right">P out (psia)</th>
+                            <th class="px-3 py-2 text-right">Rc</th>
+                            <th class="px-3 py-2 text-right">T in (&deg;F)</th>
+                            <th class="px-3 py-2 text-right">T out (&deg;F)</th>
+                            <th class="px-3 py-2 text-right">Z in</th>
+                            <th class="px-3 py-2 text-right">Head (ft-lbf/lbm)</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+            
+            stageResults.forEach(s => {
+                tableHTML += `
+                        <tr class="border-b border-gray-100 hover:bg-gray-50">
+                            <td class="px-3 py-2 font-bold text-gray-700">${s.stage}</td>
+                            <td class="px-3 py-2 text-right font-mono">${s.p_in.toFixed(1)}</td>
+                            <td class="px-3 py-2 text-right font-mono">${s.p_out.toFixed(1)}</td>
+                            <td class="px-3 py-2 text-right font-mono font-bold text-blue-600">${s.rc.toFixed(2)}</td>
+                            <td class="px-3 py-2 text-right font-mono">${s.t_in_f.toFixed(1)}</td>
+                            <td class="px-3 py-2 text-right font-mono">${s.t_out_f.toFixed(1)}</td>
+                            <td class="px-3 py-2 text-right font-mono">${s.z_in.toFixed(4)}</td>
+                            <td class="px-3 py-2 text-right font-mono">${s.head.toLocaleString(undefined, {maximumFractionDigits: 0})}</td>
+                        </tr>`;
+            });
+            
+            tableHTML += `
+                    </tbody>
+                </table>
+                </div>
+                <p class="text-[10px] text-gray-400 mt-2">* Intercooler assumed: gas cooled to T1 + 15&deg;F between stages</p>
+            </div>`;
+            stageSection.innerHTML = tableHTML;
+        } else {
+            stageSection.innerHTML = "";
+        }
 
         document.getElementById("resultsCard").scrollIntoView({ behavior: "smooth" });
       }
@@ -1044,7 +1149,7 @@
 
         } catch (err) {
           console.error('Failed to read clipboard contents: ', err);
-          alert("Alerta: No se pudo leer del portapapeles. Aseg�rese de dar permiso al navegador.\n\nError: " + err.message);
+          alert("Alerta: No se pudo leer del portapapeles. Aseg\u00FArese de dar permiso al navegador.\n\nError: " + err.message);
         }
       }
 
@@ -1059,10 +1164,29 @@
           if (i.id !== "effA" && i.id !== "effM") i.value = "";
         });
         document.getElementById("resultsCard").style.display = "none";
+        const stageSection = document.getElementById("stageBreakdown");
+        if (stageSection) stageSection.innerHTML = "";
       }
 
       document.addEventListener("DOMContentLoaded", () => {
         init();
+
+        // Header scroll effect
+        const header = document.querySelector("header");
+        if (header) {
+          window.addEventListener("scroll", () => {
+            if (window.scrollY > 10) {
+              header.classList.add("bg-surface", "shadow-md");
+              if (header.classList.contains("bg-transparent")) header.classList.remove("bg-transparent");
+            } else {
+              header.classList.add("bg-surface", "shadow-md");
+            }
+          });
+        }
+
+        // Copyright year
+        const yearSpan = document.querySelector(".copyright-year");
+        if (yearSpan) yearSpan.textContent = new Date().getFullYear();
 
         // Mobile Menu Toggle
         const mobileMenuButton = document.getElementById("mobile-menu-button");
@@ -1082,7 +1206,6 @@
             mobileMenuButton.setAttribute("aria-expanded", !isExpanded);
           });
 
-          // Mobile Tools Accordion
           if (mobileToolsToggle && mobileToolsMenu) {
             mobileToolsToggle.addEventListener("click", (e) => {
               e.preventDefault();
@@ -1091,7 +1214,6 @@
             });
           }
 
-          // Close menu when clicking a link (except tools toggle)
           const mobileLinks = mobileMenu.querySelectorAll("a");
           mobileLinks.forEach(link => {
             if (link.id !== "mobile-tools-toggle") {
@@ -1106,10 +1228,6 @@
         }
       });
     </script>
+  </body>
 </html>
-
-
-
-
-
 
