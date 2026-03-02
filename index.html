@@ -39,7 +39,9 @@
     <link rel="stylesheet" href="custom_styles.css" />
   </head>
   <body class="bg-background text-text-primary">
-    <!-- Header -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- HEADER / NAV UNIVERSAL — Rutas relativas desde: RAÍZ (/)       -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
     <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 shadow-md">
       <!-- Top Bar Contact Info -->
       <div class="bg-[#0f172a] text-gray-300 text-xs py-2 border-b border-gray-800 hidden sm:block">
@@ -91,98 +93,55 @@
               Experiencia
             </a>
 
-            <!-- Herramientas Dropdown -->
-            <div class="relative group">
-              <a
-                href="herramientas.html"
-                class="group-link flex items-center gap-1"
-              >
+            <!-- Herramientas Mega-Menú -->
+            <div class="relative nav-tools-group">
+              <a href="herramientas.html" class="group-link flex items-center gap-1" aria-haspopup="true" id="tools-menu-btn">
                 Herramientas
-                <svg
-                  class="w-4 h-4 fill-current transition-transform group-hover:rotate-180"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                  />
+                <svg class="w-4 h-4 fill-current transition-transform duration-300" viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
                 </svg>
               </a>
 
-              <!-- Dropdown Menu -->
-              <div
-                class="absolute left-0 mt-0 w-80 bg-white rounded-md shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[100] border border-gray-100 py-2"
-              >
-                <!-- Category: Diseño y Tuberías -->
-
-                <a
-                  href="herramientas/01_pipe_thickness.html"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
-                  >Espesores de Tubería</a
-                >
-                <a
-                  href="herramientas/12_pipe_weight.html"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
-                  >Peso de Tuberías</a
-                >
-                <a
-                  href="herramientas/00_mawp_calculator.html"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
-                  >Calculadora MAWP</a
-                >
-                <a
-                  href="herramientas/03_max_design_pressure.html"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a] border-b border-gray-50"
-                  >Presión Máxima Diseño</a
-                >
-
-                <!-- Category: Proceso y Flujo -->
-
-                <a
-                  href="herramientas/05_flow_std_to_actual.html"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
-                  >Flujo Estándar a Actual</a
-                >
-                <a
-                  href="herramientas/06_gas_properties.html"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
-                  >Propiedades de Gases</a
-                >
-                <a
-                  href="herramientas/07_velocidad_erosional_-_eng_esp.html"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a] border-b border-gray-50"
-                  >Velocidad Erosional</a
-                >
-
-                <!-- Category: Compresión y Otros -->
-
-                <a
-                  href="herramientas/08_gas_compression.html"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
-                  >Compresión de Gas</a
-                >
-                <a
-                  href="herramientas/09_tank_volume.html"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
-                  >Volumen de Tanques</a
-                >
-                <a
-                  href="herramientas/11_line_pack.html"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
-                  >Line Pack (Empaquetamiento)</a
-                >
-                <a
-                  href="herramientas/10_z_factor_cnga.html"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#0f172a]"
-                  >Factor Z (CNGA)</a
-                >
+              <!-- MEGA-MENÚ 2 COLUMNAS -->
+              <div class="mega-menu" role="menu" aria-labelledby="tools-menu-btn">
+                <div class="mega-menu-grid">
+                  <!-- Categoría 1: Tuberías & Presión -->
+                  <div class="mega-menu-category">
+                    <div class="mega-menu-category-dot"></div>
+                    <span>Tuberías &amp; Presión</span>
+                  </div>
+                  <a href="herramientas/01_pipe_thickness.html" class="mega-menu-item" role="menuitem">Espesores de Tubería</a>
+                  <a href="herramientas/02_hoop_stress.html" class="mega-menu-item" role="menuitem">Esfuerzo Circunferencial</a>
+                  <a href="herramientas/12_pipe_weight.html" class="mega-menu-item" role="menuitem">Peso de Tuberías</a>
+                  <a href="herramientas/00_mawp_calculator.html" class="mega-menu-item" role="menuitem">Calculadora MAWP</a>
+                  <a href="herramientas/03_max_design_pressure.html" class="mega-menu-item" role="menuitem">Presión Máxima Diseño</a>
+                  <!-- Categoría 2: Gas & Flujo -->
+                  <div class="mega-menu-category">
+                    <div class="mega-menu-category-dot"></div>
+                    <span>Gas &amp; Flujo</span>
+                  </div>
+                  <a href="herramientas/05_flow_std_to_actual.html" class="mega-menu-item" role="menuitem">Flujo Estándar a Actual</a>
+                  <a href="herramientas/06_gas_properties.html" class="mega-menu-item" role="menuitem">Propiedades de Gases</a>
+                  <a href="herramientas/10_z_factor_cnga.html" class="mega-menu-item" role="menuitem">Factor Z (CNGA)</a>
+                  <a href="herramientas/07_velocidad_erosional_-_eng_esp.html" class="mega-menu-item" role="menuitem">Velocidad Erosional</a>
+                  <!-- Categoría 3: Compresión & Almacenamiento -->
+                  <div class="mega-menu-category">
+                    <div class="mega-menu-category-dot"></div>
+                    <span>Compresión &amp; Almacenamiento</span>
+                  </div>
+                  <a href="herramientas/08_gas_compression.html" class="mega-menu-item" role="menuitem">Compresión de Gas</a>
+                  <a href="herramientas/09_tank_volume.html" class="mega-menu-item" role="menuitem">Volumen de Tanques</a>
+                  <a href="herramientas/11_line_pack.html" class="mega-menu-item" role="menuitem">Line Pack (Empaquetamiento)</a>
+                </div>
+                <div class="mega-menu-footer">
+                  <a href="herramientas.html">
+                    Ver todas las herramientas
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+                  </a>
+                </div>
               </div>
             </div>
-            <a
-              href="#contact"
-              class="btn-contact-custom ml-4"
-            >
-              CONTACTAR
-            </a>
+            <a href="#contact" class="btn-contact-custom ml-4">CONTACTAR</a>
           </div>
 
           <!-- Mobile Menu Button -->
@@ -231,144 +190,50 @@
       </nav>
 
       <!-- Mobile Menu -->
-      <div
-        id="mobile-menu"
-        class="hidden sm:hidden bg-white border-t border-gray-100 overflow-y-auto max-h-[calc(100vh-80px)] shadow-xl"
-      >
-        <div class="px-4 pt-4 pb-6 space-y-2">
-          <a
-            href="#home"
-            class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors"
-            >Inicio</a
-          >
-
-          <a
-            href="#expertise"
-            class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors"
-            >Expertise</a
-          >
-          <a
-            href="#projects"
-            class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors"
-            >Proyectos</a
-          >
-
-          <a
-            href="#experience"
-            class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors"
-            >Experiencia</a
-          >
-
-          <!-- Mobile Accordion -->
+      <div id="mobile-menu" class="hidden sm:hidden bg-white border-t border-gray-100 overflow-y-auto max-h-[calc(100vh-80px)] shadow-xl">
+        <div class="px-4 pt-4 pb-6 space-y-1">
+          <a href="#home" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors">Inicio</a>
+          <a href="#expertise" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors">Expertise</a>
+          <a href="#projects" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors">Proyectos</a>
+          <a href="#experience" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors">Experiencia</a>
+          <!-- Mobile Accordion Herramientas -->
           <div>
-            <button
-              id="mobile-tools-toggle"
+            <button id="mobile-tools-toggle"
               class="w-full flex items-center justify-between text-[#0F172A] px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors"
-            >
+              aria-expanded="false" aria-controls="mobile-tools-menu">
               Herramientas
-              <svg
-                id="mobile-tools-arrow"
-                class="w-4 h-4 transition-transform duration-200"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 9l-7 7-7-7"
-                />
+              <svg id="mobile-tools-arrow" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
               </svg>
             </button>
-            <div
-              id="mobile-tools-menu"
-              class="hidden pl-2 space-y-1 bg-gray-50 rounded-md mt-2 border border-gray-100"
-            >
-              <a
-                href="herramientas/00_mawp_calculator.html"
-                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
-                >Calculadora MAWP</a
-              >
-              <a
-                href="herramientas/01_pipe_thickness.html"
-                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
-                >Espesores de Tubería</a
-              >
-              <a
-                href="herramientas/02_hoop_stress.html"
-                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
-                >Esfuerzo Circunferencial</a
-              >
-              <a
-                href="herramientas/03_max_design_pressure.html"
-                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
-                >Presión Máxima Diseño</a
-              >
-              <a
-                href="herramientas/05_flow_std_to_actual.html"
-                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
-                >Flujo Estándar a Actual</a
-              >
-              <a
-                href="herramientas/06_gas_properties.html"
-                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
-                >Propiedades de Gases</a
-              >
-              <a
-                href="herramientas/07_velocidad_erosional_-_eng_esp.html"
-                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
-                >Velocidad Erosional</a
-              >
-              <a
-                href="herramientas/08_gas_compression.html"
-                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
-                >Compresión de Gas</a
-              >
-              <a
-                href="herramientas/09_tank_volume.html"
-                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
-                >Volumen de Tanques</a
-              >
-              <a
-                href="herramientas/10_z_factor_cnga.html"
-                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
-                >Factor Z (CNGA)</a
-              >
-              <a
-                href="herramientas/11_line_pack.html"
-                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
-                >Line Pack</a
-              >
-              <a
-                href="herramientas/12_pipe_weight.html"
-                class="text-gray-600 block px-4 py-3 rounded-md text-sm hover:text-[#0F172A] hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-0"
-                >Peso de Tuberías</a
-              >
+            <div id="mobile-tools-menu" class="hidden mt-2">
+              <span class="mobile-tools-cat">Tuberías &amp; Presión</span>
+              <a href="herramientas/01_pipe_thickness.html">Espesores de Tubería</a>
+              <a href="herramientas/02_hoop_stress.html">Esfuerzo Circunferencial</a>
+              <a href="herramientas/12_pipe_weight.html">Peso de Tuberías</a>
+              <a href="herramientas/00_mawp_calculator.html">Calculadora MAWP</a>
+              <a href="herramientas/03_max_design_pressure.html">Presión Máxima Diseño</a>
+              <span class="mobile-tools-cat">Gas &amp; Flujo</span>
+              <a href="herramientas/05_flow_std_to_actual.html">Flujo Estándar a Actual</a>
+              <a href="herramientas/06_gas_properties.html">Propiedades de Gases</a>
+              <a href="herramientas/10_z_factor_cnga.html">Factor Z (CNGA)</a>
+              <a href="herramientas/07_velocidad_erosional_-_eng_esp.html">Velocidad Erosional</a>
+              <span class="mobile-tools-cat">Compresión &amp; Almacenamiento</span>
+              <a href="herramientas/08_gas_compression.html">Compresión de Gas</a>
+              <a href="herramientas/09_tank_volume.html">Volumen de Tanques</a>
+              <a href="herramientas/11_line_pack.html">Line Pack (Empaquetamiento)</a>
             </div>
           </div>
-
-          <a
-            href="#experience"
-            class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors"
-            >Experiencia</a
-          >
-          <a
-            href="#contact"
-            class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors mb-4"
-            >Contacto</a
-          >
+          <a href="#contact" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors">Contacto</a>
           <div class="pt-4 border-t border-gray-100">
-            <a
-              href="#contact"
-              class="w-full text-center block bg-[#0F172A] text-[#D4E157] border border-[#0F172A] px-5 py-3 rounded-full text-base font-bold hover:bg-white hover:text-[#0F172A] transition-all tracking-wide shadow-md"
-            >
+            <a href="#contact" class="w-full text-center block bg-[#0F172A] text-[#D4E157] border border-[#0F172A] px-5 py-3 rounded-full text-base font-bold hover:bg-white hover:text-[#0F172A] transition-all tracking-wide shadow-md">
               CONTACTAR
             </a>
           </div>
         </div>
       </div>
     </header>
+
 
     <main>
       <!-- Hero Section -->
