@@ -693,3 +693,38 @@ table tr:hover td {
 
 /* Hide print footer on screen */
 #print-footer { display: none; }
+
+/* ---------------------------------------------------- */
+/* ACCESSIBILITY & PERFORMANCE OPTIMIZATIONS            */
+/* ---------------------------------------------------- */
+
+/* Focus-visible for keyboard navigation */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--secondary) !important;
+  outline-offset: 2px !important;
+  border-radius: 4px;
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Minimum touch target size for mobile (48x48) */
+@media (max-width: 640px) {
+  #mobile-menu a,
+  header nav a,
+  button {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+  }
+}
