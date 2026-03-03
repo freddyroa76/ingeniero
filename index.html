@@ -65,12 +65,9 @@
     <!-- DNS Prefetch + Preconnect to external origins -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
     <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin />
-
-    <!-- CRITICAL CSS: Inline styles for above-the-fold content (FCP/LCP optimization) -->
+<!-- CRITICAL CSS: Inline styles for above-the-fold content (FCP/LCP optimization) -->
     <style>
       /* Critical: Body + Layout */
       *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -105,29 +102,8 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
     <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet" /></noscript>
 
-    <!-- Tailwind CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              primary: "#0F172A",
-              secondary: "#008F4C",
-              accent: "#D4E157",
-              background: "#F8FAFC",
-              surface: "#ffffff",
-              "text-primary": "#334155",
-              "text-secondary": "#1E293B",
-            },
-            fontFamily: {
-              heading: ["Outfit", "sans-serif"],
-              sans: ["DM Sans", "sans-serif"],
-            }
-          }
-        }
-      }
-    </script>
+    <!-- Tailwind CSS (compiled, minified) -->
+    <link rel="stylesheet" href="tailwind_compiled.css" />
     <link rel="stylesheet" href="custom_styles.css" />
   </head>
   <body class="bg-background text-text-primary">

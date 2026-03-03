@@ -1,0 +1,3 @@
+# Build files (source, not needed in production)
+input.css
+tailwind.config.js
