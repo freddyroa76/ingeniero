@@ -1,0 +1,8 @@
+# robots.txt - Freddy Roa Monsalvo | Ingeniero Mecánico
+# https://freddyroa76.github.io/ingeniero/
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://freddyroa76.github.io/ingeniero/sitemap.xml

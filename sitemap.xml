@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Página Principal -->
+  <url>
+    <loc>https://freddyroa76.github.io/ingeniero/</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Índice de Herramientas -->
+  <url>
+    <loc>https://freddyroa76.github.io/ingeniero/herramientas.html</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Herramienta: Calculadora MAWP -->
+  <url>
+    <loc>https://freddyroa76.github.io/ingeniero/herramientas/00_mawp_calculator.html</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Herramienta: Espesores de Tubería -->
+  <url>
+    <loc>https://freddyroa76.github.io/ingeniero/herramientas/01_pipe_thickness.html</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Herramienta: Esfuerzo Circunferencial -->
+  <url>
+    <loc>https://freddyroa76.github.io/ingeniero/herramientas/02_hoop_stress.html</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Herramienta: Presión Máxima de Diseño -->
+  <url>
+    <loc>https://freddyroa76.github.io/ingeniero/herramientas/03_max_design_pressure.html</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Herramienta: Flujo Estándar a Actual -->
+  <url>
+    <loc>https://freddyroa76.github.io/ingeniero/herramientas/05_flow_std_to_actual.html</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Herramienta: Propiedades de Gases -->
+  <url>
+    <loc>https://freddyroa76.github.io/ingeniero/herramientas/06_gas_properties.html</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Herramienta: Velocidad Erosional -->
+  <url>
+    <loc>https://freddyroa76.github.io/ingeniero/herramientas/07_velocidad_erosional_-_eng_esp.html</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Herramienta: Compresión de Gas -->
+  <url>
+    <loc>https://freddyroa76.github.io/ingeniero/herramientas/08_gas_compression.html</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Herramienta: Volumen de Tanques -->
+  <url>
+    <loc>https://freddyroa76.github.io/ingeniero/herramientas/09_tank_volume.html</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Herramienta: Factor Z (CNGA) -->
+  <url>
+    <loc>https://freddyroa76.github.io/ingeniero/herramientas/10_z_factor_cnga.html</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Herramienta: Line Pack -->
+  <url>
+    <loc>https://freddyroa76.github.io/ingeniero/herramientas/11_line_pack.html</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Herramienta: Peso de Tuberías -->
+  <url>
+    <loc>https://freddyroa76.github.io/ingeniero/herramientas/12_pipe_weight.html</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+</urlset>
