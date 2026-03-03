@@ -67,7 +67,7 @@
     <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<!-- CRITICAL CSS: Inline styles for above-the-fold content (FCP/LCP optimization) -->
+    <!-- CRITICAL CSS: Inline styles for above-the-fold content (FCP/LCP optimization) -->
     <style>
       /* Critical: Body + Layout */
       *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -90,6 +90,14 @@
       .btn-hero-cta:hover{background:#D4E157;color:#0F172A;transform:translateY(-4px)}
       /* Critical: Contact button */
       .btn-contact-custom{display:inline-flex;align-items:center;justify-content:center;background:#0F172A;color:#D4E157;font-family:'Outfit',sans-serif;font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;border-radius:9999px;padding:0 28px;height:42px;text-decoration:none;transition:all .3s}
+      /* Critical: Contact Section (for #contact direct navigation) */
+      #contact{background:#0F172A;padding:5rem 1rem;position:relative;overflow:hidden;text-align:center}
+      @media(min-width:768px){#contact{padding:7rem 1rem}}
+      #contact h2{color:#fff;font-size:clamp(1.5rem,3vw,2.25rem);font-weight:800;margin-bottom:1.5rem}
+      #contact p{color:#bfdbfe;font-size:1.25rem;max-width:42rem;margin:0 auto 2.5rem;line-height:1.7}
+      #contact a{display:inline-flex;align-items:center;padding:1rem 2rem;font-size:1.125rem;font-weight:700;border-radius:.5rem;text-decoration:none;transition:all .3s}
+      /* Critical: Footer */
+      footer{background:#111827;color:#fff;border-top:4px solid #D4E157}
       /* Critical: Hide mobile elements on desktop */
       @media(min-width:640px){.sm-hidden{display:none!important}.sm-flex{display:flex!important}}
       @media(max-width:639px){.sm-show{display:none!important}}
@@ -1332,14 +1340,14 @@
       </section>
 
       <!-- Contact Section -->
-      <section id="contact" class="py-20 md:py-28 bg-primary relative overflow-hidden">
+      <section id="contact" style="background:#0F172A" class="py-20 md:py-28 bg-primary relative overflow-hidden">
         <div class="absolute inset-0 opacity-10">
           <svg class="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
             <path d="M0 0 C 30 100 70 100 100 0 Z" fill="white" />
           </svg>
         </div>
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6">
+          <h2 elementtiming="contact-heading" style="color:#fff;font-size:2.25rem;font-weight:800" class="text-3xl md:text-4xl font-extrabold text-white mb-6">
             ¿Tiene un proyecto en mente?
           </h2>
           <p class="text-xl text-blue-100 max-w-2xl mx-auto mb-10 leading-relaxed">
