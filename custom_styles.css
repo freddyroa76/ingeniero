@@ -182,7 +182,7 @@ header nav .group-link.active::after {
 }
 
 /* Mobile CONTACTAR button: ensure lime text on dark background */
-#mobile-menu .pt-4 a {
+#mobile-menu .border-t a {
     color: #D4E157 !important;
 }
 footer.bg-secondary {
