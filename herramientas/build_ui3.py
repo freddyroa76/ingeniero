@@ -1,4 +1,9 @@
-<!doctype html>
+import json
+
+with open('pipe_data.json', 'r', encoding='utf-8') as f:
+    pipe_data_str = f.read()
+
+html = f"""<!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -16,10 +21,10 @@
     <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
     <!-- Tailwind CDN -->
     <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
+      tailwind.config = {{
+        theme: {{
+          extend: {{
+            colors: {{
               primary: "#0F172A",
               secondary: "#008F4C",
               accent: "#D4E157",
@@ -27,14 +32,14 @@
               surface: "#ffffff",
               "text-primary": "#334155",
               "text-secondary": "#1E293B",
-            },
-            fontFamily: {
+            }},
+            fontFamily: {{
               heading: ["Outfit", "sans-serif"],
               sans: ["DM Sans", "sans-serif"],
-            },
-          },
-        },
-      };
+            }},
+          }},
+        }},
+      }};
     </script>
     <link rel="stylesheet" href="../tailwind_compiled.css" />
     <link rel="stylesheet" href="../custom_styles.css">
@@ -229,7 +234,7 @@
                         <input type="number" id="tb" value="520" class="w-full rounded border-gray-300 font-mono text-sm py-1.5 px-2 bg-gray-50" />
                     </div>
                     <div>
-                        <label for="pb" class="block text-xs font-bold text-gray-700 mb-1">P Base <span class="text-gray-400 font-normal">(psia)</span></label>
+                        <label for="pb" class="block text-xs font-bold text-gray-700 mb-1">P Base <span class="text-gray-400 font-normal\">(psia)</span></label>
                         <input type="number" id="pb" value="14.73" step="0.01" class="w-full rounded border-gray-300 font-mono text-sm py-1.5 px-2 bg-gray-50" />
                     </div>
                 </div>
@@ -333,391 +338,64 @@
    </div>
 </footer>
 <script>
-    const pipeDimensions = {
-        0.125: {
-          OD: 0.405,
-          schedules: {
-            STD: 0.068,
-            40: 0.068,
-            XS: 0.095,
-            80: 0.095,
-          },
-        },
-        0.25: {
-          OD: 0.54,
-          schedules: {
-            STD: 0.088,
-            40: 0.088,
-            XS: 0.119,
-            80: 0.119,
-          },
-        },
-        0.375: {
-          OD: 0.675,
-          schedules: {
-            STD: 0.091,
-            40: 0.091,
-            XS: 0.126,
-            80: 0.126,
-          },
-        },
-        0.5: {
-          OD: 0.84,
-          schedules: {
-            STD: 0.109,
-            40: 0.109,
-            XS: 0.147,
-            80: 0.147,
-            160: 0.187,
-            XXS: 0.294,
-          },
-        },
-        0.75: {
-          OD: 1.05,
-          schedules: {
-            STD: 0.113,
-            40: 0.113,
-            XS: 0.154,
-            80: 0.154,
-            160: 0.219,
-            XXS: 0.308,
-          },
-        },
-        1: {
-          OD: 1.315,
-          schedules: {
-            STD: 0.133,
-            40: 0.133,
-            XS: 0.179,
-            80: 0.179,
-            160: 0.25,
-            XXS: 0.358,
-          },
-        },
-        1.25: {
-          OD: 1.66,
-          schedules: {
-            STD: 0.14,
-            40: 0.14,
-            XS: 0.191,
-            80: 0.191,
-            160: 0.25,
-          },
-        },
-        1.5: {
-          OD: 1.9,
-          schedules: {
-            STD: 0.145,
-            40: 0.145,
-            XS: 0.2,
-            80: 0.2,
-            160: 0.281,
-            XXS: 0.4,
-          },
-        },
-        2: {
-          OD: 2.375,
-          schedules: {
-            STD: 0.154,
-            40: 0.154,
-            XS: 0.218,
-            80: 0.218,
-            160: 0.344,
-            XXS: 0.436,
-          },
-        },
-        2.5: {
-          OD: 2.875,
-          schedules: {
-            STD: 0.203,
-            40: 0.203,
-            XS: 0.276,
-            80: 0.276,
-            160: 0.375,
-            XXS: 0.552,
-          },
-        },
-        3: {
-          OD: 3.5,
-          schedules: {
-            STD: 0.216,
-            40: 0.216,
-            XS: 0.3,
-            80: 0.3,
-            160: 0.438,
-            XXS: 0.6,
-          },
-        },
-        3.5: {
-          OD: 4.0,
-          schedules: { STD: 0.226, 40: 0.226, XS: 0.318, 80: 0.318 },
-        },
-        4: {
-          OD: 4.5,
-          schedules: {
-            STD: 0.237,
-            40: 0.237,
-            XS: 0.337,
-            80: 0.337,
-            120: 0.438,
-            160: 0.531,
-            XXS: 0.674,
-          },
-        },
-        5: {
-          OD: 5.563,
-          schedules: {
-            STD: 0.258,
-            40: 0.258,
-            XS: 0.375,
-            80: 0.375,
-            120: 0.5,
-            160: 0.625,
-            XXS: 0.75,
-          },
-        },
-        6: {
-          OD: 6.625,
-          schedules: {
-            STD: 0.28,
-            40: 0.28,
-            XS: 0.432,
-            80: 0.432,
-            120: 0.562,
-            160: 0.719,
-            XXS: 0.864,
-          },
-        },
-        8: {
-          OD: 8.625,
-          schedules: {
-            10: 0.25,
-            20: 0.25,
-            30: 0.277,
-            STD: 0.322,
-            40: 0.322,
-            60: 0.406,
-            XS: 0.5,
-            80: 0.5,
-            100: 0.594,
-            120: 0.719,
-            140: 0.812,
-            160: 0.906,
-          },
-        },
-        10: {
-          OD: 10.75,
-          schedules: {
-            10: 0.25,
-            20: 0.25,
-            30: 0.307,
-            STD: 0.365,
-            40: 0.365,
-            60: 0.5,
-            XS: 0.5,
-            80: 0.594,
-            100: 0.719,
-            120: 0.844,
-            140: 1.0,
-            160: 1.125,
-          },
-        },
-        12: {
-          OD: 12.75,
-          schedules: {
-            10: 0.25,
-            20: 0.25,
-            30: 0.33,
-            STD: 0.375,
-            40: 0.406,
-            60: 0.562,
-            XS: 0.5,
-            80: 0.688,
-            100: 0.844,
-            120: 1.0,
-            140: 1.125,
-            160: 1.312,
-          },
-        },
-        14: {
-          OD: 14.0,
-          schedules: {
-            10: 0.25,
-            20: 0.312,
-            30: 0.375,
-            STD: 0.375,
-            40: 0.438,
-            60: 0.594,
-            XS: 0.5,
-            80: 0.75,
-            100: 0.938,
-            120: 1.094,
-            140: 1.25,
-            160: 1.406,
-          },
-        },
-        16: {
-          OD: 16.0,
-          schedules: {
-            10: 0.25,
-            20: 0.312,
-            30: 0.375,
-            STD: 0.375,
-            40: 0.5,
-            60: 0.656,
-            XS: 0.5,
-            80: 0.844,
-            100: 1.031,
-            120: 1.219,
-            140: 1.438,
-            160: 1.594,
-          },
-        },
-        18: {
-          OD: 18.0,
-          schedules: {
-            10: 0.25,
-            20: 0.312,
-            30: 0.438,
-            STD: 0.375,
-            40: 0.562,
-            60: 0.75,
-            XS: 0.5,
-            80: 0.938,
-            100: 1.156,
-            120: 1.375,
-            140: 1.562,
-            160: 1.781,
-          },
-        },
-        20: {
-          OD: 20.0,
-          schedules: {
-            10: 0.25,
-            20: 0.375,
-            30: 0.5,
-            STD: 0.375,
-            40: 0.594,
-            60: 0.812,
-            XS: 0.5,
-            80: 1.031,
-            100: 1.281,
-            120: 1.5,
-            140: 1.75,
-            160: 1.969,
-          },
-        },
-        22: {
-          OD: 22.0,
-          schedules: {
-            10: 0.25,
-            20: 0.375,
-            30: 0.5,
-            STD: 0.375,
-            40: 0.875,
-            XS: 0.5,
-            80: 1.125,
-            100: 1.375,
-            120: 1.625,
-            140: 1.875,
-            160: 2.125,
-          },
-        },
-        24: {
-          OD: 24.0,
-          schedules: {
-            10: 0.25,
-            20: 0.375,
-            30: 0.562,
-            STD: 0.375,
-            40: 0.688,
-            60: 0.969,
-            XS: 0.5,
-            80: 1.219,
-            100: 1.531,
-            120: 1.812,
-            140: 2.062,
-            160: 2.344,
-          },
-        },
-        30: {
-          OD: 30.0,
-          schedules: { 10: 0.312, 20: 0.5, 30: 0.625, STD: 0.375, XS: 0.5 },
-        },
-        32: {
-          OD: 32.0,
-          schedules: { 10: 0.312, 20: 0.5, 30: 0.625, STD: 0.375, 40: 0.688 },
-        },
-        34: {
-          OD: 34.0,
-          schedules: { 10: 0.312, 20: 0.5, 30: 0.625, STD: 0.375, 40: 0.688 },
-        },
-        36: {
-          OD: 36.0,
-          schedules: { 10: 0.312, 20: 0.5, 30: 0.625, STD: 0.375, 40: 0.75 },
-        },
-        42: {
-          OD: 42.0,
-          schedules: { 20: 0.5, 30: 0.625, STD: 0.375, 40: 0.75 },
-        },
-      };
+    const pipeDimensions = {pipe_data_str};
     let currentTab = 1;
     let actualInternalDia = null;
 
     // Component grid definitions exact matching 08
     const components = [
-      { id: "C1", formula: "CH₄", name: "Methane", mw: 16.043 },
-      { id: "N2", formula: "N₂", name: "Nitrogen", mw: 28.013 },
-      { id: "CO2", formula: "CO₂", name: "Carbon Dioxide", mw: 44.01 },
-      { id: "C2", formula: "C₂H₆", name: "Ethane", mw: 30.07 },
-      { id: "C3", formula: "C₃H₈", name: "Propane", mw: 44.097 },
-      { id: "H2O", formula: "H₂O", name: "Water", mw: 18.015 },
-      { id: "H2S", formula: "H₂S", name: "Hydrogen Sulfide", mw: 34.082 },
-      { id: "H2", formula: "H₂", name: "Hydrogen", mw: 2.016 },
-      { id: "CO", formula: "CO", name: "Carbon Monoxide", mw: 28.01 },
-      { id: "O2", formula: "O₂", name: "Oxygen", mw: 31.999 },
-      { id: "iC4", formula: "iC₄H₁₀", name: "i-Butane", mw: 58.123 },
-      { id: "nC4", formula: "nC₄H₁₀", name: "n-Butane", mw: 58.123 },
-      { id: "iC5", formula: "iC₅H₁₂", name: "i-Pentane", mw: 72.15 },
-      { id: "nC5", formula: "nC₅H₁₂", name: "n-Pentane", mw: 72.15 },
-      { id: "nC6", formula: "nC₆H₁₄", name: "n-Hexane", mw: 86.177 },
-      { id: "nC7", formula: "nC₇H₁₆", name: "n-Heptane", mw: 100.204 },
-      { id: "nC8", formula: "nC₈H₁₈", name: "n-Octane", mw: 114.231 },
-      { id: "nC9", formula: "nC₉H₂₀", name: "n-Nonane", mw: 128.258 },
-      { id: "nC10", formula: "nC₁₀H₂₂", name: "n-Decane", mw: 142.285 },
-      { id: "He", formula: "He", name: "Helium", mw: 4.003 },
-      { id: "Ar", formula: "Ar", name: "Argon", mw: 39.948 }
+      {{ id: "C1", formula: "CH₄", name: "Methane", mw: 16.043 }},
+      {{ id: "N2", formula: "N₂", name: "Nitrogen", mw: 28.013 }},
+      {{ id: "CO2", formula: "CO₂", name: "Carbon Dioxide", mw: 44.01 }},
+      {{ id: "C2", formula: "C₂H₆", name: "Ethane", mw: 30.07 }},
+      {{ id: "C3", formula: "C₃H₈", name: "Propane", mw: 44.097 }},
+      {{ id: "H2O", formula: "H₂O", name: "Water", mw: 18.015 }},
+      {{ id: "H2S", formula: "H₂S", name: "Hydrogen Sulfide", mw: 34.082 }},
+      {{ id: "H2", formula: "H₂", name: "Hydrogen", mw: 2.016 }},
+      {{ id: "CO", formula: "CO", name: "Carbon Monoxide", mw: 28.01 }},
+      {{ id: "O2", formula: "O₂", name: "Oxygen", mw: 31.999 }},
+      {{ id: "iC4", formula: "iC₄H₁₀", name: "i-Butane", mw: 58.123 }},
+      {{ id: "nC4", formula: "nC₄H₁₀", name: "n-Butane", mw: 58.123 }},
+      {{ id: "iC5", formula: "iC₅H₁₂", name: "i-Pentane", mw: 72.15 }},
+      {{ id: "nC5", formula: "nC₅H₁₂", name: "n-Pentane", mw: 72.15 }},
+      {{ id: "nC6", formula: "nC₆H₁₄", name: "n-Hexane", mw: 86.177 }},
+      {{ id: "nC7", formula: "nC₇H₁₆", name: "n-Heptane", mw: 100.204 }},
+      {{ id: "nC8", formula: "nC₈H₁₈", name: "n-Octane", mw: 114.231 }},
+      {{ id: "nC9", formula: "nC₉H₂₀", name: "n-Nonane", mw: 128.258 }},
+      {{ id: "nC10", formula: "nC₁₀H₂₂", name: "n-Decane", mw: 142.285 }},
+      {{ id: "He", formula: "He", name: "Helium", mw: 4.003 }},
+      {{ id: "Ar", formula: "Ar", name: "Argon", mw: 39.948 }}
     ];
 
-    function initGasGrid() {
+    function initGasGrid() {{
         const grid = document.getElementById("compGrid");
-        grid.innerHTML = `<div class="grid grid-cols-12 gap-2 text-[10px] font-bold text-gray-400 tracking-wider mb-2 px-2 uppercase">
-            <div class="col-span-2">Formula</div><div class="col-span-4">Name</div><div class="col-span-3 text-right pr-2">Mole Fr.</div><div class="col-span-3 text-right">MW</div>
+        grid.innerHTML = `<div class=\"grid grid-cols-12 gap-2 text-[10px] font-bold text-gray-400 tracking-wider mb-2 px-2 uppercase\">
+            <div class=\"col-span-2\">Formula</div><div class=\"col-span-4\">Name</div><div class=\"col-span-3 text-right pr-2\">Mole Fr.</div><div class=\"col-span-3 text-right\">MW</div>
         </div>`;
-        components.forEach((comp) => {
+        components.forEach((comp) => {{
           const row = document.createElement("div");
           row.className = "grid grid-cols-12 gap-2 py-2.5 items-center border-t border-gray-100 hover:bg-gray-50 transition-colors px-2";
           row.innerHTML = `
-            <div class="col-span-2 font-mono text-xs font-bold text-gray-700">${comp.formula}</div>
-            <div class="col-span-4 text-sm text-gray-600">${comp.name}</div>
+            <div class="col-span-2 font-mono text-xs font-bold text-gray-700">${{comp.formula}}</div>
+            <div class="col-span-4 text-sm text-gray-600">${{comp.name}}</div>
             <div class="col-span-3 text-right pr-2">
-              <input type="number" id="mf_${comp.id}" step="0.000001" placeholder="0.000000" class="w-full text-right font-mono text-xs border border-gray-200 rounded py-1 px-1 focus:ring-blue-500 focus:border-blue-500 bg-white" oninput="updateTotal()" />
+              <input type="number" id="mf_${{comp.id}}" step="0.000001" placeholder="0.000000" class="w-full text-right font-mono text-xs border border-gray-200 rounded py-1 px-1 focus:ring-blue-500 focus:border-blue-500 bg-white" oninput="updateTotal()" />
             </div>
-            <div class="col-span-3 text-right font-mono text-xs text-gray-400">${comp.mw.toFixed(1)}</div>
+            <div class="col-span-3 text-right font-mono text-xs text-gray-400">${{comp.mw.toFixed(1)}}</div>
           `;
           grid.appendChild(row);
-        });
-    }
+        }});
+    }}
 
-    function initPipeSizes() {
+    function initPipeSizes() {{
         const select = document.getElementById('pipeSize');
-        for (const [size, data] of Object.entries(pipeDimensions)) {
-            let label = `NPS ${size}" (OD: ${data.OD}")`;
+        for (const [size, data] of Object.entries(pipeDimensions)) {{
+            let label = `NPS ${{size}}" (OD: ${{data.OD}}")`;
             select.add(new Option(label, size));
-        }
-    }
+        }}
+    }}
 
-    function updatePipeDimensions() {
+    function updatePipeDimensions() {{
         const sizeInput = document.getElementById('pipeSize').value;
         const scheduleSelect = document.getElementById('schedule');
         const idDisplay = document.getElementById('idDisplay');
@@ -726,83 +404,83 @@
         idDisplay.textContent = '-';
         actualInternalDia = null;
 
-        if (sizeInput && pipeDimensions[sizeInput]) {
+        if (sizeInput && pipeDimensions[sizeInput]) {{
             scheduleSelect.disabled = false;
-            for (const sched of Object.keys(pipeDimensions[sizeInput].schedules)) {
+            for (const sched of Object.keys(pipeDimensions[sizeInput].schedules)) {{
                 scheduleSelect.add(new Option(sched, sched));
-            }
-        } else {
+            }}
+        }} else {{
             scheduleSelect.disabled = true;
-        }
-    }
+        }}
+    }}
 
-    function updateWallThickness() {
+    function updateWallThickness() {{
         const sizeInput = document.getElementById('pipeSize').value;
         const schedInput = document.getElementById('schedule').value;
         const idDisplay = document.getElementById('idDisplay');
 
-        if (sizeInput && schedInput && pipeDimensions[sizeInput].schedules[schedInput]) {
+        if (sizeInput && schedInput && pipeDimensions[sizeInput].schedules[schedInput]) {{
             const od = pipeDimensions[sizeInput].OD;
             const wt = pipeDimensions[sizeInput].schedules[schedInput];
             actualInternalDia = od - (2 * wt);
             idDisplay.textContent = actualInternalDia.toFixed(3);
-        }
-    }
+        }}
+    }}
 
-    function switchTab(t) {
+    function switchTab(t) {{
         currentTab = t;
-        [1,2,3].forEach(i => {
+        [1,2,3].forEach(i => {{
              document.getElementById('tab-btn-' + i).classList.remove('border-blue-600', 'text-blue-700', 'bg-blue-50/50');
              document.getElementById('tab-btn-' + i).classList.add('border-transparent', 'text-gray-500');
              document.querySelectorAll('.tab' + i + '-input').forEach(el => el.classList.add('hidden'));
              document.getElementById('tab' + i + '-results').classList.add('hidden');
-        });
+        }});
         document.getElementById('tab-btn-' + t).classList.add('border-blue-600', 'text-blue-700', 'bg-blue-50/50');
         document.getElementById('tab-btn-' + t).classList.remove('border-transparent', 'text-gray-500');
         document.querySelectorAll('.tab' + t + '-input').forEach(el => el.classList.remove('hidden'));
         document.getElementById('resultsCard').classList.add('hidden');
-    }
+    }}
 
-    function updateTotal() {
+    function updateTotal() {{
         let total = 0;
-        components.forEach(c => {
+        components.forEach(c => {{
             const val = parseFloat(document.getElementById('mf_' + c.id).value);
-            if (!isNaN(val)) { total += val; }
-        });
+            if (!isNaN(val)) {{ total += val; }}
+        }});
         const span = document.getElementById('moleSum');
         span.textContent = total.toFixed(6);
         span.className = isValidComp() ? "font-mono font-bold text-green-600" : "font-mono font-bold text-red-500";
-    }
+    }}
 
-    function isValidComp() {
+    function isValidComp() {{
         let total = 0;
-        components.forEach(c => {
+        components.forEach(c => {{
             const val = parseFloat(document.getElementById('mf_' + c.id).value) || 0;
             total += val;
-        });
+        }});
         return Math.abs(total - 1.0) < 0.0001;
-    }
+    }}
 
-    function pasteFromExcel() {
-        navigator.clipboard.readText().then(text => {
-            const values = text.split(/[\r\n\t]+/).filter(v => v !== "");
+    function pasteFromExcel() {{
+        navigator.clipboard.readText().then(text => {{
+            const values = text.split(/[\\r\\n\\t]+/).filter(v => v !== "");
             let idx = 0;
-            components.forEach(c => {
-                if (idx < values.length) {
+            components.forEach(c => {{
+                if (idx < values.length) {{
                     const val = parseFloat(values[idx++].replace(',', '.'));
                     if (!isNaN(val)) document.getElementById('mf_' + c.id).value = val;
-                }
-            });
+                }}
+            }});
             updateTotal();
-        });
-    }
+        }});
+    }}
 
-    function clearComposition() {
+    function clearComposition() {{
         components.forEach(c => document.getElementById('mf_' + c.id).value = "");
         updateTotal();
-    }
+    }}
 
-    function clearFields() {
+    function clearFields() {{
         document.getElementById('p1').value = "";
         document.getElementById('p2').value = "";
         document.getElementById('flow').value = "";
@@ -810,21 +488,21 @@
         document.getElementById('pipeSize').value = "";
         updatePipeDimensions();
         document.getElementById('resultsCard').classList.add('hidden');
-    }
+    }}
 
     // Hydraulic Logic via Panhandle
-    function calculate() {
-        if (!isValidComp()) {
+    function calculate() {{
+        if (!isValidComp()) {{
             alert("La fracción molar debe sumar exactamente 1.0.");
             return;
-        }
+        }}
 
         // Specific Gravity
         let mwMix = 0;
-        components.forEach(c => {
+        components.forEach(c => {{
              let mf = parseFloat(document.getElementById('mf_' + c.id).value) || 0;
              mwMix += mf * c.mw;
-        });
+        }});
         let sg = mwMix / 28.9625;
         
         let p1g = parseFloat(document.getElementById('p1').value);
@@ -834,10 +512,10 @@
         let flow = parseFloat(document.getElementById('flow').value);
         let l = parseFloat(document.getElementById('linel').value); // MILES!
         
-        if (isNaN(p1g) || isNaN(tb) || isNaN(pb) || isNaN(tavg) || isNaN(l) || isNaN(flow)) {
+        if (isNaN(p1g) || isNaN(tb) || isNaN(pb) || isNaN(tavg) || isNaN(l) || isNaN(flow)) {{
              alert("Complete todos los campos obligatorios.");
              return;
-        }
+        }}
 
         let zStr = document.getElementById('zfactor').value;
         let z = zStr ? parseFloat(zStr) : 0.9;
@@ -847,12 +525,12 @@
         document.getElementById('res_sg').textContent = sg.toFixed(4);
         document.getElementById('res_z').textContent = z.toFixed(3);
 
-        if (currentTab === 1) {
+        if (currentTab === 1) {{
              let p2g = parseFloat(document.getElementById('p2').value);
-             if (isNaN(p2g)) { alert("Ingrese Presión de Llegada P2"); return; }
+             if (isNaN(p2g)) {{ alert("Ingrese Presión de Llegada P2"); return; }}
              let p1_abs = p1g + pb;
              let p2_abs = p2g + pb;
-             if (p1_abs <= p2_abs) { alert("P1 debe ser mayor a P2"); return; }
+             if (p1_abs <= p2_abs) {{ alert("P1 debe ser mayor a P2"); return; }}
 
              let termA = ( Math.pow(p1_abs, 2) - Math.pow(p2_abs, 2) ) / ( Math.pow(sg, 0.8539) * tavg * l * z );
              let q_std = flow * 1e6; // scfd
@@ -868,8 +546,8 @@
              document.getElementById('res_reynolds').textContent = '-';
              document.getElementById('tab1-results').classList.remove('hidden');
 
-        } else if (currentTab === 2) {
-             if (!actualInternalDia) { alert("Seleccione tamaño de tubería nominal y cédula."); return; }
+        }} else if (currentTab === 2) {{
+             if (!actualInternalDia) {{ alert("Seleccione tamaño de tubería nominal y cédula."); return; }}
              
              let p1_abs = p1g + pb;
              let id_in = actualInternalDia;
@@ -880,40 +558,40 @@
              let deltaA = Math.pow( q_std / ca , 1/0.5394 ) * ( Math.pow(sg, 0.8539) * tavg * l * z );
              let p2_sqA = Math.pow(p1_abs, 2) - deltaA;
              
-             if (p2_sqA <= 0) {
+             if (p2_sqA <= 0) {{
                  document.getElementById('p2ResA').textContent = "NO FLUYE";
                  document.getElementById('p2ResAbsA').textContent = "-";
-             } else {
+             }} else {{
                  let p2A_abs = Math.sqrt(p2_sqA);
                  document.getElementById('p2ResA').textContent = (p2A_abs - pb).toFixed(1);
                  document.getElementById('p2ResAbsA').textContent = p2A_abs.toFixed(1);
-             }
+             }}
 
              // Solve P2 Panhandle B
              let cb = 737 * faB * (tb/pb) * Math.pow(id_in, 2.53);
              let deltaB = Math.pow( q_std / cb , 1/0.510 ) * ( Math.pow(sg, 0.961) * tavg * l * z );
              let p2_sqB = Math.pow(p1_abs, 2) - deltaB;
              
-             if (p2_sqB <= 0) {
+             if (p2_sqB <= 0) {{
                  document.getElementById('p2ResB').textContent = "NO FLUYE";
                  document.getElementById('p2ResAbsB').textContent = "-";
-             } else {
+             }} else {{
                  let p2B_abs = Math.sqrt(p2_sqB);
                  document.getElementById('p2ResB').textContent = (p2B_abs - pb).toFixed(1);
                  document.getElementById('p2ResAbsB').textContent = p2B_abs.toFixed(1);
-             }
+             }}
              
              let Re = (20000 * flow * 1000 * sg) / id_in; 
              document.getElementById('res_reynolds').textContent = Re.toExponential(2);
              document.getElementById('tab2-results').classList.remove('hidden');
 
-        } else if (currentTab === 3) {
+        }} else if (currentTab === 3) {{
              let dropRate = parseFloat(document.getElementById('dropRate').value);
-             if (isNaN(dropRate)) { alert("Ingrese Caída Tolerable."); return; }
+             if (isNaN(dropRate)) {{ alert("Ingrese Caída Tolerable."); return; }}
              
              let p1_abs = p1g + pb;
              let p2g = p1g - (dropRate * l);
-             if (p2g < 0) { alert("La caída tolerable genera una presión menor a 0. Reduzca la longitud o caída."); return; }
+             if (p2g < 0) {{ alert("La caída tolerable genera una presión menor a 0. Reduzca la longitud o caída."); return; }}
              
              let p2_abs = p2g + pb;
 
@@ -931,11 +609,11 @@
              document.getElementById('dminB_t3').textContent = dB_in.toFixed(3);
              document.getElementById('res_reynolds').textContent = '-';
              document.getElementById('tab3-results').classList.remove('hidden');
-        }
+        }}
 
         document.getElementById('resultsCard').classList.remove('hidden');
-        document.getElementById('resultsCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+        document.getElementById('resultsCard').scrollIntoView({{ behavior: 'smooth', block: 'start' }});
+    }}
 
     initGasGrid();
     initPipeSizes();
@@ -943,3 +621,7 @@
 </script>
 </body>
 </html>
+"""
+
+with open('13_panhandle_calculator.html', 'w', encoding='utf-8') as f:
+    f.write(html)
