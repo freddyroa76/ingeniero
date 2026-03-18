@@ -178,7 +178,7 @@ header nav .group-link.active::after {
 }
 
 #mobile-menu a:not(.btn-contact-custom) {
-    color: var(--text-primary) !important;
+    color: #0F172A !important;
 }
 
 /* Mobile CONTACTAR button: ensure lime text on dark background */
