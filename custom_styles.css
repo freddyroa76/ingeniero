@@ -177,8 +177,13 @@ header nav .group-link.active::after {
   padding-top: 1rem !important;
 }
 
-#mobile-menu a {
+#mobile-menu a:not(.btn-contact-custom) {
     color: var(--text-primary) !important;
+}
+
+/* Mobile CONTACTAR button: ensure lime text on dark background */
+#mobile-menu .pt-4 a {
+    color: #D4E157 !important;
 }
 footer.bg-secondary {
     background: #0f172a !important; /* Slate 900 */
