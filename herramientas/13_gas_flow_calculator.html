@@ -128,15 +128,20 @@
 <div class="card mb-6">
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
     <div class="input-group">
-      <label class="font-bold text-gray-700">Ecuación de Flujo</label>
+      <label class="font-bold text-gray-700 flex items-center justify-between mb-1">
+        Ecuación de Flujo
+        <button type="button" onclick="tgl('eq-help')" class="text-blue-500 hover:text-blue-800 transition-colors focus:outline-none" title="¿Qué ecuación usar?" aria-label="Ayuda selección de ecuación">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </button>
+      </label>
       <select id="eqSelect" onchange="EqType=parseInt(this.value);"
         class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 py-2.5 px-3 bg-white text-gray-900 font-bold cursor-pointer font-mono text-sm">
-        <option value="1">General Flow (Colebrook)</option>
-        <option value="2">AGA Full Turbulence</option>
-        <option value="3">Weymouth</option>
-        <option value="4">Panhandle A</option>
-        <option value="5">Panhandle B</option>
-        <option value="6">IGT</option>
+        <option value="1" title="Ecuación fundamental con fricción de Colebrook. Ideal para flujo turbulento y transición.">General Flow (Colebrook)</option>
+        <option value="2" title="Método robusto de la American Gas Association. Utilizado globalmente en troncales.">AGA Full Turbulence</option>
+        <option value="3" title="Sistemas cortos de alta presión. Recomendada para NPS ≤ 12'' (subestima flujo si D es mayor).">Weymouth</option>
+        <option value="4" title="Diseñada para líneas largas, presión moderada. Ignora la rugosidad relativa del tubo.">Panhandle A</option>
+        <option value="5" title="Ideal para tuberías de gran diámetro y alta presión con flujo totalmente turbulento.">Panhandle B</option>
+        <option value="6" title="Institute of Gas Technology: Empleada muy comúnmente en redes de distribución urbana.">IGT</option>
       </select>
     </div>
     <div class="input-group">
@@ -159,16 +164,16 @@
           class="flex-1 border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 py-2.5 px-2 bg-white text-gray-900 cursor-pointer text-xs font-bold">
           <option value="100">C = 100 — Corrosivo, continuo</option>
           <option value="125">C = 125 — Corrosivo, intermitente</option>
-          <option value="150">C = 150 — Sin sólidos, continuo (mìn)</option>
+          <option value="150" selected>C = 150 — Sin sólidos, continuo (mín)</option>
           <option value="200">C = 200 — Sin sólidos, continuo (máx)</option>
           <option value="250">C = 250 — Sin sólidos, intermitente</option>
           <option value="custom">Personalizado…</option>
         </select>
-        <input type="number" id="C_val" value="100" min="50" max="400" step="1"
+        <input type="number" id="C_val" value="150" min="50" max="400" step="1"
           class="w-16 border border-amber-300 rounded-md py-2 px-2 font-mono text-sm font-bold text-amber-900 bg-amber-50 focus:ring-1 focus:ring-amber-500 focus:border-amber-500 hidden"
           oninput="document.getElementById('C_preset').value='custom'"
           placeholder="C"/>
-        <input type="hidden" id="C_val_preset" value="100"/>
+        <input type="hidden" id="C_val_preset" value="150"/>
       </div>
     </div>
   </div>
@@ -222,7 +227,15 @@
             <span id="sumOkBadge" class="hidden ml-1 text-xs text-green-600 font-bold">✓ OK</span>
             <span id="sumBadErr" class="hidden ml-1 text-xs text-red-600 font-bold">✗ Error</span>
           </div>
-          <div class="flex gap-2">
+          <div class="flex gap-2 items-center flex-wrap justify-end">
+            <select id="presetGas" onchange="loadTypicalGas(this.value)"
+               class="text-xs py-1.5 px-2 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-md font-medium cursor-pointer hover:bg-emerald-100 transition-colors max-w-[140px] md:max-w-none">
+               <option value="" disabled selected>Cargar gas típico...</option>
+               <option value="dulce_seco">Dulce Seco (Típico)</option>
+               <option value="dulce_humedo">Dulce Húmedo (Rico)</option>
+               <option value="acido">Gas Ácido (Sour Gas)</option>
+               <option value="alto_inertes">Alto N₂ / CO₂</option>
+            </select>
             <button class="text-xs py-1.5 px-3 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-md border border-blue-200 font-medium transition-colors flex items-center gap-1"
               onclick="pasteComposition()" title="Pegar desde portapapeles">
               <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
@@ -347,16 +360,36 @@
               <label class="text-[10px] font-bold text-gray-600 uppercase">NPS (in)</label>
               <select id="NPS" onchange="loadSch()"
                 class="w-full border border-gray-300 rounded-md py-1.5 px-2 font-mono text-sm cursor-pointer focus:ring-blue-500">
-                <option value="0.5">1/2"</option><option value="0.75">3/4"</option>
-                <option value="1">1"</option><option value="1.5">1-1/2"</option>
-                <option value="2">2"</option><option value="3">3"</option>
-                <option value="4">4"</option><option value="6">6"</option>
-                <option value="8">8"</option><option value="10">10"</option>
-                <option value="12">12"</option><option value="14">14"</option>
-                <option value="16">16"</option><option value="18">18"</option>
-                <option value="20">20"</option><option value="24">24"</option>
-                <option value="30">30"</option><option value="36">36"</option>
-                <option value="42">42"</option><option value="48">48"</option>
+                <option value="" disabled selected>-- Elige --</option>
+                <option value="0.125">NPS 1/8" (DN 6)</option>
+                <option value="0.25">NPS 1/4" (DN 8)</option>
+                <option value="0.375">NPS 3/8" (DN 10)</option>
+                <option value="0.5">NPS 1/2" (DN 15)</option>
+                <option value="0.75">NPS 3/4" (DN 20)</option>
+                <option value="1">NPS 1" (DN 25)</option>
+                <option value="1.25">NPS 1-1/4" (DN 32)</option>
+                <option value="1.5">NPS 1-1/2" (DN 40)</option>
+                <option value="2">NPS 2" (DN 50)</option>
+                <option value="2.5">NPS 2-1/2" (DN 65)</option>
+                <option value="3">NPS 3" (DN 80)</option>
+                <option value="3.5">NPS 3-1/2" (DN 90)</option>
+                <option value="4">NPS 4" (DN 100)</option>
+                <option value="5">NPS 5" (DN 125)</option>
+                <option value="6">NPS 6" (DN 150)</option>
+                <option value="8">NPS 8" (DN 200)</option>
+                <option value="10">NPS 10" (DN 250)</option>
+                <option value="12">NPS 12" (DN 300)</option>
+                <option value="14">NPS 14" (DN 350)</option>
+                <option value="16">NPS 16" (DN 400)</option>
+                <option value="18">NPS 18" (DN 450)</option>
+                <option value="20">NPS 20" (DN 500)</option>
+                <option value="22">NPS 22" (DN 550)</option>
+                <option value="24">NPS 24" (DN 600)</option>
+                <option value="30">NPS 30" (DN 750)</option>
+                <option value="32">NPS 32" (DN 800)</option>
+                <option value="34">NPS 34" (DN 850)</option>
+                <option value="36">NPS 36" (DN 900)</option>
+                <option value="42">NPS 42" (DN 1050)</option>
               </select>
             </div>
             <div class="input-group">
@@ -372,14 +405,47 @@
           </div>
           <div class="grid grid-cols-3 gap-2">
             <div class="input-group">
-              <label class="text-[10px] font-bold text-gray-600 uppercase">Rugosidad ε (in)</label>
-              <input type="number" id="rough" step="any" placeholder="ej. 0.0007"
-                class="w-full border border-gray-300 rounded-md py-1.5 px-2 font-mono text-sm focus:ring-blue-500"/>
+              <div class="flex justify-between items-center mb-1">
+                <label class="text-[10px] font-bold text-gray-600 uppercase">Rugosidad ε (in)</label>
+                <button type="button" onclick="toggleRoughMode()" class="text-blue-500 hover:text-blue-700" title="Cambiar a entrada manual / lista">
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                </button>
+              </div>
+              <div class="relative">
+                <select id="rough_sel" onchange="onRoughSelect(this.value)"
+                  class="w-full border border-gray-300 rounded-md py-1.5 px-1 text-[10px] font-bold text-gray-700 bg-white focus:ring-blue-500 cursor-pointer truncate" title="Selecciona una condición típica o introduce un valor">
+                  <option value="" disabled>-- Típica --</option>
+                  <option value="0.0018" selected title="Tubería de acero comercial nueva (0.0018 in)">Acero comercial nueva (0.0018)</option>
+                  <option value="0.0030" title="Tubería de acero usada en buen estado (0.003 in)">Usada en buen estado (0.003)</option>
+                  <option value="0.0100" title="Tubería de acero con corrosión ligera (0.010 in)">Corrosión ligera (0.010)</option>
+                  <option value="0.0300" title="Tubería de acero oxidada con depósitos (0.030 in)">Oxidada con depósitos (0.030)</option>
+                  <option value="custom">Valor manual...</option>
+                </select>
+                <input type="number" id="rough" step="any" placeholder="ej. 0.0007" value="0.0018"
+                  class="w-full border border-blue-300 rounded-md py-1 px-2 font-mono text-sm focus:ring-blue-500 hidden bg-blue-50"/>
+              </div>
             </div>
             <div class="input-group">
-              <label class="text-[10px] font-bold text-gray-600 uppercase">Eficiencia E</label>
-              <input type="number" id="E" step="0.01" min="0.3" max="1.0" placeholder="ej. 0.95"
-                class="w-full border border-gray-300 rounded-md py-1.5 px-2 font-mono text-sm focus:ring-blue-500"/>
+              <div class="flex justify-between items-center mb-1">
+                <label class="text-[10px] font-bold text-gray-600 uppercase">Eficiencia E</label>
+                <button type="button" onclick="toggleEMode()" class="text-blue-500 hover:text-blue-700" title="Cambiar a entrada manual / lista">
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                </button>
+              </div>
+              <div class="relative">
+                <select id="E_sel" onchange="onESelect(this.value)"
+                  class="w-full border border-gray-300 rounded-md py-1.5 px-1.5 text-[11px] font-bold text-gray-700 bg-white focus:ring-blue-500 cursor-pointer">
+                  <option value="" disabled>-- Típica --</option>
+                  <option value="1.00" title="Sistema ideal matemáticamente perfecto; sin caída por accesorios o depósitos (1.00)">Modelo Teórico (1.00)</option>
+                  <option value="0.95" selected title="Tubería de acero nueva en condiciones óptimas constructivas (0.95)">Estado Óptimo / Nueva (0.95)</option>
+                  <option value="0.92" title="Tubería en operación normal, estado constructivo promedio con curvas típicas (0.92)">Operación Normal (0.92)</option>
+                  <option value="0.85" title="Tubería con operación prolongada, deterioro moderado, o presencia ligera de depósitos (0.85)">Deterioro Moderado (0.85)</option>
+                  <option value="0.75" title="Servicio severo, corrosión alta, o baches sustanciales de líquidos u holdup (0.75)">Servicio Severo (0.75)</option>
+                  <option value="custom">Valor manual...</option>
+                </select>
+                <input type="number" id="E" step="0.01" min="0.3" max="1.0" value="0.95" placeholder="ej. 0.95"
+                  class="w-full border border-blue-300 rounded-md py-1 px-2 font-mono text-sm focus:ring-blue-500 hidden bg-blue-50"/>
+              </div>
             </div>
             <div class="input-group">
               <label class="text-[10px] font-bold text-gray-600 uppercase">ΔH (ft)</label>
@@ -565,27 +631,37 @@
 <script>
 // ============ PIPE DIMENSIONS (ASME B36.10, wall thickness in inches) ============
 const PD = {
-  '0.5': {OD:0.840,  s:{40:0.109,80:0.147,160:0.187}},
-  '0.75':{OD:1.050,  s:{40:0.113,80:0.154,160:0.218}},
-  '1':   {OD:1.315,  s:{40:0.133,80:0.179,160:0.250}},
-  '1.5': {OD:1.900,  s:{40:0.145,80:0.200,160:0.281}},
-  '2':   {OD:2.375,  s:{40:0.154,80:0.218,160:0.343}},
-  '3':   {OD:3.500,  s:{40:0.216,80:0.300,160:0.437}},
-  '4':   {OD:4.500,  s:{40:0.237,80:0.337,120:0.438,160:0.531}},
-  '6':   {OD:6.625,  s:{40:0.280,80:0.432,120:0.562,160:0.719}},
-  '8':   {OD:8.625,  s:{20:0.250,30:0.277,40:0.322,60:0.406,80:0.500,120:0.594,160:0.719}},
-  '10':  {OD:10.750, s:{20:0.250,30:0.307,40:0.365,60:0.500,80:0.594,120:0.719,160:0.844}},
-  '12':  {OD:12.750, s:{20:0.250,30:0.330,40:0.406,60:0.562,80:0.688,120:0.844,160:1.000}},
-  '14':  {OD:14.000, s:{10:0.250,20:0.312,30:0.375,40:0.438,60:0.594,80:0.750,100:0.938,120:1.094,160:1.250}},
-  '16':  {OD:16.000, s:{10:0.250,20:0.312,30:0.375,40:0.500,60:0.656,80:0.844,120:1.031,160:1.219}},
-  '18':  {OD:18.000, s:{10:0.250,20:0.312,30:0.438,40:0.562,60:0.750,80:0.938,120:1.156,160:1.375}},
-  '20':  {OD:20.000, s:{10:0.250,20:0.375,30:0.500,40:0.594,60:0.812,80:1.031,120:1.281,160:1.500}},
-  '24':  {OD:24.000, s:{10:0.250,20:0.375,30:0.562,40:0.688,60:0.969,80:1.219,120:1.531,160:1.812}},
-  '30':  {OD:30.000, s:{10:0.312,20:0.500,30:0.625}},
-  '36':  {OD:36.000, s:{10:0.312,20:0.500,30:0.750}},
-  '42':  {OD:42.000, s:{10:0.375,20:0.500}},
-  '48':  {OD:48.000, s:{10:0.375,20:0.500}},
+  '0.125': { OD: 0.405, s: { STD: 0.068, 40: 0.068, XS: 0.095, 80: 0.095 } },
+  '0.25': { OD: 0.54, s: { STD: 0.088, 40: 0.088, XS: 0.119, 80: 0.119 } },
+  '0.375': { OD: 0.675, s: { STD: 0.091, 40: 0.091, XS: 0.126, 80: 0.126 } },
+  '0.5': { OD: 0.84, s: { STD: 0.109, 40: 0.109, XS: 0.147, 80: 0.147, 160: 0.187, XXS: 0.294 } },
+  '0.75': { OD: 1.05, s: { STD: 0.113, 40: 0.113, XS: 0.154, 80: 0.154, 160: 0.219, XXS: 0.308 } },
+  '1': { OD: 1.315, s: { STD: 0.133, 40: 0.133, XS: 0.179, 80: 0.179, 160: 0.25, XXS: 0.358 } },
+  '1.25': { OD: 1.66, s: { STD: 0.14, 40: 0.14, XS: 0.191, 80: 0.191, 160: 0.25 } },
+  '1.5': { OD: 1.9, s: { STD: 0.145, 40: 0.145, XS: 0.2, 80: 0.2, 160: 0.281, XXS: 0.4 } },
+  '2': { OD: 2.375, s: { STD: 0.154, 40: 0.154, XS: 0.218, 80: 0.218, 160: 0.344, XXS: 0.436 } },
+  '2.5': { OD: 2.875, s: { STD: 0.203, 40: 0.203, XS: 0.276, 80: 0.276, 160: 0.375, XXS: 0.552 } },
+  '3': { OD: 3.5, s: { STD: 0.216, 40: 0.216, XS: 0.3, 80: 0.3, 160: 0.438, XXS: 0.6 } },
+  '3.5': { OD: 4.0, s: { STD: 0.226, 40: 0.226, XS: 0.318, 80: 0.318 } },
+  '4': { OD: 4.5, s: { STD: 0.237, 40: 0.237, XS: 0.337, 80: 0.337, 120: 0.438, 160: 0.531, XXS: 0.674 } },
+  '5': { OD: 5.563, s: { STD: 0.258, 40: 0.258, XS: 0.375, 80: 0.375, 120: 0.5, 160: 0.625, XXS: 0.75 } },
+  '6': { OD: 6.625, s: { STD: 0.28, 40: 0.28, XS: 0.432, 80: 0.432, 120: 0.562, 160: 0.719, XXS: 0.864 } },
+  '8': { OD: 8.625, s: { 10: 0.25, 20: 0.25, 30: 0.277, STD: 0.322, 40: 0.322, 60: 0.406, XS: 0.5, 80: 0.5, 100: 0.594, 120: 0.719, 140: 0.812, 160: 0.906 } },
+  '10': { OD: 10.75, s: { 10: 0.25, 20: 0.25, 30: 0.307, STD: 0.365, 40: 0.365, 60: 0.5, XS: 0.5, 80: 0.594, 100: 0.719, 120: 0.844, 140: 1.0, 160: 1.125 } },
+  '12': { OD: 12.75, s: { 10: 0.25, 20: 0.25, 30: 0.33, STD: 0.375, 40: 0.406, 60: 0.562, XS: 0.5, 80: 0.688, 100: 0.844, 120: 1.0, 140: 1.125, 160: 1.312 } },
+  '14': { OD: 14.0, s: { 10: 0.25, 20: 0.312, 30: 0.375, STD: 0.375, 40: 0.438, 60: 0.594, XS: 0.5, 80: 0.75, 100: 0.938, 120: 1.094, 140: 1.25, 160: 1.406 } },
+  '16': { OD: 16.0, s: { 10: 0.25, 20: 0.312, 30: 0.375, STD: 0.375, 40: 0.5, 60: 0.656, XS: 0.5, 80: 0.844, 100: 1.031, 120: 1.219, 140: 1.438, 160: 1.594 } },
+  '18': { OD: 18.0, s: { 10: 0.25, 20: 0.312, 30: 0.438, STD: 0.375, 40: 0.562, 60: 0.75, XS: 0.5, 80: 0.938, 100: 1.156, 120: 1.375, 140: 1.562, 160: 1.781 } },
+  '20': { OD: 20.0, s: { 10: 0.25, 20: 0.375, 30: 0.5, STD: 0.375, 40: 0.594, 60: 0.812, XS: 0.5, 80: 1.031, 100: 1.281, 120: 1.5, 140: 1.75, 160: 1.969 } },
+  '22': { OD: 22.0, s: { 10: 0.25, 20: 0.375, 30: 0.5, STD: 0.375, 40: 0.875, XS: 0.5, 80: 1.125, 100: 1.375, 120: 1.625, 140: 1.875, 160: 2.125 } },
+  '24': { OD: 24.0, s: { 10: 0.25, 20: 0.375, 30: 0.562, STD: 0.375, 40: 0.688, 60: 0.969, XS: 0.5, 80: 1.219, 100: 1.531, 120: 1.812, 140: 2.062, 160: 2.344 } },
+  '30': { OD: 30.0, s: { 10: 0.312, 20: 0.5, 30: 0.625, STD: 0.375, XS: 0.5 } },
+  '32': { OD: 32.0, s: { 10: 0.312, 20: 0.5, 30: 0.625, STD: 0.375, 40: 0.688 } },
+  '34': { OD: 34.0, s: { 10: 0.312, 20: 0.5, 30: 0.625, STD: 0.375, 40: 0.688 } },
+  '36': { OD: 36.0, s: { 10: 0.312, 20: 0.5, 30: 0.625, STD: 0.375, 40: 0.75 } },
+  '42': { OD: 42.0, s: { 20: 0.5, 30: 0.625, STD: 0.375, 40: 0.75 } }
 };
+const scheduleOrder = ["5","10","20","30","STD","40","60","XS","80","100","120","140","160","XXS"];
 
 // ============ STATE ============
 let CalcType = 1, EqType = 1;
@@ -608,7 +684,7 @@ function toF(v,u){
   return u==='F'?v:u==='C'?v*9/5+32:u==='K'?(v-273.15)*9/5+32:v-459.67;
 }
 function toMiles(v,u){
-  return u==='mile'?v:u==='km'?v*0.621371:u==='m'?v*0.000621371:v/5280;
+  return (u==='mi'||u==='mile')?v:u==='km'?v*0.621371:u==='m'?v*0.000621371:v/5280;
 }
 function toInches(v,u){return u==='mm'?v/25.4:v;}
 function toFeet(v,u){return u==='m'?v*3.28084:u==='in'?v/12:v;}
@@ -715,7 +791,7 @@ function solveGF(CTp,f1){
 let Q_SI, P1_SI, P2_SI; // working values in SCFD/PSIA
 
 function GF_P2(f1){
-  const A=1860.96*E_pipe*(Tstd_R/Pstd)*ID**2.5;
+  const A=77.54*E_pipe*(Tstd_R/Pstd)*ID**2.5;
   const term = P1_SI**2 - Grav*Le*Zavg*f1*Tf_R*(Q_SI/A)**2;
   if(term < 0) return NaN;
   return Math.sqrt(term/Math.exp(s_val));
@@ -740,12 +816,12 @@ function PanB_P2(){
 }
 // Existing Q and P1 functions kept as they are generally stable (sqrt sum is always positive)
 function GF_Q(f1){
-  const A=1860.96*E_pipe*(Tstd_R/Pstd)*ID**2.5;
+  const A=77.54*E_pipe*(Tstd_R/Pstd)*ID**2.5;
   const term = P1_SI**2-Math.exp(s_val)*P2_SI**2;
   return (term < 0) ? 0 : A*Math.sqrt(term/(Grav*Le*Zavg*f1*Tf_R));
 }
 function GF_P1(f1){
-  const A=1860.96*E_pipe*(Tstd_R/Pstd)*ID**2.5;
+  const A=77.54*E_pipe*(Tstd_R/Pstd)*ID**2.5;
   return Math.sqrt(Grav*Le*Zavg*f1*Tf_R*(Q_SI/A)**2+Math.exp(s_val)*P2_SI**2);
 }
 function Wey_Q(){
@@ -876,7 +952,7 @@ function doCalc(){
     const eu=document.getElementById('ele-u').value;
     const qu=document.getElementById('Q-unit').value;
 
-    Pstd   = parseFloat(document.getElementById('Pb').value);  // siempre psia absoluta
+    Pstd   = toPSIA(parseFloat(document.getElementById('Pb').value), pu);
     Tstd_R = toF(parseFloat(document.getElementById('Tb').value),tu)+459.67;
     ID     = parseFloat(document.getElementById('IDinp').value);
     L_SI   = toMiles(parseFloat(document.getElementById('Len').value),lu);
@@ -1153,6 +1229,59 @@ function onCPreset(val){
     if(hiddenInput) hiddenInput.value = val;
   }
 }
+function onRoughSelect(val){
+  const sel = document.getElementById('rough_sel');
+  const inp = document.getElementById('rough');
+  if(val === 'custom'){
+    sel.classList.add('hidden');
+    inp.classList.remove('hidden');
+    inp.value = '';
+    inp.focus();
+  } else if (val) {
+    inp.value = val;
+  }
+}
+function toggleRoughMode(){
+  const sel = document.getElementById('rough_sel');
+  const inp = document.getElementById('rough');
+  if(sel.classList.contains('hidden')){
+    sel.classList.remove('hidden');
+    inp.classList.add('hidden');
+    sel.value = "0.0018";
+    inp.value = "0.0018";
+  } else {
+    sel.classList.add('hidden');
+    inp.classList.remove('hidden');
+    sel.value = "custom";
+    inp.focus();
+  }
+}
+function onESelect(val){
+  const sel = document.getElementById('E_sel');
+  const inp = document.getElementById('E');
+  if(val === 'custom'){
+    sel.classList.add('hidden');
+    inp.classList.remove('hidden');
+    inp.focus();
+  } else if (val) {
+    inp.value = val;
+  }
+}
+function toggleEMode(){
+  const sel = document.getElementById('E_sel');
+  const inp = document.getElementById('E');
+  if(sel.classList.contains('hidden')){
+    sel.classList.remove('hidden');
+    inp.classList.add('hidden');
+    sel.value = "0.95";
+    inp.value = "0.95";
+  } else {
+    sel.classList.add('hidden');
+    inp.classList.remove('hidden');
+    sel.value = "custom";
+    inp.focus();
+  }
+}
 // Returns the active C value (preset or manual)
 function getC(){
   const preset = document.getElementById('C_preset')?.value;
@@ -1192,21 +1321,34 @@ function syncTUnits(){
 function loadSch(){
   const nps=document.getElementById('NPS').value;
   const sch=document.getElementById('SCH');
-  sch.innerHTML='';
-  const p=PD[nps]; if(!p) return;
-  Object.keys(p.s).forEach(s=>{
-    const o=document.createElement('option');
-    o.value=s; o.textContent='Sch '+s; sch.appendChild(o);
+  sch.innerHTML='<option value="">Selecciona Schedule</option>';
+  const p=PD[nps]; 
+  if(!p) {
+    document.getElementById('IDinp').value = '';
+    return;
+  }
+  scheduleOrder.forEach(s=>{
+    if(p.s[s]) {
+      const o=document.createElement('option');
+      o.value=s; o.textContent='Sch '+s; sch.appendChild(o);
+    }
   });
-  const keys=Object.keys(p.s);
-  sch.value=keys.includes('40')?'40':keys[Math.floor(keys.length/2)];
+  sch.value = '';
   applyDims();
 }
 function applyDims(){
   const nps=document.getElementById('NPS').value;
   const sch=document.getElementById('SCH').value;
-  const p=PD[nps]; if(!p) return;
-  const wall=p.s[sch]; if(!wall) return;
+  const p=PD[nps]; 
+  if(!p) {
+    document.getElementById('IDinp').value = '';
+    return;
+  }
+  const wall=p.s[sch]; 
+  if(!wall) {
+    document.getElementById('IDinp').value = '';
+    return;
+  }
   document.getElementById('IDinp').value=(p.OD-2*wall).toFixed(3);
 }
 function doReset(){
@@ -1288,9 +1430,9 @@ function getGasProperties() {
         Tc_prime += y * gasData[key].Tc;
     });
     
-    // Fallback if no layout or empty
-    if(sum === 0) return {sum:1.0, MW:18.8, SG:0.65, Pc_prime:670, Tc_prime:360, N2p:0, CO2p:0, H2Sp:0};
-    
+    // Removed artificial fallback so empty forms display as zeroes
+    if(sum === 0) return { sum: 0, MW: 0, SG: 0, Pc_prime: 0, Tc_prime: 0, N2p: 0, CO2p: 0, H2Sp: 0 };
+
     const SG = MW / 28.9625;
     const N2p = ((parseFloat(document.getElementById('N2').value) || 0) / sum) * 100;
     const CO2p = ((parseFloat(document.getElementById('CO2').value) || 0) / sum) * 100;
@@ -1311,11 +1453,20 @@ function updateSum() {
     if(normUI) normUI.classList.toggle('hidden', !isPercentage);
 
     const ok = Math.abs(props.sum - 1.0) < 0.0001;
-    sumEl.className = ok ? "font-mono font-bold text-green-700" : "font-mono font-bold text-red-600";
+    
+    // UI logic for empty vs filled
     const okBadge = document.getElementById('sumOkBadge');
     const errBadge = document.getElementById('sumBadErr');
-    if(okBadge) okBadge.classList.toggle('hidden', !ok);
-    if(errBadge) errBadge.classList.toggle('hidden', ok);
+    
+    if(props.sum === 0) {
+        sumEl.className = "font-mono font-bold text-gray-500";
+        if(okBadge) okBadge.classList.add('hidden');
+        if(errBadge) errBadge.classList.add('hidden');
+    } else {
+        sumEl.className = ok ? "font-mono font-bold text-green-700" : "font-mono font-bold text-red-600";
+        if(okBadge) okBadge.classList.toggle('hidden', !ok);
+        if(errBadge) errBadge.classList.toggle('hidden', ok);
+    }
 
     if(props.sum > 0) {
         document.getElementById('autoG').textContent = props.SG.toFixed(3);
@@ -1403,6 +1554,38 @@ function clearComposition() {
     updateSum();
 }
 
+function loadTypicalGas(type) {
+    if(!type) return;
+    clearComposition(); // Start fresh
+
+    const presets = {
+        'dulce_seco': {
+            'CH4': 0.950, 'C2H6': 0.030, 'C3H8': 0.010, 'iC4H10': 0.003, 'nC4H10': 0.003, 'CO2': 0.002, 'N2': 0.002
+        },
+        'dulce_humedo': {
+            'CH4': 0.850, 'C2H6': 0.080, 'C3H8': 0.040, 'iC4H10': 0.010, 'nC4H10': 0.010, 'iC5H12': 0.003, 'nC5H12': 0.003, 'nC6H14': 0.002, 'CO2': 0.001, 'N2': 0.001
+        },
+        'acido': {
+            'CH4': 0.800, 'H2S': 0.050, 'CO2': 0.080, 'C2H6': 0.040, 'C3H8': 0.020, 'N2': 0.010
+        },
+        'alto_inertes': {
+            'CH4': 0.700, 'N2': 0.150, 'CO2': 0.100, 'C2H6': 0.030, 'C3H8': 0.020
+        }
+    };
+
+    const comp = presets[type];
+    if(comp){
+        for(const key in comp){
+            const el = document.getElementById(key);
+            if(el) el.value = comp[key].toFixed(3);
+        }
+    }
+    updateSum();
+    
+    const selectEl = document.getElementById('presetGas');
+    if(selectEl) selectEl.value = "";
+}
+
 function pasteComposition() {
     navigator.clipboard.readText().then(text => {
         const values = text.split(/[\t\n,]+/).map(v => parseFloat(v.trim())).filter(v => !isNaN(v));
@@ -1418,7 +1601,33 @@ function pasteComposition() {
 
 // ============ INIT ============
 function appInit(){
+  // Prevent browser caching from pre-loading data
+  const keep = ['Pb', 'Tb', 'Ele', 'C_val', 'C_val_preset', 'E', 'rough'];
+  document.querySelectorAll('input[type="number"]').forEach(el => {
+    if(!keep.includes(el.id) && !el.classList.contains('comp')) el.value = '';
+  });
+  
+  // Clear select dropdowns that browsers might cache
+  const npsEl = document.getElementById('NPS');
+  if(npsEl) npsEl.value = '';
+  
+  const roughSel = document.getElementById('rough_sel');
+  if(roughSel && !roughSel.classList.contains('hidden')) roughSel.value = '0.0018';
+  document.getElementById('rough').value = '0.0018';
+
+  const eSel = document.getElementById('E_sel');
+  if(eSel && !eSel.classList.contains('hidden')) eSel.value = '0.95';
+  document.getElementById('E').value = '0.95';
+
+  const cPreset = document.getElementById('C_preset');
+  if(cPreset && cPreset.value !== 'custom') cPreset.value = '150';
+  document.getElementById('C_val').value = '150';
+  document.getElementById('C_val_preset').value = '150';
+
   document.getElementById('eqSelect').value = '1'; EqType = 1;
+  const puSelector = document.getElementById('P-unit');
+  if (puSelector) puSelector.value = 'PSIG';
+
   updateCalcMode();
   loadSch();
   toggleZ();
