@@ -286,35 +286,101 @@
       <h2>Datos de Entrada</h2>
       <div class="space-y-4">
 
-        <!-- Pressures -->
+        <!-- Pipeline Length (FIRST) -->
+        <div class="input-group">
+          <label for="Len" class="required font-bold text-gray-700">Longitud del Gasoducto</label>
+          <div class="flex rounded-md shadow-sm border border-gray-300 overflow-hidden focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500">
+            <input type="number" id="Len" step="any" required placeholder="ej. 10"
+              class="font-mono text-base flex-1 min-w-0 px-3 py-2 border-0 focus:outline-none focus:ring-0"
+              oninput="onLengthChange()"/>
+            <select id="L-unit" onchange="onLengthChange()"
+              style="width:68px;flex-shrink:0;"
+              class="border-0 border-l border-gray-300 bg-gray-50 text-gray-700 text-xs font-bold cursor-pointer focus:outline-none px-1">
+              <option value="mi">mi</option><option value="ft">ft</option><option value="km">km</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Pressure Gradient Section -->
+        <div class="bg-gradient-to-r from-amber-100 to-orange-100 border-2 border-amber-400 rounded-xl p-4 shadow-sm">
+          <div class="flex items-center justify-between mb-3">
+            <label class="text-xs font-bold text-amber-900 uppercase tracking-wider flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg>
+              Gradiente de Presión
+            </label>
+            <div class="flex items-center gap-3">
+              <span id="gradientStatusLabel" class="text-xs font-semibold text-amber-700 bg-amber-200 px-2 py-1 rounded">Desactivado</span>
+              <button type="button" id="gradientToggle" onclick="toggleGradientMode()" 
+                class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
+                style="background-color: #d1d5db;" 
+                title="Activar cálculo automático de P₂ basado en gradiente de presión">
+                <span id="gradientToggleThumb" class="inline-block h-5 w-5 transform rounded-full bg-gray-100 border-2 border-gray-300 shadow-lg transition-transform translate-x-0"></span>
+              </button>
+            </div>
+          </div>
+          <div id="gradientInputs" class="hidden">
+            <div class="flex gap-2 items-center">
+              <div class="flex-1">
+                <div class="flex rounded-lg shadow-md border-2 border-amber-400 overflow-hidden bg-white focus-within:ring-2 focus-within:ring-amber-500 focus-within:border-amber-500">
+                  <input type="number" id="gradientVal" step="any" value="5" min="0.1" max="100"
+                    placeholder="ej. 5"
+                    class="font-mono text-base font-bold flex-1 min-w-0 px-3 py-2.5 border-0 focus:outline-none focus:ring-0 text-gray-800"
+                    oninput="onGradientChange()"/>
+                  <select id="gradientUnit" onchange="onGradientChange()"
+                    style="width:100px;flex-shrink:0;"
+                    class="border-0 border-l-2 border-amber-300 bg-amber-100 text-gray-800 text-xs font-bold cursor-pointer focus:outline-none px-2">
+                    <option value="PSIG/mi">PSIG/mi</option>
+                    <option value="PSIG/km">PSIG/km</option>
+                    <option value="Bar/km">Bar/km</option>
+                    <option value="kPa/m">kPa/m</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <p id="gradientInfo" class="text-xs text-amber-800 mt-2 font-medium"></p>
+          </div>
+        </div>
+
+        <!-- Pressures (SECOND - P1) -->
         <div id="row-P1" class="input-group">
           <label for="P1" class="required font-bold text-gray-700">Presión Entrada P₁</label>
           <div class="flex rounded-md shadow-sm border border-gray-300 overflow-hidden focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500">
             <input type="number" id="P1" step="any" required placeholder="ej. 1000"
-              class="font-mono text-base flex-1 min-w-0 px-3 py-2 border-0 focus:outline-none focus:ring-0"/>
+              class="font-mono text-base flex-1 min-w-0 px-3 py-2 border-0 focus:outline-none focus:ring-0"
+              oninput="onP1Change()"/>
             <select id="P-unit" onchange="syncPUnits()"
               style="width:110px;flex-shrink:0;"
               class="border-0 border-l border-gray-300 bg-gray-50 text-gray-700 text-[10px] font-bold cursor-pointer focus:outline-none px-1">
               <optgroup label="Inglés">
                 <option value="PSIA">PSIA (abs)</option>
-                <option value="PSIG">PSIG (r)</option>
+                <option value="PSIG">PSIG (gauge)</option>
               </optgroup>
-              <optgroup label="Métric/Otro">
+              <optgroup label="Métrico/Otro">
                 <option value="BarA">Bar (abs)</option>
-                <option value="BarG">Bar (r)</option>
+                <option value="BarG">Bar (gauge)</option>
                 <option value="kPaA">kPa (abs)</option>
-                <option value="kPaG">kPa (r)</option>
+                <option value="kPaG">kPa (gauge)</option>
                 <option value="kgA">kg/cm² (abs)</option>
-                <option value="kgG">kg/cm² (r)</option>
+                <option value="kgG">kg/cm² (gauge)</option>
               </optgroup>
             </select>
           </div>
         </div>
 
+        <!-- Pressure P2 (THIRD - Manual or Auto-calculated) -->
         <div id="row-P2" class="input-group">
-          <label for="P2" class="required font-bold text-gray-700">Presión Salida P₂ <span id="p2u" class="units font-normal text-blue-600">(psia)</span></label>
-          <input type="number" id="P2" step="any" required placeholder="ej. 800"
-            class="font-mono text-lg w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"/>
+          <div class="flex items-center justify-between mb-1">
+            <label for="P2" class="required font-bold text-gray-700">Presión Salida P₂ <span id="p2u" class="units font-normal text-blue-600">(psia)</span></label>
+            <span id="p2AutoBadge" class="hidden text-[9px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-700 border border-amber-300">
+              AUTO
+            </span>
+          </div>
+          <div class="relative">
+            <input type="number" id="P2" step="any" required placeholder="ej. 800"
+              class="font-mono text-lg w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+              oninput="onP2ManualInput()"/>
+          </div>
+          <p id="p2CalcInfo" class="text-[9px] text-gray-500 mt-1 hidden"></p>
         </div>
 
         <!-- Flow -->
@@ -336,20 +402,6 @@
           <label for="Tf" class="required font-bold text-gray-700">Temperatura de Flujo <span class="units font-normal">(°F)</span></label>
           <input type="number" id="Tf" step="any" required placeholder="ej. 60"
             class="font-mono text-lg w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"/>
-        </div>
-
-        <!-- Pipeline Length -->
-        <div class="input-group">
-          <label for="Len" class="required font-bold text-gray-700">Longitud del Gasoducto</label>
-          <div class="flex rounded-md shadow-sm border border-gray-300 overflow-hidden focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500">
-            <input type="number" id="Len" step="any" required placeholder="ej. 10"
-              class="font-mono text-base flex-1 min-w-0 px-3 py-2 border-0 focus:outline-none focus:ring-0"/>
-            <select id="L-unit"
-              style="width:68px;flex-shrink:0;"
-              class="border-0 border-l border-gray-300 bg-gray-50 text-gray-700 text-xs font-bold cursor-pointer focus:outline-none px-1">
-              <option value="mi">mi</option><option value="ft">ft</option><option value="km">km</option>
-            </select>
-          </div>
         </div>
 
         <!-- Pipe section -->
@@ -667,6 +719,13 @@ const scheduleOrder = ["5","10","20","30","STD","40","60","XS","80","100","120",
 let CalcType = 1, EqType = 1;
 let err_g; // global for AGA iteration
 
+// Gradient mode state
+let GradientMode = false;
+let GradientValue = 5; // Default: 5 psig/mile
+let GradientUnit = 'PSIG/mi';
+let P2IsAutoCalculated = false;
+let P2LockedByGradient = false; // Prevents manual override when gradient is active
+
 // ============ UNIT CONVERSIONS ============
 function toPSIA(v,u){
   const m={'PSIA':1,'PSIG':v=>v+14.695949,'BarA':v=>v*14.503774,'BarG':v=>(v+1.01325)*14.503774,
@@ -693,6 +752,155 @@ function toMMSCFD(v,u){
 }
 function fromMMSCFD(v,u){
   return u==='MMSCFD'?v:u==='SCFD'?v*1e6:u==='MMSCMD'?v/35.3147:u==='SCMD'?v/35.3147*1e6:v;
+}
+
+// ============ GRADIENT UNIT CONVERSIONS ============
+// Convert gradient to internal unit: psig/mile
+function toPSIGperMile(value, unit){
+  switch(unit){
+    case 'PSIG/mi': return value; // Already in psig/mi
+    case 'PSIG/km': return value * 1.60934; // km to miles (1 mile = 1.60934 km)
+    case 'Bar/km': return value * 14.5038 * 1.60934; // Bar to psig, km to miles
+    case 'kPa/m': return value * 0.145038 * 5280 / 3.28084; // kPa to psig, m to miles
+    default: return value;
+  }
+}
+
+// ============ GRADIENT-BASED P2 CALCULATION ============
+// Calculate P2 from P1 using pressure gradient
+// P2 = P1 - (gradient × length)
+// All internal calculations use PSIA for pressures and miles for length
+function calculateP2FromGradient(P1_psig, length_miles){
+  const gradient_psig_mile = toPSIGperMile(GradientValue, GradientUnit);
+  const pressureDrop_psig = gradient_psig_mile * length_miles;
+  const P2_psig = P1_psig - pressureDrop_psig;
+  return {
+    P2_psig: Math.max(P2_psig, 14.7), // P2 cannot be less than atmospheric
+    pressureDrop_psig: pressureDrop_psig,
+    gradient_psig_mile: gradient_psig_mile
+  };
+}
+
+// ============ GRADIENT MODE TOGGLE & HANDLERS ============
+function toggleGradientMode(){
+  GradientMode = !GradientMode;
+  
+  const toggle = document.getElementById('gradientToggle');
+  const thumb = document.getElementById('gradientToggleThumb');
+  const inputs = document.getElementById('gradientInputs');
+  const label = document.getElementById('gradientStatusLabel');
+  const p2Badge = document.getElementById('p2AutoBadge');
+  const p2CalcInfo = document.getElementById('p2CalcInfo');
+  const p2Input = document.getElementById('P2');
+  
+  if(GradientMode){
+    // Activate gradient mode
+    toggle.style.backgroundColor = '#008F4C';
+    thumb.style.transform = 'translate-x-5';
+    inputs.classList.remove('hidden');
+    label.textContent = 'Activado';
+    label.classList.remove('text-gray-500');
+    label.classList.add('text-green-600');
+    p2Badge.classList.remove('hidden');
+    p2CalcInfo.classList.remove('hidden');
+    p2Input.readOnly = true;
+    p2Input.classList.add('bg-amber-50', 'border-amber-300');
+    p2Input.classList.remove('focus:ring-blue-500', 'focus:border-blue-500');
+    p2LockedByGradient = true;
+  } else {
+    // Deactivate gradient mode
+    toggle.style.backgroundColor = '#d1d5db';
+    thumb.style.transform = 'translate-x-0';
+    inputs.classList.add('hidden');
+    label.textContent = 'Desactivado';
+    label.classList.add('text-gray-500');
+    label.classList.remove('text-green-600');
+    p2Badge.classList.add('hidden');
+    p2CalcInfo.classList.add('hidden');
+    p2Input.readOnly = false;
+    p2Input.classList.remove('bg-amber-50', 'border-amber-300');
+    p2Input.classList.add('focus:ring-blue-500', 'focus:border-blue-500');
+    p2LockedByGradient = false;
+  }
+  
+  // Recalculate P2 if in gradient mode
+  if(GradientMode){
+    recalculateP2FromGradient();
+  }
+}
+
+function onGradientChange(){
+  GradientValue = parseFloat(document.getElementById('gradientVal').value) || 5;
+  GradientUnit = document.getElementById('gradientUnit').value;
+  
+  if(GradientMode){
+    recalculateP2FromGradient();
+  }
+}
+
+function onLengthChange(){
+  // When length changes, recalculate P2 if gradient mode is active
+  if(GradientMode){
+    recalculateP2FromGradient();
+  }
+}
+
+function onP1Change(){
+  // When P1 changes, recalculate P2 if gradient mode is active
+  if(GradientMode){
+    recalculateP2FromGradient();
+  }
+}
+
+function onP2ManualInput(){
+  // If user manually changes P2 while gradient mode is active, 
+  // show a warning but don't override (they might want to test different values)
+  if(GradientMode && P2LockedByGradient){
+    // Update the info text to show manual override
+    const p2CalcInfo = document.getElementById('p2CalcInfo');
+    p2CalcInfo.textContent = 'Valor manual (desactivar gradiente para usar valor calculado)';
+    p2CalcInfo.classList.add('text-amber-600');
+    p2CalcInfo.classList.remove('text-gray-500');
+  }
+}
+
+function recalculateP2FromGradient(){
+  const p1v = parseFloat(document.getElementById('P1').value);
+  const len = parseFloat(document.getElementById('Len').value);
+  const lu = document.getElementById('L-unit').value;
+  const pu = document.getElementById('P-unit').value;
+  
+  if(isNaN(p1v) || isNaN(len) || len <= 0) return;
+  
+  // Convert P1 to PSIA for internal calculation
+  const P1_psig = (pu === 'PSIG' || pu === 'BarG' || pu === 'kPaG' || pu === 'kgG') 
+    ? toPSIA(p1v, pu) // toPSIA already adds 14.695949 for gauge units
+    : toPSIA(p1v, pu);
+  
+  // Convert length to miles
+  const length_miles = toMiles(len, lu);
+  
+  // Calculate P2 from gradient
+  const result = calculateP2FromGradient(P1_psig, length_miles);
+  
+  // Convert P2 back to user's pressure unit
+  // fromPSIA already handles gauge conversion by subtracting 14.695949 for PSIG
+  const P2_display = fromPSIA(result.P2_psig, pu);
+  
+  // Update P2 input field
+  document.getElementById('P2').value = P2_display.toFixed(2);
+  
+  // Update info text
+  const p2CalcInfo = document.getElementById('p2CalcInfo');
+  const gradientInfo = document.getElementById('gradientInfo');
+  
+  p2CalcInfo.textContent = `P₂ = ${P2_display.toFixed(2)} ${pu} (calculado desde P₁ y gradiente)`;
+  p2CalcInfo.classList.remove('text-amber-600');
+  p2CalcInfo.classList.add('text-gray-500');
+  
+  // Show gradient summary
+  const gradDisplay = toPSIGperMile(GradientValue, GradientUnit);
+  gradientInfo.textContent = `Caída total: ${result.pressureDrop_psig.toFixed(2)} psig sobre ${length_miles.toFixed(2)} mi (gradiente: ${gradDisplay.toFixed(2)} psig/mi)`;
 }
 
 // ============ MATH HELPERS ============
@@ -988,15 +1196,51 @@ function doCalc(){
     const p2v=parseFloat(document.getElementById('P2').value);
     const qv =parseFloat(document.getElementById('Q').value);
 
+    // Handle gradient-based P2 calculation
+    // If gradient mode is active and we're calculating Q or P1, use gradient-calculated P2
+    if(GradientMode && (CalcType===1 || CalcType===2)){
+      const len_v = parseFloat(document.getElementById('Len').value);
+      const lu = document.getElementById('L-unit').value;
+      const length_miles = toMiles(len_v, lu);
+      
+      // Convert P1 to PSIA for gradient calculation
+      // toPSIA already handles gauge to absolute conversion correctly
+      const P1_psig = toPSIA(p1v, pu);
+      
+      const gradientResult = calculateP2FromGradient(P1_psig, length_miles);
+      
+      // Use the gradient-calculated P2 (already in PSIA)
+      const p2_gradient_psia = gradientResult.P2_psig;
+      
+      // Convert back to user's pressure unit for display
+      // fromPSIA already handles gauge conversion correctly
+      const p2_display = fromPSIA(p2_gradient_psia, pu);
+      
+      // Update P2 field with calculated value
+      document.getElementById('P2').value = p2_display.toFixed(2);
+      // Use gradient-calculated P2 for internal calculation
+      P2_SI = p2_gradient_psia;
+    }
+
     // Initialise working pressures and flow
     if(CalcType===1){
-      P1_SI=toPSIA(p1v,pu); P2_SI=toPSIA(p2v,pu);
+      // toPSIA already handles gauge to absolute conversion correctly
+      P1_SI = toPSIA(p1v, pu);
+      if(!GradientMode){
+        P2_SI = toPSIA(p2v, pu);
+      }
       if(P1_SI<=P2_SI){err('P₁ debe ser mayor que P₂ para flujo positivo.');return;}
       Q_SI=100e6; // initial guess SCFD
     } else if(CalcType===2){
-      P2_SI=toPSIA(p2v,pu);
+      if(!GradientMode){
+        P2_SI = toPSIA(p2v, pu);
+      }
+      // P2 already set from gradient calculation above if applicable
       Q_SI=toMMSCFD(qv,qu)*1e6;
-      P1_SI=P2_SI*1.30;
+      // toPSIA already handles gauge to absolute conversion correctly
+      if(!GradientMode){
+        P1_SI = P2_SI * 1.30;
+      }
     } else {
       P1_SI=toPSIA(p1v,pu);
       Q_SI=toMMSCFD(qv,qu)*1e6;
@@ -1170,8 +1414,21 @@ function doCalc(){
     // Notes
     const znames=['DAK EOS','CNGA','Usuario'];
     const vnames=['Lee-Gonzalez-Eakin','Usuario'];
+    
+    // Gradient mode info for notes
+    let gradientNote = '';
+    if(GradientMode && (CalcType===1 || CalcType===2)){
+      const gradient_psig_mile = toPSIGperMile(GradientValue, GradientUnit);
+      const p1_disp = CalcType===2 ? mainSol : P1_disp;
+      const p1_display = fromPSIA(p1_disp, pu);
+      const p2_display = fromPSIA(P2_disp, pu);
+      const pressureDrop = p1_display - p2_display;
+      gradientNote = `<span class="text-amber-700 font-semibold">📐 Gradiente activo: P₂ = ${n2f(p1_display,1)} - (${n2f(gradient_psig_mile,2)} psig/mi × ${n2f(Le,2)} mi) = ${n2f(p2_display,1)} ${pu}.</span>  `;
+    }
+    
     document.getElementById('res-notes').innerHTML=
       `<strong>Notas:</strong> `+
+      gradientNote +
       (ID>12?`<span style="color:var(--amber)">⚠ Weymouth diseñado para D≤12 in — puede subestimar capacidad hasta 12%.</span>  `:'')+
       `V<sub>e</sub> evaluada a P₂ = ${n2f(fromPSIA(P2_disp,pu),1)} ${pu} (presión mínima = velocidad máxima). `+
       `C = ${C_const} (API RP 14E §2.4). Z: ${znames[parseInt(document.getElementById('ZTyp').value)-1]}. `+
@@ -1198,7 +1455,29 @@ function updateCalcMode(){
   CalcType=parseInt(document.getElementById('calcMode').value);
   document.getElementById('row-Q').style.display=CalcType===1?'none':'block';
   document.getElementById('row-P1').style.display=CalcType===2?'none':'block';
-  document.getElementById('row-P2').style.display=CalcType===3?'none':'block';
+  
+  // For CalcType 3 (Calculate P2), show the P2 row but disable gradient mode
+  // For other modes, show P2 row normally
+  const gradientSection = document.getElementById('gradientInputs')?.parentElement;
+  const gradientToggle = document.getElementById('gradientToggle');
+  const gradientInputs = document.getElementById('gradientInputs');
+  const p2Badge = document.getElementById('p2AutoBadge');
+  const p2CalcInfo = document.getElementById('p2CalcInfo');
+  
+  if(CalcType === 3){
+    // When calculating P2, disable gradient mode
+    document.getElementById('row-P2').style.display='none';
+    if(GradientMode){
+      toggleGradientMode(); // Force disable
+    }
+    if(gradientSection) gradientSection.style.opacity = '0.5';
+    if(gradientToggle) gradientToggle.style.pointerEvents = 'none';
+  } else {
+    document.getElementById('row-P2').style.display='block';
+    if(gradientSection) gradientSection.style.opacity = '1';
+    if(gradientToggle) gradientToggle.style.pointerEvents = 'auto';
+  }
+  
   const res = document.getElementById('resultsCard'); if(res && res.classList.contains('show')) res.classList.remove('show');
 }
 function toggleZ(){
@@ -1627,6 +1906,43 @@ function appInit(){
   document.getElementById('eqSelect').value = '1'; EqType = 1;
   const puSelector = document.getElementById('P-unit');
   if (puSelector) puSelector.value = 'PSIG';
+
+  // Initialize gradient mode state
+  GradientMode = false;
+  GradientValue = 5;
+  GradientUnit = 'PSIG/mi';
+  P2LockedByGradient = false;
+  
+  // Ensure gradient UI is in initial state
+  const toggle = document.getElementById('gradientToggle');
+  const thumb = document.getElementById('gradientToggleThumb');
+  const inputs = document.getElementById('gradientInputs');
+  const label = document.getElementById('gradientStatusLabel');
+  const p2Badge = document.getElementById('p2AutoBadge');
+  const p2CalcInfo = document.getElementById('p2CalcInfo');
+  const p2Input = document.getElementById('P2');
+  
+  if(toggle) toggle.style.backgroundColor = '#d1d5db';
+  if(thumb) thumb.style.transform = 'translate-x-0';
+  if(inputs) inputs.classList.add('hidden');
+  if(label){
+    label.textContent = 'Desactivado';
+    label.classList.add('text-gray-500');
+    label.classList.remove('text-green-600');
+  }
+  if(p2Badge) p2Badge.classList.add('hidden');
+  if(p2CalcInfo) p2CalcInfo.classList.add('hidden');
+  if(p2Input){
+    p2Input.readOnly = false;
+    p2Input.classList.remove('bg-amber-50', 'border-amber-300');
+    p2Input.classList.add('focus:ring-blue-500', 'focus:border-blue-500');
+  }
+  
+  // Set gradient default values
+  const gradientValEl = document.getElementById('gradientVal');
+  const gradientUnitEl = document.getElementById('gradientUnit');
+  if(gradientValEl) gradientValEl.value = '5';
+  if(gradientUnitEl) gradientUnitEl.value = 'PSIG/mi';
 
   updateCalcMode();
   loadSch();
