@@ -1,0 +1,1471 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0F172A" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Freddy Roa Monsalvo" />
+    <title>Calculadora de Flujo de Gas | Herramientas</title>
+    <link rel="icon" type="image/x-icon" href="../images/logos/favicon.ico">
+    <!-- Professional Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
+    <!-- Tailwind CDN -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#0F172A",
+              secondary: "#008F4C",
+              accent: "#D4E157",
+              background: "#F8FAFC",
+              surface: "#ffffff",
+              "text-primary": "#334155",
+              "text-secondary": "#1E293B",
+            },
+            fontFamily: {
+              heading: ["Outfit", "sans-serif"],
+              sans: ["DM Sans", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <!-- Custom Styles for Tools -->
+    <link rel="stylesheet" href="../tailwind_compiled.css" />
+    <link rel="stylesheet" href="../custom_styles.css">
+    <script src="js/common.js"></script>
+  </head>
+  <body class="bg-background text-text-primary">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:text-primary focus:rounded-md focus:shadow-lg focus:font-bold">Ir al contenido principal</a>
+    <!-- Header -->
+            <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 shadow-md bg-surface">
+      <!-- Top Bar Contact Info -->
+      <div class="bg-[#0f172a] text-gray-300 text-xs py-2 border-b border-gray-800 hidden sm:block">
+         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center gap-6">
+            <span class="font-medium text-gray-300 tracking-wide">Ing. Mec Freddy Roa</span>
+            <div class="flex items-center gap-6">
+               <a href="mailto:freddy.roa76@gmail.com" class="hover:text-[#D4E157] transition-colors flex items-center gap-1">
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                  freddy.roa76@gmail.com
+               </a>
+               <a href="https://wa.me/573112531330" class="hover:text-[#D4E157] transition-colors flex items-center gap-1">
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                  +57 311 253 1330
+               </a>
+            </div>
+         </div>
+      </div>
+
+      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white/95 backdrop-blur-md">
+        <div class="flex items-center justify-end h-20">
+          <!-- Desktop Navigation -->
+          <div class="hidden sm:flex items-center space-x-4">
+            <a href="../index.html" class="group-link">Inicio</a>
+            <a href="../index.html#expertise" class="group-link">Expertise</a>
+            <a href="../index.html#projects" class="group-link">Proyectos</a>
+            <a href="../index.html#experience" class="group-link">Experiencia</a>
+            <a href="../herramientas.html" class="group-link text-[#0F172A] font-bold">Herramientas</a>
+            <a href="../index.html#contact" class="btn-contact-custom ml-4">CONTACTAR</a>
+          </div>
+
+          <!-- Mobile Menu Button -->
+          <div class="flex items-center sm:hidden">
+            <button id="mobile-menu-button" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-[#334155] hover:bg-gray-100 focus:outline-none transition-colors" aria-controls="mobile-menu" aria-expanded="false">
+              <span class="sr-only">Abrir men&uacute;</span>
+              <svg id="menu-icon" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+              </svg>
+              <svg id="close-icon" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Mobile Menu -->
+      <div id="mobile-menu" class="hidden sm:hidden bg-white border-t border-gray-100 overflow-y-auto max-h-[calc(100vh-80px)] shadow-xl">
+        <div class="px-4 pt-4 pb-6 space-y-1">
+          <a href="../index.html" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors">Inicio</a>
+          <a href="../index.html#expertise" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors">Expertise</a>
+          <a href="../index.html#projects" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors">Proyectos</a>
+          <a href="../index.html#experience" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors">Experiencia</a>
+          <a href="../herramientas.html" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors bg-[#F1F5F9]">Herramientas</a>
+          <a href="../index.html#contact" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors">Contacto</a>
+          <div class="pt-4 border-t border-gray-100">
+            <a href="../index.html#contact" class="w-full text-center block bg-[#0F172A] text-[#D4E157] border border-[#0F172A] px-5 py-3 rounded-full text-base font-bold hover:bg-white hover:text-[#0F172A] transition-all tracking-wide shadow-md">
+              CONTACTAR
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+<main id="main-content" class="pt-20">
+<section class="bg-background min-h-screen pt-8 pb-12"><div class="container mx-auto px-4 pt-2 pb-12 is-tool-content">
+      <!-- Breadcrumb -->
+      <nav class="flex mb-6 text-xs font-medium text-gray-400" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-2">
+          <li><a href="../index.html" class="hover:text-primary transition-colors">Inicio</a></li>
+          <li><span class="mx-2">/</span></li>
+          <li><a href="../herramientas.html" class="hover:text-primary transition-colors">Herramientas</a></li>
+          <li><span class="mx-2">/</span></li>
+          <li class="text-gray-900 font-bold">Flujo de Gas Natural</li>
+        </ol>
+      </nav>
+
+      <div class="title-box mb-8 relative z-10">
+  <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Dimensionamiento de Líneas de Gas Natural</h1>
+  <p class="text-gray-500 mt-2 text-sm font-medium">Diseño hidráulico de gasoductos según General Flow, AGA, Weymouth, Panhandle &amp; límite API 14E</p>
+</div>
+
+<!-- TOP CONTROL BAR -->
+<div class="card mb-6">
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div class="input-group">
+      <label class="font-bold text-gray-700">Ecuación de Flujo</label>
+      <select id="eqSelect" onchange="EqType=parseInt(this.value);"
+        class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 py-2.5 px-3 bg-white text-gray-900 font-bold cursor-pointer font-mono text-sm">
+        <option value="1">General Flow (Colebrook)</option>
+        <option value="2">AGA Full Turbulence</option>
+        <option value="3">Weymouth</option>
+        <option value="4">Panhandle A</option>
+        <option value="5">Panhandle B</option>
+        <option value="6">IGT</option>
+      </select>
+    </div>
+    <div class="input-group">
+      <label class="font-bold text-gray-700">Modo de Cálculo</label>
+      <select id="calcMode" onchange="updateCalcMode()"
+        class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 py-2.5 px-3 bg-white text-gray-900 font-bold cursor-pointer font-mono text-sm">
+        <option value="1">Calcular Caudal Q (dados P₁ y P₂)</option>
+        <option value="2">Calcular Presión entrada P₁ (dados Q y P₂)</option>
+        <option value="3">Calcular Presión salida P₂ (dados Q y P₁)</option>
+      </select>
+    </div>
+    <!-- Factor C API RP 14E -->
+    <div class="input-group">
+      <label class="font-bold text-gray-700">
+        Factor C
+        <span class="text-[10px] font-normal text-gray-400 ml-1">API RP 14E §2.4</span>
+      </label>
+      <div class="flex gap-1">
+        <select id="C_preset" onchange="onCPreset(this.value)"
+          class="flex-1 border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 py-2.5 px-2 bg-white text-gray-900 cursor-pointer text-xs font-bold">
+          <option value="100">C = 100 — Corrosivo, continuo</option>
+          <option value="125">C = 125 — Corrosivo, intermitente</option>
+          <option value="150">C = 150 — Sin sólidos, continuo (mìn)</option>
+          <option value="200">C = 200 — Sin sólidos, continuo (máx)</option>
+          <option value="250">C = 250 — Sin sólidos, intermitente</option>
+          <option value="custom">Personalizado…</option>
+        </select>
+        <input type="number" id="C_val" value="100" min="50" max="400" step="1"
+          class="w-16 border border-amber-300 rounded-md py-2 px-2 font-mono text-sm font-bold text-amber-900 bg-amber-50 focus:ring-1 focus:ring-amber-500 focus:border-amber-500 hidden"
+          oninput="document.getElementById('C_preset').value='custom'"
+          placeholder="C"/>
+        <input type="hidden" id="C_val_preset" value="100"/>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Equation Help (Collapsible) -->
+  <div class="mt-4 border-t border-gray-100 pt-3">
+    <button onclick="tgl('eq-help')" class="text-xs font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1">
+       <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+       Guía de Selección de Ecuaciones
+    </button>
+    <div id="eq-help" class="hidden mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-[10px] text-gray-600">
+      <div class="bg-slate-50 p-2 rounded border border-slate-100 italic">
+        <strong class="text-slate-800 block mb-1">General Flow:</strong> Ecuación fundamental con factor de fricción de Colebrook. Ideal para flujo turbulento y transición.
+      </div>
+      <div class="bg-slate-50 p-2 rounded border border-slate-100 italic">
+        <strong class="text-slate-800 block mb-1">AGA:</strong> Método estándar de la American Gas Association. Utilizado globalmente en diseño de gasoductos troncales.
+      </div>
+      <div class="bg-slate-50 p-2 rounded border border-slate-100 italic">
+        <strong class="text-slate-800 block mb-1">Weymouth:</strong> Diseñada para sistemas de alta presión. Recomendada para NPS ≤ 12" (fuera de rango subestima flujo).
+      </div>
+      <div class="bg-slate-50 p-2 rounded border border-slate-100 italic">
+        <strong class="text-slate-800 block mb-1">Panhandle A:</strong> Adecuada para sistemas de transporte de gas a presión moderada. Ignora rugosidad relativa.
+      </div>
+      <div class="bg-slate-50 p-2 rounded border border-slate-100 italic">
+        <strong class="text-slate-800 block mb-1">Panhandle B:</strong> Diseñada para tuberías de gran diámetro y alta presión con flujo totalmente turbulento.
+      </div>
+      <div class="bg-slate-50 p-2 rounded border border-slate-100 italic">
+        <strong class="text-slate-800 block mb-1">IGT:</strong> Desarrollada por el Institute of Gas Technology. Empleada comúnmente en redes de distribución.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN TWO-COLUMN GRID -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+  <!-- LEFT: GAS COMPOSITION (2 cols) -->
+  <div class="lg:col-span-2">
+    <div class="card">
+      <div class="flex justify-between items-center mb-4">
+        <div>
+          <h2>Composición del Gas Natural</h2>
+          <p class="text-xs text-gray-500">Fracción Molar (Detección automática de normalización % → 1.0)</p>
+        </div>
+        <div class="flex flex-col items-end gap-1">
+          <div id="normUI" class="hidden animate-pulse">
+            <button onclick="doNormalize()" class="bg-amber-100 text-amber-700 border border-amber-300 px-3 py-1 rounded text-[10px] font-bold hover:bg-amber-200 uppercase tracking-tight">Normalizar % a 1.0</button>
+          </div>
+          <div class="text-sm">
+            Suma: <span id="moleSum" class="font-mono font-bold">0.0000</span>
+            <span id="sumOkBadge" class="hidden ml-1 text-xs text-green-600 font-bold">✓ OK</span>
+            <span id="sumBadErr" class="hidden ml-1 text-xs text-red-600 font-bold">✗ Error</span>
+          </div>
+          <div class="flex gap-2">
+            <button class="text-xs py-1.5 px-3 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-md border border-blue-200 font-medium transition-colors flex items-center gap-1"
+              onclick="pasteComposition()" title="Pegar desde portapapeles">
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+              Pegar
+            </button>
+            <button class="text-xs py-1.5 px-3 bg-red-50 text-red-600 hover:bg-red-100 rounded-md border border-red-200 font-medium transition-colors"
+              onclick="clearComposition()">
+              Limpiar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- JS populates this grid -->
+      <div class="composition-grid" id="compGrid"></div>
+
+      <!-- Calculated gas properties -->
+      <div class="mt-4 pt-4 border-t border-gray-100">
+        <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Propiedades Calculadas de la Cromatografía</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
+            <div class="text-[10px] text-slate-500 font-bold mb-1">Gravedad Esp. (G)</div>
+            <div id="autoG" class="font-mono text-lg font-bold text-slate-800">0.000</div>
+          </div>
+          <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
+            <div class="text-[10px] text-slate-500 font-bold mb-1">P′c (Pseudo-Crit)</div>
+            <div id="autoPc" class="font-mono text-base font-bold text-slate-800">0.0</div>
+            <div class="text-[9px] text-slate-400">psia</div>
+          </div>
+          <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
+            <div class="text-[10px] text-slate-500 font-bold mb-1">T′c (Pseudo-Crit)</div>
+            <div id="autoTc" class="font-mono text-base font-bold text-slate-800">0.0</div>
+            <div class="text-[9px] text-slate-400">°R</div>
+          </div>
+          <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
+            <div class="text-[10px] text-slate-500 font-bold mb-1">MW Promedio</div>
+            <div id="autoMW" class="font-mono text-base font-bold text-slate-800">0.00</div>
+            <div class="text-[9px] text-slate-400">lb/lbmol</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: OPERATING INPUTS (1 col, sticky) -->
+  <div>
+    <div class="card sticky top-24">
+      <h2>Datos de Entrada</h2>
+      <div class="space-y-4">
+
+        <!-- Pressures -->
+        <div id="row-P1" class="input-group">
+          <label for="P1" class="required font-bold text-gray-700">Presión Entrada P₁</label>
+          <div class="flex rounded-md shadow-sm border border-gray-300 overflow-hidden focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500">
+            <input type="number" id="P1" step="any" required placeholder="ej. 1000"
+              class="font-mono text-base flex-1 min-w-0 px-3 py-2 border-0 focus:outline-none focus:ring-0"/>
+            <select id="P-unit" onchange="syncPUnits()"
+              style="width:110px;flex-shrink:0;"
+              class="border-0 border-l border-gray-300 bg-gray-50 text-gray-700 text-[10px] font-bold cursor-pointer focus:outline-none px-1">
+              <optgroup label="Inglés">
+                <option value="PSIA">PSIA (abs)</option>
+                <option value="PSIG">PSIG (r)</option>
+              </optgroup>
+              <optgroup label="Métric/Otro">
+                <option value="BarA">Bar (abs)</option>
+                <option value="BarG">Bar (r)</option>
+                <option value="kPaA">kPa (abs)</option>
+                <option value="kPaG">kPa (r)</option>
+                <option value="kgA">kg/cm² (abs)</option>
+                <option value="kgG">kg/cm² (r)</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+
+        <div id="row-P2" class="input-group">
+          <label for="P2" class="required font-bold text-gray-700">Presión Salida P₂ <span id="p2u" class="units font-normal text-blue-600">(psia)</span></label>
+          <input type="number" id="P2" step="any" required placeholder="ej. 800"
+            class="font-mono text-lg w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"/>
+        </div>
+
+        <!-- Flow -->
+        <div id="row-Q" class="input-group">
+          <label for="Q" class="required font-bold text-gray-700">Caudal Q</label>
+          <div class="flex rounded-md shadow-sm border border-gray-300 overflow-hidden focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500">
+            <input type="number" id="Q" step="any" required placeholder="ej. 50"
+              class="font-mono text-base flex-1 min-w-0 px-3 py-2 border-0 focus:outline-none focus:ring-0"/>
+            <select id="Q-unit"
+              style="width:100px;flex-shrink:0;"
+              class="border-0 border-l border-gray-300 bg-gray-50 text-gray-700 text-xs font-bold cursor-pointer focus:outline-none px-1">
+              <option value="MMSCFD">MMSCFD</option><option value="SCFD">SCFD</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Temperature -->
+        <div class="input-group">
+          <label for="Tf" class="required font-bold text-gray-700">Temperatura de Flujo <span class="units font-normal">(°F)</span></label>
+          <input type="number" id="Tf" step="any" required placeholder="ej. 60"
+            class="font-mono text-lg w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"/>
+        </div>
+
+        <!-- Pipeline Length -->
+        <div class="input-group">
+          <label for="Len" class="required font-bold text-gray-700">Longitud del Gasoducto</label>
+          <div class="flex rounded-md shadow-sm border border-gray-300 overflow-hidden focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500">
+            <input type="number" id="Len" step="any" required placeholder="ej. 10"
+              class="font-mono text-base flex-1 min-w-0 px-3 py-2 border-0 focus:outline-none focus:ring-0"/>
+            <select id="L-unit"
+              style="width:68px;flex-shrink:0;"
+              class="border-0 border-l border-gray-300 bg-gray-50 text-gray-700 text-xs font-bold cursor-pointer focus:outline-none px-1">
+              <option value="mi">mi</option><option value="ft">ft</option><option value="km">km</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Pipe section -->
+        <div class="bg-slate-50 rounded-xl border border-slate-200 p-3">
+          <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Tubería (ASME B36.10)</h3>
+          <div class="grid grid-cols-3 gap-2 mb-2">
+            <div class="input-group">
+              <label class="text-[10px] font-bold text-gray-600 uppercase">NPS (in)</label>
+              <select id="NPS" onchange="loadSch()"
+                class="w-full border border-gray-300 rounded-md py-1.5 px-2 font-mono text-sm cursor-pointer focus:ring-blue-500">
+                <option value="0.5">1/2"</option><option value="0.75">3/4"</option>
+                <option value="1">1"</option><option value="1.5">1-1/2"</option>
+                <option value="2">2"</option><option value="3">3"</option>
+                <option value="4">4"</option><option value="6">6"</option>
+                <option value="8">8"</option><option value="10">10"</option>
+                <option value="12">12"</option><option value="14">14"</option>
+                <option value="16">16"</option><option value="18">18"</option>
+                <option value="20">20"</option><option value="24">24"</option>
+                <option value="30">30"</option><option value="36">36"</option>
+                <option value="42">42"</option><option value="48">48"</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label class="text-[10px] font-bold text-gray-600 uppercase">Schedule</label>
+              <select id="SCH" onchange="applyDims()"
+                class="w-full border border-gray-300 rounded-md py-1.5 px-2 font-mono text-sm cursor-pointer focus:ring-blue-500"></select>
+            </div>
+            <div class="input-group">
+              <label class="text-[10px] font-bold text-blue-800 uppercase">ID (in)</label>
+              <input type="number" id="IDinp" readonly
+                class="w-full border border-blue-200 bg-blue-50 text-blue-900 rounded-md py-1.5 px-2 font-mono text-sm font-bold cursor-not-allowed"/>
+            </div>
+          </div>
+          <div class="grid grid-cols-3 gap-2">
+            <div class="input-group">
+              <label class="text-[10px] font-bold text-gray-600 uppercase">Rugosidad ε (in)</label>
+              <input type="number" id="rough" step="any" placeholder="ej. 0.0007"
+                class="w-full border border-gray-300 rounded-md py-1.5 px-2 font-mono text-sm focus:ring-blue-500"/>
+            </div>
+            <div class="input-group">
+              <label class="text-[10px] font-bold text-gray-600 uppercase">Eficiencia E</label>
+              <input type="number" id="E" step="0.01" min="0.3" max="1.0" placeholder="ej. 0.95"
+                class="w-full border border-gray-300 rounded-md py-1.5 px-2 font-mono text-sm focus:ring-blue-500"/>
+            </div>
+            <div class="input-group">
+              <label class="text-[10px] font-bold text-gray-600 uppercase">ΔH (ft)</label>
+              <input type="number" id="Ele" value="0" step="any"
+                class="w-full border border-gray-300 rounded-md py-1.5 px-2 font-mono text-sm focus:ring-blue-500"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- Base Conditions (Standard Industry) -->
+        <div class="grid grid-cols-2 gap-3 mb-2">
+           <div class="input-group">
+             <label class="text-[10px] font-bold text-gray-500 uppercase">P Base</label>
+             <div class="flex border border-gray-200 rounded overflow-hidden">
+               <input type="number" id="Pb" value="14.7" step="any" class="w-full bg-slate-50 font-mono text-xs p-1 focus:outline-none"/>
+               <span id="pbu" class="bg-gray-200 text-[9px] px-1.5 flex items-center font-bold text-gray-600">psia</span>
+             </div>
+           </div>
+           <div class="input-group">
+             <label class="text-[10px] font-bold text-gray-500 uppercase">T Base</label>
+             <div class="flex border border-gray-200 rounded overflow-hidden">
+               <input type="number" id="Tb" value="60" step="any" class="w-full bg-slate-50 font-mono text-xs p-1 focus:outline-none"/>
+               <span id="tbu" class="bg-gray-200 text-[9px] px-1.5 flex items-center font-bold text-gray-600">°F</span>
+             </div>
+           </div>
+        </div>
+
+        <!-- Hidden fields -->
+        <input type="hidden" id="VTyp" value="1"/>
+        <input type="hidden" id="ZTyp" value="1"/>
+        <select id="T-unit" class="hidden"><option value="F">F</option></select>
+        <select id="ele-u" class="hidden"><option value="ft">ft</option></select>
+        <select id="rough-u" class="hidden"><option value="in">in</option></select>
+
+        <div id="status" class="text-sm min-h-[20px]"></div>
+
+        <button onclick="doCalc()"
+          class="w-full bg-primary text-accent hover:bg-slate-700 font-bold py-3.5 px-6 rounded-xl shadow-lg transition-all duration-200 flex items-center justify-center gap-2 active:scale-95">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          Calcular
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS PANEL -->
+<div id="resultsCard" style="display:none" class="card mt-8">
+  <div class="flex justify-between items-center mb-6 border-b border-gray-100 pb-4">
+    <div>
+      <h2 class="flex items-center gap-2">
+        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        Resultados del Cálculo
+      </h2>
+      <p id="res-mtd" class="text-sm text-blue-600 font-semibold mt-1">— General Flow</p>
+    </div>
+    <button onclick="window.print()" class="text-sm font-medium text-blue-600 hover:text-blue-800 flex items-center gap-2 transition-colors print:hidden">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+      Imprimir
+    </button>
+  </div>
+
+  <h3 id="res-title" class="text-lg font-bold text-gray-800 mb-4">Caudal Calculado</h3>
+
+  <!-- Key Results Grid -->
+  <div id="res-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+    <!-- JS populated -->
+  </div>
+
+  <!-- Erosion Alert -->
+  <div id="ve-alert" class="mb-6"></div>
+
+  <!-- Comparison Table -->
+  <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Comparación de Ecuaciones de Flujo</h3>
+  <div class="overflow-x-auto rounded-xl border border-slate-200 mb-6">
+    <table class="w-full text-left text-xs md:text-sm whitespace-nowrap">
+      <thead>
+        <tr class="bg-slate-100 text-slate-700">
+          <th class="px-4 py-3 font-semibold border-b">Ecuación</th>
+          <th id="cmp-col-hdr" class="px-4 py-3 font-semibold border-b">Variable (Unidad)</th>
+          <th class="px-4 py-3 font-semibold border-b">f (Darcy)</th>
+          <th class="px-4 py-3 font-semibold border-b">F Transm.</th>
+          <th class="px-4 py-3 font-semibold border-b">% vs Ref.</th>
+          <th class="px-4 py-3 font-semibold border-b">V<sub>máx</sub>/V<sub>e</sub></th>
+        </tr>
+      </thead>
+      <tbody id="cmp-body" class="divide-y divide-slate-100"></tbody>
+    </table>
+  </div>
+
+  <div id="res-notes" class="text-xs text-gray-500 leading-relaxed bg-slate-50 p-4 rounded-lg border border-slate-200"></div>
+</div>
+
+
+
+</section>
+</main>
+    <!-- Footer Pro -->
+    <footer id="contact" class="bg-gray-900 text-white border-t-4 border-[#008F4C]">
+      <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          
+          <!-- Column 1: Brand -->
+          <div>
+            <h3 class="text-xl font-bold font-heading mb-4 text-[#D4E157]">Freddy Roa Monsalvo</h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-4">
+              Ingeniero Mec&aacute;nico Senior especializado en proyectos de infraestructura energ&eacute;tica, dise�o de estaciones compresoras y gesti&oacute;n de activos con RCM2.
+            </p>
+            <div class="flex space-x-4">
+               <!-- LinkedIn -->
+               <a href="https://www.linkedin.com/in/freddyroa/" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                  <span class="sr-only">LinkedIn</span>
+                  <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+               </a>
+            </div>
+          </div>
+
+          <!-- Column 2: Quick Links -->
+          <div>
+            <h3 class="text-lg font-bold font-heading mb-4 text-white">Enlaces R&aacute;pidos</h3>
+            <ul class="space-y-2">
+              <li><a href="../index.html" class="text-gray-400 hover:text-[#D4E157] text-sm transition-colors">Inicio</a></li>
+              <li><a href="../herramientas.html" class="text-gray-400 hover:text-[#D4E157] text-sm transition-colors">Herramientas de C&aacute;lculo</a></li>
+              <li><a href="../index.html#expertise" class="text-gray-400 hover:text-[#D4E157] text-sm transition-colors">Expertise & &Aacute;reas</a></li>
+              <li><a href="../index.html#projects" class="text-gray-400 hover:text-[#D4E157] text-sm transition-colors">Proyectos Destacados</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 3: Contact Info -->
+          <div>
+            <h3 class="text-lg font-bold font-heading mb-4 text-white">Contacto Profesional</h3>
+            <ul class="space-y-3">
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-[#D4E157] mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                <a href="mailto:freddy.roa76@gmail.com" class="text-gray-400 hover:text-white text-sm transition-colors">freddy.roa76@gmail.com</a>
+              </li>
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-[#D4E157] mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                <span class="text-gray-400 text-sm">+57 311 253 1330</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-[#D4E157] mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <span class="text-gray-400 text-sm">Bogot&aacute; D.C., Colombia</span>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+        <div class="mt-12 border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+          <p>&copy; <span class="copyright-year">2026</span> Freddy Roa Monsalvo. Todos los derechos reservados.</p>
+          <div class="flex space-x-6 mt-4 md:mt-0">
+             <a href="#" class="hover:text-gray-300">Privacidad</a>
+             <a href="#" class="hover:text-gray-300">T&eacute;rminos</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a
+      href="https://wa.me/573112531330"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Contactar por WhatsApp"
+      class="fixed bottom-6 right-6 z-50 bg-green-500 text-white rounded-full p-4 shadow-lg hover:bg-green-600 transition-transform transform hover:scale-110"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="28"
+        height="28"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        class="w-7 h-7"
+      >
+        <path
+          d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"
+        />
+      </svg>
+    </a>
+    
+
+<script>
+// ============ PIPE DIMENSIONS (ASME B36.10, wall thickness in inches) ============
+const PD = {
+  '0.5': {OD:0.840,  s:{40:0.109,80:0.147,160:0.187}},
+  '0.75':{OD:1.050,  s:{40:0.113,80:0.154,160:0.218}},
+  '1':   {OD:1.315,  s:{40:0.133,80:0.179,160:0.250}},
+  '1.5': {OD:1.900,  s:{40:0.145,80:0.200,160:0.281}},
+  '2':   {OD:2.375,  s:{40:0.154,80:0.218,160:0.343}},
+  '3':   {OD:3.500,  s:{40:0.216,80:0.300,160:0.437}},
+  '4':   {OD:4.500,  s:{40:0.237,80:0.337,120:0.438,160:0.531}},
+  '6':   {OD:6.625,  s:{40:0.280,80:0.432,120:0.562,160:0.719}},
+  '8':   {OD:8.625,  s:{20:0.250,30:0.277,40:0.322,60:0.406,80:0.500,120:0.594,160:0.719}},
+  '10':  {OD:10.750, s:{20:0.250,30:0.307,40:0.365,60:0.500,80:0.594,120:0.719,160:0.844}},
+  '12':  {OD:12.750, s:{20:0.250,30:0.330,40:0.406,60:0.562,80:0.688,120:0.844,160:1.000}},
+  '14':  {OD:14.000, s:{10:0.250,20:0.312,30:0.375,40:0.438,60:0.594,80:0.750,100:0.938,120:1.094,160:1.250}},
+  '16':  {OD:16.000, s:{10:0.250,20:0.312,30:0.375,40:0.500,60:0.656,80:0.844,120:1.031,160:1.219}},
+  '18':  {OD:18.000, s:{10:0.250,20:0.312,30:0.438,40:0.562,60:0.750,80:0.938,120:1.156,160:1.375}},
+  '20':  {OD:20.000, s:{10:0.250,20:0.375,30:0.500,40:0.594,60:0.812,80:1.031,120:1.281,160:1.500}},
+  '24':  {OD:24.000, s:{10:0.250,20:0.375,30:0.562,40:0.688,60:0.969,80:1.219,120:1.531,160:1.812}},
+  '30':  {OD:30.000, s:{10:0.312,20:0.500,30:0.625}},
+  '36':  {OD:36.000, s:{10:0.312,20:0.500,30:0.750}},
+  '42':  {OD:42.000, s:{10:0.375,20:0.500}},
+  '48':  {OD:48.000, s:{10:0.375,20:0.500}},
+};
+
+// ============ STATE ============
+let CalcType = 1, EqType = 1;
+let err_g; // global for AGA iteration
+
+// ============ UNIT CONVERSIONS ============
+function toPSIA(v,u){
+  const m={'PSIA':1,'PSIG':v=>v+14.695949,'BarA':v=>v*14.503774,'BarG':v=>(v+1.01325)*14.503774,
+           'kPaA':v=>v*0.14503774,'kPaG':v=>(v+101.325)*0.14503774,
+           'kgA':v=>v*14.223343,'kgG':v=>(v+1.0332275)*14.223343};
+  const fn=m[u]; return typeof fn==='function'?fn(v):v;
+}
+function fromPSIA(v,u){
+  const m={'PSIA':1,'PSIG':v=>v-14.695949,'BarA':v=>v/14.503774,'BarG':v=>v/14.503774-1.01325,
+           'kPaA':v=>v/0.14503774,'kPaG':v=>v/0.14503774-101.325,
+           'kgA':v=>v/14.223343,'kgG':v=>v/14.223343-1.0332275};
+  const fn=m[u]; return typeof fn==='function'?fn(v):v;
+}
+function toF(v,u){
+  return u==='F'?v:u==='C'?v*9/5+32:u==='K'?(v-273.15)*9/5+32:v-459.67;
+}
+function toMiles(v,u){
+  return u==='mile'?v:u==='km'?v*0.621371:u==='m'?v*0.000621371:v/5280;
+}
+function toInches(v,u){return u==='mm'?v/25.4:v;}
+function toFeet(v,u){return u==='m'?v*3.28084:u==='in'?v/12:v;}
+function toMMSCFD(v,u){
+  return u==='MMSCFD'?v:u==='SCFD'?v/1e6:u==='MMSCMD'?v*35.3147:u==='SCMD'?v*35.3147/1e6:v;
+}
+function fromMMSCFD(v,u){
+  return u==='MMSCFD'?v:u==='SCFD'?v*1e6:u==='MMSCMD'?v/35.3147:u==='SCMD'?v/35.3147*1e6:v;
+}
+
+// ============ MATH HELPERS ============
+const lg = v => Math.log(v)/Math.LN10;
+
+// ============ THERMODYNAMICS ============
+// DAK EOS (Dranchuk-Abou-Kassem 1975) – exact from original source
+// A4 = 0.01569 (positive, confirmed from decoded original JS)
+let Fun, DFun;
+function DAK_FUN(TR,PR,z){
+  const A1=0.3265,A2=-1.07,A3=-0.5339,A4=0.01569,A5=-0.05165;
+  const A6=0.5475,A7=-0.7361,A8=0.1844,A9=0.1056,A10=0.6134,A11=0.721;
+  const C1=A1+A2/TR+A3/TR**3+A4/TR**4+A5/TR**5;
+  const C2=A6+A7/TR+A8/TR**2;
+  const C3=A9*(A7/TR+A8/TR**2);
+  const rz=0.27*PR/(z*TR);
+  const e3=Math.exp(-A11*rz**2);
+  Fun =z-1-C1*rz-C2*rz**2+C3*rz**5-A10*(1+A11*rz**2)*(rz**2/TR**3)*e3;
+  const dc=(2*A10*rz/TR**3)*(1+A11*rz**2-A11*rz**4)*e3;
+  DFun=1-(C1+2*C2*rz-5*C3*rz**4+dc)*(-rz/z);
+}
+function fun_Z(TR,PR){
+  let z=1,DEL=1,n=0;
+  while(n++<500&&Math.abs(DEL)>1e-8){DAK_FUN(TR,PR,z);DEL=-(Fun/DFun);z+=DEL;}
+  return Math.max(0.1,z);
+}
+function Z_CNGA(G,T_R,P){
+  return 1/(1+P*344400*Math.pow(10,1.785*G)/T_R**3.825);
+}
+
+// Pseudo-criticals – Sutton (1985) + Wichert-Aziz (1972)
+let _Tpcm=0;
+function pseudoCrit(G,N2p,CO2p,H2Sp){
+  const yn=N2p/100,yc=CO2p/100,yh=H2Sp/100,yhc=1-yn-yc-yh;
+  const Tpc0=169.2+349.5*G-74*G*G, Ppc0=756.8-131*G-3.6*G*G;
+  const yag=yc+yh;
+  _Tpcm=yhc*Tpc0+227.16*yn+547.38*yc+671.76*yh;
+  const Ppcm=yhc*Ppc0+491.677938*yn+1070.3785212*yc+1296.637395*yh;
+  const Eps=120*(yag**0.9-yag**1.6)+15*(yh**0.5-yh**4);
+  const Tpc=_Tpcm-Eps;
+  const Ppc=Ppcm*Tpc/(_Tpcm+yh*(1-yh)*Eps);
+  return {Tpc,Ppc};
+}
+
+// Gas viscosity – Lee, Gonzalez & Eakin (1966) SPE-1340
+function gasVisc(G,T_R,P,Z){
+  const MW=28.9625*G;
+  const rho=0.0014935*P*MW/(Z*T_R);
+  const K=((9.379+0.01607*MW)*T_R**1.5)/(209.2+19.26*MW+T_R);
+  const X=3.448+986.4/T_R+0.01009*MW;
+  const Y=2.447-0.2224*X;
+  return 0.0001*K*Math.exp(X*rho**Y); // [cP]
+}
+
+// Colebrook-White friction factor (Darcy-Weisbach)
+function fColebrook(Re,eD){
+  if (Re <= 2000) return 64 / Re;               // laminar (Hagen-Poiseuille)
+if (Re < 4000)  return 64 / 2000;             // zona crítica: usar f laminar en Re=2000 (conservador)
+  let f=0.02;
+  for(let i=0;i<100;i++){
+    const r=-2*lg(eD/3.7+2.51/(Re*Math.sqrt(f)));
+    const f1=1/(r*r);
+    if(Math.abs(f1-f)<1e-10) return f1;
+    f=f1;
+  }
+  return f;
+}
+
+// AGA transmission factor (smooth-to-rough transition)
+function fAGA(Re,eD){
+  let F=4*lg(Re/10)-0.6;
+  for(let i=0;i<500;i++){
+    const R=4*lg(Re/F)-0.6;
+    err_g=R-F; if(Math.abs(err_g)<1e-8) break; F=R;
+  }
+  const F_smooth = 4 * lg(Re / (1.4125 * F));
+  // AGA Full Turbulence: solo término rugoso (eD > 0), o suave si tubería lisa
+  if (eD === 0) return 4 / (F_smooth * F_smooth);
+  const F_rough = 4 * lg(3.7 / eD);
+  return 4 / (F_rough * F_rough);
+}
+
+// ============ FLOW EQUATIONS ============
+// All accept CTp = 1 (calc Q), 2 (calc P1), 3 (calc P2)
+// Internal units: Q in SCFD, P in PSIA, D in inches, L in miles, T in °R
+// Globals used: Pstd, Tstd_R, P1, P2, Grav, Le, Zavg, ViscAvg, Tf_R, E_pipe, ID, s_val
+
+// Shared elevation factor (s_val set externally)
+let Pstd,Tstd_R,P1,P2,Grav,Le,Zavg,ViscAvg,Tf_R,E_pipe,ID,s_val,Pavg;
+
+function solveGF(CTp,f1){
+  // Legacy function cleanup
+  return solveGF2(CTp, f1);
+}
+// Clean implementations using separate Q,p1,p2 globals
+let Q_SI, P1_SI, P2_SI; // working values in SCFD/PSIA
+
+function GF_P2(f1){
+  const A=1860.96*E_pipe*(Tstd_R/Pstd)*ID**2.5;
+  const term = P1_SI**2 - Grav*Le*Zavg*f1*Tf_R*(Q_SI/A)**2;
+  if(term < 0) return NaN;
+  return Math.sqrt(term/Math.exp(s_val));
+}
+function Wey_P2(){
+  const A=433.49*E_pipe*(Tstd_R/Pstd)*ID**(8/3);
+  const term = P1_SI**2 - Grav*Le*Zavg*Tf_R*(Q_SI/A)**2;
+  if(term < 0) return NaN;
+  return Math.sqrt(term/Math.exp(s_val));
+}
+function PanA_P2(){
+  const A=435.87*E_pipe*(Tstd_R/Pstd)**1.0788*ID**2.6182;
+  const term = P1_SI**2 - (Q_SI/A)**(1/0.5394)*Grav**0.8538*Le*Zavg*Tf_R;
+  if(term < 0) return NaN;
+  return Math.sqrt(term/Math.exp(s_val));
+}
+function PanB_P2(){
+  const A=737*E_pipe*(Tstd_R/Pstd)**1.02*ID**2.53;
+  const term = P1_SI**2 - (Q_SI/A)**(1/0.51)*Grav**0.961*Le*Zavg*Tf_R;
+  if(term < 0) return NaN;
+  return Math.sqrt(term/Math.exp(s_val));
+}
+// Existing Q and P1 functions kept as they are generally stable (sqrt sum is always positive)
+function GF_Q(f1){
+  const A=1860.96*E_pipe*(Tstd_R/Pstd)*ID**2.5;
+  const term = P1_SI**2-Math.exp(s_val)*P2_SI**2;
+  return (term < 0) ? 0 : A*Math.sqrt(term/(Grav*Le*Zavg*f1*Tf_R));
+}
+function GF_P1(f1){
+  const A=1860.96*E_pipe*(Tstd_R/Pstd)*ID**2.5;
+  return Math.sqrt(Grav*Le*Zavg*f1*Tf_R*(Q_SI/A)**2+Math.exp(s_val)*P2_SI**2);
+}
+function Wey_Q(){
+  const A=433.49*E_pipe*(Tstd_R/Pstd)*ID**(8/3);
+  const term = P1_SI**2-Math.exp(s_val)*P2_SI**2;
+  return (term < 0) ? 0 : A*Math.sqrt(term/(Grav*Le*Zavg*Tf_R));
+}
+function Wey_P1(){
+  const A=433.49*E_pipe*(Tstd_R/Pstd)*ID**(8/3);
+  return Math.sqrt(Grav*Le*Zavg*Tf_R*(Q_SI/A)**2+Math.exp(s_val)*P2_SI**2);
+}
+function PanA_Q(){
+  const A=435.87*E_pipe*(Tstd_R/Pstd)**1.0788*ID**2.6182;
+  const term = P1_SI**2-Math.exp(s_val)*P2_SI**2;
+  return (term < 0) ? 0 : A*(term/(Grav**0.8538*Le*Zavg*Tf_R))**0.5394;
+}
+function PanA_P1(){
+  const A=435.87*E_pipe*(Tstd_R/Pstd)**1.0788*ID**2.6182;
+  return Math.sqrt((Q_SI/A)**(1/0.5394)*Grav**0.8538*Le*Zavg*Tf_R+Math.exp(s_val)*P2_SI**2);
+}
+function PanB_Q(){
+  const A=737*E_pipe*(Tstd_R/Pstd)**1.02*ID**2.53;
+  const term = P1_SI**2-Math.exp(s_val)*P2_SI**2;
+  return (term < 0) ? 0 : A*(term/(Grav**0.961*Le*Zavg*Tf_R))**0.51;
+}
+function PanB_P1(){
+  const A=737*E_pipe*(Tstd_R/Pstd)**1.02*ID**2.53;
+  return Math.sqrt((Q_SI/A)**(1/0.51)*Grav**0.961*Le*Zavg*Tf_R+Math.exp(s_val)*P2_SI**2);
+}
+
+// IGT — constant = 136.9 (confirmed from original decoded source)
+function IGT_Q(){
+  const mu_si=ViscAvg/1488.1639; // cP → lb/(ft·s)
+  const A=136.9*E_pipe*(Tstd_R/Pstd)*ID**(8/3);
+  return A*((P1_SI**2-Math.exp(s_val)*P2_SI**2)/(Grav**0.8*mu_si**0.2*Le*Tf_R*Zavg))**(5/9);
+}
+function IGT_P1(){
+  const mu_si=ViscAvg/1488.1639;
+  const A=136.9*E_pipe*(Tstd_R/Pstd)*ID**(8/3);
+  const g=(Grav**0.8*mu_si**0.2*Le*Tf_R*Zavg);
+  return Math.sqrt((Q_SI/A)**(9/5)*g+Math.exp(s_val)*P2_SI**2);
+}
+function IGT_P2(){
+  const mu_si=ViscAvg/1488.1639;
+  const A=136.9*E_pipe*(Tstd_R/Pstd)*ID**(8/3);
+  const g=(Grav**0.8*mu_si**0.2*Le*Tf_R*Zavg);
+  return Math.sqrt((P1_SI**2-(Q_SI/A)**(9/5)*g)/Math.exp(s_val));
+}
+
+// Velocity at pipe conditions [ft/s]
+function Vel(P_psia,Q_MMSCFD){
+  return 0.002122*(Pstd/Tstd_R)*(Zavg*Tf_R/P_psia)*(Q_MMSCFD*1e6/(ID*ID));
+}
+
+// EROSIONAL VELOCITY — API RP 14E §2.4 — CORRECTED v2.0
+// FIX: evaluate density at P_ref = outlet pressure P2 (max velocity, min pressure)
+// NOT at Pavg as the original checalc.com code incorrectly did.
+// Formula: Ve = C / sqrt(ρ) where ρ [lb/ft³] = 28.97·G·P/(Z·10.73·T_R)
+// → Ve = C · sqrt(Z·10.73·T_R / (28.97·G·P))
+function Ve(P_ref, C_const){
+  return C_const*Math.sqrt(Zavg*10.73*Tf_R/(28.97*Grav*P_ref));
+}
+
+// ============ SHARED STATE UPDATE (called in iteration loop) ============
+// Uses composition-derived Pc/Tc from getGasProperties() for accurate Z (DAK EOS)
+function updateShared(Pavg_est){
+  const ztyp=parseInt(document.getElementById('ZTyp').value);
+  if(ztyp===1){
+    // Use chromatographic pseudo-criticals directly (more accurate than Sutton)
+    const props = getGasProperties();
+    let Tpc = props.Tc_prime, Ppc = props.Pc_prime;
+    if(Tpc > 0 && Ppc > 0){
+      // Wichert-Aziz correction for H2S+CO2
+      const yc = props.CO2p/100, yh = props.H2Sp/100;
+      const yag = yc + yh;
+      if(yag > 0.001){
+        const Eps = 120*(Math.pow(yag,0.9)-Math.pow(yag,1.6))+15*(Math.pow(yh,0.5)-Math.pow(yh,4));
+        const Tpc_corr = Tpc - Eps;
+        Ppc = Ppc*Tpc_corr/(Tpc + yh*(1-yh)*Eps);
+        Tpc = Tpc_corr;
+      }
+      Zavg = fun_Z(Tf_R/Tpc, Pavg_est/Ppc);
+    } else {
+      // Fallback: Sutton correlation from SG only
+      const pc = pseudoCrit(Grav, 0, 0, 0);
+      Zavg = fun_Z(Tf_R/pc.Tpc, Pavg_est/pc.Ppc);
+    }
+  } else if(ztyp===2){
+    Zavg=Z_CNGA(Grav,Tf_R,Pavg_est);
+  } else {
+    Zavg=parseFloat(document.getElementById('ZVal').value)||0.85;
+  }
+  const vtyp=parseInt(document.getElementById('VTyp').value);
+  ViscAvg=vtyp===1?gasVisc(Grav,Tf_R,Pavg_est,Zavg):
+    (parseFloat(document.getElementById('ViscVal').value)||0.012);
+  // Elevation correction
+  if(Math.abs(Ele_SI)>1e-9){
+    s_val=0.0375*Grav*Ele_SI/(Tf_R*Zavg);
+    Le=L_SI*(Math.exp(s_val)-1)/s_val;
+  } else {
+    s_val=0; Le=L_SI;
+  }
+}
+
+// Reynolds number — GPSA field units formula
+// Re = 0.4778 * (Pb/Tb) * G * Q_MMSCFD * 1e6 / (mu_cP * (D_in/12) / 1488.1639)
+// This uses the exact same constant structure as the original decoded JS:
+// original: Re = 0.0004778*(Pstd/(Tstd+459.67))*(G*Q_SCFD)/(mu_cP*(D_in/12)/1488.1639)
+// with Q_SCFD = Q_MMSCFD * 1e6:
+// = 0.0004778*(Pb/Tb)*G*Q_MMSCFD*1e6 * 1488.1639 / (mu_cP * D_in/12)
+function calcRe(Q_MMSCFD){
+  // Re = 0.7110·(Pb/Tb)·G·Q_SCFD / (μ_cP·D_in)  — GPSA §17, Crane TP-410
+  return (0.0004778 * 1488.1639) * (Pstd / Tstd_R) * Grav * Q_MMSCFD * 1e6 / (ViscAvg * ID);
+}
+
+let L_SI, Ele_SI; // working values in miles and feet
+
+// ============ MAIN CALCULATION ============
+function doCalc(){
+  const st=document.getElementById('status');
+  st.innerHTML='';
+  try{
+    // ---- READ INPUTS ----
+    const pu=document.getElementById('P-unit').value;
+    const tu=document.getElementById('T-unit').value;
+    const lu=document.getElementById('L-unit').value;
+    const ru=document.getElementById('rough-u').value;
+    const eu=document.getElementById('ele-u').value;
+    const qu=document.getElementById('Q-unit').value;
+
+    Pstd   = parseFloat(document.getElementById('Pb').value);  // siempre psia absoluta
+    Tstd_R = toF(parseFloat(document.getElementById('Tb').value),tu)+459.67;
+    ID     = parseFloat(document.getElementById('IDinp').value);
+    L_SI   = toMiles(parseFloat(document.getElementById('Len').value),lu);
+    Ele_SI = toFeet(parseFloat(document.getElementById('Ele').value),eu);
+    const rough = toInches(parseFloat(document.getElementById('rough').value),ru);
+    E_pipe = parseFloat(document.getElementById('E').value);
+    // Get gas properties from composition
+    const gasProps = getGasProperties();
+    if(Math.abs(gasProps.sum - 1.0) > 0.005){
+      err('La suma de la composición del gas debe ser 1.000 ±0.005 (actual: ' + gasProps.sum.toFixed(6) + '). Use el panel izquierdo para ingresar la composición.');
+      return;
+    }
+    Grav   = gasProps.SG;  // Gravedad específica calculada de cromatografía
+    Tf_R   = toF(parseFloat(document.getElementById('Tf').value),tu)+459.67;
+    const C_const = getC();
+    const eD = rough/ID;
+
+    // Wichert-Aziz se aplica internamente en updateShared() usando gasProps
+
+    // ---- VALIDATE ----
+    if(ID<=0)         {err('ID debe ser positivo.');return;}
+    if(L_SI<=0)       {err('Longitud debe ser positiva.');return;}
+    if(E_pipe<=0||E_pipe>1){err('Eficiencia E debe estar entre 0 y 1.');return;}
+    if(Grav<=0)       {err('Gravedad específica debe ser positiva.');return;}
+
+    // ---- VALIDATE RANGES ----
+    if(ID<=0)           {err('ID debe ser positivo.');return;}
+    if(L_SI<=0)         {err('Longitud debe ser positiva.');return;}
+    if(E_pipe<=0||E_pipe>1){err('Eficiencia E debe estar entre 0 y 1.');return;}
+    if(Grav<=0)         {err('Gravedad específica inválida. Revise la composición del gas.');return;}
+
+    const p1v=parseFloat(document.getElementById('P1').value);
+    const p2v=parseFloat(document.getElementById('P2').value);
+    const qv =parseFloat(document.getElementById('Q').value);
+
+    // Initialise working pressures and flow
+    if(CalcType===1){
+      P1_SI=toPSIA(p1v,pu); P2_SI=toPSIA(p2v,pu);
+      if(P1_SI<=P2_SI){err('P₁ debe ser mayor que P₂ para flujo positivo.');return;}
+      Q_SI=100e6; // initial guess SCFD
+    } else if(CalcType===2){
+      P2_SI=toPSIA(p2v,pu);
+      Q_SI=toMMSCFD(qv,qu)*1e6;
+      P1_SI=P2_SI*1.30;
+    } else {
+      P1_SI=toPSIA(p1v,pu);
+      Q_SI=toMMSCFD(qv,qu)*1e6;
+      P2_SI=P1_SI*0.70;
+    }
+
+    // ---- OPTIMIZED ITERATION LOOP (EPSILON < 1e-6) ----
+    let f_iter=0.02, Z_old=0, f_old=0;
+    let Pavg_est=(CalcType===1)?2/3*(P1_SI**3-P2_SI**3)/(P1_SI**2-P2_SI**2):(P1_SI+P2_SI)/2;
+    let iterCount = 0;
+    const maxIter = 100, eps = 1e-7;
+
+    function iterStep(f_in){
+      const f_aga = fAGA(calcRe(Q_SI/1e6), eD);
+      let step = {Q:0, P1:0, P2:0};
+      if(EqType===1)      step = {Q:GF_Q(f_in),  P1:GF_P1(f_in),  P2:GF_P2(f_in)};
+      else if(EqType===2) step = {Q:GF_Q(f_aga), P1:GF_P1(f_aga), P2:GF_P2(f_aga)};
+      else if(EqType===3) step = {Q:Wey_Q(),     P1:Wey_P1(),     P2:Wey_P2()};
+      else if(EqType===4) step = {Q:PanA_Q(),    P1:PanA_P1(),    P2:PanA_P2()};
+      else if(EqType===5) step = {Q:PanB_Q(),    P1:PanB_P1(),    P2:PanB_P2()};
+      else if(EqType===6) step = {Q:IGT_Q(),     P1:IGT_P1(),     P2:IGT_P2()};
+      return step;
+    }
+
+    while(iterCount < maxIter){
+      Z_old = Zavg; f_old = f_iter;
+      updateShared(Pavg_est);
+      const Re=calcRe(Q_SI/1e6);
+      f_iter=fColebrook(Re,eD);
+      const step = iterStep(f_iter);
+
+      if(CalcType===1){
+        if(isNaN(step.Q) || step.Q <= 0) break;
+        Q_SI = step.Q;
+      } else if(CalcType===2){
+        if(isNaN(step.P1) || step.P1 <= 0) break;
+        P1_SI = step.P1;
+      } else {
+        if(isNaN(step.P2) || step.P2 <= 0){
+          err('Caudal excesivo: la caída de presión supera la presión de entrada disponible para el modelo '+methodNames[EqType-1]+'.');
+          return;
+        }
+        P2_SI = step.P2;
+      }
+      Pavg_est=2/3*(P1_SI**3-P2_SI**3)/Math.max(P1_SI**2-P2_SI**2, 1e-6);
+      
+      // Convergence check
+      if(Math.abs(Zavg - Z_old) < eps && Math.abs(f_iter - f_old) < eps) break;
+      iterCount++;
+    }
+
+    // ---- FINAL PASS — all methods ----
+    updateShared(Pavg_est);
+    Pavg=2/3*(P1_SI**3-P2_SI**3)/Math.max(P1_SI**2-P2_SI**2,1);
+    const Re_f=calcRe(Q_SI/1e6);
+    const ff_gf  = fColebrook(Re_f,eD);
+    const ff_aga = fAGA(Re_f,eD);
+    const F_gf   = 2/Math.sqrt(ff_gf);
+    const F_aga  = 2/Math.sqrt(ff_aga);
+
+    // Solutions for each method (Q in MMSCFD, P in PSIA)
+    const sols={}, fArr={};
+    const calc=(fn_Q,fn_P1,fn_P2)=>{
+      if(CalcType===1) return fn_Q()/1e6;
+      if(CalcType===2) return fn_P1();
+      return fn_P2();
+    };
+    sols[1]=calc(()=>GF_Q(ff_gf), ()=>GF_P1(ff_gf), ()=>GF_P2(ff_gf));
+    sols[2]=calc(()=>GF_Q(ff_aga),()=>GF_P1(ff_aga),()=>GF_P2(ff_aga));
+    sols[3]=calc(Wey_Q,Wey_P1,Wey_P2);
+    sols[4]=calc(PanA_Q,PanA_P1,PanA_P2);
+    sols[5]=calc(PanB_Q,PanB_P1,PanB_P2);
+    sols[6]=calc(IGT_Q,IGT_P1,IGT_P2);
+    fArr[1]=fArr[3]=fArr[4]=fArr[5]=fArr[6]=ff_gf; fArr[2]=ff_aga;
+
+    const mainSol = sols[EqType];
+
+    // Final flow/pressure values
+    let Q_disp=Q_SI/1e6, P1_disp=P1_SI, P2_disp=P2_SI;
+    if(CalcType===1){Q_disp=mainSol;}
+    else if(CalcType===2){P1_disp=mainSol; Q_disp=Q_SI/1e6;}
+    else{P2_disp=mainSol; Q_disp=Q_SI/1e6;}
+
+    // Velocities
+    const v1=Vel(P1_disp,Q_disp);
+    const v2=Vel(P2_disp,Q_disp);
+    const vmax=Math.max(v1,v2);
+
+    // EROSIONAL VELOCITY — CORRECTED: use P2_disp (outlet, lowest pressure)
+    const ve=Ve(P2_disp,C_const);
+    const vr=vmax/ve*100;
+    const vecls=vr>100?'danger':vr>80?'warn':'ok';
+
+    // ---- RENDER RESULTS ----
+    const f_disp=fArr[EqType], F_disp=2/Math.sqrt(f_disp);
+    const Q_out=CalcType===1?mainSol:Q_disp;
+    const methodNames=['General Flow','AGA','Weymouth','Panhandle A','Panhandle B','IGT'];
+
+    let title='',solLbl='',solVal='',solUnit='';
+    if(CalcType===1){title='Caudal calculado';solLbl='Caudal Q';solVal=n2f(fromMMSCFD(mainSol,qu),2);solUnit=qu;}
+    else if(CalcType===2){title='Presión de entrada calculada';solLbl='P₁';solVal=n2f(fromPSIA(mainSol,pu),2);solUnit=pu;}
+    else{title='Presión de salida calculada';solLbl='P₂';solVal=n2f(fromPSIA(mainSol,pu),2);solUnit=pu;}
+
+    const badgeColor = vr>100?'bg-red-100 text-red-800 border-red-200':vr>80?'bg-amber-100 text-amber-800 border-amber-200':'bg-green-100 text-green-800 border-green-200';
+    const veBadge=`<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold border ${badgeColor}">${vr>100?'⚠ SUPERA Ve':vr>80?'⚠ Cerca de Ve':'✓ OK'} (${n2f(vr,1)}%)</span>`;
+
+    const itemStart = '<div class="bg-white border border-slate-200 rounded-lg p-4 shadow-sm relative overflow-hidden col-span-1">';
+    const itemHi    = '<div class="bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg p-4 text-white shadow-md relative overflow-hidden flex flex-col justify-between h-32 col-span-2 md:col-span-1">';
+    const lblClass  = "text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1";
+    const valClass  = "text-2xl font-bold font-mono tracking-tight text-slate-800";
+    const subClass  = "text-[10px] text-slate-400 mt-1";
+    
+    document.getElementById('res-grid').innerHTML=`
+      ${itemHi}
+        <div class="text-blue-100 text-xs font-bold uppercase tracking-wider mb-1 z-10 relative">${solLbl}</div>
+        <div class="text-3xl font-bold font-mono tracking-tight text-white">${solVal} <span class="text-sm font-sans text-blue-200">${solUnit}</span></div>
+        <div class="text-xs text-blue-200 mt-2 z-10 relative">${methodNames[EqType-1]}</div>
+      </div>
+      ${itemStart}<div class="${lblClass}">ID Interno</div><div class="${valClass}">${n2f(ID,3)} <span class="text-[11px] font-sans text-slate-500">in</span></div></div>
+      ${itemStart}<div class="${lblClass}">P<sub>avg</sub> (media)</div><div class="${valClass}">${n2f(fromPSIA(Pavg,pu),2)} <span class="text-[11px] font-sans text-slate-500">${pu}</span></div></div>
+      ${itemStart}<div class="${lblClass}"> Factor Z <span class="lowercase">(@P<sub>avg</sub>)</span></div><div class="${valClass}">${n2f(Zavg,4)}</div></div>
+      ${itemStart}<div class="${lblClass}">L<sub>eq</sub></div><div class="${valClass}">${n2f(Le,4)} <span class="text-[11px] font-sans text-slate-500">mi</span></div></div>
+      ${itemStart}<div class="${lblClass}">Factor Fricción f</div><div class="${valClass}">${n2f(f_disp,5)}</div></div>
+      ${itemStart}<div class="${lblClass}">Factor Transmisión F</div><div class="${valClass}">${n2f(F_disp,4)}</div></div>
+      ${itemStart}<div class="${lblClass}">Reynolds</div><div class="${valClass}">${nInt(Re_f)}</div></div>
+      ${itemStart}<div class="${lblClass}">Viscosidad μ</div><div class="${valClass}">${n2f(ViscAvg,5)} <span class="text-[11px] font-sans text-slate-500">cP</span></div></div>
+      ${itemStart}<div class="${lblClass}">Vel. entrada v₁</div><div class="${valClass}">${n2f(v1,1)} <span class="text-[11px] font-sans text-slate-500">ft/s</span></div></div>
+      ${itemStart}<div class="${lblClass}">Vel. salida v₂</div><div class="${valClass}">${n2f(v2,1)} <span class="text-[11px] font-sans text-slate-500">ft/s</span></div></div>
+      <div class="bg-gray-50 border rounded-lg p-4 shadow-sm relative overflow-hidden col-span-2 md:col-span-1 lg:col-span-2 border-l-4 ${vr>100?'bg-red-50 border-red-200 border-l-red-500':vr>80?'bg-amber-50 border-amber-200 border-l-amber-500':'bg-green-50 border-green-200 border-l-green-500'}">
+        <div class="${lblClass}">V<sub>e</sub> Erosional (C=${C_const})</div>
+        <div class="${valClass}">${n2f(ve,1)} <span class="text-[11px] font-sans text-slate-500">ft/s</span></div>
+        <div class="mt-2 block">${veBadge}</div>
+      </div>`;
+
+    const va=document.getElementById('ve-alert');
+    if(vr>100) va.innerHTML=`<div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg shadow-sm"><div class="flex"><div class="flex-shrink-0 mt-0.5"><svg class="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 21a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" /></svg></div><div class="ml-3"><h3 class="text-sm font-bold text-red-800">ALERTA EROSIÓN: Velocidad máxima supera V<sub>e</sub></h3><p class="text-sm text-red-700 mt-1">La velocidad máxima (${n2f(vmax,1)} ft/s) supera la tolerancia de diseño V<sub>e</sub> = ${n2f(ve,1)} ft/s calculada según modelo API RP 14E. Considere incrementar diámetro o atenuar el flujo operativo.</p></div></div></div>`;
+    else if(vr>80) va.innerHTML=`<div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg shadow-sm"><div class="flex"><div class="flex-shrink-0 mt-0.5"><svg class="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" /></svg></div><div class="ml-3"><h3 class="text-sm font-bold text-amber-800">Advertencia de Velocidad</code> <code>(${n2f(vr,1)}% de V<sub>e</sub>)</h3><p class="text-sm text-amber-700 mt-1">La velocidad máxima ${n2f(vmax,1)} ft/s se encuentra cerca del umbolo de erosión. Verificar con análisis integral.</p></div></div></div>`;
+    else va.innerHTML='';
+
+    // Comparison table
+    document.getElementById('cmp-col-hdr').textContent=CalcType===1?'Q ('+qu+')':CalcType===2?'P₁ ('+pu+')':'P₂ ('+pu+')';
+    const tbody=document.getElementById('cmp-body');
+    tbody.innerHTML='';
+    const s1=sols[1]; // General Flow reference
+    for(let m=1;m<=6;m++){
+      const sol=sols[m];
+      const Qm=CalcType===1?sol:Q_disp;
+      const P2m=CalcType===3?sol:P2_disp;
+      const v2m=Vel(P2m,Qm);
+      const vem=Ve(P2m,C_const);
+      const vrm=v2m/vem*100;
+      const vcls=vrm>100?'ve-danger':vrm>80?'ve-warn':'ve-ok';
+      const diff=m===1?null:(sol-s1)/Math.abs(s1)*100;
+      const fm=fArr[m], Fm=2/Math.sqrt(fm);
+      const warnWey=m===3&&ID>12?' <span title="Weymouth: fuera de rango para D>12 in" style="color:var(--amber)">⚠</span>':'';
+      const solDisp=CalcType===1?n2f(fromMMSCFD(sol,qu),2)+' '+qu:n2f(fromPSIA(sol,pu),2)+' '+pu;
+      const activeCls = m===EqType ? 'bg-blue-50 font-bold text-blue-900 border-l-2 border-blue-500' : 'hover:bg-slate-50 transition-colors';
+      const tdiff = diff===null ? '—' : (diff>=0?'+'+n2f(diff,1):n2f(diff,1))+'%';
+      const tdiffCls = diff===null?'':diff>=0?'text-green-600 font-bold':'text-red-500 font-bold';
+      const tcBadgeId = vrm>100?'bg-red-100 text-red-800 border-red-200':vrm>80?'bg-amber-100 text-amber-800 border-amber-200':'bg-green-100 text-green-800 border-green-200';
+      tbody.innerHTML+=`<tr class="${activeCls}">
+        <td class="px-4 py-3 border-b border-slate-200 pl-4">${methodNames[m-1]}${warnWey}</td>
+        <td class="px-4 py-3 border-b border-slate-200 font-mono">${solDisp}</td>
+        <td class="px-4 py-3 border-b border-slate-200 font-mono">${n2f(fm,5)}</td>
+        <td class="px-4 py-3 border-b border-slate-200 font-mono">${n2f(Fm,4)}</td>
+        <td class="px-4 py-3 border-b border-slate-200 font-mono ${tdiffCls}">${tdiff}</td>
+        <td class="px-4 py-3 border-b border-slate-200"><span class="inline-flex px-1.5 py-0.5 rounded text-[10px] font-bold border ${tcBadgeId}">${n2f(vrm,1)}%</span></td>
+      </tr>`;
+    }
+
+    // Notes
+    const znames=['DAK EOS','CNGA','Usuario'];
+    const vnames=['Lee-Gonzalez-Eakin','Usuario'];
+    document.getElementById('res-notes').innerHTML=
+      `<strong>Notas:</strong> `+
+      (ID>12?`<span style="color:var(--amber)">⚠ Weymouth diseñado para D≤12 in — puede subestimar capacidad hasta 12%.</span>  `:'')+
+      `V<sub>e</sub> evaluada a P₂ = ${n2f(fromPSIA(P2_disp,pu),1)} ${pu} (presión mínima = velocidad máxima). `+
+      `C = ${C_const} (API RP 14E §2.4). Z: ${znames[parseInt(document.getElementById('ZTyp').value)-1]}. `+
+      `μ: ${vnames[parseInt(document.getElementById('VTyp').value)-1]}.`;
+
+    document.getElementById('res-title').textContent=title;
+    document.getElementById('res-mtd').textContent='— '+methodNames[EqType-1];
+    document.getElementById('resultsCard').style.display='block';
+
+  } catch(ex){
+    err('Error: '+ex.message);
+    console.error(ex);
+  }
+}
+
+// ============ FORMAT HELPERS ============
+function n2f(v,d){return(isNaN(v)||!isFinite(v))?'—':v.toFixed(d);}
+function nInt(v){return isNaN(v)?'—':Math.round(v).toLocaleString('es-CO');}
+function err(msg){document.getElementById('status').innerHTML=`<span style="color:var(--red)">${msg}</span>`;}
+
+// ============ UI FUNCTIONS ============
+function setEq(n){ EqType = n; document.getElementById('eqSelect').value = n; }
+function updateCalcMode(){
+  CalcType=parseInt(document.getElementById('calcMode').value);
+  document.getElementById('row-Q').style.display=CalcType===1?'none':'block';
+  document.getElementById('row-P1').style.display=CalcType===2?'none':'block';
+  document.getElementById('row-P2').style.display=CalcType===3?'none':'block';
+  const res = document.getElementById('resultsCard'); if(res && res.classList.contains('show')) res.classList.remove('show');
+}
+function toggleZ(){
+  const v=document.getElementById('ZTyp').value;
+  const ms=document.getElementById('mol-sect'); if(ms) ms.style.display=v==='3'?'none':'block';
+  const zu=document.getElementById('z-user'); if(zu) zu.style.display=v==='3'?'block':'none';
+}
+function toggleVisc(){
+  const vu=document.getElementById('visc-user'); if(vu) vu.style.display=document.getElementById('VTyp').value==='2'?'block':'none';
+}
+function tgl(id){
+  const el=document.getElementById(id);
+  el.style.display=el.style.display==='none'?'block':'none';
+}
+function applyC(){
+  const v=document.getElementById('c-preset')?.value;
+  if(v && v!=='0') document.getElementById('C_val').value=v;
+}
+// Factor C API RP 14E — combo + manual input logic
+function onCPreset(val){
+  const manualInput = document.getElementById('C_val');
+  const hiddenInput = document.getElementById('C_val_preset');
+  if(val === 'custom'){
+    manualInput.classList.remove('hidden');
+    manualInput.focus();
+  } else {
+    manualInput.classList.add('hidden');
+    if(hiddenInput) hiddenInput.value = val;
+  }
+}
+// Returns the active C value (preset or manual)
+function getC(){
+  const preset = document.getElementById('C_preset')?.value;
+  if(preset === 'custom'){
+    return parseFloat(document.getElementById('C_val').value) || 100;
+  }
+  return parseFloat(preset) || 100;
+}
+// Legacy helpers kept for compatibility
+function setC(val){ document.getElementById('C_val').value=val; }
+function highlightCBtn(val){ /* no-op – buttons replaced by combo */ }
+function syncPUnits(){
+  const select = document.getElementById('P-unit');
+  const u = select.value;
+  const prev = select.getAttribute('data-prev') || 'PSIA';
+  
+  if(prev !== u){
+    const items = ['P1','P2','Pb'];
+    items.forEach(id => {
+       let el = document.getElementById(id);
+       if(el && el.value){
+         let v = parseFloat(el.value);
+         // Convert value: current to internal (PSIA) using prev unit, then back using new unit
+         let v_psia = toPSIA(v, prev);
+         let new_val = fromPSIA(v_psia, u);
+         el.value = new_val.toFixed(3);
+       }
+    });
+  }
+  select.setAttribute('data-prev', u);
+  document.querySelectorAll('#p2u, #pbu').forEach(el => el.textContent=u);
+}
+function syncTUnits(){
+  const u=document.getElementById('T-unit').value;
+  const tfu=document.getElementById('tfu'); if(tfu) tfu.textContent='°'+u;
+}
+function loadSch(){
+  const nps=document.getElementById('NPS').value;
+  const sch=document.getElementById('SCH');
+  sch.innerHTML='';
+  const p=PD[nps]; if(!p) return;
+  Object.keys(p.s).forEach(s=>{
+    const o=document.createElement('option');
+    o.value=s; o.textContent='Sch '+s; sch.appendChild(o);
+  });
+  const keys=Object.keys(p.s);
+  sch.value=keys.includes('40')?'40':keys[Math.floor(keys.length/2)];
+  applyDims();
+}
+function applyDims(){
+  const nps=document.getElementById('NPS').value;
+  const sch=document.getElementById('SCH').value;
+  const p=PD[nps]; if(!p) return;
+  const wall=p.s[sch]; if(!wall) return;
+  document.getElementById('IDinp').value=(p.OD-2*wall).toFixed(3);
+}
+function doReset(){
+  document.getElementById('Q').value='366';
+  document.getElementById('P1').value='1000';
+  document.getElementById('P2').value='800';
+  document.getElementById('Pb').value='14.7';
+  document.getElementById('Tb').value='60';
+  document.getElementById('Len').value='10';
+  document.getElementById('rough').value='0.0007';
+  document.getElementById('Ele').value='0';
+  document.getElementById('E').value='1.0';
+  document.getElementById('Grav').value='0.65';
+  document.getElementById('Tf').value='70';
+  const n2e=document.getElementById('N2'); if(n2e) n2e.value='0';
+  const co2e=document.getElementById('CO2'); if(co2e) co2e.value='0';
+  const h2se=document.getElementById('H2S'); if(h2se) h2se.value='4';
+  document.getElementById('C_val').value='100';
+  
+  document.getElementById('P-unit').value='PSIA';
+  document.getElementById('T-unit').value='F';
+  document.getElementById('Q-unit').value='MMSCFD';
+  document.getElementById('ZTyp').value='1';
+  document.getElementById('VTyp').value='1';
+  document.getElementById('calcMode').value='1';
+  document.getElementById('NPS').value='20';
+  CalcType=1; EqType=1;
+  updateCalcMode();
+  loadSch();
+  toggleZ();
+  toggleVisc();
+  syncPUnits();
+  syncTUnits();
+  const res = document.getElementById('resultsCard'); if(res && res.classList.contains('show')) res.classList.remove('show');
+  document.getElementById('status').innerHTML='';
+  document.getElementById('eqSelect').value = '1';
+}
+
+// ============ GAS COMPOSITION ENGINE ============
+const gasDataOrder = [
+"CH4", "N2", "CO2", "C2H6", "C3H8", "H2O", "H2S", "H2", "CO", "O2",
+"iC4H10", "nC4H10", "iC5H12", "nC5H12", 
+"nC6H14", "nC7H16", "nC8H18", "nC9H20", "nC10H22",
+"He", "Ar"
+];
+
+const gasData = {
+CH4: { name: "Methane", Pc: 666.4, Tc: 343.0, MW: 16.043 },
+N2: { name: "Nitrogen", Pc: 493.1, Tc: 227.2, MW: 28.013 },
+CO2: { name: "Carbon Dioxide", Pc: 1071.0, Tc: 547.9, MW: 44.01 },
+C2H6: { name: "Ethane", Pc: 706.5, Tc: 549.9, MW: 30.07 },
+C3H8: { name: "Propane", Pc: 616.0, Tc: 666.1, MW: 44.097 },
+H2O: { name: "Water", Pc: 3200.1, Tc: 1164.9, MW: 18.015 },
+H2S: { name: "Hydrogen Sulfide", Pc: 1300.0, Tc: 672.4, MW: 34.08 },
+H2: { name: "Hydrogen", Pc: 187.5, Tc: 59.4, MW: 2.016 },
+CO: { name: "Carbon Monoxide", Pc: 507.5, Tc: 239.3, MW: 28.01 },
+O2: { name: "Oxygen", Pc: 731.4, Tc: 278.6, MW: 31.999 },
+iC4H10: { name: "i-Butane", Pc: 529.1, Tc: 734.7, MW: 58.123 },
+nC4H10: { name: "n-Butane", Pc: 550.6, Tc: 765.3, MW: 58.123 },
+iC5H12: { name: "i-Pentane", Pc: 490.4, Tc: 829.1, MW: 72.15 },
+nC5H12: { name: "n-Pentane", Pc: 488.6, Tc: 845.5, MW: 72.15 },
+nC6H14: { name: "n-Hexane", Pc: 436.9, Tc: 913.6, MW: 86.177 },
+nC7H16: { name: "n-Heptane", Pc: 396.8, Tc: 972.7, MW: 100.204 },
+nC8H18: { name: "n-Octane", Pc: 360.7, Tc: 1024.0, MW: 114.231 },
+nC9H20: { name: "n-Nonane", Pc: 332.0, Tc: 1070.0, MW: 128.258 },
+nC10H22: { name: "n-Decane", Pc: 305.2, Tc: 1111.7, MW: 142.285 },
+He: { name: "Helium", Pc: 329.8, Tc: 9.3, MW: 4.003 },
+Ar: { name: "Argon", Pc: 710.4, Tc: 272.4, MW: 39.948 },
+};
+
+function getGasProperties() {
+    let sum = 0, MW = 0, Pc_prime = 0, Tc_prime = 0;
+    gasDataOrder.forEach((key) => {
+        const input = document.getElementById(key);
+        let y = input ? (parseFloat(input.value) || 0) : 0;
+        sum += y;
+        MW += y * gasData[key].MW;
+        Pc_prime += y * gasData[key].Pc;
+        Tc_prime += y * gasData[key].Tc;
+    });
+    
+    // Fallback if no layout or empty
+    if(sum === 0) return {sum:1.0, MW:18.8, SG:0.65, Pc_prime:670, Tc_prime:360, N2p:0, CO2p:0, H2Sp:0};
+    
+    const SG = MW / 28.9625;
+    const N2p = ((parseFloat(document.getElementById('N2').value) || 0) / sum) * 100;
+    const CO2p = ((parseFloat(document.getElementById('CO2').value) || 0) / sum) * 100;
+    const H2Sp = ((parseFloat(document.getElementById('H2S').value) || 0) / sum) * 100;
+    
+    return { sum, MW, SG, Pc_prime, Tc_prime, N2p, CO2p, H2Sp };
+}
+
+function updateSum() {
+    const props = getGasProperties();
+    const sumEl = document.getElementById("moleSum");
+    if(!sumEl) return;
+    sumEl.textContent = props.sum.toFixed(6);
+    
+    // Auto-normalization intelligence
+    const normUI = document.getElementById('normUI');
+    const isPercentage = props.sum > 90 && props.sum < 110;
+    if(normUI) normUI.classList.toggle('hidden', !isPercentage);
+
+    const ok = Math.abs(props.sum - 1.0) < 0.0001;
+    sumEl.className = ok ? "font-mono font-bold text-green-700" : "font-mono font-bold text-red-600";
+    const okBadge = document.getElementById('sumOkBadge');
+    const errBadge = document.getElementById('sumBadErr');
+    if(okBadge) okBadge.classList.toggle('hidden', !ok);
+    if(errBadge) errBadge.classList.toggle('hidden', ok);
+
+    if(props.sum > 0) {
+        document.getElementById('autoG').textContent = props.SG.toFixed(3);
+        document.getElementById('autoPc').textContent = props.Pc_prime.toFixed(1);
+        document.getElementById('autoTc').textContent = props.Tc_prime.toFixed(1);
+        document.getElementById('autoMW').textContent = props.MW.toFixed(2);
+    } else {
+        document.getElementById('autoG').textContent = "0.000";
+        document.getElementById('autoPc').textContent = "0.0";
+        document.getElementById('autoTc').textContent = "0.0";
+        document.getElementById('autoMW').textContent = "0.00";
+    }
+}
+
+function doNormalize() {
+    const props = getGasProperties();
+    if(props.sum === 0) return;
+    gasDataOrder.forEach(key => {
+        const input = document.getElementById(key);
+        if(input && input.value) {
+            input.value = (parseFloat(input.value) / props.sum).toFixed(6);
+        }
+    });
+    updateSum();
+}
+
+function initComposition() {
+    const grid = document.getElementById("compGrid");
+    if(!grid) return;
+    grid.innerHTML = "";
+    // Override the composition-grid CSS class (which creates multi-column chaos)
+    // to a simple vertical stack — identical to what tool 08 does
+    grid.className = "space-y-0 text-sm w-full";
+
+    // Header row
+    const header = document.createElement("div");
+    header.className = "grid gap-2 text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2 pb-2 border-b border-gray-200 items-center" ;
+    header.style.gridTemplateColumns = "70px 1fr 110px 44px";
+    header.innerHTML = `
+        <div class="text-left pl-1">Formula</div>
+        <div class="text-left">Nombre</div>
+        <div class="text-right pr-1">Mole Fr.</div>
+        <div class="text-center">MW</div>
+    `;
+    grid.appendChild(header);
+
+    gasDataOrder.forEach((key) => {
+        const compData = gasData[key];
+        const div = document.createElement("div");
+        div.className = "grid gap-2 items-center hover:bg-blue-50 py-0.5 border-b border-gray-50 last:border-0 transition-colors";
+        div.style.gridTemplateColumns = "70px 1fr 110px 44px";
+
+        const defaultVal = '';
+
+        div.innerHTML = `
+        <div class="font-mono font-bold text-blue-900 text-[11px] text-left pl-1">${key.replace(/(\d+)/g, '<sub>$1</sub>')}</div>
+        <div class="text-gray-600 truncate text-[11px] text-left" title="${compData.name}">${compData.name}</div>
+        <div class="flex justify-end">
+            <input type="number"
+                   class="comp w-[100px] text-right font-mono text-sm border border-gray-300 rounded shadow-sm
+                          focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-2 py-0.5 bg-white transition-all"
+                   id="${key}"
+                   data-key="${key}"
+                   step="0.000001"
+                   min="0" max="1"
+                   value="${defaultVal}"
+                   placeholder="0.000000">
+        </div>
+        <div class="text-gray-400 font-mono text-[10px] text-center">${compData.MW.toFixed(1)}</div>
+        `;
+        grid.appendChild(div);
+
+        const input = div.querySelector("input");
+        input.addEventListener("input", updateSum);
+        input.addEventListener("focus", function() { this.select(); });
+    });
+
+    updateSum();
+}
+
+function clearComposition() {
+    gasDataOrder.forEach(key => {
+        document.getElementById(key).value = '';
+    });
+    updateSum();
+}
+
+function pasteComposition() {
+    navigator.clipboard.readText().then(text => {
+        const values = text.split(/[\t\n,]+/).map(v => parseFloat(v.trim())).filter(v => !isNaN(v));
+        const inputs = document.querySelectorAll('.comp');
+        for(let i=0; i<Math.min(values.length, inputs.length); i++) {
+            inputs[i].value = values[i];
+        }
+        updateSum();
+    }).catch(err => {
+        alert("Error read clipboard: " + err);
+    });
+}
+
+// ============ INIT ============
+function appInit(){
+  document.getElementById('eqSelect').value = '1'; EqType = 1;
+  updateCalcMode();
+  loadSch();
+  toggleZ();
+  toggleVisc();
+  syncPUnits();
+  initComposition();
+}
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded', appInit);
+} else {
+  appInit();
+}
+
+
+// === Mobile menu & header scroll ===
+document.addEventListener('DOMContentLoaded', () => {
+  const header = document.querySelector('header');
+  if(header){
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('shadow-md', window.scrollY > 10);
+    });
+  }
+  const btn = document.getElementById('mobile-menu-button');
+  const menu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const closeIcon = document.getElementById('close-icon');
+  if(btn && menu){
+    btn.addEventListener('click', () => {
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      menu.classList.toggle('hidden');
+      menuIcon.classList.toggle('hidden');
+      closeIcon.classList.toggle('hidden');
+      btn.setAttribute('aria-expanded', String(!expanded));
+    });
+    menu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        menu.classList.add('hidden');
+        menuIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+  const yr = document.querySelector('.copyright-year');
+  if(yr) yr.textContent = new Date().getFullYear();
+});
+
+</script>
+</body>
+</html>
