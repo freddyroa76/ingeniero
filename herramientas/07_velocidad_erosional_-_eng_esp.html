@@ -143,11 +143,19 @@
                     <h2 id="sec-comp">Gas Composition</h2>
                     <p class="text-xs text-gray-500">Mole Fraction (Sum should be 1.0)</p>
                   </div>
-                  <div class="flex flex-col items-end gap-1">
+                  <div class="flex flex-col items-end gap-2">
                     <div class="text-sm">
                       Sum: <span id="moleSum" class="font-mono">0.0000</span>
                     </div>
                     <div class="flex gap-2">
+                      <select id="presetGas" onchange="loadTypicalGas(this.value)"
+                         class="text-xs py-1.5 px-2 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-md font-medium cursor-pointer hover:bg-emerald-100 transition-colors max-w-[140px] md:max-w-none">
+                        <option value="">Typical Gas ▼</option>
+                        <option value="dulce_seco">Sweet Dry Gas</option>
+                        <option value="dulce_humedo">Sweet Wet Gas</option>
+                        <option value="acido">Sour Gas (H₂S)</option>
+                        <option value="alto_inertes">High Inerts</option>
+                      </select>
                       <button
                         class="text-xs py-1.5 px-3 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-md border border-blue-200 font-medium transition-colors flex items-center gap-1"
                         onclick="pasteFromExcel()"
@@ -1023,8 +1031,8 @@
             <div class="w-16 pl-4 font-mono font-bold text-gray-700">${key.replace(/(\d+)/g, '<sub>$1</sub>')}</div>
             <div class="flex-1 px-2 text-gray-600 truncate text-xs" title="${compData.name}">${compData.name}</div>
             <div class="w-32 px-2 flex justify-end">
-                <input type="number" 
-                       class="comp w-28 text-right font-mono text-sm border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 px-1 py-0.5 transition-all shadow-sm" 
+                <input type="number"
+                       class="comp w-36 text-right font-mono text-sm border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 px-2 py-1 transition-all shadow-sm"
                        id="${key}" 
                        data-key="${key}"
                        step="0.000001" 
@@ -1138,6 +1146,43 @@
             console.error(err);
             alert("Error reading clipboard: " + err);
         });
+      }
+
+      function loadTypicalGas(type) {
+          if(!type) return;
+          
+          // Preset gas compositions
+          const presets = {
+              'dulce_seco': {
+                  'CH4': 0.950, 'C2H6': 0.030, 'C3H8': 0.010, 'iC4H10': 0.003, 'nC4H10': 0.003, 'CO2': 0.002, 'N2': 0.002
+              },
+              'dulce_humedo': {
+                  'CH4': 0.850, 'C2H6': 0.080, 'C3H8': 0.040, 'iC4H10': 0.010, 'nC4H10': 0.010, 'iC5H12': 0.003, 'nC5H12': 0.003, 'nC6H14': 0.002, 'CO2': 0.001, 'N2': 0.001
+              },
+              'acido': {
+                  'CH4': 0.800, 'H2S': 0.050, 'CO2': 0.080, 'C2H6': 0.040, 'C3H8': 0.020, 'N2': 0.010
+              },
+              'alto_inertes': {
+                  'CH4': 0.700, 'N2': 0.150, 'CO2': 0.100, 'C2H6': 0.030, 'C3H8': 0.020
+              }
+          };
+
+          const comp = presets[type];
+          if(comp){
+              // Clear all first
+              document.querySelectorAll(".comp").forEach(i => i.value = 0);
+              
+              // Load preset values
+              for(const key in comp){
+                  const el = document.getElementById(key);
+                  if(el) el.value = comp[key].toFixed(3);
+              }
+          }
+          updateSum();
+          
+          // Reset dropdown to placeholder
+          const selectEl = document.getElementById('presetGas');
+          if(selectEl) selectEl.value = "";
       }
 
       function updatePipe() {
