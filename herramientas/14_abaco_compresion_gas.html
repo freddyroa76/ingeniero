@@ -1,46 +1,61 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ábaco de Compresión - Ing. Freddy Roa</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0F172A" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Freddy Roa Monsalvo" />
+    <meta name="description" content="Ábaco interactivo de compresión de gas basado en GPSA Section 13. Calcule BHP/MMSCFD, relación de compresión y etapas requeridas de forma visual e intuitiva." />
+    <title>Ábaco de Compresión de Gas - GPSA Sec 13 | Ing. Freddy Roa</title>
+    <link rel="icon" type="image/x-icon" href="../images/logos/favicon.ico">
+    <!-- Professional Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;600&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;600&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;600&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" /></noscript>
+    <!-- Tailwind CDN -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#0F172A",
+              secondary: "#008F4C",
+              accent: "#D4E157",
+              background: "#F8FAFC",
+              surface: "#ffffff",
+              "text-primary": "#334155",
+              "text-secondary": "#1E293B",
+            },
+            fontFamily: {
+              heading: ["Outfit", "sans-serif"],
+              sans: ["DM Sans", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <!-- Custom Styles for Tools -->
+    <link rel="stylesheet" href="../tailwind_compiled.css" />
+    <link rel="stylesheet" href="../custom_styles.css">
+    <script src="js/common.js"></script>
+
+    <!-- Abacus-Specific Styles -->
     <style>
         :root {
-            /* Paleta Web Ing. Freddy Roa */
-            --bg-page: #f8f9fa;
             --disc-outer: #ffffff;
             --disc-inner: #fdfdfd;
-            --rim-color: #111625; /* Azul Marino Oscuro de la web */
-            --accent-color: #cddc39; /* Verde Lima/Amarillo de la web */
-            --text-dark: #111625;
-            --text-box: #111625;
+            --rim-color: #0F172A;
+            --accent-abacus: #D4E157;
+            --text-dark: #0F172A;
+            --text-box: #0F172A;
             --tick-major: #000000;
             --tick-minor: #555555;
-            --font-sans: 'Inter', sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
             --shadow-disc: 0 12px 35px rgba(0,0,0,0.15);
         }
-
-        body {
-            font-family: var(--font-sans);
-            background-color: var(--bg-page);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            color: var(--text-dark);
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .header { text-align: center; margin-bottom: 20px; }
-        .header h1 { font-size: 1.6rem; color: var(--rim-color); margin: 0 0 5px; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; }
-        .header p { margin: 0 0 5px 0; font-size: 1rem; color: #555; font-weight: 700; }
-        .header a { font-size: 0.85rem; color: var(--text-dark); font-weight: 600; text-decoration: none; transition: color 0.2s; }
-        .header a:hover { color: var(--accent-color); }
 
         .abacus-wrapper {
             position: relative;
@@ -51,23 +66,22 @@
             user-select: none;
             touch-action: none;
             filter: drop-shadow(0 20px 40px rgba(0,0,0,0.15));
+            margin: 0 auto;
         }
 
         .abacus-svg { width: 100%; height: 100%; display: block; }
 
-        /* Ajuste para que los SVG giren desde su centro real con CSS */
         #outerDisc, #innerDisc {
             transform-origin: 400px 400px;
         }
 
-        /* Panel central de resultados digital */
         .result-panel {
             position: absolute;
-            top: 41%; /* Datos de salida más arriba */
+            top: 41%;
             left: 50%;
             transform: translate(-50%, -50%);
             background: #ffffff;
-            border: 2px solid var(--accent-color);
+            border: 2px solid var(--accent-abacus);
             border-radius: 8px;
             padding: 12px 20px;
             text-align: center;
@@ -81,11 +95,10 @@
         .res-label { font-size: 0.6rem; font-weight: 800; color: #555; text-transform: uppercase; letter-spacing: 1px; }
         .res-value { font-family: var(--font-mono); font-size: 2.2rem; font-weight: 800; color: var(--rim-color); line-height: 1.1; margin: 5px 0; }
         .res-unit { font-size: 0.65rem; font-weight: 800; color: #666; }
-        .res-divider { height: 2px; background: var(--bg-page); margin: 8px 0; }
+        .res-divider { height: 2px; background: #F8FAFC; margin: 8px 0; }
         .res-cr { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 800; color: var(--text-dark); }
         .res-stages { font-size: 0.65rem; font-weight: 700; color: #666; margin-top: 2px; }
 
-        /* Dashboard Inferior */
         .dashboard {
             display: flex;
             gap: 20px;
@@ -95,13 +108,14 @@
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             border: 1px solid #e2e8f0;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
         .dash-item { text-align: center; min-width: 90px; }
         .dash-label { font-size: 0.65rem; font-weight: 700; color: #888; text-transform: uppercase; margin-bottom: 5px; }
         .dash-val { font-family: var(--font-mono); font-size: 1.2rem; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; justify-content: center; gap: 5px; }
-        
-        /* Estilos de los inputs digitables */
+
         .dash-input {
             width: 70px;
             font-family: var(--font-mono);
@@ -116,9 +130,17 @@
             background: #f8f9fa;
             transition: border-color 0.2s;
         }
-        .dash-input:focus { border-color: var(--accent-color); background: #fff; }
+        .dash-input:focus { border-color: var(--accent-abacus); background: #fff; }
 
         .pointer-arrow { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); z-index: 25; pointer-events: none; }
+
+        /* Info card styles */
+        .info-card {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 1px solid #bae6fd;
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+        }
 
         /* Responsiveness */
         @media (max-width: 750px) {
@@ -130,279 +152,740 @@
             .result-panel { transform: translate(-50%, -50%) scale(0.75); }
         }
     </style>
-</head>
-<body>
+  </head>
+  <body class="bg-background text-text-primary">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:text-primary focus:rounded-md focus:shadow-lg focus:font-bold">Ir al contenido principal</a>
+    <!-- Header -->
+            <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 shadow-md bg-surface">
+      <!-- Top Bar Contact Info -->
+      <div class="bg-[#0f172a] text-gray-300 text-xs py-2 border-b border-gray-800 hidden sm:block">
+         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center gap-6">
+            <span class="font-medium text-gray-300 tracking-wide">Ing. Mec Freddy Roa</span>
+            <div class="flex items-center gap-6">
+               <a href="mailto:freddy.roa76@gmail.com" class="hover:text-[#D4E157] transition-colors flex items-center gap-1">
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                  freddy.roa76@gmail.com
+               </a>
+               <a href="https://wa.me/573112531330" class="hover:text-[#D4E157] transition-colors flex items-center gap-1">
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                  +57 311 253 1330
+               </a>
+            </div>
+         </div>
+      </div>
 
-<div class="header">
-    <h1>Ábaco de Compresión</h1>
-    <p>Ing. Mecánico Freddy Roa Monsalvo</p>
-    <a href="https://freddyroa76.github.io/ingeniero/" target="_blank">https://freddyroa76.github.io/ingeniero/</a>
-</div>
+      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white/95 backdrop-blur-md">
+        <div class="flex items-center justify-end h-20">
+          <!-- Desktop Navigation -->
+          <div class="hidden sm:flex items-center space-x-4">
+            <a href="../index.html" class="group-link">Inicio</a>
+            <a href="../index.html#expertise" class="group-link">Expertise</a>
+            <a href="../index.html#projects" class="group-link">Proyectos</a>
+            <a href="../index.html#experience" class="group-link">Experiencia</a>
+            <a href="../herramientas.html" class="group-link text-[#0F172A] font-bold">Herramientas</a>
+            <a href="../index.html#contact" class="btn-contact-custom ml-4">CONTACTAR</a>
+          </div>
 
-<div class="abacus-wrapper" id="wrap">
-    <svg class="pointer-arrow" width="30" height="40" viewBox="0 0 30 40">
-        <polygon points="15,40 0,0 30,0" fill="var(--accent-color)" stroke="var(--rim-color)" stroke-width="2"/>
-    </svg>
+          <!-- Mobile Menu Button -->
+          <div class="flex items-center sm:hidden">
+            <button id="mobile-menu-button" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-[#334155] hover:bg-gray-100 focus:outline-none transition-colors" aria-controls="mobile-menu" aria-expanded="false">
+              <span class="sr-only">Abrir men&uacute;</span>
+              <svg id="menu-icon" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+              </svg>
+              <svg id="close-icon" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </nav>
 
-    <svg class="abacus-svg" id="svg" viewBox="0 0 800 800">
-        <defs>
-            <filter id="shadowOuter" x="-10%" y="-10%" width="120%" height="120%">
-                <feDropShadow dx="0" dy="10" stdDeviation="15" flood-opacity="0.15"/>
-            </filter>
-            <filter id="shadowInner" x="-10%" y="-10%" width="120%" height="120%">
-                <feDropShadow dx="0" dy="5" stdDeviation="8" flood-opacity="0.10"/>
-            </filter>
-            
-            <path id="curveOuter" d="M 50,400 A 350,350 0 1,1 750,400" />
-            
-            <path id="curveInner" d="M 150,400 A 250,250 0 1,1 650,400" />
-        </defs>
+      <!-- Mobile Menu -->
+      <div id="mobile-menu" class="hidden sm:hidden bg-white border-t border-gray-100 overflow-y-auto max-h-[calc(100vh-80px)] shadow-xl">
+        <div class="px-4 pt-4 pb-6 space-y-1">
+          <a href="../index.html" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors">Inicio</a>
+          <a href="../index.html#expertise" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors">Expertise</a>
+          <a href="../index.html#projects" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors">Proyectos</a>
+          <a href="../index.html#experience" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors">Experiencia</a>
+          <a href="../herramientas.html" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors bg-[#F1F5F9]">Herramientas</a>
+          <a href="../index.html#contact" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors">Contacto</a>
+          <div class="pt-4 border-t border-gray-100">
+            <a href="../index.html#contact" class="w-full text-center block bg-[#0F172A] text-[#D4E157] border border-[#0F172A] px-5 py-3 rounded-full text-base font-bold hover:bg-white hover:text-[#0F172A] transition-all tracking-wide shadow-md">
+              CONTACTAR
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
 
-        <g id="outerDisc">
-            <circle cx="400" cy="400" r="380" fill="var(--disc-outer)" stroke="var(--rim-color)" stroke-width="16" filter="url(#shadowOuter)"/>
-            
-            <text font-family="var(--font-sans)" font-size="14" font-weight="800" fill="var(--text-dark)" letter-spacing="1.5">
-                <textPath href="#curveOuter" startOffset="75%" text-anchor="middle">DISCHARGE PRESSURE (PSIG)</textPath>
-            </text>
-        </g>
+<main id="main-content" class="pt-20">
+<section class="bg-background min-h-screen pt-8 pb-12"><div class="container mx-auto px-4 pt-2 pb-12 is-tool-content">
+      <!-- Breadcrumb -->
+      <nav class="flex mb-6 text-xs font-medium text-gray-400 uppercase-none" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-2">
+          <li><a href="../index.html" class="text-gray-600 hover:text-primary transition-colors">Inicio</a></li>
+          <li><span class="mx-2 text-gray-300">/</span></li>
+          <li><a href="../herramientas.html" class="text-gray-600 hover:text-primary transition-colors">Herramientas</a></li>
+          <li><span class="mx-2 text-gray-300">/</span></li>
+          <li class="text-gray-900 font-bold">&Aacute;baco de Compresi&oacute;n</li>
+        </ol>
+      </nav>
 
-        <g id="innerDisc" style="cursor:grab;">
-            <circle cx="400" cy="400" r="285" fill="var(--disc-inner)" stroke="#cccccc" stroke-width="2" filter="url(#shadowInner)"/>
-            
-            <text font-family="var(--font-sans)" font-size="14" font-weight="700" fill="var(--text-dark)" letter-spacing="1.5">
-                <textPath href="#curveInner" startOffset="30%" text-anchor="middle" dominant-baseline="hanging">SUCTION PRESSURE (PSIG)</textPath>
-            </text>
+      <div class="title-box mb-8 relative z-10">
+        <h1 class="text-3xl font-bold text-gray-900 tracking-tight">
+            &Aacute;baco de Compresi&oacute;n de Gas
+        </h1>
+        <p class="text-gray-100 mt-2 text-sm font-medium">
+            Herramienta visual interactiva basada en GPSA Section 13.1 &mdash; Gire los discos o ingrese presiones para estimar BHP/MMSCFD.
+        </p>
+      </div>
 
-            <rect x="310" y="490" width="180" height="90" fill="#f8f9fa" rx="8" stroke="var(--accent-color)" stroke-width="2" opacity="0.95"/>
-            <text x="400" y="510" font-family="var(--font-sans)" font-size="11" fill="var(--text-box)" text-anchor="middle">
-                <tspan x="400" dy="0" font-weight="800">HP figures based upon:</tspan>
-                <tspan x="400" dy="16" font-weight="600">Abs. Press. = 14.65 p.s.i.a.</tspan>
-                <tspan x="400" dy="16" font-weight="600">S.G. = 0.65   N = 1.26</tspan>
-                <tspan x="400" dy="16" font-weight="600">Suction Temp. = 80° F</tspan>
-                <tspan x="400" dy="16" font-weight="600">Interstage Temp. = 120° F</tspan>
-            </text>
-            
-            <circle cx="400" cy="400" r="25" fill="#e0e0e0" stroke="#999" stroke-width="2"/>
-            <circle cx="400" cy="400" r="8" fill="var(--rim-color)"/>
-        </g>
-    </svg>
+      <!-- Main Content Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-    <div class="result-panel">
-        <div class="res-label">Aprox. Requerido</div>
-        <div class="res-value" id="val-bhp">--</div>
-        <div class="res-unit">HP / MMSCF/D</div>
-        <div class="res-divider"></div>
-        <div class="res-cr" id="val-cr">CR: --</div>
-        <div class="res-stages" id="val-stages">--</div>
+        <!-- Left Column: Abacus (2/3 width) -->
+        <div class="lg:col-span-2">
+            <div class="card" style="padding: 1.5rem;">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-gray-800 mb-0">Compression Abacus</h2>
+                        <p class="text-xs text-gray-500">Gire el disco interior (succi&oacute;n) o exterior (descarga) para alinear presiones</p>
+                    </div>
+                </div>
+
+                <div class="abacus-wrapper" id="wrap">
+                    <svg class="pointer-arrow" width="30" height="40" viewBox="0 0 30 40">
+                        <polygon points="15,40 0,0 30,0" fill="#D4E157" stroke="#0F172A" stroke-width="2"/>
+                    </svg>
+
+                    <svg class="abacus-svg" id="svg" viewBox="0 0 800 800">
+                        <defs>
+                            <filter id="shadowOuter" x="-10%" y="-10%" width="120%" height="120%">
+                                <feDropShadow dx="0" dy="10" stdDeviation="15" flood-opacity="0.15"/>
+                            </filter>
+                            <filter id="shadowInner" x="-10%" y="-10%" width="120%" height="120%">
+                                <feDropShadow dx="0" dy="5" stdDeviation="8" flood-opacity="0.10"/>
+                            </filter>
+                            <path id="curveOuter" d="M 50,400 A 350,350 0 1,1 750,400" />
+                            <path id="curveInner" d="M 150,400 A 250,250 0 1,1 650,400" />
+                        </defs>
+
+                        <g id="outerDisc">
+                            <circle cx="400" cy="400" r="380" fill="var(--disc-outer)" stroke="var(--rim-color)" stroke-width="16" filter="url(#shadowOuter)"/>
+                            <text font-family="'Outfit', sans-serif" font-size="14" font-weight="800" fill="var(--text-dark)" letter-spacing="1.5">
+                                <textPath href="#curveOuter" startOffset="75%" text-anchor="middle">DISCHARGE PRESSURE (PSIG)</textPath>
+                            </text>
+                        </g>
+
+                        <g id="innerDisc" style="cursor:grab;">
+                            <circle cx="400" cy="400" r="285" fill="var(--disc-inner)" stroke="#cccccc" stroke-width="2" filter="url(#shadowInner)"/>
+                            <text font-family="'Outfit', sans-serif" font-size="14" font-weight="700" fill="var(--text-dark)" letter-spacing="1.5">
+                                <textPath href="#curveInner" startOffset="30%" text-anchor="middle" dominant-baseline="hanging">SUCTION PRESSURE (PSIG)</textPath>
+                            </text>
+
+                            <rect x="310" y="490" width="180" height="90" fill="#f8f9fa" rx="8" stroke="#D4E157" stroke-width="2" opacity="0.95"/>
+                            <text x="400" y="510" font-family="'DM Sans', sans-serif" font-size="11" fill="var(--text-box)" text-anchor="middle">
+                                <tspan x="400" dy="0" font-weight="800">HP figures based upon:</tspan>
+                                <tspan x="400" dy="16" font-weight="600">Abs. Press. = 14.65 p.s.i.a.</tspan>
+                                <tspan x="400" dy="16" font-weight="600">S.G. = 0.65   N = 1.26</tspan>
+                                <tspan x="400" dy="16" font-weight="600">Suction Temp. = 80&deg; F</tspan>
+                                <tspan x="400" dy="16" font-weight="600">Interstage Temp. = 120&deg; F</tspan>
+                            </text>
+
+                            <circle cx="400" cy="400" r="25" fill="#e0e0e0" stroke="#999" stroke-width="2"/>
+                            <circle cx="400" cy="400" r="8" fill="var(--rim-color)"/>
+                        </g>
+                    </svg>
+
+                    <div class="result-panel">
+                        <div class="res-label">Aprox. Requerido</div>
+                        <div class="res-value" id="val-bhp">--</div>
+                        <div class="res-unit">HP / MMSCF/D</div>
+                        <div class="res-divider"></div>
+                        <div class="res-cr" id="val-cr">CR: --</div>
+                        <div class="res-stages" id="val-stages">--</div>
+                    </div>
+                </div>
+
+                <!-- Dashboard below the abacus -->
+                <div class="dashboard">
+                    <div class="dash-item">
+                        <div class="dash-label">Succi&oacute;n</div>
+                        <div class="dash-val"><input type="number" id="input-ps" class="dash-input" min="0" max="1000"> <span style="font-size:0.5em;color:#888">psig</span></div>
+                    </div>
+                    <div class="dash-item">
+                        <div class="dash-label">Descarga</div>
+                        <div class="dash-val"><input type="number" id="input-pd" class="dash-input" min="0" max="4000"> <span style="font-size:0.5em;color:#888">psig</span></div>
+                    </div>
+                    <div class="dash-item">
+                        <div class="dash-label">Relaci&oacute;n (CR)</div>
+                        <div class="dash-val" id="dash-cr" style="margin-top: 5px;">--</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Info & Instructions -->
+        <div class="space-y-6">
+            <!-- How to Use -->
+            <div class="card">
+                <h2 class="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    C&oacute;mo Usar
+                </h2>
+                <div class="space-y-3 text-sm text-gray-600">
+                    <div class="flex items-start gap-3">
+                        <span class="flex-shrink-0 w-6 h-6 rounded-full bg-[#0F172A] text-[#D4E157] text-xs font-bold flex items-center justify-center">1</span>
+                        <p><strong>Arrastre el disco exterior</strong> para ajustar la presi&oacute;n de descarga, o el <strong>disco interior</strong> para la presi&oacute;n de succi&oacute;n.</p>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="flex-shrink-0 w-6 h-6 rounded-full bg-[#0F172A] text-[#D4E157] text-xs font-bold flex items-center justify-center">2</span>
+                        <p>Tambi&eacute;n puede <strong>digitar las presiones</strong> directamente en los campos inferiores.</p>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="flex-shrink-0 w-6 h-6 rounded-full bg-[#0F172A] text-[#D4E157] text-xs font-bold flex items-center justify-center">3</span>
+                        <p>Los resultados se muestran en el <strong>panel central</strong>: BHP/MMSCFD, relaci&oacute;n de compresi&oacute;n y n&uacute;mero de etapas.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Reference -->
+            <div class="card">
+                <h2 class="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    Referencia T&eacute;cnica
+                </h2>
+                <div class="space-y-0 text-sm">
+                    <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                        <span class="text-gray-600 font-medium">Norma</span>
+                        <span class="font-bold text-gray-800">GPSA Sec. 13.1</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                        <span class="text-gray-600 font-medium">P. Atmosf&eacute;rica</span>
+                        <span class="font-bold text-gray-800 font-mono">14.65 psia</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                        <span class="text-gray-600 font-medium">Grav. Espec&iacute;fica</span>
+                        <span class="font-bold text-gray-800 font-mono">0.65</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                        <span class="text-gray-600 font-medium">Expo. Isent. (N)</span>
+                        <span class="font-bold text-gray-800 font-mono">1.26</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                        <span class="text-gray-600 font-medium">T. Succi&oacute;n</span>
+                        <span class="font-bold text-gray-800 font-mono">80&deg;F</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                        <span class="text-gray-600 font-medium">T. Interetapa</span>
+                        <span class="font-bold text-gray-800 font-mono">120&deg;F</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2">
+                        <span class="text-gray-600 font-medium">CR M&aacute;x./Etapa</span>
+                        <span class="font-bold text-gray-800 font-mono">3.8</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formula Info -->
+            <div class="info-card">
+                <h3 class="text-sm font-bold text-blue-800 mb-2 flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                    F&oacute;rmula
+                </h3>
+                <p class="text-xs text-blue-700 leading-relaxed">
+                    BHP/MMSCFD se calcula mediante la ecuaci&oacute;n isent&oacute;pica de GPSA con eficiencia del compresor de 77.5%. El n&uacute;mero de etapas se determina autom&aacute;ticamente cuando CR &gt; 3.8.
+                </p>
+            </div>
+        </div>
+      </div>
     </div>
-</div>
 
-<div class="dashboard">
-    <div class="dash-item">
-        <div class="dash-label">Succión</div>
-        <div class="dash-val"><input type="number" id="input-ps" class="dash-input" min="0" max="1000"> <span style="font-size:0.5em;color:#888">psig</span></div>
-    </div>
-    <div class="dash-item">
-        <div class="dash-label">Descarga</div>
-        <div class="dash-val"><input type="number" id="input-pd" class="dash-input" min="0" max="4000"> <span style="font-size:0.5em;color:#888">psig</span></div>
-    </div>
-    <div class="dash-item">
-        <div class="dash-label">Relación (CR)</div>
-        <div class="dash-val" id="dash-cr" style="margin-top: 5px;">--</div>
-    </div>
-</div>
+    <!-- Footer -->
+</section>
+</main>
+    <!-- Footer Pro -->
+    <footer id="contact" class="bg-gray-900 text-white border-t-4 border-[#008F4C]">
+      <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-<script>
-(function() {
-    'use strict';
+          <!-- Column 1: Brand -->
+          <div>
+            <h3 class="text-xl font-bold font-heading mb-4 text-[#D4E157]">Freddy Roa Monsalvo</h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-4">
+              Ingeniero Mec&aacute;nico Senior especializado en proyectos de infraestructura energ&eacute;tica, dise&ntilde;o de estaciones compresoras y gesti&oacute;n de activos con RCM2.
+            </p>
+            <div class="flex space-x-4">
+               <!-- LinkedIn -->
+               <a href="https://www.linkedin.com/in/freddyroa/" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                  <span class="sr-only">LinkedIn</span>
+                  <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+               </a>
+            </div>
+          </div>
 
-    // Parámetros Termodinámicos (GPSA & Notas del Ábaco)
-    const k = 1.26, Ts = 540, Ti = 580, eta = 0.775, Patm = 14.65, CR_MAX = 3.8;
-    const S_MIN = 0, S_MAX = 1000, D_MIN = 0, D_MAX = 4000;
-    
-    // Configuración Angular
-    const ARC = 260; 
-    const ARC0 = 30; 
+          <!-- Column 2: Quick Links -->
+          <div>
+            <h3 class="text-lg font-bold font-heading mb-4 text-white">Enlaces R&aacute;pidos</h3>
+            <ul class="space-y-2">
+              <li><a href="../index.html" class="text-gray-400 hover:text-[#D4E157] text-sm transition-colors">Inicio</a></li>
+              <li><a href="../herramientas.html" class="text-gray-400 hover:text-[#D4E157] text-sm transition-colors">Herramientas de C&aacute;lculo</a></li>
+              <li><a href="../index.html#expertise" class="text-gray-400 hover:text-[#D4E157] text-sm transition-colors">Expertise &amp; &Aacute;reas</a></li>
+              <li><a href="../index.html#projects" class="text-gray-400 hover:text-[#D4E157] text-sm transition-colors">Proyectos Destacados</a></li>
+            </ul>
+          </div>
 
-    // Helpers Logarítmicos usando Presión Absoluta
-    function vL(v) { return Math.log10(v + Patm); }
-    function v2a(v, mn, mx) { return ARC0 + ((vL(v) - vL(mn)) / (vL(mx) - vL(mn))) * ARC; }
-    function a2v(a, mn, mx) {
-        const f = (a - ARC0) / ARC;
-        return Math.pow(10, vL(mn) + f * (vL(mx) - vL(mn))) - Patm;
-    }
+          <!-- Column 3: Contact Info -->
+          <div>
+            <h3 class="text-lg font-bold font-heading mb-4 text-white">Contacto Profesional</h3>
+            <ul class="space-y-3">
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-[#D4E157] mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                <a href="mailto:freddy.roa76@gmail.com" class="text-gray-400 hover:text-white text-sm transition-colors">freddy.roa76@gmail.com</a>
+              </li>
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-[#D4E157] mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                <span class="text-gray-400 text-sm">+57 311 253 1330</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-[#D4E157] mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <span class="text-gray-400 text-sm">Bogot&aacute; D.C., Colombia</span>
+              </li>
+            </ul>
+          </div>
 
-    // SVG Helpers
-    const CX = 400, CY = 400;
-    function p2xy(r, a) { const rd = (a - 90) * Math.PI / 180; return { x: CX + r * Math.cos(rd), y: CY + r * Math.sin(rd) }; }
-    function mk(tag, at) { const el = document.createElementNS('http://www.w3.org/2000/svg', tag); for (const [k, v] of Object.entries(at)) el.setAttribute(k, v); return el; }
+        </div>
 
-    // Generador manual de ticks
-    function getScaleTicks(max) {
-        let major = [], minor = [];
-        for(let i=0; i<=30; i++) { if(i%5===0) major.push(i); else minor.push(i); }
-        for(let i=32; i<=100; i+=2) { if(i%10===0) major.push(i); else minor.push(i); }
-        for(let i=110; i<=300; i+=10) { if(i%50===0) major.push(i); else minor.push(i); }
-        for(let i=350; i<=1000; i+=50) { if(i%100===0) major.push(i); else minor.push(i); }
-        if(max > 1000) {
-            for(let i=1100; i<=max; i+=100) { if(i%500===0) major.push(i); else minor.push(i); }
+        <div class="mt-12 border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+          <p>&copy; <span class="copyright-year">2026</span> Freddy Roa Monsalvo. Todos los derechos reservados.</p>
+          <div class="flex space-x-6 mt-4 md:mt-0">
+             <a href="#" class="hover:text-gray-300">Privacidad</a>
+             <a href="#" class="hover:text-gray-300">T&eacute;rminos</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a
+      href="https://wa.me/573112531330"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Contactar por WhatsApp"
+      class="fixed bottom-6 right-6 z-50 bg-green-500 text-white rounded-full p-4 shadow-lg hover:bg-green-600 transition-transform transform hover:scale-110"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="28"
+        height="28"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        class="w-7 h-7"
+      >
+        <path
+          d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"
+        />
+      </svg>
+    </a>
+
+    <!-- Header/Menu Script -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Header scroll effect
+        const header = document.querySelector("header");
+        if (header) {
+          window.addEventListener("scroll", () => {
+            if (window.scrollY > 10) {
+              header.classList.add("bg-surface", "shadow-md");
+              if (header.classList.contains("bg-transparent")) { 
+                  header.classList.remove("bg-transparent");
+              }
+            } else {
+              header.classList.add("bg-surface", "shadow-md"); 
+            }
+          });
         }
-        return { major, minor };
-    }
 
-    // Dibujar Escalas
-    function buildScale(gId, min, max, isOuter) {
-        const g = document.getElementById(gId);
-        const { major, minor } = getScaleTicks(max);
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
+        const menuIcon = document.getElementById("menu-icon");
+        const closeIcon = document.getElementById("close-icon");
+
+        if (mobileMenuButton && mobileMenu) {
+          mobileMenuButton.addEventListener("click", () => {
+            const isExpanded = mobileMenuButton.getAttribute("aria-expanded") === "true";
+            mobileMenu.classList.toggle("hidden");
+            menuIcon.classList.toggle("hidden");
+            closeIcon.classList.toggle("hidden");
+            mobileMenuButton.setAttribute("aria-expanded", !isExpanded);
+          });
+
+          const mobileLinks = mobileMenu.querySelectorAll("a");
+          mobileLinks.forEach((link) => {
+            link.addEventListener("click", () => {
+              mobileMenu.classList.add("hidden");
+              menuIcon.classList.remove("hidden");
+              closeIcon.classList.add("hidden");
+              mobileMenuButton.setAttribute("aria-expanded", "false");
+            });
+          });
+        }
+
+        // Update copyright year
+        const yearSpan = document.querySelector(".copyright-year");
+        if (yearSpan) {
+          yearSpan.textContent = new Date().getFullYear();
+        }
+      });
+    </script>
+
+    <!-- Abacus Engine Script -->
+    <script>
+    (function() {
+        'use strict';
+
+        // ============================================================
+        // ARIEL-STYLE GAS COMPRESSION ABACUS
+        // Based on Ariel Corporation circular slide rule
+        // Reference: GPSA Engineering Data Book, Section 13
+        // ============================================================
+
+        // Thermodynamic Parameters (from the physical abacus notes)
+        const k = 1.26, Ts = 540, Ti = 580, eta = 0.775, Patm = 14.65, CR_MAX = 3.8;
+        const S_MIN = 0, S_MAX = 1000, D_MIN = 0, D_MAX = 4000;
         
-        const B = isOuter ? 287 : 283; 
-        const TIP_M = isOuter ? B + 18 : B - 18; 
-        const TIP_m = isOuter ? B + 10 : B - 10; 
-        const R_LBL = isOuter ? B + 32 : B - 28;
+        // ============================================================
+        // ANGULAR CONFIGURATION — Matching physical Ariel abacus
+        // ============================================================
+        // The physical Ariel abacus uses nearly a full circle (~330°).
+        // Both scales start at 0 psig near the top (12 o'clock) and
+        // wind clockwise almost all the way around.
+        const ARC = 330;   // Total arc degrees for discharge (full range)
+        const ARC0 = 15;   // Small offset from 12 o'clock start
 
-        major.forEach(v => {
-            if(v > max) return;
-            const a = v2a(v, min, max);
-            const p1 = p2xy(B, a), p2 = p2xy(TIP_M, a);
-            g.appendChild(mk('line', { x1:p1.x, y1:p1.y, x2:p2.x, y2:p2.y, stroke:'var(--tick-major)', 'stroke-width': '2' }));
+        // ============================================================
+        // UNIFIED LOGARITHMIC MAPPING (Slide-Rule Principle)
+        // ============================================================
+        // The FUNDAMENTAL requirement: both discs use the SAME 
+        // K constant (degrees per decade of absolute pressure).
+        //
+        // This ensures: Δθ = K × log₁₀(CR) for ALL alignment points.
+        //
+        // K is defined by the discharge scale (wider range: 0–4000 psig).
+        // The suction scale (0–1000 psig, fewer decades) naturally 
+        // occupies a shorter arc on its disc.
+        //
+        // Verification:
+        //   Discharge: 14.65 → 4014.65 psia = 2.438 decades → 330°
+        //   Suction:   14.65 → 1014.65 psia = 1.840 decades → 249°
+        //   K = 330 / 2.438 ≈ 135.4 °/decade (same for both)
+        // ============================================================
+        const LOG_BASE = Math.log10(Patm);          // log₁₀(14.65) ≈ 1.1658
+        const LOG_TOP  = Math.log10(D_MAX + Patm);  // log₁₀(4014.65) ≈ 3.6036
+        const LOG_RANGE = LOG_TOP - LOG_BASE;        // ≈ 2.438 decades
+        const K = ARC / LOG_RANGE;                   // ≈ 135.4 °/decade
 
-            const pL = p2xy(R_LBL, a);
-            const tx = mk('text', { x:pL.x, y:pL.y, fill:'var(--text-dark)', 'font-family':'var(--font-sans)', 'font-size':'13', 'font-weight':'700', 'text-anchor':'middle', 'dominant-baseline':'central' });
+        // Suction arc for reference:
+        const SUCTION_LOG_RANGE = Math.log10(S_MAX + Patm) - LOG_BASE; // ≈ 1.840
+        const SUCTION_ARC = K * SUCTION_LOG_RANGE;   // ≈ 249°
+
+        // Unified pressure→angle: SAME function for both discs
+        function p2angle(P_gauge) {
+            return ARC0 + K * (Math.log10(P_gauge + Patm) - LOG_BASE);
+        }
+
+        // Unified angle→pressure: SAME function for both discs
+        function angle2p(angle) {
+            const logP = LOG_BASE + (angle - ARC0) / K;
+            return Math.pow(10, logP) - Patm;
+        }
+
+        // SVG Helpers
+        const CX = 400, CY = 400;
+        function p2xy(r, a) {
+            const rd = (a - 90) * Math.PI / 180;
+            return { x: CX + r * Math.cos(rd), y: CY + r * Math.sin(rd) };
+        }
+        function mk(tag, at) {
+            const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+            for (const [k, v] of Object.entries(at)) el.setAttribute(k, v);
+            return el;
+        }
+
+        // ============================================================
+        // TICK GENERATION — Matching Ariel physical abacus pattern
+        // ============================================================
+        // The Ariel abacus has a very specific graduation pattern:
+        //   0-30:     every 1 psig (major every 5)
+        //   30-100:   every 2 psig (major every 10)
+        //   100-500:  every 10 psig (major every 50)
+        //   500-1000: every 50 psig (major every 100)
+        //   1000-4000: every 100 psig (major every 500)
+        // Additionally there are "medium" ticks for key values.
+        function getScaleTicks(maxPressure) {
+            let major = [], medium = [], minor = [];
+
+            // 0-30 psig: every 1 (major at 0,5,10,15,20,25,30)
+            for (let i = 0; i <= 30 && i <= maxPressure; i++) {
+                if (i % 5 === 0) major.push(i);
+                else minor.push(i);
+            }
+            // 30-100 psig: every 2 (major at 40,50,60,70,80,90,100)
+            for (let i = 32; i <= 100 && i <= maxPressure; i += 2) {
+                if (i % 10 === 0) major.push(i);
+                else if (i % 10 === 5) medium.push(i); // 35,45,55...
+                else minor.push(i);
+            }
+            // 100-500 psig: every 10 (major at 100,150,200,250,300,400,500)
+            for (let i = 110; i <= 500 && i <= maxPressure; i += 10) {
+                if (i % 50 === 0) major.push(i);
+                else medium.push(i);
+            }
+            // 500-1000 psig: every 50 (major at 500,600,700,800,900,1000)
+            for (let i = 550; i <= 1000 && i <= maxPressure; i += 50) {
+                if (i % 100 === 0) major.push(i);
+                else medium.push(i);
+            }
+            // 1000-4000 psig: every 100 (major at 1000,1500,2000,2500,3000,3500,4000)
+            if (maxPressure > 1000) {
+                for (let i = 1100; i <= maxPressure; i += 100) {
+                    if (i % 500 === 0) major.push(i);
+                    else medium.push(i);
+                }
+            }
+
+            return { major, medium, minor };
+        }
+
+        // ============================================================
+        // DRAW SCALES — Using unified p2angle for both discs
+        // ============================================================
+        function buildScale(gId, maxPressure, isOuter) {
+            const g = document.getElementById(gId);
+            const { major, medium, minor } = getScaleTicks(maxPressure);
             
-            let rot = a + (isOuter ? -90 : 90); 
-            tx.setAttribute('transform', `rotate(${rot}, ${pL.x}, ${pL.y})`);
-            tx.textContent = v;
-            g.appendChild(tx);
+            // Tick radii from disc boundary
+            const B     = isOuter ? 290 : 280;        // Base radius for ticks
+            const TIP_L = isOuter ? B + 22 : B - 22;  // Long tick (major)
+            const TIP_M = isOuter ? B + 14 : B - 14;  // Medium tick
+            const TIP_S = isOuter ? B + 8  : B - 8;   // Short tick (minor)
+            const R_LBL = isOuter ? B + 36 : B - 32;  // Label position
+
+            const maxAngle = p2angle(maxPressure);
+
+            // Draw major ticks with labels
+            major.forEach(v => {
+                if (v > maxPressure) return;
+                const a = p2angle(v);
+                if (a < ARC0 - 0.5 || a > maxAngle + 0.5) return;
+
+                const p1 = p2xy(B, a), p2 = p2xy(TIP_L, a);
+                g.appendChild(mk('line', {
+                    x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y,
+                    stroke: 'var(--tick-major)', 'stroke-width': '2'
+                }));
+
+                // Label
+                const pL = p2xy(R_LBL, a);
+                // Smaller font for higher values to avoid overlap
+                const fontSize = v >= 1000 ? 10 : (v >= 100 ? 11 : 12);
+                const tx = mk('text', {
+                    x: pL.x, y: pL.y, fill: 'var(--text-dark)',
+                    'font-family': "'DM Sans', sans-serif",
+                    'font-size': fontSize.toString(),
+                    'font-weight': '700',
+                    'text-anchor': 'middle',
+                    'dominant-baseline': 'central'
+                });
+                const rot = a + (isOuter ? -90 : 90);
+                tx.setAttribute('transform', `rotate(${rot}, ${pL.x}, ${pL.y})`);
+                tx.textContent = v;
+                g.appendChild(tx);
+            });
+
+            // Draw medium ticks (no labels)
+            medium.forEach(v => {
+                if (v > maxPressure) return;
+                const a = p2angle(v);
+                if (a < ARC0 - 0.5 || a > maxAngle + 0.5) return;
+
+                const p1 = p2xy(B, a), p2 = p2xy(TIP_M, a);
+                g.appendChild(mk('line', {
+                    x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y,
+                    stroke: 'var(--tick-minor)', 'stroke-width': '1.5'
+                }));
+            });
+
+            // Draw minor ticks (shortest, no labels)
+            minor.forEach(v => {
+                if (v > maxPressure) return;
+                const a = p2angle(v);
+                if (a < ARC0 - 0.5 || a > maxAngle + 0.5) return;
+
+                const p1 = p2xy(B, a), p2 = p2xy(TIP_S, a);
+                g.appendChild(mk('line', {
+                    x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y,
+                    stroke: 'var(--tick-minor)', 'stroke-width': '0.8'
+                }));
+            });
+
+            // Draw arc line along the scale base
+            const aStart = p2angle(0);
+            const aEnd   = maxAngle;
+            const nSeg   = 120;
+            for (let i = 0; i < nSeg; i++) {
+                const a1 = aStart + (aEnd - aStart) * i / nSeg;
+                const a2 = aStart + (aEnd - aStart) * (i + 1) / nSeg;
+                const pt1 = p2xy(B, a1), pt2 = p2xy(B, a2);
+                g.appendChild(mk('line', {
+                    x1: pt1.x, y1: pt1.y, x2: pt2.x, y2: pt2.y,
+                    stroke: '#333', 'stroke-width': '1.5'
+                }));
+            }
+        }
+
+        buildScale('outerDisc', D_MAX, true);
+        buildScale('innerDisc', S_MAX, false);
+
+        // ============================================================
+        // COMPUTATION ENGINE — GPSA Section 13
+        // ============================================================
+        function computeBHP(Ps, Pd) {
+            const P1 = Ps + Patm, P2 = Pd + Patm;
+            if (P1 <= 0 || P2 <= P1) return { bhp: 0, cr: 1, stages: 1 };
+            const CR = P2 / P1;
+            const stages = Math.max(1, Math.ceil(Math.log(CR) / Math.log(CR_MAX)));
+            const CRs = Math.pow(CR, 1 / stages);
+            const exp = (k - 1) / k, coeff = 43.64 / eta, kF = k / (k - 1);
+            const term = Math.pow(CRs, exp) - 1;
+            
+            let bhp = 0;
+            for (let s = 0; s < stages; s++) {
+                bhp += coeff * kF * term * ((s === 0 ? Ts : Ti) / 520);
+            }
+            return { bhp, cr: CR, stages };
+        }
+
+        // ============================================================
+        // UI CONTROLS
+        // ============================================================
+        const svg = document.getElementById('svg'), wrap = document.getElementById('wrap');
+        const outerG = document.getElementById('outerDisc'), innerG = document.getElementById('innerDisc');
+        const inputPs = document.getElementById('input-ps'), inputPd = document.getElementById('input-pd');
+        
+        let dragging = false, dragA = 0, active = null;
+        let outerR = -p2angle(1200);  // Initial discharge pressure
+        let innerR = -p2angle(400);   // Initial suction pressure
+
+        function setSmoothRotation(isSmooth) {
+            const t = isSmooth ? 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)' : 'none';
+            innerG.style.transition = t;
+            outerG.style.transition = t;
+        }
+
+        function update() {
+            outerG.style.transform = `rotate(${outerR}deg)`;
+            innerG.style.transform = `rotate(${innerR}deg)`;
+            
+            // UNIFIED mapping: same angle2p for both discs
+            let Ps = Math.max(S_MIN, Math.min(S_MAX, angle2p(-innerR)));
+            let Pd = Math.max(D_MIN, Math.min(D_MAX, angle2p(-outerR)));
+            
+            const r = computeBHP(Ps, Pd);
+            
+            document.getElementById('val-bhp').textContent = r.bhp > 0 ? Math.round(r.bhp) : '--';
+            document.getElementById('val-cr').textContent = 'CR: ' + r.cr.toFixed(2);
+            document.getElementById('val-stages').textContent = 
+                r.stages === 1 ? 'UNA ETAPA' : 
+                (r.stages === 2 ? 'DOS ETAPAS' : 'TRES ETAPAS');
+            
+            if (document.activeElement !== inputPs) inputPs.value = Math.round(Ps);
+            if (document.activeElement !== inputPd) inputPd.value = Math.round(Pd);
+            document.getElementById('dash-cr').textContent = r.cr.toFixed(2);
+        }
+
+        // Input listeners
+        inputPs.addEventListener('change', function() {
+            let val = parseFloat(this.value);
+            if (isNaN(val)) return;
+            val = Math.max(S_MIN, Math.min(S_MAX, val));
+            this.value = val;
+            innerR = -p2angle(val);
+            setSmoothRotation(true);
+            update();
         });
 
-        minor.forEach(v => {
-            if(v > max) return;
-            const a = v2a(v, min, max);
-            const p1 = p2xy(B, a), p2 = p2xy(TIP_m, a);
-            g.appendChild(mk('line', { x1:p1.x, y1:p1.y, x2:p2.x, y2:p2.y, stroke:'var(--tick-minor)', 'stroke-width': '1' }));
+        inputPd.addEventListener('change', function() {
+            let val = parseFloat(this.value);
+            if (isNaN(val)) return;
+            val = Math.max(D_MIN, Math.min(D_MAX, val));
+            this.value = val;
+            outerR = -p2angle(val);
+            setSmoothRotation(true);
+            update();
         });
-    }
 
-    buildScale('outerDisc', D_MIN, D_MAX, true);
-    buildScale('innerDisc', S_MIN, S_MAX, false);
-
-    // Motor de Cálculo
-    function computeBHP(Ps, Pd) {
-        const P1 = Ps + Patm, P2 = Pd + Patm;
-        if (P1 <= 0 || P2 <= P1) return { bhp: 0, cr: 1, stages: 1 };
-        const CR = P2 / P1;
-        const stages = Math.max(1, Math.ceil(Math.log(CR) / Math.log(CR_MAX)));
-        const CRs = Math.pow(CR, 1 / stages);
-        const exp = (k - 1) / k, coeff = 43.64 / eta, kF = k / (k - 1);
-        const term = Math.pow(CRs, exp) - 1;
+        // Drag controls
+        function getAngle(e) {
+            const rc = svg.getBoundingClientRect();
+            const x = e.touches ? e.touches[0].clientX : e.clientX;
+            const y = e.touches ? e.touches[0].clientY : e.clientY;
+            return Math.atan2(
+                y - (rc.top + rc.height / 2),
+                x - (rc.left + rc.width / 2)
+            ) * 180 / Math.PI + 90;
+        }
         
-        let bhp = 0;
-        for (let s = 0; s < stages; s++) bhp += coeff * kF * term * ((s === 0 ? Ts : Ti) / 520);
-        return { bhp, cr: CR, stages };
-    }
+        function getDist(e) {
+            const rc = svg.getBoundingClientRect();
+            const x = e.touches ? e.touches[0].clientX : e.clientX;
+            const y = e.touches ? e.touches[0].clientY : e.clientY;
+            const dx = (x - (rc.left + rc.width / 2)) * (800 / rc.width);
+            const dy = (y - (rc.top + rc.height / 2)) * (800 / rc.height);
+            return Math.sqrt(dx * dx + dy * dy);
+        }
 
-    // Nodos UI
-    const svg = document.getElementById('svg'), wrap = document.getElementById('wrap');
-    const outerG = document.getElementById('outerDisc'), innerG = document.getElementById('innerDisc');
-    const inputPs = document.getElementById('input-ps'), inputPd = document.getElementById('input-pd');
-    
-    let dragging = false, dragA = 0, active = null;
-    let outerR = -v2a(1200, D_MIN, D_MAX);
-    let innerR = -v2a(400, S_MIN, S_MAX);
+        function onDown(e) {
+            if (e.target.tagName === 'INPUT') return;
+            e.preventDefault();
+            const d = getDist(e);
+            if (d < 35) return;
+            active = d <= 285 ? 'inner' : 'outer';
+            dragging = true;
+            dragA = getAngle(e);
+            setSmoothRotation(false);
+            document.body.style.cursor = 'grabbing';
+        }
 
-    // Alternar transición suave (apagada al arrastrar, encendida al digitar)
-    function setSmoothRotation(isSmooth) {
-        innerG.style.transition = isSmooth ? 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)' : 'none';
-        outerG.style.transition = isSmooth ? 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)' : 'none';
-    }
+        function onMove(e) {
+            if (!dragging) return;
+            e.preventDefault();
+            const a = getAngle(e), delta = a - dragA;
+            dragA = a;
+            if (active === 'inner') innerR += delta;
+            else outerR += delta;
+            update();
+        }
 
-    function update() {
-        outerG.style.transform = `rotate(${outerR}deg)`;
-        innerG.style.transform = `rotate(${innerR}deg)`;
-        
-        let Ps = Math.max(S_MIN, Math.min(S_MAX, a2v(-innerR, S_MIN, S_MAX)));
-        let Pd = Math.max(D_MIN, Math.min(D_MAX, a2v(-outerR, D_MIN, D_MAX)));
-        
-        const r = computeBHP(Ps, Pd);
-        
-        document.getElementById('val-bhp').textContent = r.bhp > 0 ? Math.round(r.bhp) : '--';
-        document.getElementById('val-cr').textContent = 'CR: ' + r.cr.toFixed(2);
-        document.getElementById('val-stages').textContent = r.stages === 1 ? 'UNA ETAPA' : (r.stages === 2 ? 'DOS ETAPAS' : 'TRES ETAPAS');
-        
-        // Actualiza los inputs solo si no están siendo editados activamente
-        if (document.activeElement !== inputPs) inputPs.value = Math.round(Ps);
-        if (document.activeElement !== inputPd) inputPd.value = Math.round(Pd);
-        document.getElementById('dash-cr').textContent = r.cr.toFixed(2);
-    }
+        function onUp() {
+            dragging = false;
+            active = null;
+            document.body.style.cursor = '';
+        }
 
-    // Listeners para Digitación en Ventana Inferior
-    inputPs.addEventListener('change', function() {
-        let val = parseFloat(this.value);
-        if(isNaN(val)) return;
-        val = Math.max(S_MIN, Math.min(S_MAX, val));
-        this.value = val;
-        innerR = -v2a(val, S_MIN, S_MAX);
-        setSmoothRotation(true);
+        wrap.addEventListener('mousedown', onDown);
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('mouseup', onUp);
+        wrap.addEventListener('touchstart', onDown, { passive: false });
+        window.addEventListener('touchmove', onMove, { passive: false });
+        window.addEventListener('touchend', onUp);
+
+        // Initialize
+        setSmoothRotation(false);
         update();
-    });
-
-    inputPd.addEventListener('change', function() {
-        let val = parseFloat(this.value);
-        if(isNaN(val)) return;
-        val = Math.max(D_MIN, Math.min(D_MAX, val));
-        this.value = val;
-        outerR = -v2a(val, D_MIN, D_MAX);
-        setSmoothRotation(true);
-        update();
-    });
-
-    // Control de Arrastre (Drag)
-    function getAngle(e) {
-        const rc = svg.getBoundingClientRect();
-        const x = e.touches ? e.touches[0].clientX : e.clientX;
-        const y = e.touches ? e.touches[0].clientY : e.clientY;
-        const dx = x - (rc.left + rc.width/2), dy = y - (rc.top + rc.height/2);
-        return Math.atan2(dy, dx) * 180 / Math.PI + 90;
-    }
-    
-    function getDist(e) {
-        const rc = svg.getBoundingClientRect();
-        const x = e.touches ? e.touches[0].clientX : e.clientX;
-        const y = e.touches ? e.touches[0].clientY : e.clientY;
-        const dx = (x - (rc.left + rc.width/2)) * (800/rc.width), dy = (y - (rc.top + rc.height/2)) * (800/rc.height);
-        return Math.sqrt(dx*dx + dy*dy);
-    }
-
-    function onDown(e) {
-        if(e.target.tagName === 'INPUT') return; // Evita interferir con los inputs
-        e.preventDefault();
-        const d = getDist(e);
-        if (d < 35) return; 
-        active = d <= 285 ? 'inner' : 'outer';
-        dragging = true;
-        dragA = getAngle(e);
-        setSmoothRotation(false); // Apaga la animación para que el arrastre sea instantáneo
-        document.body.style.cursor = 'grabbing';
-    }
-
-    function onMove(e) {
-        if (!dragging) return;
-        e.preventDefault();
-        const a = getAngle(e), delta = a - dragA;
-        dragA = a;
-        if (active === 'inner') innerR += delta; else outerR += delta;
-        update();
-    }
-
-    function onUp() { dragging = false; active = null; document.body.style.cursor = ''; }
-
-    wrap.addEventListener('mousedown', onDown); window.addEventListener('mousemove', onMove); window.addEventListener('mouseup', onUp);
-    wrap.addEventListener('touchstart', onDown, {passive: false}); window.addEventListener('touchmove', onMove, {passive: false}); window.addEventListener('touchend', onUp);
-
-    // Inicializar apagando la transición y ajustando posiciones
-    setSmoothRotation(false);
-    update();
-})();
-</script>
-</body>
+    })();
+    </script>
+  </body>
 </html>

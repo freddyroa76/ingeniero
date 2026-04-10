@@ -40,7 +40,7 @@
       "mainEntity": {
         "@type": "ItemList",
         "name": "Herramientas de Cálculo",
-        "numberOfItems": 13,
+        "numberOfItems": 14,
         "itemListElement": [
           {"@type": "SoftwareApplication", "name": "Calculadora MAWP", "applicationCategory": "EngineeringApplication"},
           {"@type": "SoftwareApplication", "name": "Espesores de Tubería", "applicationCategory": "EngineeringApplication"},
@@ -54,7 +54,8 @@
           {"@type": "SoftwareApplication", "name": "Factor Z (CNGA)", "applicationCategory": "EngineeringApplication"},
           {"@type": "SoftwareApplication", "name": "Line Pack", "applicationCategory": "EngineeringApplication"},
           {"@type": "SoftwareApplication", "name": "Peso de Tuberías", "applicationCategory": "EngineeringApplication"},
-          {"@type": "SoftwareApplication", "name": "Flujo de Gas Natural", "applicationCategory": "EngineeringApplication"}
+          {"@type": "SoftwareApplication", "name": "Flujo de Gas Natural", "applicationCategory": "EngineeringApplication"},
+          {"@type": "SoftwareApplication", "name": "Ábaco de Compresión de Gas", "applicationCategory": "EngineeringApplication"}
         ]
       }
     }
@@ -696,6 +697,8 @@
                   </div>
                 </div>
               </div>
+            </a>
+
             <!-- Tool 13 -->
             <a href="herramientas/13_gas_flow_calculator.html" class="block group">
               <div
@@ -731,6 +734,46 @@
                   <div class="flex flex-wrap gap-1.5 mt-1">
                     <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">Panhandle</span>
                     <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">Weymouth</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+
+            <!-- Tool 14 -->
+            <a href="herramientas/14_abaco_compresion_gas.html" class="block group">
+              <div
+                class="bg-surface rounded-lg shadow-md p-6 border-l-4 border-primary transition-all duration-300 transform group-hover:-translate-y-1 group-hover:shadow-xl h-full"
+              >
+                <div class="flex flex-col gap-4">
+                  <div class="flex items-center gap-4">
+                    <div class="bg-primary/10 p-3 rounded-lg text-primary shrink-0">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                    </div>
+                    <h3
+                      class="text-lg font-bold text-text-primary group-hover:text-primary transition-colors"
+                    >
+                      Ábaco de Compresión
+                    </h3>
+                  </div>
+                  <p class="text-sm text-gray-500 leading-relaxed">
+                    Herramienta visual interactiva tipo regla de cálculo circular basada en GPSA Section 13.1. Permite estimar BHP/MMSCFD, relación de compresión y número de etapas girando los discos de presión.
+                  </p>
+                  <div class="flex flex-wrap gap-1.5 mt-1">
+                    <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">GPSA Sec. 13</span>
+                    <span class="text-[10px] font-bold text-purple-600 bg-purple-100 px-2 py-0.5 rounded-full">Interactivo</span>
                   </div>
                 </div>
               </div>
