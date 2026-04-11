@@ -1,0 +1,1500 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0F172A" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Freddy Roa Monsalvo" />
+    <title>Tiempo de Venteo (Blow Down) — Gasoductos | Freddy Roa Monsalvo</title>
+    <meta name="description" content="Calculadora de tiempo de venteo (blowdown) para gasoductos. Modelo Angulo-Bustillo (2020), Crammer (1984), GPSA y API 521. Incluye régimen sónico y subsónico." />
+    <link rel="icon" type="image/x-icon" href="../images/logos/favicon.ico">
+    <!-- Professional Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- Tailwind CDN -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#0F172A",
+              secondary: "#008F4C",
+              accent: "#D4E157",
+              background: "#F8FAFC",
+              surface: "#ffffff",
+              "text-primary": "#334155",
+              "text-secondary": "#1E293B",
+            },
+            fontFamily: {
+              heading: ["Outfit", "sans-serif"],
+              sans: ["DM Sans", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <!-- Custom Styles for Tools -->
+    <link rel="stylesheet" href="../tailwind_compiled.css" />
+    <link rel="stylesheet" href="../custom_styles.css">
+    <script src="js/common.js"></script>
+    <style>
+      /* ── Blowdown-specific styles ── */
+      .bd-unit-toggle {
+        display: inline-flex;
+        background: #e2e8f0;
+        border-radius: 6px;
+        overflow: hidden;
+      }
+      .bd-unit-btn {
+        padding: 5px 16px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #64748b;
+        cursor: pointer;
+        border: none;
+        background: transparent;
+        transition: all 0.2s;
+      }
+      .bd-unit-btn.active {
+        background: #0F172A;
+        color: #D4E157;
+      }
+
+      /* Vent config selector */
+      .vent-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+        gap: 10px;
+      }
+      .vent-opt {
+        border: 2px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 12px 10px 10px;
+        cursor: pointer;
+        text-align: center;
+        background: #fff;
+        transition: all 0.25s ease;
+        position: relative;
+      }
+      .vent-opt:hover { border-color: #94a3b8; box-shadow: 0 4px 12px rgba(15,23,42,0.08); transform: translateY(-1px); }
+      .vent-opt.selected { border-color: #0F172A; background: linear-gradient(135deg, #f0f4ff 0%, #e8ecf8 100%); box-shadow: 0 4px 16px rgba(15,23,42,0.12); }
+      .vent-opt.selected::after { content: '✓'; position: absolute; top: 6px; right: 8px; font-size: 11px; font-weight: 800; color: #0F172A; background: #D4E157; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; }
+      .vent-opt svg { display: block; margin: 0 auto 8px; }
+      .vent-opt .vo-name { font-size: 11px; font-weight: 700; color: #334155; line-height: 1.3; margin-bottom: 3px; }
+      .vent-opt .vo-cd { font-size: 10px; color: #3b82f6; font-weight: 600; }
+      .vent-opt.selected .vo-name { color: #0F172A; }
+
+      /* Calc row feedback */
+      .bd-calc-row {
+        font-size: 11px;
+        color: #0d9488;
+        margin-top: 4px;
+        background: #f0fdfa;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-weight: 600;
+      }
+      .bd-calc-row.warn { color: #d97706; background: #fffbeb; }
+      .bd-calc-row.err { color: #dc2626; background: #fef2f2; }
+
+      /* Metric cards */
+      .bd-metric {
+        background: #fff;
+        border-radius: 10px;
+        padding: 14px 16px;
+        box-shadow: 0 2px 8px rgba(15,23,42,0.06);
+        border-left: 4px solid #3b82f6;
+        border: 1px solid #e2e8f0;
+        border-left: 4px solid #3b82f6;
+      }
+      .bd-metric.sonic { border-left-color: #7c3aed; }
+      .bd-metric.subsonic { border-left-color: #0d9488; }
+      .bd-metric.mass { border-left-color: #ea580c; }
+      .bd-metric.flow { border-left-color: #be185d; }
+      .bd-metric.transition { border-left-color: #0891b2; }
+      .bd-metric.zfactor { border-left-color: #7c3aed; }
+      .bd-metric.volume { border-left-color: #16a34a; }
+      .bd-metric-label {
+        font-size: 10px;
+        font-weight: 700;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 4px;
+      }
+      .bd-metric-val {
+        font-size: 24px;
+        font-weight: 800;
+        color: #0F172A;
+        line-height: 1.1;
+        font-family: 'Outfit', sans-serif;
+      }
+      .bd-metric-unit {
+        font-size: 11px;
+        color: #94a3b8;
+        margin-top: 2px;
+      }
+      .bd-metric-sub {
+        font-size: 10px;
+        color: #94a3b8;
+        margin-top: 4px;
+        padding-top: 4px;
+        border-top: 1px solid #f1f5f9;
+      }
+
+      /* Chart box */
+      .bd-chart-box { position: relative; height: 260px; }
+
+      /* Safety check rows */
+      .bd-check {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 8px;
+        margin-bottom: 6px;
+        background: #f1f5f9;
+      }
+      .bd-check.ok { background: #f0fdf4; }
+      .bd-check.warn { background: #fffbeb; }
+      .bd-check.err { background: #fef2f2; }
+      .bd-check-icon {
+        width: 22px; height: 22px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 12px; flex-shrink: 0; margin-top: 1px;
+        font-weight: 700;
+      }
+      .bd-check.ok .bd-check-icon { background: #16a34a; color: #fff; }
+      .bd-check.warn .bd-check-icon { background: #d97706; color: #fff; }
+      .bd-check.err .bd-check-icon { background: #dc2626; color: #fff; }
+      .bd-check-title { font-size: 13px; font-weight: 600; color: #334155; }
+      .bd-check-body { font-size: 11px; color: #64748b; margin-top: 2px; }
+
+      /* Sensitivity bars */
+      .bd-sens-wrap { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+      .bd-sens-label { font-size: 11px; font-weight: 600; color: #94a3b8; width: 52px; text-align: right; }
+      .bd-sens-bg { flex: 1; background: #f1f5f9; border-radius: 4px; height: 20px; overflow: hidden; }
+      .bd-sens-bar {
+        height: 100%; background: #3b82f6; display: flex; align-items: center;
+        padding-left: 6px; font-size: 10px; font-weight: 700; color: #fff; border-radius: 4px;
+      }
+      .bd-sens-selected .bd-sens-bar { background: #0F172A; }
+
+      /* Comparison table */
+      .bd-cmp-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+      .bd-cmp-table th {
+        background: #0F172A; color: #D4E157; padding: 8px 12px; text-align: left;
+        font-size: 10px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+      }
+      .bd-cmp-table td { padding: 8px 12px; border-bottom: 1px solid #e2e8f0; color: #334155; }
+      .bd-cmp-table tr:nth-child(even) { background: #f8fafc; }
+      .bd-cmp-table .highlight { color: #0F172A; font-weight: 700; }
+
+      /* Formula box */
+      .bd-formula {
+        background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;
+        padding: 12px 16px; font-family: 'Courier New', monospace; font-size: 12px; color: #0F172A;
+        margin-top: 10px; line-height: 1.7;
+      }
+      .bd-formula-ref { font-size: 10px; color: #94a3b8; margin-top: 4px; font-family: 'DM Sans', sans-serif; }
+
+      /* Alert boxes */
+      .bd-alert {
+        padding: 10px 14px; border-radius: 8px; font-size: 12px; margin-bottom: 8px;
+        display: flex; gap: 8px; align-items: flex-start;
+      }
+      .bd-alert-info { background: #eff6ff; color: #1e40af; border-left: 3px solid #3b82f6; }
+      .bd-alert-warn { background: #fffbeb; color: #92400e; border-left: 3px solid #d97706; }
+      .bd-alert-err { background: #fef2f2; color: #991b1b; border-left: 3px solid #dc2626; }
+
+      /* Input with unit tag */
+      .bd-input-wrap {
+        display: flex; align-items: center; border: 1px solid #94a3b8;
+        border-radius: 6px; overflow: hidden; background: #fff;
+        transition: all 0.15s;
+      }
+      .bd-input-wrap:focus-within { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.15); }
+      .bd-input-wrap input, .bd-input-wrap select {
+        flex: 1; border: none; padding: 9px 12px;
+        font-size: 14px; color: #111827; background: transparent; outline: none; min-width: 0;
+      }
+      .bd-input-wrap .bd-unit-tag {
+        background: #f1f5f9; padding: 0 12px; font-size: 11px;
+        font-weight: 600; color: #64748b; white-space: nowrap; border-left: 1px solid #e2e8f0;
+        height: 100%; display: flex; align-items: center; min-width: 50px; justify-content: center;
+      }
+
+      /* Checklist */
+      .bd-checklist-item {
+        display: flex; align-items: center; gap: 10px; padding: 8px 0;
+        border-bottom: 1px solid #f1f5f9;
+      }
+      .bd-checklist-item:last-child { border-bottom: none; }
+      .bd-checklist-item input[type=checkbox] { width: 16px; height: 16px; accent-color: #0F172A; flex-shrink: 0; }
+      .bd-checklist-item label { font-size: 13px; color: #334155; cursor: pointer; }
+
+      .bd-hidden { display: none; }
+
+      /* Print */
+      @media print {
+        .bd-no-print { display: none !important; }
+        .bd-hidden { display: block !important; }
+      }
+    </style>
+  </head>
+  <body class="bg-background text-text-primary">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:text-primary focus:rounded-md focus:shadow-lg focus:font-bold">Ir al contenido principal</a>
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 shadow-md bg-surface">
+      <!-- Top Bar Contact Info -->
+      <div class="bg-[#0f172a] text-gray-300 text-xs py-2 border-b border-gray-800 hidden sm:block">
+         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center gap-6">
+            <span class="font-medium text-gray-300 tracking-wide">Ing. Mec Freddy Roa</span>
+            <div class="flex items-center gap-6">
+               <a href="mailto:freddy.roa76@gmail.com" class="hover:text-[#D4E157] transition-colors flex items-center gap-1">
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                  freddy.roa76@gmail.com
+               </a>
+               <a href="https://wa.me/573112531330" class="hover:text-[#D4E157] transition-colors flex items-center gap-1">
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                  +57 311 253 1330
+               </a>
+            </div>
+         </div>
+      </div>
+
+      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white/95 backdrop-blur-md">
+        <div class="flex items-center justify-end h-20">
+          <!-- Desktop Navigation -->
+          <div class="hidden sm:flex items-center space-x-4">
+            <a href="../index.html" class="group-link">Inicio</a>
+            <a href="../index.html#expertise" class="group-link">Expertise</a>
+            <a href="../index.html#projects" class="group-link">Proyectos</a>
+            <a href="../index.html#experience" class="group-link">Experiencia</a>
+            <a href="../herramientas.html" class="group-link text-[#0F172A] font-bold">Herramientas</a>
+            <a href="../index.html#contact" class="btn-contact-custom ml-4">CONTACTAR</a>
+          </div>
+
+          <!-- Mobile Menu Button -->
+          <div class="flex items-center sm:hidden">
+            <button id="mobile-menu-button" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-[#334155] hover:bg-gray-100 focus:outline-none transition-colors" aria-controls="mobile-menu" aria-expanded="false">
+              <span class="sr-only">Abrir men&uacute;</span>
+              <svg id="menu-icon" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+              </svg>
+              <svg id="close-icon" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Mobile Menu -->
+      <div id="mobile-menu" class="hidden sm:hidden bg-white border-t border-gray-100 overflow-y-auto max-h-[calc(100vh-80px)] shadow-xl">
+        <div class="px-4 pt-4 pb-6 space-y-1">
+          <a href="../index.html" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors">Inicio</a>
+          <a href="../index.html#expertise" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors">Expertise</a>
+          <a href="../index.html#projects" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors">Proyectos</a>
+          <a href="../index.html#experience" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors">Experiencia</a>
+          <a href="../herramientas.html" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors bg-[#F1F5F9]">Herramientas</a>
+          <a href="../index.html#contact" class="text-[#0F172A] block px-3 py-3 rounded-md text-base font-bold hover:bg-[#F1F5F9] transition-colors">Contacto</a>
+          <div class="pt-4 border-t border-gray-100">
+            <a href="../index.html#contact" class="w-full text-center block bg-[#0F172A] text-[#D4E157] border border-[#0F172A] px-5 py-3 rounded-full text-base font-bold hover:bg-white hover:text-[#0F172A] transition-all tracking-wide shadow-md">
+              CONTACTAR
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+<main id="main-content" class="pt-20">
+<section class="bg-background min-h-screen pt-8 pb-12"><div class="container mx-auto px-4 pt-2 pb-12 is-tool-content">
+      <!-- Breadcrumb -->
+      <nav class="flex mb-6 text-xs font-medium text-gray-400" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-2">
+          <li><a href="../index.html" class="text-gray-600 hover:text-primary transition-colors">Inicio</a></li>
+          <li><span class="mx-2">/</span></li>
+          <li><a href="../herramientas.html" class="text-gray-600 hover:text-primary transition-colors">Herramientas</a></li>
+          <li><span class="mx-2">/</span></li>
+          <li class="text-gray-900 font-bold">Tiempo de Venteo</li>
+        </ol>
+      </nav>
+
+      <!-- Title Box -->
+      <div class="title-box mb-8 relative z-10">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div>
+            <h1 class="text-3xl font-bold text-white tracking-tight">Pipeline Blowdown Time Calculator</h1>
+            <p class="text-gray-300 mt-2 text-sm font-medium">
+              Modelo Angulo-Bustillo (2020) · GPSA · API 521 — Régimen sónico + subsónico
+            </p>
+          </div>
+          <div class="flex items-center gap-3 bd-no-print">
+            <div class="bd-unit-toggle">
+              <button class="bd-unit-btn" id="btn-si" onclick="setUnits('SI')">SI</button>
+              <button class="bd-unit-btn active" id="btn-en" onclick="setUnits('EN')">Inglés</button>
+            </div>
+            <button onclick="window.print()" class="text-sm font-medium text-blue-100 hover:text-white flex items-center gap-2 transition-colors bg-white/10 px-3 py-1.5 rounded-md">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+              Imprimir
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ INPUT SECTION ═══ -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- Card 1: Gas Properties -->
+        <div class="card">
+          <h2 class="text-secondary border-b-secondary/20 border-b pb-2 mb-4 flex items-center gap-2">
+            <span class="bg-primary text-white rounded-full w-6 h-6 inline-flex items-center justify-center text-xs font-bold shrink-0">1</span>
+            Propiedades del Gas
+          </h2>
+          <div class="space-y-4">
+            <div class="input-group">
+              <label for="gas-type" class="font-bold text-gray-700">Tipo de gas <span class="units">(define k y μJT)</span></label>
+              <select id="gas-type" onchange="onGasTypeChange()">
+                <option value="ng_dry">Gas natural seco (GE 0.55–0.65)</option>
+                <option value="ng_wet">Gas natural húmedo (GE 0.65–0.75)</option>
+                <option value="ng_rich">Gas natural rico (GE > 0.75)</option>
+                <option value="nitrogen">Nitrógeno (N₂)</option>
+                <option value="air">Aire</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label for="sg" class="required font-bold text-gray-700">Gravedad específica G <span class="units">(aire = 1.000)</span></label>
+              <div class="bd-input-wrap">
+                <input type="number" id="sg" value="0.60" step="0.01" min="0.55" max="1.20" oninput="updateGasCalc()">
+                <span class="bd-unit-tag">adim.</span>
+              </div>
+              <div id="gas-info" class="bd-calc-row">M = 17.38 kg/kmol · k = 1.29 · μJT ≈ 0.50 °C/bar</div>
+            </div>
+            <div class="input-group">
+              <label for="z-manual" class="text-gray-500 text-sm">Factor Z <span class="units">(vacío = auto Papay)</span></label>
+              <div class="bd-input-wrap">
+                <input type="number" id="z-manual" placeholder="Auto (Papay)" step="0.01" min="0.1" max="1.5">
+                <span class="bd-unit-tag">adim.</span>
+              </div>
+              <div id="z-info" class="bd-calc-row">Dejar vacío para cálculo automático con correlación de Papay (GPSA Sec. 23)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Operating Conditions -->
+        <div class="card">
+          <h2 class="text-primary border-b-primary/20 border-b pb-2 mb-4 flex items-center gap-2">
+            <span class="bg-primary text-white rounded-full w-6 h-6 inline-flex items-center justify-center text-xs font-bold shrink-0">2</span>
+            Condiciones de Operación
+          </h2>
+          <div class="space-y-4">
+            <div class="grid grid-cols-2 gap-4">
+              <div class="input-group">
+                <label for="pressure" id="lbl-p" class="required font-bold text-gray-700">Presión inicial (man.)</label>
+                <div class="bd-input-wrap">
+                  <input type="number" id="pressure" value="100" step="1" min="1" oninput="updateCondCalc()">
+                  <span class="bd-unit-tag" id="unit-p">bar g</span>
+                </div>
+              </div>
+              <div class="input-group">
+                <label for="temp" id="lbl-t" class="required font-bold text-gray-700">Temperatura del gas</label>
+                <div class="bd-input-wrap">
+                  <input type="number" id="temp" value="20" step="1" oninput="updateCondCalc()">
+                  <span class="bd-unit-tag" id="unit-t">°C</span>
+                </div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label for="altitude" class="text-gray-500 text-sm">Altitud del sitio <span class="units">(para Pa automática)</span></label>
+              <div class="bd-input-wrap">
+                <input type="number" id="altitude" value="500" step="50" min="0" max="5000" oninput="updateCondCalc()">
+                <span class="bd-unit-tag">m.s.n.m.</span>
+              </div>
+              <div id="pa-info" class="bd-calc-row">Pa = 95.46 kPa (a 500 m) · P_abs = 100.5 bar abs</div>
+            </div>
+            <div class="input-group">
+              <label for="install-type" class="text-gray-500 text-sm">Tipo de instalación <span class="units">(régimen térmico)</span></label>
+              <select id="install-type">
+                <option value="buried">Gasoducto enterrado (cuasi-isotérmico)</option>
+                <option value="aerial">Gasoducto aéreo / offshore (cuasi-adiabático)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Pipeline Geometry -->
+        <div class="card">
+          <h2 class="text-secondary border-b-secondary/20 border-b pb-2 mb-4 flex items-center gap-2">
+            <span class="bg-primary text-white rounded-full w-6 h-6 inline-flex items-center justify-center text-xs font-bold shrink-0">3</span>
+            Geometría del Gasoducto
+          </h2>
+          <div class="space-y-4">
+            <div class="input-group">
+              <label for="diam-pipe" id="lbl-D" class="required font-bold text-gray-700">Diámetro interno</label>
+              <div class="bd-input-wrap">
+                <input type="number" id="diam-pipe" value="300" step="1" min="10" oninput="updateGeoCalc()">
+                <span class="bd-unit-tag" id="unit-D">mm</span>
+              </div>
+            </div>
+            <div class="input-group">
+              <label for="length" id="lbl-L" class="required font-bold text-gray-700">Longitud del tramo</label>
+              <div class="bd-input-wrap">
+                <input type="number" id="length" value="10000" step="100" min="1" oninput="updateGeoCalc()">
+                <span class="bd-unit-tag" id="unit-L">m</span>
+              </div>
+              <div id="vol-info" class="bd-calc-row">Volumen interno V = 706.9 m³</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4: Vent System -->
+        <div class="card">
+          <h2 class="text-primary border-b-primary/20 border-b pb-2 mb-4 flex items-center gap-2">
+            <span class="bg-primary text-white rounded-full w-6 h-6 inline-flex items-center justify-center text-xs font-bold shrink-0">4</span>
+            Sistema de Venteo
+          </h2>
+          <div class="space-y-4">
+            <div class="input-group">
+              <label for="diam-vent1" id="lbl-d1" class="required font-bold text-gray-700">Diámetro venteo principal</label>
+              <div class="bd-input-wrap">
+                <input type="number" id="diam-vent1" value="100" step="1" min="5" oninput="updateGeoCalc()">
+                <span class="bd-unit-tag" id="unit-d">mm</span>
+              </div>
+            </div>
+            <div class="input-group">
+              <label for="diam-vent2" id="lbl-d2" class="text-gray-500 text-sm">Diámetro venteo secundario <span class="units">(opcional)</span></label>
+              <div class="bd-input-wrap">
+                <input type="number" id="diam-vent2" placeholder="0 = no aplica" step="1" min="0" oninput="updateGeoCalc()">
+                <span class="bd-unit-tag" id="unit-d2">mm</span>
+              </div>
+              <div id="ar-info" class="bd-calc-row">Relación Ar = D²/d² = 9.00 · Válida (3 ≤ Ar ≤ 30)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5: Vent Configuration -->
+      <div class="card mt-2">
+        <h2 class="text-primary border-b-primary/20 border-b pb-2 mb-4 flex items-center gap-2">
+          <span class="bg-primary text-white rounded-full w-6 h-6 inline-flex items-center justify-center text-xs font-bold shrink-0">5</span>
+          Configuración del Venteo — Coeficiente de Descarga Cd
+        </h2>
+        <div class="vent-grid" id="vent-selector">
+          <!-- rendered by JS -->
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          <div class="input-group">
+            <label for="cd-val" class="font-bold text-gray-700">Coeficiente Cd <span class="units">(editable)</span></label>
+            <div class="bd-input-wrap">
+              <input type="number" id="cd-val" value="0.72" step="0.01" min="0.30" max="1.00">
+              <span class="bd-unit-tag">adim.</span>
+            </div>
+          </div>
+          <div class="bd-alert bd-alert-info" style="margin:0; align-self:center;">
+            Factor de choque Fc = 1/Cd = <strong id="fc-val">1.39</strong> — Equivalente ecuación Crammer (1984)
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ CALCULATE BUTTON ═══ -->
+      <div class="text-center my-6 bd-no-print">
+        <button id="calculateBtn" class="py-3 px-12 text-lg shadow-lg hover:shadow-xl transform transition-all active:scale-[0.98]" onclick="runCalculation()">
+          ▶  CALCULAR TIEMPO DE VENTEO
+        </button>
+        <div class="text-xs text-gray-400 mt-2">
+          Modelo iterativo completo · Correlación Papay (Z) · Régimen sónico + subsónico · GPSA / API 521
+        </div>
+      </div>
+
+      <!-- ═════════════════════════════ -->
+      <!-- ═══ RESULTS SECTION ═══ -->
+      <!-- ═══════════════════════════ -->
+      <div id="results-section" class="bd-hidden">
+
+        <!-- Results header -->
+        <div class="card hidden animate-fade-in mt-2 border-t-4 border-blue-600 shadow-xl p-0 overflow-hidden bg-white" id="resultsCard">
+          <div class="bg-gray-50 border-b border-gray-200 px-6 py-4 flex justify-between items-center">
+            <h2 class="flex items-center gap-2 text-lg font-bold text-gray-800 m-0">
+              <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              Resultados del Cálculo — Tiempo de Venteo
+            </h2>
+            <span class="px-3 py-1 bg-green-100 text-green-700 text-[10px] font-bold uppercase rounded-full tracking-wide">Calculado</span>
+          </div>
+
+          <div class="p-6">
+            <div id="alert-zone" style="margin-bottom:10px;"></div>
+
+            <!-- Primary Metrics -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+              <div class="bd-metric">
+                <div class="bd-metric-label">Tiempo total de venteo</div>
+                <div class="bd-metric-val" id="res-total">—</div>
+                <div class="bd-metric-unit" id="res-total-u">minutos</div>
+                <div class="bd-metric-sub" id="res-total-s">—</div>
+              </div>
+              <div class="bd-metric sonic">
+                <div class="bd-metric-label">Régimen sónico (tc)</div>
+                <div class="bd-metric-val" id="res-tc">—</div>
+                <div class="bd-metric-unit">minutos</div>
+                <div class="bd-metric-sub" id="res-tc-s">—</div>
+              </div>
+              <div class="bd-metric subsonic">
+                <div class="bd-metric-label">Régimen subsónico (ts)</div>
+                <div class="bd-metric-val" id="res-ts">—</div>
+                <div class="bd-metric-unit">minutos</div>
+                <div class="bd-metric-sub" id="res-ts-s">—</div>
+              </div>
+              <div class="bd-metric mass">
+                <div class="bd-metric-label">Masa total evacuada</div>
+                <div class="bd-metric-val" id="res-mass">—</div>
+                <div class="bd-metric-unit" id="res-mass-u">kg</div>
+                <div class="bd-metric-sub" id="res-mass-s">—</div>
+              </div>
+            </div>
+
+            <!-- Secondary Metrics -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+              <div class="bd-metric flow">
+                <div class="bd-metric-label">Flujo másico pico</div>
+                <div class="bd-metric-val" id="res-w0">—</div>
+                <div class="bd-metric-unit" id="res-w0-u">kg/s</div>
+                <div class="bd-metric-sub" id="res-w0-s">—</div>
+              </div>
+              <div class="bd-metric transition">
+                <div class="bd-metric-label">P transición sónico→sub</div>
+                <div class="bd-metric-val" id="res-ptrans">—</div>
+                <div class="bd-metric-unit" id="res-ptrans-u">bar abs</div>
+                <div class="bd-metric-sub" id="res-ptrans-s">—</div>
+              </div>
+              <div class="bd-metric zfactor">
+                <div class="bd-metric-label">Factor Z inicial (Papay)</div>
+                <div class="bd-metric-val" id="res-z">—</div>
+                <div class="bd-metric-unit">adimensional</div>
+                <div class="bd-metric-sub" id="res-z-s">—</div>
+              </div>
+              <div class="bd-metric volume">
+                <div class="bd-metric-label" id="res-vol-label">Volumen a cond. normales</div>
+                <div class="bd-metric-val" id="res-vol">—</div>
+                <div class="bd-metric-unit" id="res-vol-u">Sm³</div>
+                <div class="bd-metric-sub" id="res-vol-sub">15°C, 101.325 kPa</div>
+              </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+              <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-3">Curva Presión vs Tiempo</h3>
+                <div class="bd-chart-box"><canvas id="chart-p"></canvas></div>
+              </div>
+              <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-3">Flujo Másico vs Tiempo</h3>
+                <div class="bd-chart-box"><canvas id="chart-w"></canvas></div>
+              </div>
+            </div>
+
+            <!-- Sensitivity & Comparison -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+              <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-3">Sensibilidad — Efecto del Cd</h3>
+                <div id="sensitivity-bars"></div>
+                <div class="text-[10px] text-gray-400 mt-2">El Cd seleccionado está resaltado en azul oscuro.</div>
+              </div>
+              <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-3">Comparación de Métodos</h3>
+                <table class="bd-cmp-table">
+                  <thead>
+                    <tr><th>Método</th><th>t (min)</th><th>Δ%</th><th>Referencia</th></tr>
+                  </thead>
+                  <tbody id="compare-tbody"></tbody>
+                </table>
+                <div class="bd-formula" id="eq-display">—</div>
+                <div class="bd-formula-ref" id="eq-ref">—</div>
+              </div>
+            </div>
+
+            <!-- Memorial de cálculo -->
+            <div class="bg-gray-50 rounded-xl p-4 border border-gray-100 mb-4">
+              <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-3 border-b border-gray-200 pb-2">Memorial de Cálculo — Parámetros Intermedios</h3>
+              <div class="grid grid-cols-2 md:grid-cols-3 gap-3" id="memorial-grid"></div>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-gray-100 text-xs text-gray-400 flex items-center justify-between">
+              <div><strong>Modelo:</strong> Angulo-Bustillo (2020) ec. 21+36 · Iterativo completo</div>
+              <div class="italic">Z-Factor: Papay (1985) · Pseudo-críticas: Standing (1977)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ SAFETY SECTION ═══ -->
+      <div id="safety-section" class="bd-hidden">
+        <div class="grid grid-cols-1 gap-6 mt-6">
+          <div class="card">
+            <h2 class="text-primary border-b-primary/20 border-b pb-2 mb-4">Alertas Automáticas del Sistema</h2>
+            <div id="auto-checks"></div>
+          </div>
+        </div>
+      </div>
+
+</div></section>
+</main>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-gray-900 text-white border-t-4 border-[#008F4C]">
+      <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Column 1: Brand -->
+          <div>
+            <h3 class="text-xl font-bold font-heading mb-4 text-[#D4E157]">Freddy Roa Monsalvo</h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-4">
+              Ingeniero Mec&aacute;nico Senior especializado en proyectos de infraestructura energ&eacute;tica, dise&ntilde;o de estaciones compresoras y gesti&oacute;n de activos con RCM2.
+            </p>
+            <div class="flex space-x-4">
+               <a href="https://www.linkedin.com/in/freddyroa/" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                  <span class="sr-only">LinkedIn</span>
+                  <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+               </a>
+            </div>
+          </div>
+
+          <!-- Column 2: Quick Links -->
+          <div>
+            <h3 class="text-lg font-bold font-heading mb-4 text-white">Enlaces R&aacute;pidos</h3>
+            <ul class="space-y-2">
+              <li><a href="../index.html" class="text-gray-400 hover:text-[#D4E157] text-sm transition-colors">Inicio</a></li>
+              <li><a href="../herramientas.html" class="text-gray-400 hover:text-[#D4E157] text-sm transition-colors">Herramientas de C&aacute;lculo</a></li>
+              <li><a href="../index.html#expertise" class="text-gray-400 hover:text-[#D4E157] text-sm transition-colors">Expertise &amp; &Aacute;reas</a></li>
+              <li><a href="../index.html#projects" class="text-gray-400 hover:text-[#D4E157] text-sm transition-colors">Proyectos Destacados</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 3: Contact Info -->
+          <div>
+            <h3 class="text-lg font-bold font-heading mb-4 text-white">Contacto Profesional</h3>
+            <ul class="space-y-3">
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-[#D4E157] mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                <a href="mailto:freddy.roa76@gmail.com" class="text-gray-400 hover:text-white text-sm transition-colors">freddy.roa76@gmail.com</a>
+              </li>
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-[#D4E157] mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                <span class="text-gray-400 text-sm">+57 311 253 1330</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-[#D4E157] mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <span class="text-gray-400 text-sm">Bogot&aacute; D.C., Colombia</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mt-12 border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+          <p>&copy; <span class="copyright-year">2026</span> Freddy Roa Monsalvo. Todos los derechos reservados.</p>
+          <div class="flex space-x-6 mt-4 md:mt-0">
+             <a href="#" class="hover:text-gray-300">Privacidad</a>
+             <a href="#" class="hover:text-gray-300">T&eacute;rminos</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a
+      href="https://wa.me/573112531330"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Contactar por WhatsApp"
+      class="fixed bottom-6 right-6 z-50 bg-green-500 text-white rounded-full p-4 shadow-lg hover:bg-green-600 transition-transform transform hover:scale-110"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+      </svg>
+    </a>
+
+    <!-- ═══ HEADER/MENU SCRIPTS ═══ -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const header = document.querySelector("header");
+        if (header) {
+          window.addEventListener("scroll", () => {
+            header.classList.add("bg-surface", "shadow-md");
+            if (window.scrollY > 10 && header.classList.contains("bg-transparent")) {
+              header.classList.remove("bg-transparent");
+            }
+          });
+        }
+
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
+        const menuIcon = document.getElementById("menu-icon");
+        const closeIcon = document.getElementById("close-icon");
+
+        if (mobileMenuButton && mobileMenu) {
+          mobileMenuButton.addEventListener("click", () => {
+            const isExpanded = mobileMenuButton.getAttribute("aria-expanded") === "true";
+            mobileMenu.classList.toggle("hidden");
+            menuIcon.classList.toggle("hidden");
+            closeIcon.classList.toggle("hidden");
+            mobileMenuButton.setAttribute("aria-expanded", !isExpanded);
+          });
+
+          const mobileLinks = mobileMenu.querySelectorAll("a");
+          mobileLinks.forEach((link) => {
+            link.addEventListener("click", () => {
+              mobileMenu.classList.add("hidden");
+              menuIcon.classList.remove("hidden");
+              closeIcon.classList.add("hidden");
+              mobileMenuButton.setAttribute("aria-expanded", "false");
+            });
+          });
+        }
+
+        const yearSpan = document.querySelector(".copyright-year");
+        if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+      });
+    </script>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!--  BLOWDOWN CALCULATION ENGINE               -->
+    <!-- ═══════════════════════════════════════════ -->
+    <script>
+// ══════════════════════════════════════════════
+//  CONSTANTS
+// ══════════════════════════════════════════════
+const R_UNIV = 8314;       // J/(kmol·K)
+const PA_SEA  = 101325;    // Pa sea level
+
+let unitSys = 'EN';
+let chartP = null, chartW = null;
+
+// ── Gas type presets
+const GAS_PRESETS = {
+  ng_dry:   { name:'Gas natural seco',    kBase:1.30, muJT:0.45, sgDef:0.60 },
+  ng_wet:   { name:'Gas natural húmedo',  kBase:1.26, muJT:0.55, sgDef:0.68 },
+  ng_rich:  { name:'Gas natural rico',    kBase:1.22, muJT:0.65, sgDef:0.75 },
+  nitrogen: { name:'Nitrógeno (N₂)',       kBase:1.40, muJT:0.10, sgDef:0.967 },
+  air:      { name:'Aire',                kBase:1.40, muJT:0.00, sgDef:1.000 }
+};
+
+// ── Vent config options
+const VENT_CONFIGS = [
+  { id:'conv',  name:'Boquilla convergente', cd:0.97, range:'0.95–1.00',
+    svg:'<defs><linearGradient id="gc" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#93c5fd"/><stop offset="100%" stop-color="#3b82f6"/></linearGradient><linearGradient id="pipeG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#94a3b8"/><stop offset="40%" stop-color="#cbd5e1"/><stop offset="100%" stop-color="#94a3b8"/></linearGradient></defs>'+
+     '<rect x="6" y="22" width="50" height="3" rx="1" fill="#64748b"/><rect x="6" y="45" width="50" height="3" rx="1" fill="#64748b"/>'+ /* pipe walls */
+     '<rect x="6" y="25" width="50" height="20" fill="url(#pipeG)" opacity="0.25"/>'+ /* pipe interior */
+     '<path d="M56,22 L56,18 Q56,16 58,15 L80,10 Q82,9.5 82,11 L82,11" fill="#64748b"/>'+ /* nozzle top wall */
+     '<path d="M56,48 L56,52 Q56,54 58,55 L80,60 Q82,60.5 82,59 L82,59" fill="#64748b"/>'+ /* nozzle bottom wall */
+     '<path d="M56,25 Q56,22 60,19 L78,12 L78,58 L60,51 Q56,48 56,45Z" fill="url(#gc)" opacity="0.35"/>'+ /* nozzle flow area */
+     '<path d="M18,35 L30,35 M30,31 L42,35 L30,39Z" fill="#2563eb" opacity="0.5"/>'+ /* flow arrow 1 */
+     '<path d="M60,35 L72,35 M72,31 L84,35 L72,39Z" fill="#2563eb" opacity="0.5"/>'+ /* flow arrow 2 */
+     '<line x1="84" y1="28" x2="95" y2="24" stroke="#60a5fa" stroke-width="1.2" stroke-dasharray="2,2"/>'+ /* exit divergence */
+     '<line x1="84" y1="42" x2="95" y2="46" stroke="#60a5fa" stroke-width="1.2" stroke-dasharray="2,2"/>'+
+     '<text x="50" y="67" font-size="7" fill="#64748b" text-anchor="middle" font-family="sans-serif" font-weight="600">Nozzle</text>' },
+
+  { id:'sharp', name:'Orificio borde agudo', cd:0.72, range:'0.70–0.72',
+    svg:'<defs><linearGradient id="gs" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#93c5fd"/><stop offset="60%" stop-color="#dbeafe"/><stop offset="100%" stop-color="#93c5fd"/></linearGradient></defs>'+
+     '<rect x="6" y="18" width="88" height="3" rx="1" fill="#64748b"/><rect x="6" y="49" width="88" height="3" rx="1" fill="#64748b"/>'+ /* pipe walls */
+     '<rect x="6" y="21" width="88" height="28" fill="url(#gs)" opacity="0.2"/>'+ /* pipe interior */
+     '<rect x="46" y="14" width="3" height="42" rx="0.5" fill="#0F172A"/>'+ /* orifice plate */
+     '<rect x="46" y="28" width="3" height="14" fill="#334155"/>'+ /* orifice opening (dark) */
+     '<rect x="47" y="30" width="1" height="10" fill="#93c5fd"/>'+ /* orifice bore */
+     '<path d="M49,30 Q58,28 62,30 L62,40 Q58,42 49,40Z" fill="#bfdbfe" opacity="0.5" stroke="#60a5fa" stroke-width="0.5" stroke-dasharray="2,1"/>'+ /* vena contracta */
+     '<text x="62" y="27" font-size="5.5" fill="#3b82f6" font-family="sans-serif" font-weight="600" font-style="italic">vena</text>'+
+     '<text x="62" y="33" font-size="5.5" fill="#3b82f6" font-family="sans-serif" font-weight="600" font-style="italic">contracta</text>'+
+     '<path d="M16,35 L28,35 M28,31 L38,35 L28,39Z" fill="#2563eb" opacity="0.5"/>'+ /* flow arrow */
+     '<path d="M65,35 L77,35 M77,31 L87,35 L77,39Z" fill="#2563eb" opacity="0.4"/>'+ /* exit arrow */
+     '<text x="48" y="60" font-size="7" fill="#64748b" text-anchor="middle" font-family="sans-serif" font-weight="600">Orifice</text>' },
+
+  { id:'silen', name:'Atenuador de ruido',   cd:0.65, range:'0.60–0.75',
+    svg:'<defs><linearGradient id="gsi" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#86efac"/><stop offset="100%" stop-color="#22c55e"/></linearGradient></defs>'+
+     '<rect x="6" y="22" width="40" height="3" rx="1" fill="#64748b"/><rect x="6" y="45" width="40" height="3" rx="1" fill="#64748b"/>'+ /* pipe walls */
+     '<rect x="6" y="25" width="40" height="20" fill="#dbeafe" opacity="0.3"/>'+ /* pipe interior */
+     '<rect x="46" y="12" width="36" height="46" rx="4" fill="url(#gsi)" opacity="0.25" stroke="#16a34a" stroke-width="1.5"/>'+ /* silencer body */
+     '<rect x="46" y="12" width="36" height="46" rx="4" fill="none" stroke="#16a34a" stroke-width="1.2"/>'+ /* silencer outline */
+     '<line x1="54" y1="14" x2="54" y2="56" stroke="#16a34a" stroke-width="0.8" stroke-dasharray="3,2"/>'+ /* baffle 1 */
+     '<line x1="60" y1="14" x2="60" y2="56" stroke="#16a34a" stroke-width="0.8" stroke-dasharray="3,2"/>'+ /* baffle 2 */
+     '<line x1="66" y1="14" x2="66" y2="56" stroke="#16a34a" stroke-width="0.8" stroke-dasharray="3,2"/>'+ /* baffle 3 */
+     '<line x1="72" y1="14" x2="72" y2="56" stroke="#16a34a" stroke-width="0.8" stroke-dasharray="3,2"/>'+ /* baffle 4 */
+     '<circle cx="50" cy="35" r="2" fill="#16a34a" opacity="0.4"/><circle cx="57" cy="28" r="1.5" fill="#16a34a" opacity="0.3"/><circle cx="63" cy="40" r="1.8" fill="#16a34a" opacity="0.3"/><circle cx="69" cy="30" r="1.5" fill="#16a34a" opacity="0.3"/>'+ /* perforations */
+     '<path d="M16,35 L28,35 M28,31 L38,35 L28,39Z" fill="#16a34a" opacity="0.5"/>'+ /* flow arrow */
+     '<line x1="82" y1="25" x2="93" y2="22" stroke="#16a34a" stroke-width="1" stroke-dasharray="2,2"/>'+
+     '<line x1="82" y1="45" x2="93" y2="48" stroke="#16a34a" stroke-width="1" stroke-dasharray="2,2"/>'+
+     '<text x="64" y="67" font-size="7" fill="#16a34a" text-anchor="middle" font-family="sans-serif" font-weight="600">Silencer</text>' },
+
+  { id:'valve', name:'Válvula + raincap',    cd:0.60, range:'0.55–0.65',
+    svg:'<rect x="6" y="28" width="30" height="3" rx="1" fill="#64748b"/><rect x="6" y="45" width="30" height="3" rx="1" fill="#64748b"/>'+ /* pipe walls */
+     '<rect x="6" y="31" width="30" height="14" fill="#dbeafe" opacity="0.3"/>'+ /* pipe interior */
+     '<rect x="36" y="24" width="5" height="28" rx="1" fill="#334155"/>'+ /* valve body left */
+     '<rect x="41" y="24" width="5" height="28" rx="1" fill="#475569"/>'+ /* valve body right */
+     '<rect x="38" y="18" width="6" height="6" rx="1" fill="#1e293b"/>'+ /* valve actuator */
+     '<line x1="41" y1="12" x2="41" y2="18" stroke="#1e293b" stroke-width="2"/>'+ /* valve stem */
+     '<circle cx="41" cy="10" r="3" fill="#1e293b" stroke="#94a3b8" stroke-width="0.5"/>'+ /* valve handwheel */
+     '<rect x="46" y="32" width="3" height="12" fill="#64748b"/>'+ /* vent pipe vertical start */
+     '<rect x="45" y="32" width="5" height="3" fill="#475569"/>'+ /* flange */
+     '<line x1="48" y1="30" x2="48" y2="4" stroke="#64748b" stroke-width="3"/>'+ /* vent stack */
+     '<path d="M42,6 L48,2 L54,6" fill="none" stroke="#475569" stroke-width="1.5"/>'+ /* rain cap */
+     '<rect x="43" y="4" width="10" height="2" rx="1" fill="#475569"/>'+ /* rain cap plate */
+     '<line x1="62" y1="28" x2="70" y2="22" stroke="#64748b" stroke-width="0.8" stroke-dasharray="2,2"/>'+
+     '<line x1="62" y1="48" x2="70" y2="54" stroke="#64748b" stroke-width="0.8" stroke-dasharray="2,2"/>'+
+     '<path d="M14,38 L24,38 M24,34 L32,38 L24,42Z" fill="#2563eb" opacity="0.4"/>'+ /* flow arrow */
+     '<text x="48" y="67" font-size="7" fill="#64748b" text-anchor="middle" font-family="sans-serif" font-weight="600">Valve+Cap</text>' },
+
+  { id:'vbq',   name:'Válvula + boquilla',   cd:0.80, range:'0.75–0.85',
+    svg:'<defs><linearGradient id="gvb" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#fed7aa"/><stop offset="100%" stop-color="#ea580c" stop-opacity="0.3"/></linearGradient></defs>'+
+     '<rect x="2" y="28" width="24" height="3" rx="1" fill="#64748b"/><rect x="2" y="45" width="24" height="3" rx="1" fill="#64748b"/>'+ /* pipe walls */
+     '<rect x="2" y="31" width="24" height="14" fill="#dbeafe" opacity="0.3"/>'+ /* pipe interior */
+     '<rect x="26" y="24" width="5" height="28" rx="1" fill="#334155"/>'+ /* valve body left */
+     '<rect x="31" y="24" width="5" height="28" rx="1" fill="#475569"/>'+ /* valve body right */
+     '<rect x="28" y="18" width="6" height="6" rx="1" fill="#1e293b"/>'+ /* valve actuator */
+     '<line x1="31" y1="12" x2="31" y2="18" stroke="#1e293b" stroke-width="2"/>'+ /* valve stem */
+     '<circle cx="31" cy="10" r="3" fill="#1e293b" stroke="#94a3b8" stroke-width="0.5"/>'+ /* valve handwheel */
+     '<rect x="36" y="26" width="3" height="24" fill="#64748b"/>'+ /* transition */
+     '<path d="M39,26 L39,22 Q39,20 41,19 L62,13 Q64,12.5 64,14 L64,14" fill="#b45309" opacity="0.8"/>'+ /* nozzle top wall */
+     '<path d="M39,50 L39,54 Q39,56 41,57 L62,63 Q64,63.5 64,62 L64,62" fill="#b45309" opacity="0.8"/>'+ /* nozzle bottom wall */
+     '<path d="M39,28 Q39,24 44,21 L60,15 L60,61 L44,55 Q39,52 39,48Z" fill="url(#gvb)" opacity="0.5"/>'+ /* nozzle flow area */
+     '<path d="M10,38 L18,38 M18,34 L24,38 L18,42Z" fill="#ea580c" opacity="0.5"/>'+ /* flow arrow */
+     '<path d="M50,38 L58,38 M58,34 L65,38 L58,42Z" fill="#ea580c" opacity="0.5"/>'+ /* exit arrow */
+     '<line x1="64" y1="30" x2="75" y2="26" stroke="#ea580c" stroke-width="1" stroke-dasharray="2,2"/>'+
+     '<line x1="64" y1="46" x2="75" y2="50" stroke="#ea580c" stroke-width="1" stroke-dasharray="2,2"/>'+
+     '<text x="48" y="72" font-size="7" fill="#b45309" text-anchor="middle" font-family="sans-serif" font-weight="600">Valve+Nozzle</text>' }
+];
+
+// ══════════════════════════════════════════════
+//  UNIT SYSTEM
+// ══════════════════════════════════════════════
+function setUnits(sys) {
+  unitSys = sys;
+  document.getElementById('btn-si').classList.toggle('active', sys==='SI');
+  document.getElementById('btn-en').classList.toggle('active', sys==='EN');
+  const si = sys === 'SI';
+  document.getElementById('unit-p').textContent = si ? 'bar g' : 'psig';
+  document.getElementById('unit-t').textContent = si ? '°C' : '°F';
+  document.getElementById('unit-D').textContent = si ? 'mm' : 'pulg';
+  document.getElementById('unit-L').textContent = si ? 'm' : 'pies';
+  document.getElementById('unit-d').textContent = si ? 'mm' : 'pulg';
+  document.getElementById('unit-d2').textContent = si ? 'mm' : 'pulg';
+  // Clear values when switching systems so defaults apply
+  if (!si) {
+    document.getElementById('pressure').value = '1500';
+    document.getElementById('temp').value = '68';
+    document.getElementById('diam-pipe').value = '12';
+    document.getElementById('length').value = '33000';
+    document.getElementById('diam-vent1').value = '4';
+  } else {
+    document.getElementById('pressure').value = '100';
+    document.getElementById('temp').value = '20';
+    document.getElementById('diam-pipe').value = '300';
+    document.getElementById('length').value = '10000';
+    document.getElementById('diam-vent1').value = '100';
+  }
+  updateGasCalc(); updateCondCalc(); updateGeoCalc();
+}
+function setIfEmpty(id, val) {
+  const el = document.getElementById(id);
+  if (el && (el.value === '' || el.value === '0')) el.value = val;
+}
+
+// ══════════════════════════════════════════════
+//  GAS PROPERTY FUNCTIONS
+// ══════════════════════════════════════════════
+function pseudoCritical(G) {
+  const Tpc_R = 168 + 325*G - 12.5*G*G;
+  const Ppc_psia = 677 + 15*G - 37.5*G*G;
+  return { Tpc: Tpc_R * 5/9, Ppc: Ppc_psia * 6894.76 };
+}
+
+function calcZ(P_Pa, T_K, G) {
+  const { Tpc, Ppc } = pseudoCritical(G);
+  const Pr = P_Pa / Ppc;
+  const Tr = T_K / Tpc;
+  if (Tr <= 0) return 1;
+  let Z = 1 - 3.52*Pr/Math.pow(10, 0.9813*Tr) + 0.274*Pr*Pr/Math.pow(10, 0.8157*Tr);
+  return Math.max(0.15, Math.min(1.5, Z));
+}
+
+function getK(G, T_C) {
+  const preset = GAS_PRESETS[document.getElementById('gas-type').value];
+  if (preset.kBase === 1.40) return 1.40;
+  const kBase = preset.kBase - 0.001*(T_C - 15);
+  return Math.max(1.10, Math.min(1.45, kBase));
+}
+
+function getMuJT(G, T_C, P_bar) {
+  const preset = GAS_PRESETS[document.getElementById('gas-type').value];
+  return preset.muJT * (1 + 0.002*(P_bar - 50) * 0.01);
+}
+
+// ══════════════════════════════════════════════
+//  INPUT CONVERSIONS TO SI
+// ══════════════════════════════════════════════
+function getInputsSI() {
+  const G = parseFloat(document.getElementById('sg').value) || 0.65;
+  const si = unitSys === 'SI';
+
+  const P_gauge = parseFloat(document.getElementById('pressure').value) || 0;
+  const T_raw   = parseFloat(document.getElementById('temp').value) || 20;
+  const D_raw   = parseFloat(document.getElementById('diam-pipe').value) || 300;
+  const L_raw   = parseFloat(document.getElementById('length').value) || 10000;
+  const d1_raw  = parseFloat(document.getElementById('diam-vent1').value) || 100;
+  const d2_raw  = parseFloat(document.getElementById('diam-vent2').value) || 0;
+  const alt     = parseFloat(document.getElementById('altitude').value) || 0;
+  const Cd      = parseFloat(document.getElementById('cd-val').value) || 0.72;
+
+  const Pa_Pa = PA_SEA * Math.pow(1 - 0.0000226*alt, 5.256);
+
+  const P_abs_Pa = si ? (P_gauge * 1e5 + Pa_Pa) : (P_gauge * 6894.76 + Pa_Pa);
+  const T_K = si ? (T_raw + 273.15) : ((T_raw + 459.67) * 5/9);
+  const D_m = si ? D_raw / 1000 : D_raw * 0.0254;
+  const L_m = si ? L_raw : L_raw * 0.3048;
+  const d1_m = si ? d1_raw / 1000 : d1_raw * 0.0254;
+  const d2_m = si ? d2_raw / 1000 : d2_raw * 0.0254;
+
+  const zManual = parseFloat(document.getElementById('z-manual').value);
+  const T_C = si ? T_raw : (T_raw - 32) * 5/9;
+  const Z0 = (zManual > 0) ? zManual : calcZ(P_abs_Pa, T_K, G);
+  const k  = getK(G, T_C);
+  const M  = G * 28.97;
+
+  return { G, P_abs_Pa, Pa_Pa, T_K, D_m, L_m, d1_m, d2_m, Cd, Z0, k, M, alt, T_C };
+}
+
+// ══════════════════════════════════════════════
+//  FLOW EQUATIONS
+// ══════════════════════════════════════════════
+function sonicFlow(Cd, A, P, k, M, Z, T) {
+  const inner = k * M / (Z * R_UNIV * T);
+  if (inner <= 0) return 0;
+  const term = Math.pow(2/(k+1), (k+1)/(2*(k-1)));
+  return Cd * A * P * Math.sqrt(inner) * term;
+}
+
+function subsonicFlow(Cd, A, P, Pa, k, M, Z, T) {
+  const r = Pa / P;
+  if (r >= 1) return 0;
+  const term = Math.pow(r, 2/k) - Math.pow(r, (k+1)/k);
+  if (term <= 0) return 0;
+  const inner = 2*k/(k-1) * M / (Z * R_UNIV * T) * term;
+  if (inner <= 0) return 0;
+  return Cd * A * P * Math.sqrt(inner);
+}
+
+function critRatio(k) { return Math.pow(2/(k+1), k/(k-1)); }
+
+// ══════════════════════════════════════════════
+//  CRAMMER (1984) EQUATION
+// ══════════════════════════════════════════════
+function crammerTime(P_abs_Pa, Pa_Pa, G, D_m, L_m, d_m, Cd, Z) {
+  const Pi_psia = P_abs_Pa / 6894.76;
+  const D_in = D_m / 0.0254;
+  const L_mi = L_m / 1609.34;
+  const d_in = d_m / 0.0254;
+  const Fc = 1 / Cd;
+  return 0.0588 * Math.pow(Pi_psia, 1/3) * Math.sqrt(G) * D_in*D_in * L_mi * Fc / (d_in*d_in * Z);
+}
+
+// ══════════════════════════════════════════════
+//  ITERATIVE BLOWDOWN MODEL
+// ══════════════════════════════════════════════
+function runIterative(P1, Pa, T_K, V, A_eff, Cd, k, M, G, maxSteps=80000) {
+  let P = P1;
+  let t = 0;
+  const Rc = critRatio(k);
+  const P_trans = Pa / Rc;
+  let tc = 0, sonicDone = false;
+  const dt = Math.max(0.2, (P1 / Pa > 100) ? 2 : 0.5);
+
+  const nTarget = 200;
+  const curve_p = [], curve_w = [], curve_t_arr = [];
+
+  let step = 0;
+
+  while (P > Pa * 1.0005 && step < maxSteps) {
+    const Z = calcZ(P, T_K, G);
+    let W;
+    if (Pa / P <= Rc) {
+      W = sonicFlow(Cd, A_eff, P, k, M, Z, T_K);
+    } else {
+      W = subsonicFlow(Cd, A_eff, P, Pa, k, M, Z, T_K);
+      if (!sonicDone) { tc = t; sonicDone = true; }
+    }
+    if (W <= 0) break;
+    const dP = -W * Z * R_UNIV * T_K / (V * M) * dt;
+    P = Math.max(P + dP, Pa);
+    t += dt;
+    step++;
+
+    if (step % Math.max(1, Math.floor(maxSteps / nTarget)) === 0 || P <= Pa * 1.001) {
+      curve_p.push(P / 1e5);
+      curve_w.push(W);
+      curve_t_arr.push(t / 60);
+    }
+  }
+  if (!sonicDone) tc = t;
+
+  return {
+    totalTime: t, tc, ts: t - tc,
+    curve_t: curve_t_arr, curve_p, curve_w,
+    P_trans,
+    tc_pct: tc / t * 100
+  };
+}
+
+// ══════════════════════════════════════════════
+//  MAIN CALCULATION
+// ══════════════════════════════════════════════
+function runCalculation() {
+  const inp = getInputsSI();
+  const { G, P_abs_Pa, Pa_Pa, T_K, D_m, L_m, d1_m, d2_m, Cd, Z0, k, M, alt, T_C } = inp;
+
+  const V = Math.PI/4 * D_m*D_m * L_m;
+  const A1 = Math.PI/4 * d1_m*d1_m;
+  const A2 = d2_m > 0 ? Math.PI/4 * d2_m*d2_m : 0;
+  const A_eff = Cd * A1 + (d2_m > 0 ? Cd * A2 : 0);
+
+  const m0 = V * P_abs_Pa * M / (Z0 * R_UNIV * T_K);
+
+  const res = runIterative(P_abs_Pa, Pa_Pa, T_K, V, A_eff, Cd, k, M, G);
+  const { totalTime, tc, ts, curve_t, curve_p, curve_w, P_trans } = res;
+
+  const Rc = critRatio(k);
+  const W0 = sonicFlow(Cd, A_eff, P_abs_Pa, k, M, Z0, T_K);
+
+  const tCrammer = crammerTime(P_abs_Pa, Pa_Pa, G, D_m, L_m, d1_m, Cd, Z0);
+  const tCrammerNoZ = crammerTime(P_abs_Pa, Pa_Pa, G, D_m, L_m, d1_m, Cd, 1.0);
+
+  const Dfi = D_m; const dfi = d1_m; const Lfi = L_m;
+  const tEq62 = 0.0889 * (Dfi*Dfi*Lfi) / (Cd * dfi*dfi * Math.pow(Z0,0.9)) * Math.sqrt(G/T_K) * Math.log(1.2 * P_abs_Pa / Pa_Pa);
+
+  const muJT = getMuJT(G, T_C, (P_abs_Pa - Pa_Pa)/1e5);
+  const dT_JT = muJT * (P_abs_Pa - Pa_Pa) / 1e5;
+  const T_min = T_K - 273.15 - dT_JT;
+
+  const T_hyd = (P_abs_Pa > 0.5e6) ? 7.2 + 3.9 * Math.log(P_abs_Pa / 1e6) : -999;
+
+  const Ar = (Math.PI/4*D_m*D_m) / (A1 * Cd);
+
+  const P_std = 101325, T_std = 288.15;
+  const Vsm3 = V * P_abs_Pa * T_std / (P_std * T_K * Z0);
+
+  const si = unitSys === 'SI';
+
+  // Show sections
+  document.getElementById('results-section').classList.remove('bd-hidden');
+  document.getElementById('resultsCard').classList.remove('hidden');
+  document.getElementById('safety-section').classList.remove('bd-hidden');
+
+  const tMin = totalTime / 60;
+  const tcMin = tc / 60;
+  const tsMin = ts / 60;
+
+  // ── Unit conversion factors ──
+  const KG_TO_LB   = 2.20462;
+  const BAR_TO_PSIA = 14.5038;
+  const M3_TO_FT3  = 35.3147;
+  const V_ft3 = V * M3_TO_FT3;
+
+  document.getElementById('res-total').textContent = fmtN(tMin, 1);
+  document.getElementById('res-total-u').textContent = 'minutos (' + fmtN(tMin*60,0) + ' s)';
+  document.getElementById('res-total-s').textContent = 'Desde ' + fmtP(P_abs_Pa - Pa_Pa, si) + ' hasta presión atmosférica';
+
+  document.getElementById('res-tc').textContent = fmtN(tcMin, 1);
+  document.getElementById('res-tc-s').textContent = fmtN(res.tc_pct,0) + '% del tiempo total · flujo = vel. sonido';
+
+  document.getElementById('res-ts').textContent = fmtN(tsMin, 1);
+  document.getElementById('res-ts-s').textContent = fmtN(100 - res.tc_pct,0) + '% del tiempo total · flujo subsónico';
+
+  if (si) {
+    document.getElementById('res-mass').textContent = m0 > 10000 ? fmtN(m0/1000,1) : fmtN(m0,0);
+    document.getElementById('res-mass-u').textContent = m0 > 10000 ? 'toneladas métricas' : 'kg';
+    document.getElementById('res-mass-s').textContent = 'M = ' + fmtN(M,2) + ' kg/kmol · V = ' + fmtN(V,1) + ' m³';
+  } else {
+    const m0_lb = m0 * KG_TO_LB;
+    document.getElementById('res-mass').textContent = m0_lb > 22046 ? fmtN(m0_lb/2000,1) : fmtN(m0_lb,0);
+    document.getElementById('res-mass-u').textContent = m0_lb > 22046 ? 'short tons' : 'lb';
+    document.getElementById('res-mass-s').textContent = 'MW = ' + fmtN(M,2) + ' lb/lbmol · V = ' + fmtN(V_ft3,0) + ' ft³';
+  }
+
+  if (si) {
+    document.getElementById('res-w0').textContent = fmtN(W0,2);
+    document.getElementById('res-w0-u').textContent = 'kg/s';
+    document.getElementById('res-w0-s').textContent = fmtN(W0*3600,0) + ' kg/h · ' + fmtN(W0/M*R_UNIV*T_K/P_abs_Pa*3600,0) + ' m³/h reales';
+  } else {
+    const W0_lb = W0 * KG_TO_LB;
+    document.getElementById('res-w0').textContent = fmtN(W0_lb,2);
+    document.getElementById('res-w0-u').textContent = 'lb/s';
+    document.getElementById('res-w0-s').textContent = fmtN(W0_lb*3600,0) + ' lb/h · ' + fmtN(W0/M*R_UNIV*T_K/P_abs_Pa*3600*M3_TO_FT3,0) + ' ft³/h reales';
+  }
+
+  const Ptrans_bar = P_trans / 1e5;
+  if (si) {
+    document.getElementById('res-ptrans').textContent = fmtN(Ptrans_bar, 3);
+    document.getElementById('res-ptrans-u').textContent = 'bar abs';
+  } else {
+    document.getElementById('res-ptrans').textContent = fmtN(Ptrans_bar * BAR_TO_PSIA, 1);
+    document.getElementById('res-ptrans-u').textContent = 'psia';
+  }
+  document.getElementById('res-ptrans-s').textContent = 'P × Rc con Rc = ' + fmtN(Rc,4) + ' (k = ' + fmtN(k,3) + ')';
+
+  document.getElementById('res-z').textContent = fmtN(Z0, 4);
+  document.getElementById('res-z-s').textContent = 'Pr = ' + fmtN(P_abs_Pa/pseudoCritical(G).Ppc,3) + ' · Tr = ' + fmtN(T_K/pseudoCritical(G).Tpc,3);
+
+  // Volume at standard conditions
+  if (si) {
+    document.getElementById('res-vol-label').textContent = 'Volumen a cond. normales';
+    document.getElementById('res-vol').textContent = Vsm3 > 1e6 ? fmtN(Vsm3/1e6,2) + ' MM' : fmtN(Vsm3,0);
+    document.getElementById('res-vol-u').textContent = Vsm3 > 1e6 ? 'MMSm³' : 'Sm³';
+    document.getElementById('res-vol-sub').textContent = '15°C, 101.325 kPa';
+  } else {
+    const Vscf = Vsm3 * M3_TO_FT3;
+    document.getElementById('res-vol-label').textContent = 'Volumen a cond. estándar';
+    if (Vscf > 1e6) {
+      document.getElementById('res-vol').textContent = fmtN(Vscf/1e6,2);
+      document.getElementById('res-vol-u').textContent = 'MMSCF';
+    } else {
+      document.getElementById('res-vol').textContent = fmtN(Vscf,0);
+      document.getElementById('res-vol-u').textContent = 'SCF';
+    }
+    document.getElementById('res-vol-sub').textContent = '60°F, 14.696 psia';
+  }
+
+  // Sensitivity bars
+  const cdVals = [0.50, 0.60, 0.65, 0.70, 0.72, 0.80, 0.85, 0.90, 0.95, 1.00];
+  const sensResults = cdVals.map(c => {
+    const Ae = c * A1 + (d2_m > 0 ? c * A2 : 0);
+    const r = runIterative(P_abs_Pa, Pa_Pa, T_K, V, Ae, c, k, M, G, 40000);
+    return { cd: c, t: r.totalTime/60 };
+  });
+  const maxT = Math.max(...sensResults.map(s=>s.t));
+  const sensHtml = sensResults.map(s => {
+    const isSel = Math.abs(s.cd - Cd) < 0.001;
+    return `<div class="bd-sens-wrap ${isSel?'bd-sens-selected':''}">
+      <div class="bd-sens-label">Cd ${s.cd.toFixed(2)}</div>
+      <div class="bd-sens-bg"><div class="bd-sens-bar" style="width:${(s.t/maxT*100).toFixed(1)}%">${s.t.toFixed(1)} min</div></div>
+    </div>`;
+  }).join('');
+  document.getElementById('sensitivity-bars').innerHTML = sensHtml;
+
+  // Comparison table
+  const cmpData = [
+    { method: 'Modelo iterativo completo (este reporte)', t: tMin, ref: 'Angulo-Bustillo (2020) ec. 21+36' },
+    { method: 'Ec. logarítmica simplificada (ec. 62)', t: tEq62/60, ref: 'Angulo-Bustillo (2020) ec. 62' },
+    { method: 'Crammer Jr. con corrección Z', t: tCrammer, ref: 'Crammer (1984) / Menon (2005)' },
+    { method: 'Crammer Jr. sin corrección Z', t: tCrammerNoZ, ref: 'Crammer (1984) original' }
+  ];
+  document.getElementById('compare-tbody').innerHTML = cmpData.map((r,i) => {
+    const diff = i===0 ? '—' : ((r.t - tMin)/tMin*100).toFixed(1)+'%';
+    const hl = i===0 ? 'highlight' : '';
+    return `<tr><td class="${hl}">${r.method}</td><td class="${hl}">${fmtN(r.t,1)}</td><td>${diff}</td><td>${r.ref}</td></tr>`;
+  }).join('');
+
+  document.getElementById('eq-display').innerHTML =
+    `t = 0.0889 · D²L / (Cd·d²·Z⁰·⁹) · √(G/T) · ln(1.2·P/Pₐ)  [segundos, SI]<br>` +
+    `= 0.0889 · ${fmtN(D_m*D_m*L_m,3)} / (${Cd}·${fmtN(d1_m*d1_m,6)}·${fmtN(Z0,4)}⁰·⁹) · √(${G}/${fmtN(T_K,1)}) · ln(1.2·${fmtN(P_abs_Pa,0)}/${fmtN(Pa_Pa,0)})<br>` +
+    `= <strong>${fmtN(tEq62,1)} s = ${fmtN(tEq62/60,2)} min</strong>`;
+  document.getElementById('eq-ref').textContent = 'Referencia: Angulo-Bustillo, MET&FLU 2020, Ecuación (62). L en metros, T en K.';
+
+  // Memorial
+  const memItems = [
+    ['G (Gravedad específica)', fmtN(G,3), 'Entrada usuario'],
+    ['M (Peso molecular)', fmtN(M,3)+ (si ? ' kg/kmol' : ' lb/lbmol'), 'M = G×28.97'],
+    ['k (Relación Cp/Cv)', fmtN(k,3), 'GPSA Sec. 24'],
+    ['Z (Factor compresibilidad)', fmtN(Z0,4), 'Correlación Papay'],
+    ['Tpc (T pseudocrítica)', si ? fmtN(pseudoCritical(G).Tpc,1)+' K' : fmtN(pseudoCritical(G).Tpc*9/5,1)+' °R', 'Standing (1977)'],
+    ['Ppc (P pseudocrítica)', si ? fmtN(pseudoCritical(G).Ppc/1e5,2)+' bar' : fmtN(pseudoCritical(G).Ppc/6894.76,1)+' psia', 'Standing (1977)'],
+    ['Pr (Presión reducida)', fmtN(P_abs_Pa/pseudoCritical(G).Ppc,4), 'P_abs/Ppc'],
+    ['Tr (Temperatura reducida)', fmtN(T_K/pseudoCritical(G).Tpc,4), 'T/Tpc'],
+    ['V (Volumen tubería)', si ? fmtN(V,3)+' m³' : fmtN(V_ft3,1)+' ft³', 'π/4·D²·L'],
+    ['A_venteo efectiva', si ? fmtN(A_eff*1e4,4)+' cm²' : fmtN(A_eff*1550.0031,4)+' in²', 'Cd·Σ(π/4·dᵢ²)'],
+    ['Rc (Relación P crítica)', fmtN(Rc,5), 'Ec. (18)'],
+    ['P_transición', si ? fmtN(P_trans/1e5,4)+' bar abs' : fmtN(P_trans/6894.76,2)+' psia', 'Pₐ/Rc'],
+    ['W₀ (Flujo pico inicial)', si ? fmtN(W0,3)+' kg/s' : fmtN(W0*KG_TO_LB,3)+' lb/s', 'Ec. sónica, t=0'],
+    ['m₀ (Masa inicial)', si ? fmtN(m0,1)+' kg' : fmtN(m0*KG_TO_LB,1)+' lb', 'V·P·M/(Z·R·T)'],
+    ['ΔT Joule-Thomson est.', si ? fmtN(dT_JT,1)+' °C' : fmtN(dT_JT*9/5,1)+' °F', si ? 'μJT='+fmtN(muJT,2)+' °C/bar' : 'μJT='+fmtN(muJT*9/5/14.5038,4)+' °F/psi'],
+    ['T_mínima estimada', si ? fmtN(T_min,1)+' °C' : fmtN(T_min*9/5+32,1)+' °F', 'T₀ − ΔT_JT'],
+    ['Ar (Relación de áreas)', fmtN(Ar,2), 'Ec. (11) — válida 3–30'],
+    ['Pa (Presión atmosférica)', si ? fmtN(Pa_Pa/1000,3)+' kPa' : fmtN(Pa_Pa/6894.76,3)+' psia', si ? 'Altitud '+alt+' m (ICAO)' : 'Altitud '+fmtN(alt*3.28084,0)+' ft (ICAO)']
+  ];
+  document.getElementById('memorial-grid').innerHTML = memItems.map(([k,v,r])=>
+    `<div class="p-2 border-b border-gray-100">
+      <div class="font-bold text-xs text-gray-800">${k}</div>
+      <div class="font-mono text-sm text-blue-700 font-semibold">${v}</div>
+      <div class="text-[10px] text-gray-400">${r}</div>
+    </div>`).join('');
+
+  // Charts — convert units for display
+  if (si) {
+    renderChartP(curve_t, curve_p, Pa_Pa/1e5, P_trans/1e5, tc/60, 'bar abs', 'bar');
+    renderChartW(curve_t, curve_w, 'kg/s', 'kg/s');
+  } else {
+    const curve_p_psia = curve_p.map(p => p * BAR_TO_PSIA);
+    const curve_w_lb = curve_w.map(w => w * KG_TO_LB);
+    renderChartP(curve_t, curve_p_psia, Pa_Pa/6894.76, P_trans/6894.76, tc/60, 'psia', 'psia');
+    renderChartW(curve_t, curve_w_lb, 'lb/s', 'lb/s');
+  }
+
+  // Safety checks
+  renderSafetyChecks({ T_min, T_hyd, Ar, dT_JT, d1_m, d2_m, D_m, P_abs_Pa, Pa_Pa });
+
+  document.getElementById('results-section').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+// ══════════════════════════════════════════════
+//  CHARTS
+// ══════════════════════════════════════════════
+function renderChartP(times, pressures, Pa_val, Ptrans_val, tc_min, pAxisLabel, pUnit) {
+  if (chartP) chartP.destroy();
+  const sonicP = [], subP = [], sonicT = [], subT = [];
+  let lastSonicT = 0, lastSonicP = 0;
+  times.forEach((t, i) => {
+    if (t <= tc_min) {
+      sonicT.push(t); sonicP.push(pressures[i]);
+      lastSonicT = t; lastSonicP = pressures[i];
+    } else {
+      subT.push(t); subP.push(pressures[i]);
+    }
+  });
+  // Add overlap point: last sonic point becomes first subsonic point for line continuity
+  if (sonicT.length > 0 && subT.length > 0) {
+    subT.unshift(lastSonicT);
+    subP.unshift(lastSonicP);
+  }
+  const tMax = times.length > 0 ? Math.max(...times) : 1;
+  chartP = new Chart(document.getElementById('chart-p'), {
+    type: 'line',
+    data: {
+      datasets: [
+        { label:'Sónico', data: sonicT.map((t,i)=>({x:t,y:sonicP[i]})), borderColor:'#3b82f6',
+          borderWidth:3, pointRadius:0, tension:0.3, fill:false },
+        { label:'Subsónico', data: subT.map((t,i)=>({x:t,y:subP[i]})), borderColor:'#0d9488',
+          borderWidth:3, pointRadius:0, tension:0.3, fill:false },
+        { label:'P transición (sónico→sub)', data:[{x:0,y:Ptrans_val},{x:tMax,y:Ptrans_val}],
+          borderColor:'#7c3aed', borderDash:[8,4], borderWidth:1.5, pointRadius:0, fill:false },
+        { label:'Pₐ', data:[{x:0,y:Pa_val},{x:tMax,y:Pa_val}],
+          borderColor:'#ea580c', borderDash:[5,5], borderWidth:1, pointRadius:0, fill:false }
+      ]
+    },
+    options: {
+      animation: false, responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:true, position:'bottom', labels:{font:{size:10}, boxWidth:12, padding:10}},
+        tooltip:{ callbacks:{ label:ctx=>`${ctx.dataset.label}: ${fmtN(ctx.parsed.y,2)} ${pUnit}` }}},
+      scales:{
+        x:{ type:'linear', title:{display:true, text:'Tiempo (min)', font:{size:11}}, ticks:{font:{size:10}} },
+        y:{ title:{display:true, text:'Presión (' + pAxisLabel + ')', font:{size:11}}, ticks:{font:{size:10}} }
+      }
+    }
+  });
+}
+
+function renderChartW(times, flows, wAxisLabel, wUnit) {
+  if (chartW) chartW.destroy();
+  chartW = new Chart(document.getElementById('chart-w'), {
+    type:'line',
+    data:{ datasets:[{
+      label:'Flujo másico', data:times.map((t,i)=>({x:t,y:flows[i]})),
+      borderColor:'#be185d', borderWidth:2, pointRadius:0, tension:0.3, fill:true,
+      backgroundColor:'rgba(190,24,93,0.06)'
+    }]},
+    options:{
+      animation:false, responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false}, tooltip:{callbacks:{label:ctx=>`W: ${fmtN(ctx.parsed.y,3)} ${wUnit}`}}},
+      scales:{
+        x:{ type:'linear', title:{display:true, text:'Tiempo (min)', font:{size:11}}, ticks:{font:{size:10}} },
+        y:{ title:{display:true, text:'Flujo másico (' + wAxisLabel + ')', font:{size:11}}, ticks:{font:{size:10}} }
+      }
+    }
+  });
+}
+
+// ══════════════════════════════════════════════
+//  SAFETY CHECKS
+// ══════════════════════════════════════════════
+function renderSafetyChecks({ T_min, T_hyd, Ar, dT_JT, d1_m, d2_m, D_m, P_abs_Pa, Pa_Pa }) {
+  const checks = [];
+
+  const ArOk = Ar >= 3 && Ar <= 30;
+  checks.push({
+    ok: ArOk ? 'ok' : 'warn',
+    title: `Relación de áreas Ar = ${fmtN(Ar,2)}`,
+    body: ArOk
+      ? `Dentro del rango de validez (3 ≤ Ar ≤ 30) para la ecuación de Weiss-Botros (1988).`
+      : `Ar = ${fmtN(Ar,2)} FUERA del rango 3–30. Use el modelo iterativo como referencia principal.`
+  });
+
+  const hydOk = T_min >= T_hyd;
+  if (T_hyd > -50) {
+    checks.push({
+      ok: hydOk ? 'ok' : 'err',
+      title: `T mínima estimada: ${fmtN(T_min,1)} °C · T_hidratos (Katz): ${fmtN(T_hyd,1)} °C`,
+      body: hydOk
+        ? `T_mínima > T_formación de hidratos. No se anticipa formación de hidratos.`
+        : `⚠ T_mínima < T_hidratos. RIESGO DE HIDRATOS. Considere inyección de inhibidor o calentamiento.`
+    });
+  }
+
+  checks.push({
+    ok: dT_JT < 30 ? 'ok' : 'warn',
+    title: `Descenso Joule-Thomson: ${fmtN(dT_JT,1)} °C estimado`,
+    body: `T_inicial: ${fmtN(T_min + dT_JT,1)} °C → T_mínima: ${fmtN(T_min,1)} °C. ` +
+      (dT_JT >= 30 ? `Descenso elevado. Verifique MAOP a baja T.` : `Dentro de límites normales.`)
+  });
+
+  const k = getK(parseFloat(document.getElementById('sg').value)||0.65, parseFloat(document.getElementById('temp').value)||20);
+  const Rc = critRatio(k);
+  const ratioInitial = Pa_Pa / P_abs_Pa;
+  checks.push({
+    ok: ratioInitial <= Rc ? 'ok' : 'warn',
+    title: `Régimen inicial: Pa/P = ${fmtN(ratioInitial,4)} ${ratioInitial <= Rc ? '≤' : '>'} Rc = ${fmtN(Rc,4)}`,
+    body: ratioInitial <= Rc
+      ? `El venteo comienza en régimen sónico (flujo crítico). Ecuación principal válida.`
+      : `Presión inicial no genera régimen sónico. El venteo es íntegramente subsónico.`
+  });
+
+  const html = checks.map(c => `
+    <div class="bd-check ${c.ok}">
+      <div class="bd-check-icon">${c.ok==='ok'?'✓':c.ok==='warn'?'!':'✕'}</div>
+      <div>
+        <div class="bd-check-title">${c.title}</div>
+        <div class="bd-check-body">${c.body}</div>
+      </div>
+    </div>`).join('');
+  document.getElementById('auto-checks').innerHTML = html;
+
+  const alerts = [];
+  if (!hydOk && T_hyd > -50) alerts.push({type:'err', msg:'<strong>Riesgo de hidratos detectado.</strong> Consulte GPSA Fig. 20-5 antes de proceder.'});
+  if (Ar < 3 || Ar > 30) alerts.push({type:'warn', msg:`<strong>Ar fuera de rango.</strong> Use el modelo iterativo como referencia primaria.`});
+  document.getElementById('alert-zone').innerHTML = alerts.map(a =>
+    `<div class="bd-alert bd-alert-${a.type}">${a.msg}</div>`).join('');
+}
+
+// ══════════════════════════════════════════════
+//  LIVE INPUT FEEDBACK
+// ══════════════════════════════════════════════
+function updateGasCalc() {
+  const G = parseFloat(document.getElementById('sg').value) || 0.65;
+  const T_raw = parseFloat(document.getElementById('temp').value) || 20;
+  const T_C = unitSys==='SI' ? T_raw : (T_raw-32)*5/9;
+  const M = G*28.97;
+  const k = getK(G, T_C);
+  const muJT = getMuJT(G, T_C, 50);
+  document.getElementById('gas-info').textContent =
+    `M = ${fmtN(M,3)} kg/kmol · k = ${fmtN(k,3)} · μJT ≈ ${fmtN(muJT,2)} °C/bar · Tpc = ${fmtN(pseudoCritical(G).Tpc,1)} K`;
+}
+
+function updateCondCalc() {
+  const si = unitSys === 'SI';
+  const P_gauge = parseFloat(document.getElementById('pressure').value) || 0;
+  const alt = parseFloat(document.getElementById('altitude').value) || 0;
+  const Pa_Pa = PA_SEA * Math.pow(1 - 0.0000226*alt, 5.256);
+  const P_abs = si ? (P_gauge * 1e5 + Pa_Pa) : (P_gauge * 6894.76 + Pa_Pa);
+  const G = parseFloat(document.getElementById('sg').value) || 0.65;
+  const T_raw = parseFloat(document.getElementById('temp').value) || 20;
+  const T_K = si ? T_raw + 273.15 : (T_raw + 459.67) * 5/9;
+  const Z = calcZ(P_abs, T_K, G);
+
+  if (si) {
+    document.getElementById('pa-info').textContent =
+      `Pₐ = ${fmtN(Pa_Pa/1000,2)} kPa (a ${alt} m) · P_abs = ${fmtN(P_abs/1e5,2)} bar abs · Z = ${fmtN(Z,4)}`;
+  } else {
+    document.getElementById('pa-info').textContent =
+      `Pₐ = ${fmtN(Pa_Pa/6894.76,3)} psia (a ${fmtN(alt*3.28084,0)} ft) · P_abs = ${fmtN(P_abs/6894.76,2)} psia · Z = ${fmtN(Z,4)}`;
+  }
+
+  const zManual = parseFloat(document.getElementById('z-manual').value);
+  if (si) {
+    document.getElementById('z-info').textContent =
+      zManual > 0
+      ? `Z manual = ${zManual} (sobreescribe Papay)`
+      : `Z_Papay = ${fmtN(Z,4)} a P=${fmtN(P_abs/1e5,2)} bar, T=${fmtN(T_K,1)} K, G=${G}`;
+  } else {
+    document.getElementById('z-info').textContent =
+      zManual > 0
+      ? `Z manual = ${zManual} (sobreescribe Papay)`
+      : `Z_Papay = ${fmtN(Z,4)} a P=${fmtN(P_abs/6894.76,1)} psia, T=${fmtN(T_K*9/5,1)} °R, G=${G}`;
+  }
+
+  updateGasCalc();
+}
+
+function updateGeoCalc() {
+  const si = unitSys === 'SI';
+  const D_raw = parseFloat(document.getElementById('diam-pipe').value) || 1;
+  const L_raw = parseFloat(document.getElementById('length').value) || 1;
+  const d1_raw = parseFloat(document.getElementById('diam-vent1').value) || 1;
+  const D_m = si ? D_raw/1000 : D_raw*0.0254;
+  const L_m = si ? L_raw : L_raw*0.3048;
+  const d1_m = si ? d1_raw/1000 : d1_raw*0.0254;
+  const V = Math.PI/4 * D_m*D_m * L_m;
+  const Cd = parseFloat(document.getElementById('cd-val').value) || 0.72;
+  const A1 = Math.PI/4 * d1_m*d1_m;
+  const Ar = (Math.PI/4 * D_m*D_m) / (A1 * Cd);
+  const ArOk = Ar >= 3 && Ar <= 30;
+  const el = document.getElementById('ar-info');
+  el.textContent = `Ar = ${fmtN(Ar,2)} · ${ArOk ? '✓ Válida (3–30)' : '⚠ Fuera de rango validado'}`;
+  el.className = 'bd-calc-row' + (ArOk ? '' : ' warn');
+  document.getElementById('vol-info').textContent = si
+    ? `Volumen interno V = ${fmtN(V,2)} m³ = ${fmtN(V*1000,0)} litros`
+    : `Volumen interno V = ${fmtN(V*35.3147,0)} ft³ = ${fmtN(V*35.3147*7.48052,0)} galones`;
+}
+
+function onGasTypeChange() {
+  const type = document.getElementById('gas-type').value;
+  const preset = GAS_PRESETS[type];
+  document.getElementById('sg').value = preset.sgDef;
+  updateGasCalc();
+}
+
+// ══════════════════════════════════════════════
+//  VENT SELECTOR UI
+// ══════════════════════════════════════════════
+function buildVentSelector() {
+  const container = document.getElementById('vent-selector');
+  container.innerHTML = VENT_CONFIGS.map((v,i) => `
+    <div class="vent-opt${i===1?' selected':''}" id="vo-${v.id}" onclick="selectVent('${v.id}', ${v.cd})">
+      <svg width="100" height="75" viewBox="0 0 100 75" xmlns="http://www.w3.org/2000/svg">
+        ${v.svg}
+      </svg>
+      <div class="vo-name">${v.name}</div>
+      <div class="vo-cd">Cd = ${v.range}</div>
+    </div>`).join('');
+}
+
+function selectVent(id, cd) {
+  document.querySelectorAll('.vent-opt').forEach(el => el.classList.remove('selected'));
+  document.getElementById('vo-'+id).classList.add('selected');
+  document.getElementById('cd-val').value = cd;
+  document.getElementById('fc-val').textContent = fmtN(1/cd, 3);
+  updateGeoCalc();
+}
+
+// ══════════════════════════════════════════════
+//  FORMAT HELPERS
+// ══════════════════════════════════════════════
+function fmtN(v, dec=2) {
+  if (!isFinite(v)) return '—';
+  return parseFloat(v.toFixed(dec)).toLocaleString('es-CO', {minimumFractionDigits: dec});
+}
+function fmtP(P_gauge_Pa, si) {
+  return si ? fmtN(P_gauge_Pa/1e5, 1)+' bar g' : fmtN(P_gauge_Pa/6894.76, 0)+' psig';
+}
+
+// Cd input feedback
+document.addEventListener('DOMContentLoaded', () => {
+  buildVentSelector();
+  // Apply default English units on page load
+  setUnits('EN');
+  document.getElementById('cd-val').addEventListener('input', function() {
+    const cd = parseFloat(this.value) || 0.72;
+    document.getElementById('fc-val').textContent = fmtN(1/cd, 3);
+    updateGeoCalc();
+  });
+});
+    </script>
+  </body>
+</html>
