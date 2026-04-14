@@ -160,7 +160,7 @@
             </div>
           </div>
 
-          <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 relative">
+          <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-5 gap-6 relative">
             
             <!-- Left Column: Composition (Col Span 2) -->
             <div class="lg:col-span-2 xl:col-span-2 flex flex-col h-full">
@@ -267,6 +267,38 @@
                 </div>
             </div>
 
+            <!-- Gas Cooler Parameters (Col Span 1) -->
+            <div class="xl:col-span-1">
+                <div class="card shadow-md flex flex-col h-full bg-white border-t-4 border-cyan-500">
+                  <h2 class="text-base font-extrabold text-cyan-700 mb-4 tracking-tight uppercase flex items-center gap-2" id="sec-cooler">
+                      <svg class="w-4 h-4 text-cyan-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"/></svg>
+                      Gas Cooling Spec
+                  </h2>
+                  <div class="space-y-4 flex-grow">
+                      <div class="input-group">
+                        <label for="gc_target_temp" id="lbl-gc-target">Target Gas Outlet Temp (&deg;F)</label>
+                        <input type="number" id="gc_target_temp" value="120" class="border-cyan-200 bg-cyan-50/30 text-cyan-800 font-bold placeholder-cyan-300" />
+                        <small class="text-[10px] text-gray-400 mt-1 block leading-tight font-medium">Típicamente 15 a 20 &deg;F por encima de la temp. ambiente.</small>
+                      </div>
+                      <div class="input-group">
+                        <label for="gc_air_temp_rise" id="lbl-gc-rise">Air Temp Rise, &Delta;T aire (&deg;F)</label>
+                        <input type="number" id="gc_air_temp_rise" value="40" />
+                        <small class="text-[10px] text-gray-400 mt-1 block leading-tight font-medium">Salto térmico del aire a través del banco, típico 30 a 50 &deg;F.</small>
+                      </div>
+                      <div class="input-group">
+                        <label for="gc_u_bare" id="lbl-gc-u">Overall U Coefficient (U_bare)</label>
+                        <input type="number" id="gc_u_bare" value="75" />
+                        <small class="text-[10px] text-gray-400 mt-1 block leading-tight font-medium">Btu/hr-ft²-&deg;F. Alta presión >1000 psig: 60 a 90. Baja presión: 40 a 60.</small>
+                      </div>
+                      <div class="input-group mb-0">
+                        <label for="gc_pressure_drop" id="lbl-gc-pd">Gas Pressure Drop (psi)</label>
+                        <input type="number" id="gc_pressure_drop" value="5" />
+                        <small class="text-[10px] text-gray-400 mt-1 block leading-tight font-medium">Caída de presión permitida en los tubos.</small>
+                      </div>
+                  </div>
+                </div>
+            </div>
+
             <!-- Right Column: Driver Parameters (Col Span 1) -->
             <div class="xl:col-span-1">
                 <div class="card shadow-md flex flex-col h-full bg-gradient-to-b from-white to-gray-50 border-t-4 border-[#008F4C]">
@@ -348,91 +380,91 @@
             
             <!-- Compressor Metrics Grid -->
             <div>
-                <h3 class="text-[10px] font-bold text-gray-400 bg-gray-50 py-1.5 px-3 rounded inline-block uppercase tracking-widest mb-4 border border-gray-200">Core Compression Physics</h3>
+                <h3 class="text-[10px] font-bold text-white bg-blue-700 py-1.5 px-4 rounded inline-block uppercase tracking-widest mb-4 border border-blue-800 shadow-sm">Core Compression Physics</h3>
                 
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-3 mb-8">
                     <!-- EXACT Outputs -->
                     <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
-                        <span class="text-[9px] text-gray-400 uppercase tracking-widest mb-1 font-bold">Specific Gravity</span>
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Relación de densidad del gas vs aire en condiciones estándar. Afecta drásticamente el desempeño aerodinámico.">Specific Gravity</span>
                         <div class="flex items-baseline gap-1 mt-auto"><span id="res_sg" class="text-base font-extrabold text-gray-800">-</span><span class="text-[8px] text-gray-400">admensional</span></div>
                     </div>
-                    <div class="bg-blue-50 border border-blue-100 rounded p-3 flex flex-col shadow-sm">
-                        <span class="text-[9px] text-blue-500 uppercase tracking-widest mb-1 font-bold">Cmpt Aero Power</span>
-                        <div class="flex items-baseline gap-1 mt-auto"><span id="res_aero_hp" class="text-base font-extrabold text-blue-900">-</span><span class="text-[8px] text-blue-400 font-bold">hp</span></div>
+                    <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Potencia pura y teórica requerida por la aerodinámica para lograr la compresión del gas (sin pérdidas mecánicas).">Cmpt Aero Power</span>
+                        <div class="flex items-baseline gap-1 mt-auto"><span id="res_aero_hp" class="text-base font-extrabold text-gray-800">-</span><span class="text-[8px] text-gray-400 font-bold">hp</span></div>
                     </div>
                     <div class="bg-[#0f172a] rounded p-3 flex flex-col shadow-md ring-1 ring-inset ring-white/10">
-                        <span class="text-[9px] text-[#D4E157] uppercase tracking-widest mb-1 font-bold">Train Power</span>
+                        <span class="text-[9px] text-[#D4E157] uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-[#D4E157]/50 w-max mx-0" title="Potencia bruta total en el eje del tren (Aero Power + Pérdidas Mecánicas por cojinetes y sellos).">Train Power</span>
                         <div class="flex items-baseline gap-1 mt-auto"><span id="res_train_hp" class="text-base font-extrabold text-white">-</span><span class="text-[8px] text-gray-400 font-bold">hp</span></div>
                     </div>
-                    <div class="bg-orange-50 border border-orange-100 rounded p-3 flex flex-col shadow-sm">
-                        <span class="text-[9px] text-orange-500 uppercase tracking-widest mb-1 font-bold">T2</span>
-                        <div class="flex items-baseline gap-1 mt-auto"><span id="res_t2" class="text-base font-extrabold text-orange-900">-</span><span class="text-[8px] text-orange-400 font-bold">Deg F</span></div>
-                    </div>
-                    <div class="bg-purple-50 border border-purple-100 rounded p-3 flex flex-col shadow-sm">
-                        <span class="text-[9px] text-purple-500 uppercase tracking-widest mb-1 font-bold">Inlet Flow</span>
-                        <div class="flex items-baseline gap-1 mt-auto"><span id="res_acfm" class="text-base font-extrabold text-purple-900">-</span><span class="text-[8px] text-purple-400 font-bold">acfm</span></div>
+                    <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Temperatura de Descarga real estimada a la salida del cilindro o la voluta.">T2</span>
+                        <div class="flex items-baseline gap-1 mt-auto"><span id="res_t2" class="text-base font-extrabold text-gray-800">-</span><span class="text-[8px] text-gray-400 font-bold">Deg F</span></div>
                     </div>
                     <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
-                        <span class="text-[9px] text-gray-400 uppercase tracking-widest mb-1 font-bold">Head(isen)</span>
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Flujo Volumétrico Real en la succión. Parámetro crítico para seleccionar el 'frame' del compresor.">Inlet Flow</span>
+                        <div class="flex items-baseline gap-1 mt-auto"><span id="res_acfm" class="text-base font-extrabold text-gray-800">-</span><span class="text-[8px] text-gray-400 font-bold">acfm</span></div>
+                    </div>
+                    <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Cabezal Isentrópico: Energía teórica transferida por unidad de masa asumiendo un gas ideal en un proceso perfecto.">Head(isen)</span>
                         <div class="flex items-baseline gap-1 mt-auto"><span id="res_head_isen" class="text-base font-extrabold text-gray-800">-</span><span class="text-[8px] text-gray-400">ft-lbf/lbm</span></div>
                     </div>
                     <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
-                        <span class="text-[9px] text-gray-400 uppercase tracking-widest mb-1 font-bold">Head(poly)</span>
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Cabezal Politrópico: Energía real transferida adaptada a la curva o ruta de temperatura del gas.">Head(poly)</span>
                         <div class="flex items-baseline gap-1 mt-auto"><span id="res_head_poly" class="text-base font-extrabold text-gray-800">-</span><span class="text-[8px] text-gray-400">ft-lbf/lbm</span></div>
                     </div>
                     <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
-                        <span class="text-[9px] text-gray-400 uppercase tracking-widest mb-1 font-bold overflow-hidden text-ellipsis whitespace-nowrap">Pressure Ratio</span>
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold overflow-hidden text-ellipsis whitespace-nowrap cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Relación de Compresión Global (P2_abs / P1_abs). Arriba de 3-4 casi siempre exige más de una etapa.">Pressure Ratio</span>
                         <div class="flex items-baseline gap-1 mt-auto"><span id="res_rc" class="text-base font-extrabold text-gray-800">-</span><span class="text-[8px] text-gray-400">admensional</span></div>
                     </div>
                     <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
-                        <span class="text-[9px] text-gray-400 uppercase tracking-widest mb-1 font-bold">Eff(isen)</span>
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Eficiencia Isentrópica Global. (Trabajo Ideal / Trabajo Real Aerodinámico).">Eff(isen)</span>
                         <div class="flex items-baseline gap-1 mt-auto"><span id="res_eff_isen" class="text-base font-extrabold text-gray-800">-</span><span class="text-[8px] text-gray-400">percent</span></div>
                     </div>
                     <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
-                        <span class="text-[9px] text-gray-400 uppercase tracking-widest mb-1 font-bold">Eff(poly)</span>
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Eficiencia Politrópica Global. Métrica estándar en centrífugos; independiente de la Relación de Compresión.">Eff(poly)</span>
                         <div class="flex items-baseline gap-1 mt-auto"><span id="res_eff_poly" class="text-base font-extrabold text-gray-800">-</span><span class="text-[8px] text-gray-400">percent</span></div>
                     </div>
                     <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
-                        <span class="text-[9px] text-gray-400 uppercase tracking-widest mb-1 font-bold hidden sm:block">Mass Flow</span>
-                        <span class="text-[9px] text-gray-400 uppercase tracking-widest mb-1 font-bold sm:hidden">M. Flow</span>
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold hidden sm:block cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Flujo de Masa transportado de forma continua en unidades fundamentales.">Mass Flow</span>
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold sm:hidden cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Flujo de Masa transportado de forma continua en unidades fundamentales.">M. Flow</span>
                         <div class="flex items-baseline gap-1 mt-auto"><span id="res_mass_flow" class="text-base font-extrabold text-gray-800">-</span><span class="text-[8px] text-gray-400">lbm/sec</span></div>
                     </div>
                     
-                    <div class="bg-gray-100/50 border border-gray-200 rounded p-3 flex flex-col shadow-sm">
-                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold">Z1</span>
-                        <div class="flex items-baseline gap-1 mt-auto"><span id="res_z1" class="text-base font-extrabold text-gray-700">-</span><span class="text-[8px] text-gray-400">admensional</span></div>
+                    <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Factor de Compresibilidad Inicial (Succión). Desviación del comportamiento de un gas perfecto a T1/P1.">Z1</span>
+                        <div class="flex items-baseline gap-1 mt-auto"><span id="res_z1" class="text-base font-extrabold text-gray-800">-</span><span class="text-[8px] text-gray-400">admensional</span></div>
                     </div>
-                    <div class="bg-gray-100/50 border border-gray-200 rounded p-3 flex flex-col shadow-sm">
-                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold">Z2</span>
-                        <div class="flex items-baseline gap-1 mt-auto"><span id="res_z2" class="text-base font-extrabold text-gray-700">-</span><span class="text-[8px] text-gray-400">admensional</span></div>
+                    <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Factor de Compresibilidad Final (Descarga) a T2/P2.">Z2</span>
+                        <div class="flex items-baseline gap-1 mt-auto"><span id="res_z2" class="text-base font-extrabold text-gray-800">-</span><span class="text-[8px] text-gray-400">admensional</span></div>
                     </div>
                     
                     <!-- K values -->
-                    <div class="bg-gray-100/50 border border-gray-200 rounded p-3 flex flex-col shadow-sm">
-                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold">K1</span>
-                        <div class="flex items-baseline gap-1 mt-auto"><span id="res_k1" class="text-base font-extrabold text-gray-700">-</span><span class="text-[8px] text-gray-400">admensional</span></div>
+                    <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Exponente Isentrópico (Cp/Cv) a las condiciones reales de Temperatura de Succión.">K1</span>
+                        <div class="flex items-baseline gap-1 mt-auto"><span id="res_k1" class="text-base font-extrabold text-gray-800">-</span><span class="text-[8px] text-gray-400">admensional</span></div>
                     </div>
-                    <div class="bg-gray-100/50 border border-gray-200 rounded p-3 flex flex-col shadow-sm">
-                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold">K2</span>
-                        <div class="flex items-baseline gap-1 mt-auto"><span id="res_k2" class="text-base font-extrabold text-gray-700">-</span><span class="text-[8px] text-gray-400">admensional</span></div>
+                    <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Exponente Isentrópico (Cp/Cv) a las condiciones reales de Temperatura de Descarga.">K2</span>
+                        <div class="flex items-baseline gap-1 mt-auto"><span id="res_k2" class="text-base font-extrabold text-gray-800">-</span><span class="text-[8px] text-gray-400">admensional</span></div>
                     </div>
-                    <div class="bg-gray-100/50 border border-gray-200 rounded p-3 flex flex-col shadow-sm">
-                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold">K(50 DegF)</span>
-                        <div class="flex items-baseline gap-1 mt-auto"><span id="res_k50" class="text-base font-extrabold text-gray-700">-</span><span class="text-[8px] text-gray-400">admensional</span></div>
+                    <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Mezcla Estándar 'k' simulada a 50°F exactos.">K(50 DegF)</span>
+                        <div class="flex items-baseline gap-1 mt-auto"><span id="res_k50" class="text-base font-extrabold text-gray-800">-</span><span class="text-[8px] text-gray-400">admensional</span></div>
                     </div>
-                    <div class="bg-gray-100/50 border border-gray-200 rounded p-3 flex flex-col shadow-sm">
-                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold">K(300 DegF)</span>
-                        <div class="flex items-baseline gap-1 mt-auto"><span id="res_k300" class="text-base font-extrabold text-gray-700">-</span><span class="text-[8px] text-gray-400">admensional</span></div>
+                    <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Mezcla Estándar 'k' simulada a 300°F exactos.">K(300 DegF)</span>
+                        <div class="flex items-baseline gap-1 mt-auto"><span id="res_k300" class="text-base font-extrabold text-gray-800">-</span><span class="text-[8px] text-gray-400">admensional</span></div>
                     </div>
 
                     <!-- Pseudocritical -->
-                    <div class="bg-emerald-50 border border-emerald-100 rounded p-3 flex flex-col shadow-sm">
-                        <span class="text-[9px] text-emerald-600 uppercase tracking-widest mb-1 font-bold">PCP</span>
-                        <div class="flex items-baseline gap-1 mt-auto"><span id="res_pcp" class="text-base font-extrabold text-emerald-900">-</span><span class="text-[8px] text-emerald-500">psi (admensional)</span></div>
+                    <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Presión Pseudocrítica de la mezcla estandarizada. Usada en modelos de convergencia de EOS de gas real.">PCP</span>
+                        <div class="flex items-baseline gap-1 mt-auto"><span id="res_pcp" class="text-base font-extrabold text-gray-800">-</span><span class="text-[8px] text-gray-400">psi (admensional)</span></div>
                     </div>
-                    <div class="bg-emerald-50 border border-emerald-100 rounded p-3 flex flex-col shadow-sm">
-                        <span class="text-[9px] text-emerald-600 uppercase tracking-widest mb-1 font-bold">PCT</span>
-                        <div class="flex items-baseline gap-1 mt-auto"><span id="res_pct" class="text-base font-extrabold text-emerald-900">-</span><span class="text-[8px] text-emerald-500">Deg R (admensional)</span></div>
+                    <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Temperatura Pseudocrítica de la mezcla estandarizada.">PCT</span>
+                        <div class="flex items-baseline gap-1 mt-auto"><span id="res_pct" class="text-base font-extrabold text-gray-800">-</span><span class="text-[8px] text-gray-400">Deg R (admensional)</span></div>
                     </div>
                 </div>
             </div>
@@ -441,32 +473,64 @@
             <div>
                 <h3 class="text-[10px] font-bold text-white bg-[#008F4C] py-1.5 px-4 rounded inline-block uppercase tracking-widest mb-4 border border-[#007038] shadow-sm">Overall Performance Module</h3>
                 <div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-3">
-                    <div class="bg-white border-2 border-gray-100 rounded p-3 flex flex-col shadow-sm">
-                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold">Driver Power Req.</span>
+                    <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Potencia Mecánica requerida en el eje por el compresor. (Train Power).">Driver Power Req.</span>
                         <div class="flex items-baseline gap-1 mt-auto"><span id="op_req_power" class="text-lg font-extrabold text-gray-800">-</span><span class="text-[9px] text-gray-400 uppercase font-bold">hp</span></div>
                     </div>
-                    <div class="bg-white border-2 border-[#008F4C]/30 rounded p-3 flex flex-col shadow-sm relative overflow-hidden">
-                        <span class="text-[9px] text-[#008F4C] uppercase tracking-widest mb-1 font-bold relative z-10">Site Power Avail.</span>
-                        <div class="flex items-baseline gap-1 mt-auto relative z-10"><span id="op_avail_power" class="text-lg font-extrabold text-gray-900">-</span><span class="text-[9px] text-[#008F4C] uppercase font-bold">hp</span></div>
-                        <div class="absolute right-0 bottom-0 opacity-5 w-16 h-16 transform translate-x-2 translate-y-2">
+                    <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm relative overflow-hidden">
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold relative z-10 cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Potencia Real del Motor luego del de-rate por Altitud y Temperatura del sitio (Available Power).">Site Power Avail.</span>
+                        <div class="flex items-baseline gap-1 mt-auto relative z-10"><span id="op_avail_power" class="text-lg font-extrabold text-gray-800">-</span><span class="text-[9px] text-gray-400 uppercase font-bold">hp</span></div>
+                        <div class="absolute right-0 bottom-0 text-gray-200 opacity-20 w-16 h-16 transform translate-x-2 translate-y-2">
                            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                         </div>
                     </div>
                     <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
-                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold">Available Margin</span>
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Diferencia en HP entre el Site Power Available y el Driver Power Required. Margen de seguridad.">Available Margin</span>
                         <div class="flex items-baseline gap-1 mt-auto"><span id="op_margin_hp" class="text-lg font-extrabold text-gray-800">-</span><span class="text-[9px] text-gray-400 uppercase font-bold">hp</span></div>
                     </div>
                     <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
-                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold">Est. Power Margin</span>
-                        <div class="flex items-baseline gap-1 mt-auto"><span id="op_margin_pct" class="text-lg font-extrabold text-blue-600">-</span><span class="text-[9px] text-gray-400 uppercase font-bold">percent</span></div>
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Margen excedented de potencia en formato porcentual. Las normas típicamente dictan tener al menos un margen de >10%.">Est. Power Margin</span>
+                        <div class="flex items-baseline gap-1 mt-auto"><span id="op_margin_pct" class="text-lg font-extrabold text-gray-800">-</span><span class="text-[9px] text-gray-400 uppercase font-bold">percent</span></div>
                     </div>
                     <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
-                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold">Engine Load</span>
-                        <div class="flex items-baseline gap-1 mt-auto"><span id="op_load" class="text-lg font-extrabold text-purple-600">-</span><span class="text-[9px] text-gray-400 uppercase font-bold">percent</span></div>
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Porcentaje de utilización de la máquina motriz (Required / Avilable). Cuidado si excede el 100%.">Engine Load</span>
+                        <div class="flex items-baseline gap-1 mt-auto"><span id="op_load" class="text-lg font-extrabold text-gray-800">-</span><span class="text-[9px] text-gray-400 uppercase font-bold">percent</span></div>
                     </div>
-                    <div class="bg-orange-50 border border-orange-100 rounded p-3 flex flex-col shadow-sm">
-                        <span class="text-[9px] text-orange-600 uppercase tracking-widest mb-1 font-bold">Fuel Flow</span>
-                        <div class="flex items-baseline gap-1 mt-auto"><span id="op_fuel_flow" class="text-lg font-extrabold text-orange-900">-</span><span class="text-[9px] text-orange-500 uppercase font-bold">scfd</span></div>
+                    <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Volumen de gas combustible estimado para un motor tradicional recíproco a esta carga térmica.">Fuel Flow</span>
+                        <div class="flex items-baseline gap-1 mt-auto"><span id="op_fuel_flow" class="text-lg font-extrabold text-gray-800">-</span><span class="text-[9px] text-gray-400 uppercase font-bold">scfd</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ACHE Module Grid -->
+            <div class="mt-8">
+                <h3 class="text-[10px] font-bold text-white bg-cyan-700 py-1.5 px-4 rounded inline-block uppercase tracking-widest mb-4 border border-cyan-800 shadow-sm">ACHE Performance Module</h3>
+                <div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-3">
+                    <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Energía Térmica requerida a remover desde T2 para lograr cumplir con tu Target (Gas Outlet Temp).">Heat Duty</span>
+                        <div class="flex items-baseline gap-1 mt-auto"><span id="ache_heat_duty" class="text-lg font-extrabold text-gray-800">-</span><span class="text-[9px] text-gray-400 uppercase font-bold">MMBtu/hr</span></div>
+                    </div>
+                    <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Temp. de Salida de Gas / 'Cold End Approach' (La Diferencia estricta entre la temp de salida de gas y el aire ambiente).">Real Out/Approach</span>
+                        <div class="flex items-baseline gap-1 mt-auto"><span id="ache_temps" class="text-lg font-extrabold text-gray-800">-</span><span class="text-[9px] text-gray-400 uppercase font-bold">Deg F</span></div>
+                    </div>
+                    <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Fuerza impulsora térmica Logarítmica Corregida factorizada (Cross-Flow Approximation).">Corrected CMTD</span>
+                        <div class="flex items-baseline gap-1 mt-auto"><span id="ache_cmtd" class="text-lg font-extrabold text-gray-800">-</span><span class="text-[9px] text-gray-400 uppercase font-bold">Deg F</span></div>
+                    </div>
+                    <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Área Desnuda (Bare) y Área con Aletas Extruidas (Ext - Relación estándar 16.9) para alcanzar tu deber térmico.">Area (Bare/Ext)</span>
+                        <div class="flex items-baseline gap-1 mt-auto"><span id="ache_area" class="text-lg font-extrabold text-gray-800">-</span><span class="text-[9px] text-gray-400 uppercase font-bold">ft&sup2;</span></div>
+                    </div>
+                    <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Aire Atmosférico Real a suministrar proyectando un 'Rise' del delta estipulado, compensado por la densidad en altitud.">Air Flow</span>
+                        <div class="flex items-baseline gap-1 mt-auto"><span id="ache_air_flow" class="text-lg font-extrabold text-gray-800">-</span><span class="text-[9px] text-gray-400 uppercase font-bold">acfm</span></div>
+                        <div class="mt-0.5"><span id="ache_air_flow_mass" class="text-[9px] text-gray-400 font-medium whitespace-nowrap">- lb/hr</span></div>
+                    </div>
+                    <div class="bg-white border border-gray-200 rounded p-3 flex flex-col shadow-sm">
+                        <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold cursor-help border-b border-dashed border-gray-300 hover:border-gray-500 transition-colors w-max mx-0" title="Potencia de freno neta exigida al banco de motores ventiladores bajo 0.5 in.H2O SP de diseño con eficiencia del 65%.">Est. Fan Power</span>
+                        <div class="flex items-baseline gap-1 mt-auto"><span id="ache_fan_hp" class="text-lg font-extrabold text-gray-800">-</span><span class="text-[9px] text-gray-400 uppercase font-bold">hp</span></div>
                     </div>
                 </div>
             </div>
@@ -582,6 +646,7 @@
           subtitle: "Thermodynamic compressor and driver design aligned with API 617 / GPSA with OEM Performance Logic.",
           sec_comp: "Gas Composition",
           sec_op: "Compressor Spec",
+          sec_cooler: "Gas Cooling Spec",
           sec_driver: "Site & Driver Spec",
           lbl_unit_p: "Units",
           lbl_p1: "Suction P1",
@@ -590,6 +655,10 @@
           lbl_flow: "Flow Rate",
           lbl_type: "Compressor Type",
           lbl_effm: "Mechanical Eff (&eta;m)",
+          lbl_gc_target: "Target Gas Outlet Temp (&deg;F)",
+          lbl_gc_rise: "Air Temp Rise, &Delta;T aire (&deg;F)",
+          lbl_gc_u: "Overall U Coefficient (U_bare)",
+          lbl_gc_pd: "Gas Pressure Drop (psi)",
           lbl_iso_power: "Driver ISO Base Power (hp)",
           lbl_elev: "Elevation (ft)",
           lbl_amb_temp: "Site Temp (&deg;F)",
@@ -604,6 +673,7 @@
           subtitle: "Diseño termodinámico compresor y motor alineado a API 617 / GPSA con Motor OEM Performance Logic.",
           sec_comp: "Composición del Gas",
           sec_op: "Especificación Compresor",
+          sec_cooler: "Espec. Gas Cooler",
           sec_driver: "Sitio y Motor",
           lbl_unit_p: "Unidades",
           lbl_p1: "Succión P1",
@@ -612,6 +682,10 @@
           lbl_flow: "Tasa Flujo",
           lbl_type: "Tipo Compresor",
           lbl_effm: "Eficiencia Mec. (&eta;m)",
+          lbl_gc_target: "Temp. Salida Deseada (&deg;F)",
+          lbl_gc_rise: "Salto Térmico Aire (&deg;F)",
+          lbl_gc_u: "Coeficiente Global U",
+          lbl_gc_pd: "Caída de Presión (psi)",
           lbl_iso_power: "Potencia ISO Base Motor (hp)",
           lbl_elev: "Elevación (ft)",
           lbl_amb_temp: "Temp. Sitio (&deg;F)",
@@ -922,6 +996,79 @@
         setMetric('res_pcp', pcp, 2);
         setMetric('res_pct', pct, 2);
 
+        // -------------------------------------------------------------
+        // ACHE / Gas Cooler Performance Calculation
+        // -------------------------------------------------------------
+        const gc_target_temp = parseFloat(document.getElementById("gc_target_temp").value) || 120;
+        const gc_air_temp_rise = parseFloat(document.getElementById("gc_air_temp_rise").value) || 40;
+        const gc_u_bare = parseFloat(document.getElementById("gc_u_bare").value) || 75;
+        const gc_pressure_drop = parseFloat(document.getElementById("gc_pressure_drop").value) || 5;
+        
+        let ache_heat_duty_mmbtu = 0;
+        let t_out_actual_f = gc_target_temp;
+        let ache_cmtd = 0;
+        let ache_a_bare = 0;
+        let ache_a_ext = 0;
+        let ache_acfm = 0;
+        let ache_fan_hp = 0;
+        let mass_air_lbhr = 0;
+
+        let t2_f = t2_actual_r - 459.67;
+        let t_air_in = ambientTemp; 
+        let t_air_out = t_air_in + gc_air_temp_rise;
+        let approach = 0;
+
+        if (t2_f > gc_target_temp) {
+            let t_avg_cooler_r = ((t2_f + gc_target_temp) / 2) + 459.67;
+            let cp_gas_cooler = getCp(t_avg_cooler_r, components); 
+            let cp_gas_cooler_mass = cp_gas_cooler / mw_mix;
+            
+            let m_dot_hr = m_dot_min * 60;
+            let q_gas_btu = m_dot_hr * cp_gas_cooler_mass * (t2_f - gc_target_temp);
+            ache_heat_duty_mmbtu = q_gas_btu / 1e6;
+            
+            mass_air_lbhr = q_gas_btu / (0.24 * gc_air_temp_rise);
+            
+            let p_atm_psia = 14.7 * Math.pow(1 - 6.8753e-6 * elevation, 5.2559);
+            let rho_air = (p_atm_psia * 28.96) / (10.7316 * (t_air_in + 459.67));
+            let acfm_air = (mass_air_lbhr / rho_air) / 60; 
+            ache_acfm = acfm_air;
+
+            let dt1 = t2_f - t_air_out;
+            let dt2 = gc_target_temp - t_air_in;
+            
+            if (dt1 > 0 && dt2 > 0) {
+                let lmtd = (Math.abs(dt1 - dt2) < 0.1) ? dt1 : (dt1 - dt2) / Math.log(dt1 / dt2);
+                ache_cmtd = lmtd * 0.95; 
+                ache_a_bare = q_gas_btu / (gc_u_bare * ache_cmtd);
+                ache_a_ext = ache_a_bare * 16.9;
+                ache_fan_hp = (acfm_air * 0.5) / (6356 * 0.65);
+            }
+            
+            t_out_actual_f = gc_target_temp;
+            approach = t_out_actual_f - t_air_in;
+        } else {
+            t_out_actual_f = t2_f;
+            approach = t_out_actual_f - t_air_in;
+        }
+
+        setMetric('ache_heat_duty', ache_heat_duty_mmbtu > 0 ? ache_heat_duty_mmbtu : null, 2);
+        
+        let ache_temps_el = document.getElementById("ache_temps");
+        if(ache_temps_el) ache_temps_el.textContent = `${t_out_actual_f.toFixed(1)} / ${approach.toFixed(1)}`;
+
+        setMetric('ache_cmtd', ache_cmtd > 0 ? ache_cmtd : null, 1);
+        
+        let ache_area_el = document.getElementById("ache_area");
+        if(ache_area_el) ache_area_el.textContent = ache_a_bare > 0 ? `${Math.round(ache_a_bare).toLocaleString()} / ${Math.round(ache_a_ext).toLocaleString()}` : "-";
+
+        let ache_air_el = document.getElementById("ache_air_flow");
+        let ache_air_mass_el = document.getElementById("ache_air_flow_mass");
+        if(ache_air_el) ache_air_el.textContent = ache_acfm > 0 ? Math.round(ache_acfm).toLocaleString() : "-";
+        if(ache_air_mass_el) ache_air_mass_el.textContent = mass_air_lbhr > 0 ? `${Math.round(mass_air_lbhr).toLocaleString()} lb/hr` : "- lb/hr";
+
+        setMetric('ache_fan_hp', ache_fan_hp > 0 ? ache_fan_hp : null, 1);
+
         // Driver Performance Logic
         if (!isNaN(isoPower) && isoPower > 0) {
             let derationElev = (elevation / 1000) * 0.035;
@@ -949,13 +1096,13 @@
             
             // Add visual warnings if needed
             const opLoadEl = document.getElementById("op_load");
-            if (engineLoad > 100) opLoadEl.classList.replace("text-purple-600", "text-red-600");
-            else opLoadEl.classList.replace("text-red-600", "text-purple-600");
+            if (engineLoad > 100) opLoadEl.classList.replace("text-gray-800", "text-red-600");
+            else opLoadEl.classList.replace("text-red-600", "text-gray-800");
             
         } else {
             ['op_req_power','op_avail_power','op_margin_hp','op_margin_pct','op_load','op_fuel_flow'].forEach(id => setMetric(id, null));
             const opLoadEl = document.getElementById("op_load");
-            opLoadEl.classList.replace("text-red-600", "text-purple-600");
+            opLoadEl.classList.replace("text-red-600", "text-gray-800");
         }
       }
 
