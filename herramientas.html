@@ -42,23 +42,21 @@
         {
           "@type": "ItemList",
           "name": "Herramientas de Cálculo",
-          "numberOfItems": 15,
+          "numberOfItems": 13,
           "itemListElement": [
+            {"@type": "SoftwareApplication", "name": "Compresión de Gas", "applicationCategory": "EngineeringApplication"},
+            {"@type": "SoftwareApplication", "name": "Velocidad Erosional", "applicationCategory": "EngineeringApplication"},
+            {"@type": "SoftwareApplication", "name": "Calculadora ASME B31.8 Master", "applicationCategory": "EngineeringApplication"},
+            {"@type": "SoftwareApplication", "name": "Natural Gas Flow", "applicationCategory": "EngineeringApplication"},
             {"@type": "SoftwareApplication", "name": "Calculadora MAWP", "applicationCategory": "EngineeringApplication"},
-            {"@type": "SoftwareApplication", "name": "Espesores de Tubería", "applicationCategory": "EngineeringApplication"},
-            {"@type": "SoftwareApplication", "name": "Esfuerzo Circunferencial (Hoop Stress)", "applicationCategory": "EngineeringApplication"},
-            {"@type": "SoftwareApplication", "name": "Presión Máxima de Diseño", "applicationCategory": "EngineeringApplication"},
+            {"@type": "SoftwareApplication", "name": "Existencia en Línea", "applicationCategory": "EngineeringApplication"},
+            {"@type": "SoftwareApplication", "name": "Compression Abacus", "applicationCategory": "EngineeringApplication"},
             {"@type": "SoftwareApplication", "name": "Flujo Estándar a Actual", "applicationCategory": "EngineeringApplication"},
             {"@type": "SoftwareApplication", "name": "Propiedades de Gases", "applicationCategory": "EngineeringApplication"},
-            {"@type": "SoftwareApplication", "name": "Velocidad Erosional", "applicationCategory": "EngineeringApplication"},
-            {"@type": "SoftwareApplication", "name": "Compresión de Gas", "applicationCategory": "EngineeringApplication"},
-            {"@type": "SoftwareApplication", "name": "Volumen de Tanques", "applicationCategory": "EngineeringApplication"},
-            {"@type": "SoftwareApplication", "name": "Factor Z (CNGA)", "applicationCategory": "EngineeringApplication"},
-            {"@type": "SoftwareApplication", "name": "Line Pack", "applicationCategory": "EngineeringApplication"},
             {"@type": "SoftwareApplication", "name": "Peso de Tuberías", "applicationCategory": "EngineeringApplication"},
-            {"@type": "SoftwareApplication", "name": "Flujo de Gas Natural", "applicationCategory": "EngineeringApplication"},
-            {"@type": "SoftwareApplication", "name": "Ábaco de Compresión de Gas", "applicationCategory": "EngineeringApplication"},
-            {"@type": "SoftwareApplication", "name": "Tiempo de Venteo (Blowdown)", "applicationCategory": "EngineeringApplication"}
+            {"@type": "SoftwareApplication", "name": "Volumen de Tanques", "applicationCategory": "EngineeringApplication"},
+            {"@type": "SoftwareApplication", "name": "Factor Z (CNGA & Papay)", "applicationCategory": "EngineeringApplication"},
+            {"@type": "SoftwareApplication", "name": "Tiempo de Venteo", "applicationCategory": "EngineeringApplication"}
           ]
         }
       ]
@@ -237,283 +235,6 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <!-- Tool 1 -->
-            <a href="herramientas/00_mawp_calculator.html" class="block group">
-              <div
-                class="bg-surface rounded-lg shadow-md p-6 border-l-4 border-primary transition-all duration-300 transform group-hover:-translate-y-1 group-hover:shadow-xl h-full"
-              >
-                <div class="flex flex-col gap-4">
-                  <div class="flex items-center gap-4">
-                    <div class="bg-primary/10 p-3 rounded-lg text-primary shrink-0">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-                        />
-                      </svg>
-                    </div>
-                    <h3
-                      class="text-lg font-bold text-text-primary group-hover:text-primary transition-colors"
-                    >
-                      Calculadora MAWP
-                    </h3>
-                  </div>
-                  <p class="text-sm text-gray-500 leading-relaxed">
-                    Evalúa la Presión de Trabajo Máxima Permisible en tuberías de acero al carbono, considerando grado del material, diámetro, espesor y factores de diseño.
-                  </p>
-                  <div class="flex flex-wrap gap-1.5 mt-1">
-                    <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">ASME B31.8</span>
-                  </div>
-                </div>
-              </div>
-            </a>
-
-            <!-- Tool 2 -->
-            <a href="herramientas/01_pipe_thickness.html" class="block group">
-              <div
-                class="bg-surface rounded-lg shadow-md p-6 border-l-4 border-primary transition-all duration-300 transform group-hover:-translate-y-1 group-hover:shadow-xl h-full"
-              >
-                <div class="flex flex-col gap-4">
-                  <div class="flex items-center gap-4">
-                    <div class="bg-primary/10 p-3 rounded-lg text-primary shrink-0">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
-                      </svg>
-                    </div>
-                    <h3
-                      class="text-lg font-bold text-text-primary group-hover:text-primary transition-colors"
-                    >
-                      Espesores de Tubería
-                    </h3>
-                  </div>
-                  <p class="text-sm text-gray-500 leading-relaxed">
-                    Determina el espesor de pared mínimo requerido para tuberías sometidas a presión interna, con base en la resistencia a la fluencia (SMYS) y factores de seguridad normativos.
-                  </p>
-                  <div class="flex flex-wrap gap-1.5 mt-1">
-                    <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">ASME B31.8</span>
-                  </div>
-                </div>
-              </div>
-            </a>
-
-            <!-- Tool 3 -->
-            <a href="herramientas/02_hoop_stress.html" class="block group">
-              <div
-                class="bg-surface rounded-lg shadow-md p-6 border-l-4 border-primary transition-all duration-300 transform group-hover:-translate-y-1 group-hover:shadow-xl h-full"
-              >
-                <div class="flex flex-col gap-4">
-                  <div class="flex items-center gap-4">
-                    <div class="bg-primary/10 p-3 rounded-lg text-primary shrink-0">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"
-                        />
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"
-                        />
-                      </svg>
-                    </div>
-                    <h3
-                      class="text-lg font-bold text-text-primary group-hover:text-primary transition-colors"
-                    >
-                      Esfuerzo Circunferencial
-                    </h3>
-                  </div>
-                  <p class="text-sm text-gray-500 leading-relaxed">
-                    Verifica el esfuerzo circunferencial (Hoop Stress) en la pared de la tubería y evalúa su cumplimiento frente al porcentaje admisible del SMYS según la clase de localización.
-                  </p>
-                  <div class="flex flex-wrap gap-1.5 mt-1">
-                    <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">ASME B31.8</span>
-                  </div>
-                </div>
-              </div>
-            </a>
-
-            <!-- Tool 4 -->
-            <a
-              href="herramientas/03_max_design_pressure.html"
-              class="block group"
-            >
-              <div
-                class="bg-surface rounded-lg shadow-md p-6 border-l-4 border-primary transition-all duration-300 transform group-hover:-translate-y-1 group-hover:shadow-xl h-full"
-              >
-                <div class="flex flex-col gap-4">
-                  <div class="flex items-center gap-4">
-                    <div class="bg-primary/10 p-3 rounded-lg text-primary shrink-0">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M13 10V3L4 14h7v7l9-11h-7z"
-                        />
-                      </svg>
-                    </div>
-                    <h3
-                      class="text-lg font-bold text-text-primary group-hover:text-primary transition-colors"
-                    >
-                      Presión Máxima Diseño
-                    </h3>
-                  </div>
-                  <p class="text-sm text-gray-500 leading-relaxed">
-                    Calcula la presión máxima de diseño para gasoductos considerando grado del acero, clase de localización, factor de temperatura y junta longitudinal.
-                  </p>
-                  <div class="flex flex-wrap gap-1.5 mt-1">
-                    <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">ASME B31.8</span>
-                  </div>
-                </div>
-              </div>
-            </a>
-
-            <!-- Tool 5 -->
-            <a
-              href="herramientas/05_flow_std_to_actual.html"
-              class="block group"
-            >
-              <div
-                class="bg-surface rounded-lg shadow-md p-6 border-l-4 border-primary transition-all duration-300 transform group-hover:-translate-y-1 group-hover:shadow-xl h-full"
-              >
-                <div class="flex flex-col gap-4">
-                  <div class="flex items-center gap-4">
-                    <div class="bg-primary/10 p-3 rounded-lg text-primary shrink-0">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
-                        />
-                      </svg>
-                    </div>
-                    <h3
-                      class="text-lg font-bold text-text-primary group-hover:text-primary transition-colors"
-                    >
-                      Flujo Estándar a Actual
-                    </h3>
-                  </div>
-                  <p class="text-sm text-gray-500 leading-relaxed">
-                    Convierte caudales volumétricos de condiciones estándar (14.73 psia, 60 °F) a condiciones reales de operación, aplicando correcciones por presión, temperatura y compresibilidad.
-                  </p>
-                  <div class="flex flex-wrap gap-1.5 mt-1">
-                    <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">GPSA</span>
-                  </div>
-                </div>
-              </div>
-            </a>
-
-            <!-- Tool 6 -->
-            <a href="herramientas/06_gas_properties.html" class="block group">
-              <div
-                class="bg-surface rounded-lg shadow-md p-6 border-l-4 border-primary transition-all duration-300 transform group-hover:-translate-y-1 group-hover:shadow-xl h-full"
-              >
-                <div class="flex flex-col gap-4">
-                  <div class="flex items-center gap-4">
-                    <div class="bg-primary/10 p-3 rounded-lg text-primary shrink-0">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
-                        />
-                      </svg>
-                    </div>
-                    <h3
-                      class="text-lg font-bold text-text-primary group-hover:text-primary transition-colors"
-                    >
-                      Propiedades de Gases
-                    </h3>
-                  </div>
-                  <p class="text-sm text-gray-500 leading-relaxed">
-                    Determina las propiedades termodinámicas clave de mezclas de gas natural — peso molecular, gravedad específica, densidad y capacidades caloríficas — a partir de su composición molar.
-                  </p>
-                  <div class="flex flex-wrap gap-1.5 mt-1">
-                    <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">GPSA</span>
-                  </div>
-                </div>
-              </div>
-            </a>
-
-            <!-- Tool 7 -->
-            <a
-              href="herramientas/07_velocidad_erosional_-_eng_esp.html"
-              class="block group"
-            >
-              <div
-                class="bg-surface rounded-lg shadow-md p-6 border-l-4 border-primary transition-all duration-300 transform group-hover:-translate-y-1 group-hover:shadow-xl h-full"
-              >
-                <div class="flex flex-col gap-4">
-                  <div class="flex items-center gap-4">
-                    <div class="bg-primary/10 p-3 rounded-lg text-primary shrink-0">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"
-                        />
-                      </svg>
-                    </div>
-                    <h3
-                      class="text-lg font-bold text-text-primary group-hover:text-primary transition-colors"
-                    >
-                      Velocidad Erosional
-                    </h3>
-                  </div>
-                  <p class="text-sm text-gray-500 leading-relaxed">
-                    Estima la velocidad máxima permisible del flujo en tuberías para prevenir erosión interna, aplicando la metodología del factor C según API RP 14E.
-                  </p>
-                  <div class="flex flex-wrap gap-1.5 mt-1">
-                    <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">API 14E</span>
-                  </div>
-                </div>
-              </div>
-            </a>
-
-            <!-- Tool 8 -->
             <a href="herramientas/08_gas_compression.html" class="block group">
               <div
                 class="bg-surface rounded-lg shadow-md p-6 border-l-4 border-primary transition-all duration-300 transform group-hover:-translate-y-1 group-hover:shadow-xl h-full"
@@ -558,8 +279,11 @@
               </div>
             </a>
 
-            <!-- Tool 9 -->
-            <a href="herramientas/09_tank_volume.html" class="block group">
+            <!-- Tool 2 -->
+            <a
+              href="herramientas/07_velocidad_erosional_-_eng_esp.html"
+              class="block group"
+            >
               <div
                 class="bg-surface rounded-lg shadow-md p-6 border-l-4 border-primary transition-all duration-300 transform group-hover:-translate-y-1 group-hover:shadow-xl h-full"
               >
@@ -577,65 +301,136 @@
                           stroke-linecap="round"
                           stroke-linejoin="round"
                           stroke-width="2"
-                          d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                          d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"
                         />
                       </svg>
                     </div>
                     <h3
                       class="text-lg font-bold text-text-primary group-hover:text-primary transition-colors"
                     >
-                      Volumen de Cisterna
+                      Velocidad Erosional
                     </h3>
                   </div>
                   <p class="text-sm text-gray-500 leading-relaxed">
-                    Calcula el volumen parcial y total de tanques cilíndricos horizontales y verticales en función del nivel de llenado, incluyendo tapas torisféricas y semielípticas.
-                  </p>
-                </div>
-              </div>
-            </a>
-
-            <!-- Tool 10 -->
-            <a href="herramientas/10_z_factor_cnga.html" class="block group">
-              <div
-                class="bg-surface rounded-lg shadow-md p-6 border-l-4 border-primary transition-all duration-300 transform group-hover:-translate-y-1 group-hover:shadow-xl h-full"
-              >
-                <div class="flex flex-col gap-4">
-                  <div class="flex items-center gap-4">
-                    <div class="bg-primary/10 p-3 rounded-lg text-primary shrink-0">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                        />
-                      </svg>
-                    </div>
-                    <h3
-                      class="text-lg font-bold text-text-primary group-hover:text-primary transition-colors"
-                    >
-                      Factor Z (CNGA & Papay)
-                    </h3>
-                  </div>
-                  <p class="text-sm text-gray-500 leading-relaxed">
-                    Calcula el factor de compresibilidad (Z) del gas natural mediante los métodos CNGA y Papay. Incluye cálculo de propiedades pseudo-críticas con correlaciones de Sutton. Esencial para cálculos de flujo, compresión y diseño de gasoductos.
+                    Estima la velocidad máxima permisible del flujo en tuberías para prevenir erosión interna, aplicando la metodología del factor C según API RP 14E.
                   </p>
                   <div class="flex flex-wrap gap-1.5 mt-1">
-                    <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">CNGA</span>
-                    <span class="text-[10px] font-bold text-purple-600 bg-purple-100 px-2 py-0.5 rounded-full">Papay</span>
-                    <span class="text-[10px] font-bold text-secondary bg-secondary/10 px-2 py-0.5 rounded-full">Sutton</span>
+                    <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">API 14E</span>
                   </div>
                 </div>
               </div>
             </a>
 
-            <!-- Tool 11 -->
+            <!-- Tool 5 -->
+            <a href="herramientas/02_asme_b318_calculator.html" class="block group">
+              <div
+                class="bg-surface rounded-lg shadow-md p-6 border-l-4 border-primary transition-all duration-300 transform group-hover:-translate-y-1 group-hover:shadow-xl h-full"
+              >
+                <div class="flex flex-col gap-4">
+                  <div class="flex items-center gap-4">
+                    <div class="bg-primary/10 p-3 rounded-lg text-primary shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                    </div>
+                    <h3
+                      class="text-lg font-bold text-text-primary group-hover:text-primary transition-colors"
+                    >
+                      ASME B31.8 Master
+                    </h3>
+                  </div>
+                  <p class="text-sm text-gray-500 leading-relaxed">
+                    Solucionador unificado para sistemas de tuberías de transmisión y distribución de gas. Calcula espesor de pared, esfuerzo circunferencial (Hoop Stress) y presión máxima de diseño (MAOP) en una única interfaz.
+                  </p>
+                  <div class="flex flex-wrap gap-1.5 mt-1">
+                    <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">ASME B31.8</span>
+                    <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">Unificado</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+
+            <!-- Tool 6 -->
+            <a href="herramientas/13_gas_flow_calculator.html" class="block group">
+              <div
+                class="bg-surface rounded-lg shadow-md p-6 border-l-4 border-primary transition-all duration-300 transform group-hover:-translate-y-1 group-hover:shadow-xl h-full"
+              >
+                <div class="flex flex-col gap-4">
+                  <div class="flex items-center gap-4">
+                    <div class="bg-primary/10 p-3 rounded-lg text-primary shrink-0">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M13 10V3L4 14h7v7l9-11h-7z"
+                        />
+                      </svg>
+                    </div>
+                    <h3
+                      class="text-lg font-bold text-text-primary group-hover:text-primary transition-colors"
+                    >
+                      Natural Gas Flow
+                    </h3>
+                  </div>
+                  <p class="text-sm text-gray-500 leading-relaxed">
+                    Hydraulic sizing of gas pipelines using 6 flow equations: General Flow (Colebrook), AGA, Weymouth, Panhandle A/B, and IGT. Includes erosional velocity verification per API RP 14E and natural gas composition analysis.
+                  </p>
+                  <div class="flex flex-wrap gap-1.5 mt-1">
+                    <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">Panhandle</span>
+                    <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">Weymouth</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+
+            <!-- Tool 7 -->
+            <a href="herramientas/01_mawp_calculator.html" class="block group">
+              <div
+                class="bg-surface rounded-lg shadow-md p-6 border-l-4 border-primary transition-all duration-300 transform group-hover:-translate-y-1 group-hover:shadow-xl h-full"
+              >
+                <div class="flex flex-col gap-4">
+                  <div class="flex items-center gap-4">
+                    <div class="bg-primary/10 p-3 rounded-lg text-primary shrink-0">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                        />
+                      </svg>
+                    </div>
+                    <h3
+                      class="text-lg font-bold text-text-primary group-hover:text-primary transition-colors"
+                    >
+                      Calculadora MAWP
+                    </h3>
+                  </div>
+                  <p class="text-sm text-gray-500 leading-relaxed">
+                    Evalúa la Presión de Trabajo Máxima Permisible en tuberías de acero al carbono, considerando grado del material, diámetro, espesor y factores de diseño.
+                  </p>
+                  <div class="flex flex-wrap gap-1.5 mt-1">
+                    <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">ASME B31.8</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+
+            <!-- Tool 8 -->
             <a href="herramientas/11_line_pack.html" class="block group">
               <div
                 class="bg-surface rounded-lg shadow-md p-6 border-l-4 border-primary transition-all duration-300 transform group-hover:-translate-y-1 group-hover:shadow-xl h-full"
@@ -655,6 +450,127 @@
                   </div>
                   <p class="text-sm text-gray-500 leading-relaxed">
                     Calcula el volumen de gas almacenado dentro de un gasoducto (Line Pack) en condiciones de operación, dato esencial para el balance de red y gestión de inventarios.
+                  </p>
+                  <div class="flex flex-wrap gap-1.5 mt-1">
+                    <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">GPSA</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+
+            <!-- Tool 9 -->
+            <a href="herramientas/03_abaco_compresion_gas.html" class="block group">
+              <div
+                class="bg-surface rounded-lg shadow-md p-6 border-l-4 border-primary transition-all duration-300 transform group-hover:-translate-y-1 group-hover:shadow-xl h-full"
+              >
+                <div class="flex flex-col gap-4">
+                  <div class="flex items-center gap-4">
+                    <div class="bg-primary/10 p-3 rounded-lg text-primary shrink-0">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                    </div>
+                    <h3
+                      class="text-lg font-bold text-text-primary group-hover:text-primary transition-colors"
+                    >
+                      Compression Abacus
+                    </h3>
+                  </div>
+                  <p class="text-sm text-gray-500 leading-relaxed">
+                    Interactive visual tool like a circular slide rule based on GPSA Section 13.1. Estimate BHP/MMSCFD, compression ratio, and number of stages by rotating the pressure discs.
+                  </p>
+                  <div class="flex flex-wrap gap-1.5 mt-1">
+                    <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">GPSA Sec. 13</span>
+                    <span class="text-[10px] font-bold text-purple-600 bg-purple-100 px-2 py-0.5 rounded-full">Interactivo</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+
+            <!-- Tool 10 -->
+            <a
+              href="herramientas/05_flow_std_to_actual.html"
+              class="block group"
+            >
+              <div
+                class="bg-surface rounded-lg shadow-md p-6 border-l-4 border-primary transition-all duration-300 transform group-hover:-translate-y-1 group-hover:shadow-xl h-full"
+              >
+                <div class="flex flex-col gap-4">
+                  <div class="flex items-center gap-4">
+                    <div class="bg-primary/10 p-3 rounded-lg text-primary shrink-0">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
+                        />
+                      </svg>
+                    </div>
+                    <h3
+                      class="text-lg font-bold text-text-primary group-hover:text-primary transition-colors"
+                    >
+                      Flujo Estándar a Actual
+                    </h3>
+                  </div>
+                  <p class="text-sm text-gray-500 leading-relaxed">
+                    Convierte caudales volumétricos de condiciones estándar (14.73 psia, 60 °F) a condiciones reales de operación, aplicando correcciones por presión, temperatura y compresibilidad.
+                  </p>
+                  <div class="flex flex-wrap gap-1.5 mt-1">
+                    <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">GPSA</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+
+            <!-- Tool 11 -->
+            <a href="herramientas/06_gas_properties.html" class="block group">
+              <div
+                class="bg-surface rounded-lg shadow-md p-6 border-l-4 border-primary transition-all duration-300 transform group-hover:-translate-y-1 group-hover:shadow-xl h-full"
+              >
+                <div class="flex flex-col gap-4">
+                  <div class="flex items-center gap-4">
+                    <div class="bg-primary/10 p-3 rounded-lg text-primary shrink-0">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
+                        />
+                      </svg>
+                    </div>
+                    <h3
+                      class="text-lg font-bold text-text-primary group-hover:text-primary transition-colors"
+                    >
+                      Propiedades de Gases
+                    </h3>
+                  </div>
+                  <p class="text-sm text-gray-500 leading-relaxed">
+                    Determina las propiedades termodinámicas clave de mezclas de gas natural — peso molecular, gravedad específica, densidad y capacidades caloríficas — a partir de su composición molar.
                   </p>
                   <div class="flex flex-wrap gap-1.5 mt-1">
                     <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">GPSA</span>
@@ -704,7 +620,7 @@
             </a>
 
             <!-- Tool 13 -->
-            <a href="herramientas/13_gas_flow_calculator.html" class="block group">
+            <a href="herramientas/09_tank_volume.html" class="block group">
               <div
                 class="bg-surface rounded-lg shadow-md p-6 border-l-4 border-primary transition-all duration-300 transform group-hover:-translate-y-1 group-hover:shadow-xl h-full"
               >
@@ -722,29 +638,25 @@
                           stroke-linecap="round"
                           stroke-linejoin="round"
                           stroke-width="2"
-                          d="M13 10V3L4 14h7v7l9-11h-7z"
+                          d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
                         />
                       </svg>
                     </div>
                     <h3
                       class="text-lg font-bold text-text-primary group-hover:text-primary transition-colors"
                     >
-                      Flujo de Gas Natural
+                      Volumen de Cisterna
                     </h3>
                   </div>
                   <p class="text-sm text-gray-500 leading-relaxed">
-                    Dimensionamiento hidráulico de gasoductos con 6 ecuaciones de flujo: General Flow (Colebrook), AGA, Weymouth, Panhandle A/B e IGT. Incluye verificación de velocidad erosional según API RP 14E y análisis de composición de gas natural.
+                    Calcula el volumen parcial y total de tanques cilíndricos horizontales y verticales en función del nivel de llenado, incluyendo tapas torisféricas y semielípticas.
                   </p>
-                  <div class="flex flex-wrap gap-1.5 mt-1">
-                    <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">Panhandle</span>
-                    <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">Weymouth</span>
-                  </div>
                 </div>
               </div>
             </a>
 
-            <!-- Tool 14 -->
-            <a href="herramientas/14_abaco_compresion_gas.html" class="block group">
+            <!-- Tool 03 -->
+            <a href="herramientas/10_z_factor_cnga.html" class="block group">
               <div
                 class="bg-surface rounded-lg shadow-md p-6 border-l-4 border-primary transition-all duration-300 transform group-hover:-translate-y-1 group-hover:shadow-xl h-full"
               >
@@ -762,29 +674,30 @@
                           stroke-linecap="round"
                           stroke-linejoin="round"
                           stroke-width="2"
-                          d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                         />
                       </svg>
                     </div>
                     <h3
                       class="text-lg font-bold text-text-primary group-hover:text-primary transition-colors"
                     >
-                      Ábaco de Compresión
+                      Factor Z (CNGA & Papay)
                     </h3>
                   </div>
                   <p class="text-sm text-gray-500 leading-relaxed">
-                    Herramienta visual interactiva tipo regla de cálculo circular basada en GPSA Section 13.1. Permite estimar BHP/MMSCFD, relación de compresión y número de etapas girando los discos de presión.
+                    Calcula el factor de compresibilidad (Z) del gas natural mediante los métodos CNGA y Papay. Incluye cálculo de propiedades pseudo-críticas con correlaciones de Sutton. Esencial para cálculos de flujo, compresión y diseño de gasoductos.
                   </p>
                   <div class="flex flex-wrap gap-1.5 mt-1">
-                    <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">GPSA Sec. 13</span>
-                    <span class="text-[10px] font-bold text-purple-600 bg-purple-100 px-2 py-0.5 rounded-full">Interactivo</span>
+                    <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">CNGA</span>
+                    <span class="text-[10px] font-bold text-purple-600 bg-purple-100 px-2 py-0.5 rounded-full">Papay</span>
+                    <span class="text-[10px] font-bold text-secondary bg-secondary/10 px-2 py-0.5 rounded-full">Sutton</span>
                   </div>
                 </div>
               </div>
             </a>
 
-            <!-- Tool 15 -->
-            <a href="herramientas/15_blowdown_time.html" class="block group">
+            <!-- Tool 04 -->
+            <a href="herramientas/04_blowdown_time.html" class="block group">
               <div
                 class="bg-surface rounded-lg shadow-md p-6 border-l-4 border-primary transition-all duration-300 transform group-hover:-translate-y-1 group-hover:shadow-xl h-full"
               >

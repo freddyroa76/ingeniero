@@ -111,17 +111,17 @@
       <!-- Breadcrumb -->
       <nav class="flex mb-6 text-xs font-medium text-gray-400" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-2">
-          <li><a href="../index.html" class="hover:text-primary transition-colors">Inicio</a></li>
+          <li><a href="../index.html" class="hover:text-primary transition-colors">Home</a></li>
           <li><span class="mx-2">/</span></li>
-          <li><a href="../herramientas.html" class="hover:text-primary transition-colors">Herramientas</a></li>
+          <li><a href="../herramientas.html" class="hover:text-primary transition-colors">Tools</a></li>
           <li><span class="mx-2">/</span></li>
-          <li class="text-gray-900 font-bold">Flujo de Gas Natural</li>
+          <li class="text-gray-900 font-bold">Natural Gas Flow</li>
         </ol>
       </nav>
 
       <div class="title-box mb-8 relative z-10">
-  <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Dimensionamiento de Líneas de Gas Natural</h1>
-  <p class="text-gray-500 mt-2 text-sm font-medium">Diseño hidráulico de gasoductos según General Flow, AGA, Weymouth, Panhandle &amp; límite API 14E</p>
+  <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Natural Gas Pipeline Sizing</h1>
+  <p class="text-gray-500 mt-2 text-sm font-medium">Hydraulic design of gas pipelines according to General Flow, AGA, Weymouth, Panhandle &amp; API 14E limit</p>
 </div>
 
 <!-- TOP CONTROL BAR -->
@@ -129,7 +129,7 @@
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
     <div class="input-group">
       <label class="font-bold text-gray-700 flex items-center justify-between mb-1">
-        Ecuación de Flujo
+        Flow Equation
         <button type="button" onclick="tgl('eq-help')" class="text-blue-500 hover:text-blue-800 transition-colors focus:outline-none" title="¿Qué ecuación usar?" aria-label="Ayuda selección de ecuación">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
         </button>
@@ -145,12 +145,12 @@
       </select>
     </div>
     <div class="input-group">
-      <label class="font-bold text-gray-700">Modo de Cálculo</label>
+      <label class="font-bold text-gray-700">Calculation Mode</label>
       <select id="calcMode" onchange="updateCalcMode()"
         class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 py-2.5 px-3 bg-white text-gray-900 font-bold cursor-pointer font-mono text-sm">
-        <option value="1">Calcular Caudal Q (dados P₁ y P₂)</option>
-        <option value="2">Calcular Presión entrada P₁ (dados Q y P₂)</option>
-        <option value="3">Calcular Presión salida P₂ (dados Q y P₁)</option>
+        <option value="1">Calculate Flow Rate Q (given P₁ & P₂)</option>
+        <option value="2">Calculate Inlet Pressure P₁ (given Q & P₂)</option>
+        <option value="3">Calculate Outlet Pressure P₂ (given Q & P₁)</option>
       </select>
     </div>
     <!-- Factor C API RP 14E -->
@@ -182,7 +182,7 @@
   <div class="mt-4 border-t border-gray-100 pt-3">
     <button onclick="tgl('eq-help')" class="text-xs font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1">
        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-       Guía de Selección de Ecuaciones
+       Equation Selection Guide
     </button>
     <div id="eq-help" class="hidden mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-[10px] text-gray-600">
       <div class="bg-slate-50 p-2 rounded border border-slate-100 italic">
@@ -215,35 +215,35 @@
     <div class="card">
       <div class="flex justify-between items-center mb-4">
         <div>
-          <h2>Composición del Gas Natural</h2>
-          <p class="text-xs text-gray-500">Fracción Molar (Detección automática de normalización % → 1.0)</p>
+          <h2>Natural Gas Composition</h2>
+          <p class="text-xs text-gray-500">Mole Fraction (Auto-detects % &rarr; 1.0 normalization)</p>
         </div>
         <div class="flex flex-col items-end gap-1">
           <div id="normUI" class="hidden animate-pulse">
-            <button onclick="doNormalize()" class="bg-amber-100 text-amber-700 border border-amber-300 px-3 py-1 rounded text-[10px] font-bold hover:bg-amber-200 uppercase tracking-tight">Normalizar % a 1.0</button>
+            <button onclick="doNormalize()" class="bg-amber-100 text-amber-700 border border-amber-300 px-3 py-1 rounded text-[10px] font-bold hover:bg-amber-200 uppercase tracking-tight">Normalize % to 1.0</button>
           </div>
           <div class="text-sm">
-            Suma: <span id="moleSum" class="font-mono font-bold">0.0000</span>
+            Sum: <span id="moleSum" class="font-mono font-bold">0.0000</span>
             <span id="sumOkBadge" class="hidden ml-1 text-xs text-green-600 font-bold">✓ OK</span>
             <span id="sumBadErr" class="hidden ml-1 text-xs text-red-600 font-bold">✗ Error</span>
           </div>
           <div class="flex gap-2 items-center flex-wrap justify-end">
             <select id="presetGas" onchange="loadTypicalGas(this.value)"
                class="text-xs py-1.5 px-2 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-md font-medium cursor-pointer hover:bg-emerald-100 transition-colors max-w-[140px] md:max-w-none">
-               <option value="" disabled selected>Cargar gas típico...</option>
-               <option value="dulce_seco">Dulce Seco (Típico)</option>
-               <option value="dulce_humedo">Dulce Húmedo (Rico)</option>
-               <option value="acido">Gas Ácido (Sour Gas)</option>
-               <option value="alto_inertes">Alto N₂ / CO₂</option>
+               <option value="" disabled selected>Load typical gas...</option>
+               <option value="dulce_seco">Sweet Dry (Typical)</option>
+               <option value="dulce_humedo">Sweet Wet (Rich)</option>
+               <option value="acido">Acid Gas (Sour Gas)</option>
+               <option value="alto_inertes">High N₂ / CO₂</option>
             </select>
             <button class="text-xs py-1.5 px-3 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-md border border-blue-200 font-medium transition-colors flex items-center gap-1"
-              onclick="pasteComposition()" title="Pegar desde portapapeles">
+              onclick="pasteComposition()" title="Paste from clipboard">
               <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-              Pegar
+              Paste
             </button>
             <button class="text-xs py-1.5 px-3 bg-red-50 text-red-600 hover:bg-red-100 rounded-md border border-red-200 font-medium transition-colors"
               onclick="clearComposition()">
-              Limpiar
+              Clear
             </button>
           </div>
         </div>
@@ -254,10 +254,10 @@
 
       <!-- Calculated gas properties -->
       <div class="mt-4 pt-4 border-t border-gray-100">
-        <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Propiedades Calculadas de la Cromatografía</h3>
+        <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Calculated Component Properties</h3>
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
           <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
-            <div class="text-[10px] text-slate-500 font-bold mb-1">Gravedad Esp. (G)</div>
+            <div class="text-[10px] text-slate-500 font-bold mb-1">Specific Gravity (G)</div>
             <div id="autoG" class="font-mono text-lg font-bold text-slate-800">0.000</div>
           </div>
           <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
@@ -271,7 +271,7 @@
             <div class="text-[9px] text-slate-400">°R</div>
           </div>
           <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
-            <div class="text-[10px] text-slate-500 font-bold mb-1">MW Promedio</div>
+            <div class="text-[10px] text-slate-500 font-bold mb-1">Avg MW</div>
             <div id="autoMW" class="font-mono text-base font-bold text-slate-800">0.00</div>
             <div class="text-[9px] text-slate-400">lb/lbmol</div>
           </div>
@@ -283,12 +283,12 @@
   <!-- RIGHT: OPERATING INPUTS (1 col, sticky) -->
   <div>
     <div class="card sticky top-24">
-      <h2>Datos de Entrada</h2>
+      <h2>Input Data</h2>
       <div class="space-y-4">
 
         <!-- Pipeline Length (FIRST) -->
         <div class="input-group">
-          <label for="Len" class="required font-bold text-gray-700">Longitud del Gasoducto</label>
+          <label for="Len" class="required font-bold text-gray-700">Pipeline Length</label>
           <div class="flex rounded-md shadow-sm border border-gray-300 overflow-hidden focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500">
             <input type="number" id="Len" step="any" required placeholder="ej. 10"
               class="font-mono text-base flex-1 min-w-0 px-3 py-2 border-0 focus:outline-none focus:ring-0"
@@ -306,14 +306,14 @@
           <div class="flex items-center justify-between mb-3">
             <label class="text-xs font-bold text-amber-900 uppercase tracking-wider flex items-center gap-2">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg>
-              Gradiente de Presión
+              Pressure Gradient
             </label>
             <div class="flex items-center gap-3">
-              <span id="gradientStatusLabel" class="text-xs font-semibold text-amber-700 bg-amber-200 px-2 py-1 rounded">Desactivado</span>
+              <span id="gradientStatusLabel" class="text-xs font-semibold text-amber-700 bg-amber-200 px-2 py-1 rounded">Off</span>
               <button type="button" id="gradientToggle" onclick="toggleGradientMode()" 
                 class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
                 style="background-color: #d1d5db;" 
-                title="Activar cálculo automático de P₂ basado en gradiente de presión">
+                title="Activate automatic P₂ calculation based on pressure gradient">
                 <span id="gradientToggleThumb" class="inline-block h-5 w-5 transform rounded-full bg-gray-100 border-2 border-gray-300 shadow-lg transition-transform translate-x-0"></span>
               </button>
             </div>
@@ -343,7 +343,7 @@
 
         <!-- Pressures (SECOND - P1) -->
         <div id="row-P1" class="input-group">
-          <label for="P1" class="required font-bold text-gray-700">Presión Entrada P₁</label>
+          <label for="P1" class="required font-bold text-gray-700">Inlet Pressure P₁</label>
           <div class="flex rounded-md shadow-sm border border-gray-300 overflow-hidden focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500">
             <input type="number" id="P1" step="any" required placeholder="ej. 1000"
               class="font-mono text-base flex-1 min-w-0 px-3 py-2 border-0 focus:outline-none focus:ring-0"
@@ -370,7 +370,7 @@
         <!-- Pressure P2 (THIRD - Manual or Auto-calculated) -->
         <div id="row-P2" class="input-group">
           <div class="flex items-center justify-between mb-1">
-            <label for="P2" class="required font-bold text-gray-700">Presión Salida P₂ <span id="p2u" class="units font-normal text-blue-600">(psia)</span></label>
+            <label for="P2" class="required font-bold text-gray-700">Outlet Pressure P₂ <span id="p2u" class="units font-normal text-blue-600">(psia)</span></label>
             <span id="p2AutoBadge" class="hidden text-[9px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-700 border border-amber-300">
               AUTO
             </span>
@@ -385,7 +385,7 @@
 
         <!-- Flow -->
         <div id="row-Q" class="input-group">
-          <label for="Q" class="required font-bold text-gray-700">Caudal Q</label>
+          <label for="Q" class="required font-bold text-gray-700">Flow Rate Q</label>
           <div class="flex rounded-md shadow-sm border border-gray-300 overflow-hidden focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500">
             <input type="number" id="Q" step="any" required placeholder="ej. 50"
               class="font-mono text-base flex-1 min-w-0 px-3 py-2 border-0 focus:outline-none focus:ring-0"/>
@@ -399,14 +399,14 @@
 
         <!-- Temperature -->
         <div class="input-group">
-          <label for="Tf" class="required font-bold text-gray-700">Temperatura de Flujo <span class="units font-normal">(°F)</span></label>
+          <label for="Tf" class="required font-bold text-gray-700">Flow Temperature <span class="units font-normal">(°F)</span></label>
           <input type="number" id="Tf" step="any" required placeholder="ej. 60"
             class="font-mono text-lg w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"/>
         </div>
 
         <!-- Pipe section -->
         <div class="bg-slate-50 rounded-xl border border-slate-200 p-3">
-          <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Tubería (ASME B36.10)</h3>
+          <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Pipe (ASME B36.10)</h3>
           <div class="grid grid-cols-3 gap-2 mb-2">
             <div class="input-group">
               <label class="text-[10px] font-bold text-gray-600 uppercase">NPS (in)</label>
@@ -458,20 +458,20 @@
           <div class="grid grid-cols-3 gap-2">
             <div class="input-group">
               <div class="flex justify-between items-center mb-1">
-                <label class="text-[10px] font-bold text-gray-600 uppercase">Rugosidad ε (in)</label>
-                <button type="button" onclick="toggleRoughMode()" class="text-blue-500 hover:text-blue-700" title="Cambiar a entrada manual / lista">
+                <label class="text-[10px] font-bold text-gray-600 uppercase">Roughness ε (in)</label>
+                <button type="button" onclick="toggleRoughMode()" class="text-blue-500 hover:text-blue-700" title="Switch to manual input / list">
                   <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
                 </button>
               </div>
               <div class="relative">
                 <select id="rough_sel" onchange="onRoughSelect(this.value)"
-                  class="w-full border border-gray-300 rounded-md py-1.5 px-1 text-[10px] font-bold text-gray-700 bg-white focus:ring-blue-500 cursor-pointer truncate" title="Selecciona una condición típica o introduce un valor">
-                  <option value="" disabled>-- Típica --</option>
-                  <option value="0.0018" selected title="Tubería de acero comercial nueva (0.0018 in)">Acero comercial nueva (0.0018)</option>
-                  <option value="0.0030" title="Tubería de acero usada en buen estado (0.003 in)">Usada en buen estado (0.003)</option>
-                  <option value="0.0100" title="Tubería de acero con corrosión ligera (0.010 in)">Corrosión ligera (0.010)</option>
-                  <option value="0.0300" title="Tubería de acero oxidada con depósitos (0.030 in)">Oxidada con depósitos (0.030)</option>
-                  <option value="custom">Valor manual...</option>
+                  class="w-full border border-gray-300 rounded-md py-1.5 px-1 text-[10px] font-bold text-gray-700 bg-white focus:ring-blue-500 cursor-pointer truncate" title="Select typical condition or input a value">
+                  <option value="" disabled>-- Typical --</option>
+                  <option value="0.0018" selected title="New commercial steel (0.0018 in)">New commercial steel (0.0018)</option>
+                  <option value="0.0030" title="Used in good condition (0.003 in)">Used in good condition (0.003)</option>
+                  <option value="0.0100" title="Light corrosion (0.010 in)">Light corrosion (0.010)</option>
+                  <option value="0.0300" title="Rusted with deposits (0.030 in)">Rusted with deposits (0.030)</option>
+                  <option value="custom">Manual value...</option>
                 </select>
                 <input type="number" id="rough" step="any" placeholder="ej. 0.0007" value="0.0018"
                   class="w-full border border-blue-300 rounded-md py-1 px-2 font-mono text-sm focus:ring-blue-500 hidden bg-blue-50"/>
@@ -479,21 +479,21 @@
             </div>
             <div class="input-group">
               <div class="flex justify-between items-center mb-1">
-                <label class="text-[10px] font-bold text-gray-600 uppercase">Eficiencia E</label>
-                <button type="button" onclick="toggleEMode()" class="text-blue-500 hover:text-blue-700" title="Cambiar a entrada manual / lista">
+                <label class="text-[10px] font-bold text-gray-600 uppercase">Efficiency E</label>
+                <button type="button" onclick="toggleEMode()" class="text-blue-500 hover:text-blue-700" title="Switch to manual input / list">
                   <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
                 </button>
               </div>
               <div class="relative">
                 <select id="E_sel" onchange="onESelect(this.value)"
                   class="w-full border border-gray-300 rounded-md py-1.5 px-1.5 text-[11px] font-bold text-gray-700 bg-white focus:ring-blue-500 cursor-pointer">
-                  <option value="" disabled>-- Típica --</option>
-                  <option value="1.00" title="Sistema ideal matemáticamente perfecto; sin caída por accesorios o depósitos (1.00)">Modelo Teórico (1.00)</option>
-                  <option value="0.95" selected title="Tubería de acero nueva en condiciones óptimas constructivas (0.95)">Estado Óptimo / Nueva (0.95)</option>
-                  <option value="0.92" title="Tubería en operación normal, estado constructivo promedio con curvas típicas (0.92)">Operación Normal (0.92)</option>
-                  <option value="0.85" title="Tubería con operación prolongada, deterioro moderado, o presencia ligera de depósitos (0.85)">Deterioro Moderado (0.85)</option>
-                  <option value="0.75" title="Servicio severo, corrosión alta, o baches sustanciales de líquidos u holdup (0.75)">Servicio Severo (0.75)</option>
-                  <option value="custom">Valor manual...</option>
+                  <option value="" disabled>-- Typical --</option>
+                  <option value="1.00" title="Ideal perfect mathematical system; no pressure drop from fittings or deposits (1.00)">Theoretical Model (1.00)</option>
+                  <option value="0.95" selected title="New steel pipe in optimal conditions (0.95)">Optimal / New (0.95)</option>
+                  <option value="0.92" title="Normal operation, average condition with typical bends (0.92)">Normal Operation (0.92)</option>
+                  <option value="0.85" title="Prolonged operation, moderate deterioration, or slight scale presence (0.85)">Moderate Deterioration (0.85)</option>
+                  <option value="0.75" title="Severe service, high corrosion, or substantial liquid holdup (0.75)">Severe Service (0.75)</option>
+                  <option value="custom">Manual value...</option>
                 </select>
                 <input type="number" id="E" step="0.01" min="0.3" max="1.0" value="0.95" placeholder="ej. 0.95"
                   class="w-full border border-blue-300 rounded-md py-1 px-2 font-mono text-sm focus:ring-blue-500 hidden bg-blue-50"/>
@@ -537,7 +537,7 @@
         <button onclick="doCalc()"
           class="w-full bg-primary text-accent hover:bg-slate-700 font-bold py-3.5 px-6 rounded-xl shadow-lg transition-all duration-200 flex items-center justify-center gap-2 active:scale-95">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-          Calcular
+          Calculate
         </button>
       </div>
     </div>
@@ -550,17 +550,17 @@
     <div>
       <h2 class="flex items-center gap-2">
         <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-        Resultados del Cálculo
+        Calculation Results
       </h2>
       <p id="res-mtd" class="text-sm text-blue-600 font-semibold mt-1">— General Flow</p>
     </div>
     <button onclick="window.print()" class="text-sm font-medium text-blue-600 hover:text-blue-800 flex items-center gap-2 transition-colors print:hidden">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
-      Imprimir
+      Print
     </button>
   </div>
 
-  <h3 id="res-title" class="text-lg font-bold text-gray-800 mb-4">Caudal Calculado</h3>
+  <h3 id="res-title" class="text-lg font-bold text-gray-800 mb-4">Calculated Variable</h3>
 
   <!-- Key Results Grid -->
   <div id="res-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -571,13 +571,13 @@
   <div id="ve-alert" class="mb-6"></div>
 
   <!-- Comparison Table -->
-  <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Comparación de Ecuaciones de Flujo</h3>
+  <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Flow Equations Comparison</h3>
   <div class="overflow-x-auto rounded-xl border border-slate-200 mb-6">
     <table class="w-full text-left text-xs md:text-sm whitespace-nowrap">
       <thead>
         <tr class="bg-slate-100 text-slate-700">
-          <th class="px-4 py-3 font-semibold border-b">Ecuación</th>
-          <th id="cmp-col-hdr" class="px-4 py-3 font-semibold border-b">Variable (Unidad)</th>
+          <th class="px-4 py-3 font-semibold border-b">Equation</th>
+          <th id="cmp-col-hdr" class="px-4 py-3 font-semibold border-b">Variable (Unit)</th>
           <th class="px-4 py-3 font-semibold border-b">f (Darcy)</th>
           <th class="px-4 py-3 font-semibold border-b">F Transm.</th>
           <th class="px-4 py-3 font-semibold border-b">% vs Ref.</th>
@@ -798,7 +798,7 @@ function toggleGradientMode(){
     toggle.style.backgroundColor = '#008F4C';
     thumb.style.transform = 'translate-x-5';
     inputs.classList.remove('hidden');
-    label.textContent = 'Activado';
+    label.textContent = 'On';
     label.classList.remove('text-gray-500');
     label.classList.add('text-green-600');
     p2Badge.classList.remove('hidden');
@@ -812,7 +812,7 @@ function toggleGradientMode(){
     toggle.style.backgroundColor = '#d1d5db';
     thumb.style.transform = 'translate-x-0';
     inputs.classList.add('hidden');
-    label.textContent = 'Desactivado';
+    label.textContent = 'Off';
     label.classList.add('text-gray-500');
     label.classList.remove('text-green-600');
     p2Badge.classList.add('hidden');
@@ -858,7 +858,7 @@ function onP2ManualInput(){
   if(GradientMode && P2LockedByGradient){
     // Update the info text to show manual override
     const p2CalcInfo = document.getElementById('p2CalcInfo');
-    p2CalcInfo.textContent = 'Valor manual (desactivar gradiente para usar valor calculado)';
+    p2CalcInfo.textContent = 'Manual value (disable gradient to use calculated value)';
     p2CalcInfo.classList.add('text-amber-600');
     p2CalcInfo.classList.remove('text-gray-500');
   }
@@ -894,7 +894,7 @@ function recalculateP2FromGradient(){
   const p2CalcInfo = document.getElementById('p2CalcInfo');
   const gradientInfo = document.getElementById('gradientInfo');
   
-  p2CalcInfo.textContent = `P₂ = ${P2_display.toFixed(2)} ${pu} (calculado desde P₁ y gradiente)`;
+  p2CalcInfo.textContent = `P₂ = ${P2_display.toFixed(2)} ${pu} (calculated from P₁ and gradient)`;
   p2CalcInfo.classList.remove('text-amber-600');
   p2CalcInfo.classList.add('text-gray-500');
   
@@ -1170,10 +1170,10 @@ function doCalc(){
     // Get gas properties from composition
     const gasProps = getGasProperties();
     if(Math.abs(gasProps.sum - 1.0) > 0.005){
-      err('La suma de la composición del gas debe ser 1.000 ±0.005 (actual: ' + gasProps.sum.toFixed(6) + '). Use el panel izquierdo para ingresar la composición.');
+      err('Gas composition sum must be 1.000 ±0.005 (actual: ' + gasProps.sum.toFixed(6) + '). Use the left panel to input composition.');
       return;
     }
-    Grav   = gasProps.SG;  // Gravedad específica calculada de cromatografía
+    Grav   = gasProps.SG;  // SG calculated from chromatography
     Tf_R   = toF(parseFloat(document.getElementById('Tf').value),tu)+459.67;
     const C_const = getC();
     const eD = rough/ID;
@@ -1181,16 +1181,16 @@ function doCalc(){
     // Wichert-Aziz se aplica internamente en updateShared() usando gasProps
 
     // ---- VALIDATE ----
-    if(ID<=0)         {err('ID debe ser positivo.');return;}
-    if(L_SI<=0)       {err('Longitud debe ser positiva.');return;}
-    if(E_pipe<=0||E_pipe>1){err('Eficiencia E debe estar entre 0 y 1.');return;}
-    if(Grav<=0)       {err('Gravedad específica debe ser positiva.');return;}
+    if(ID<=0)         {err('ID must be positive.');return;}
+    if(L_SI<=0)       {err('Length must be positive.');return;}
+    if(E_pipe<=0||E_pipe>1){err('Efficiency E must be between 0 and 1.');return;}
+    if(Grav<=0)       {err('Specific gravity must be positive.');return;}
 
     // ---- VALIDATE RANGES ----
-    if(ID<=0)           {err('ID debe ser positivo.');return;}
-    if(L_SI<=0)         {err('Longitud debe ser positiva.');return;}
-    if(E_pipe<=0||E_pipe>1){err('Eficiencia E debe estar entre 0 y 1.');return;}
-    if(Grav<=0)         {err('Gravedad específica inválida. Revise la composición del gas.');return;}
+    if(ID<=0)           {err('ID must be positive.');return;}
+    if(L_SI<=0)         {err('Length must be positive.');return;}
+    if(E_pipe<=0||E_pipe>1){err('Efficiency E must be between 0 and 1.');return;}
+    if(Grav<=0)         {err('Invalid specific gravity. Check gas composition.');return;}
 
     const p1v=parseFloat(document.getElementById('P1').value);
     const p2v=parseFloat(document.getElementById('P2').value);
@@ -1229,7 +1229,7 @@ function doCalc(){
       if(!GradientMode){
         P2_SI = toPSIA(p2v, pu);
       }
-      if(P1_SI<=P2_SI){err('P₁ debe ser mayor que P₂ para flujo positivo.');return;}
+      if(P1_SI<=P2_SI){err('P₁ must be greater than P₂ for positive flow.');return;}
       Q_SI=100e6; // initial guess SCFD
     } else if(CalcType===2){
       if(!GradientMode){
@@ -1280,7 +1280,7 @@ function doCalc(){
         P1_SI = step.P1;
       } else {
         if(isNaN(step.P2) || step.P2 <= 0){
-          err('Caudal excesivo: la caída de presión supera la presión de entrada disponible para el modelo '+methodNames[EqType-1]+'.');
+          err('Excessive flow: pressure drop exceeds available inlet pressure for '+methodNames[EqType-1]+' model.');
           return;
         }
         P2_SI = step.P2;
@@ -1340,12 +1340,12 @@ function doCalc(){
     const methodNames=['General Flow','AGA','Weymouth','Panhandle A','Panhandle B','IGT'];
 
     let title='',solLbl='',solVal='',solUnit='';
-    if(CalcType===1){title='Caudal calculado';solLbl='Caudal Q';solVal=n2f(fromMMSCFD(mainSol,qu),2);solUnit=qu;}
-    else if(CalcType===2){title='Presión de entrada calculada';solLbl='P₁';solVal=n2f(fromPSIA(mainSol,pu),2);solUnit=pu;}
-    else{title='Presión de salida calculada';solLbl='P₂';solVal=n2f(fromPSIA(mainSol,pu),2);solUnit=pu;}
+    if(CalcType===1){title='Calculated Rate';solLbl='Flow Rate Q';solVal=n2f(fromMMSCFD(mainSol,qu),2);solUnit=qu;}
+    else if(CalcType===2){title='Calculated Inlet Pressure';solLbl='P₁';solVal=n2f(fromPSIA(mainSol,pu),2);solUnit=pu;}
+    else{title='Calculated Outlet Pressure';solLbl='P₂';solVal=n2f(fromPSIA(mainSol,pu),2);solUnit=pu;}
 
     const badgeColor = vr>100?'bg-red-100 text-red-800 border-red-200':vr>80?'bg-amber-100 text-amber-800 border-amber-200':'bg-green-100 text-green-800 border-green-200';
-    const veBadge=`<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold border ${badgeColor}">${vr>100?'⚠ SUPERA Ve':vr>80?'⚠ Cerca de Ve':'✓ OK'} (${n2f(vr,1)}%)</span>`;
+    const veBadge=`<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold border ${badgeColor}">${vr>100?'⚠ EXCEEDS Ve':vr>80?'⚠ Near Ve':'✓ OK'} (${n2f(vr,1)}%)</span>`;
 
     const itemStart = '<div class="bg-white border border-slate-200 rounded-lg p-4 shadow-sm relative overflow-hidden col-span-1">';
     const itemHi    = '<div class="bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg p-4 text-white shadow-md relative overflow-hidden flex flex-col justify-between h-32 col-span-2 md:col-span-1">';
@@ -1359,16 +1359,16 @@ function doCalc(){
         <div class="text-3xl font-bold font-mono tracking-tight text-white">${solVal} <span class="text-sm font-sans text-blue-200">${solUnit}</span></div>
         <div class="text-xs text-blue-200 mt-2 z-10 relative">${methodNames[EqType-1]}</div>
       </div>
-      ${itemStart}<div class="${lblClass}">ID Interno</div><div class="${valClass}">${n2f(ID,3)} <span class="text-[11px] font-sans text-slate-500">in</span></div></div>
-      ${itemStart}<div class="${lblClass}">P<sub>avg</sub> (media)</div><div class="${valClass}">${n2f(fromPSIA(Pavg,pu),2)} <span class="text-[11px] font-sans text-slate-500">${pu}</span></div></div>
-      ${itemStart}<div class="${lblClass}"> Factor Z <span class="lowercase">(@P<sub>avg</sub>)</span></div><div class="${valClass}">${n2f(Zavg,4)}</div></div>
+      ${itemStart}<div class="${lblClass}">Internal ID</div><div class="${valClass}">${n2f(ID,3)} <span class="text-[11px] font-sans text-slate-500">in</span></div></div>
+      ${itemStart}<div class="${lblClass}">P<sub>avg</sub> (mean)</div><div class="${valClass}">${n2f(fromPSIA(Pavg,pu),2)} <span class="text-[11px] font-sans text-slate-500">${pu}</span></div></div>
+      ${itemStart}<div class="${lblClass}"> Z Factor <span class="lowercase">(@P<sub>avg</sub>)</span></div><div class="${valClass}">${n2f(Zavg,4)}</div></div>
       ${itemStart}<div class="${lblClass}">L<sub>eq</sub></div><div class="${valClass}">${n2f(Le,4)} <span class="text-[11px] font-sans text-slate-500">mi</span></div></div>
-      ${itemStart}<div class="${lblClass}">Factor Fricción f</div><div class="${valClass}">${n2f(f_disp,5)}</div></div>
-      ${itemStart}<div class="${lblClass}">Factor Transmisión F</div><div class="${valClass}">${n2f(F_disp,4)}</div></div>
+      ${itemStart}<div class="${lblClass}">Friction Factor f</div><div class="${valClass}">${n2f(f_disp,5)}</div></div>
+      ${itemStart}<div class="${lblClass}">Transmission Factor F</div><div class="${valClass}">${n2f(F_disp,4)}</div></div>
       ${itemStart}<div class="${lblClass}">Reynolds</div><div class="${valClass}">${nInt(Re_f)}</div></div>
-      ${itemStart}<div class="${lblClass}">Viscosidad μ</div><div class="${valClass}">${n2f(ViscAvg,5)} <span class="text-[11px] font-sans text-slate-500">cP</span></div></div>
-      ${itemStart}<div class="${lblClass}">Vel. entrada v₁</div><div class="${valClass}">${n2f(v1,1)} <span class="text-[11px] font-sans text-slate-500">ft/s</span></div></div>
-      ${itemStart}<div class="${lblClass}">Vel. salida v₂</div><div class="${valClass}">${n2f(v2,1)} <span class="text-[11px] font-sans text-slate-500">ft/s</span></div></div>
+      ${itemStart}<div class="${lblClass}">Viscosity μ</div><div class="${valClass}">${n2f(ViscAvg,5)} <span class="text-[11px] font-sans text-slate-500">cP</span></div></div>
+      ${itemStart}<div class="${lblClass}">Inlet vel. v₁</div><div class="${valClass}">${n2f(v1,1)} <span class="text-[11px] font-sans text-slate-500">ft/s</span></div></div>
+      ${itemStart}<div class="${lblClass}">Outlet vel. v₂</div><div class="${valClass}">${n2f(v2,1)} <span class="text-[11px] font-sans text-slate-500">ft/s</span></div></div>
       <div class="bg-gray-50 border rounded-lg p-4 shadow-sm relative overflow-hidden col-span-2 md:col-span-1 lg:col-span-2 border-l-4 ${vr>100?'bg-red-50 border-red-200 border-l-red-500':vr>80?'bg-amber-50 border-amber-200 border-l-amber-500':'bg-green-50 border-green-200 border-l-green-500'}">
         <div class="${lblClass}">V<sub>e</sub> Erosional (C=${C_const})</div>
         <div class="${valClass}">${n2f(ve,1)} <span class="text-[11px] font-sans text-slate-500">ft/s</span></div>
@@ -1376,8 +1376,8 @@ function doCalc(){
       </div>`;
 
     const va=document.getElementById('ve-alert');
-    if(vr>100) va.innerHTML=`<div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg shadow-sm"><div class="flex"><div class="flex-shrink-0 mt-0.5"><svg class="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 21a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" /></svg></div><div class="ml-3"><h3 class="text-sm font-bold text-red-800">ALERTA EROSIÓN: Velocidad máxima supera V<sub>e</sub></h3><p class="text-sm text-red-700 mt-1">La velocidad máxima (${n2f(vmax,1)} ft/s) supera la tolerancia de diseño V<sub>e</sub> = ${n2f(ve,1)} ft/s calculada según modelo API RP 14E. Considere incrementar diámetro o atenuar el flujo operativo.</p></div></div></div>`;
-    else if(vr>80) va.innerHTML=`<div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg shadow-sm"><div class="flex"><div class="flex-shrink-0 mt-0.5"><svg class="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" /></svg></div><div class="ml-3"><h3 class="text-sm font-bold text-amber-800">Advertencia de Velocidad</code> <code>(${n2f(vr,1)}% de V<sub>e</sub>)</h3><p class="text-sm text-amber-700 mt-1">La velocidad máxima ${n2f(vmax,1)} ft/s se encuentra cerca del umbolo de erosión. Verificar con análisis integral.</p></div></div></div>`;
+    if(vr>100) va.innerHTML=`<div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg shadow-sm"><div class="flex"><div class="flex-shrink-0 mt-0.5"><svg class="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 21a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" /></svg></div><div class="ml-3"><h3 class="text-sm font-bold text-red-800">EROSION ALERT: Maximum velocity exceeds V<sub>e</sub></h3><p class="text-sm text-red-700 mt-1">Maximum velocity (${n2f(vmax,1)} ft/s) exceeds the design tolerance V<sub>e</sub> = ${n2f(ve,1)} ft/s calculated by API RP 14E. Consider increasing diameter or lowering flow.</p></div></div></div>`;
+    else if(vr>80) va.innerHTML=`<div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg shadow-sm"><div class="flex"><div class="flex-shrink-0 mt-0.5"><svg class="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" /></svg></div><div class="ml-3"><h3 class="text-sm font-bold text-amber-800">Velocity Warning (${n2f(vr,1)}% of V<sub>e</sub>)</h3><p class="text-sm text-amber-700 mt-1">Maximum velocity ${n2f(vmax,1)} ft/s is near the erosional threshold. Verify with detailed analysis.</p></div></div></div>`;
     else va.innerHTML='';
 
     // Comparison table
@@ -1395,7 +1395,7 @@ function doCalc(){
       const vcls=vrm>100?'ve-danger':vrm>80?'ve-warn':'ve-ok';
       const diff=m===1?null:(sol-s1)/Math.abs(s1)*100;
       const fm=fArr[m], Fm=2/Math.sqrt(fm);
-      const warnWey=m===3&&ID>12?' <span title="Weymouth: fuera de rango para D>12 in" style="color:var(--amber)">⚠</span>':'';
+      const warnWey=m===3&&ID>12?' <span title="Weymouth: out of range for D>12 in" style="color:var(--amber)">⚠</span>':'';
       const solDisp=CalcType===1?n2f(fromMMSCFD(sol,qu),2)+' '+qu:n2f(fromPSIA(sol,pu),2)+' '+pu;
       const activeCls = m===EqType ? 'bg-blue-50 font-bold text-blue-900 border-l-2 border-blue-500' : 'hover:bg-slate-50 transition-colors';
       const tdiff = diff===null ? '—' : (diff>=0?'+'+n2f(diff,1):n2f(diff,1))+'%';
@@ -1412,8 +1412,8 @@ function doCalc(){
     }
 
     // Notes
-    const znames=['DAK EOS','CNGA','Usuario'];
-    const vnames=['Lee-Gonzalez-Eakin','Usuario'];
+    const znames=['DAK EOS','CNGA','User'];
+    const vnames=['Lee-Gonzalez-Eakin','User'];
     
     // Gradient mode info for notes
     let gradientNote = '';
@@ -1423,14 +1423,14 @@ function doCalc(){
       const p1_display = fromPSIA(p1_disp, pu);
       const p2_display = fromPSIA(P2_disp, pu);
       const pressureDrop = p1_display - p2_display;
-      gradientNote = `<span class="text-amber-700 font-semibold">📐 Gradiente activo: P₂ = ${n2f(p1_display,1)} - (${n2f(gradient_psig_mile,2)} psig/mi × ${n2f(Le,2)} mi) = ${n2f(p2_display,1)} ${pu}.</span>  `;
+      gradientNote = `<span class="text-amber-700 font-semibold">📐 Active gradient: P₂ = ${n2f(p1_display,1)} - (${n2f(gradient_psig_mile,2)} psig/mi × ${n2f(Le,2)} mi) = ${n2f(p2_display,1)} ${pu}.</span>  `;
     }
     
     document.getElementById('res-notes').innerHTML=
-      `<strong>Notas:</strong> `+
+      `<strong>Notes:</strong> `+
       gradientNote +
-      (ID>12?`<span style="color:var(--amber)">⚠ Weymouth diseñado para D≤12 in — puede subestimar capacidad hasta 12%.</span>  `:'')+
-      `V<sub>e</sub> evaluada a P₂ = ${n2f(fromPSIA(P2_disp,pu),1)} ${pu} (presión mínima = velocidad máxima). `+
+      (ID>12?`<span style="color:var(--amber)">⚠ Weymouth designed for D≤12 in — may underestimate capacity up to 12%.</span>  `:'')+
+      `V<sub>e</sub> evaluated at P₂ = ${n2f(fromPSIA(P2_disp,pu),1)} ${pu} (minimum pressure = maximum velocity). `+
       `C = ${C_const} (API RP 14E §2.4). Z: ${znames[parseInt(document.getElementById('ZTyp').value)-1]}. `+
       `μ: ${vnames[parseInt(document.getElementById('VTyp').value)-1]}.`;
 
@@ -1603,7 +1603,7 @@ function syncTUnits(){
 function loadSch(){
   const nps=document.getElementById('NPS').value;
   const sch=document.getElementById('SCH');
-  sch.innerHTML='<option value="">Selecciona Schedule</option>';
+  sch.innerHTML='<option value="">Select Schedule</option>';
   const p=PD[nps]; 
   if(!p) {
     document.getElementById('IDinp').value = '';
@@ -1789,7 +1789,7 @@ function initComposition() {
     header.style.gridTemplateColumns = "70px 1fr 110px 44px";
     header.innerHTML = `
         <div class="text-left pl-1">Formula</div>
-        <div class="text-left">Nombre</div>
+        <div class="text-left">Name</div>
         <div class="text-right pr-1">Mole Fr.</div>
         <div class="text-center">MW</div>
     `;
@@ -1929,7 +1929,7 @@ function appInit(){
   if(thumb) thumb.style.transform = 'translate-x-0';
   if(inputs) inputs.classList.add('hidden');
   if(label){
-    label.textContent = 'Desactivado';
+    label.textContent = 'Off';
     label.classList.add('text-gray-500');
     label.classList.remove('text-green-600');
   }

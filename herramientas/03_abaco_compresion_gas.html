@@ -6,8 +6,8 @@
     <meta name="theme-color" content="#0F172A" />
     <meta name="robots" content="index, follow" />
     <meta name="author" content="Freddy Roa Monsalvo" />
-    <meta name="description" content="Ábaco interactivo de compresión de gas basado en GPSA Section 13. Calcule BHP/MMSCFD, relación de compresión y etapas requeridas de forma visual e intuitiva." />
-    <title>Ábaco de Compresión de Gas - GPSA Sec 13 | Ing. Freddy Roa</title>
+    <meta name="description" content="Interactive gas compression abacus based on GPSA Section 13. Estimate BHP/MMSCFD, compression ratio, and required stages visually and intuitively." />
+    <title>Gas Compression Abacus - GPSA Sec 13 | Eng. Freddy Roa</title>
     <link rel="icon" type="image/x-icon" href="../images/logos/favicon.ico">
     <!-- Professional Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -224,20 +224,20 @@
       <!-- Breadcrumb -->
       <nav class="flex mb-6 text-xs font-medium text-gray-400 uppercase-none" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-2">
-          <li><a href="../index.html" class="text-gray-600 hover:text-primary transition-colors">Inicio</a></li>
+          <li><a href="../index.html" class="text-gray-600 hover:text-primary transition-colors">Home</a></li>
           <li><span class="mx-2 text-gray-300">/</span></li>
-          <li><a href="../herramientas.html" class="text-gray-600 hover:text-primary transition-colors">Herramientas</a></li>
+          <li><a href="../herramientas.html" class="text-gray-600 hover:text-primary transition-colors">Tools</a></li>
           <li><span class="mx-2 text-gray-300">/</span></li>
-          <li class="text-gray-900 font-bold">&Aacute;baco de Compresi&oacute;n</li>
+          <li class="text-gray-900 font-bold">Compression Abacus</li>
         </ol>
       </nav>
 
       <div class="title-box mb-8 relative z-10">
         <h1 class="text-3xl font-bold text-gray-900 tracking-tight">
-            &Aacute;baco de Compresi&oacute;n de Gas
+            Gas Compression Abacus
         </h1>
         <p class="text-gray-100 mt-2 text-sm font-medium">
-            Herramienta visual interactiva basada en GPSA Section 13.1 &mdash; Gire los discos o ingrese presiones para estimar BHP/MMSCFD.
+            Interactive visual tool based on GPSA Section 13.1 &mdash; Rotate discs or input pressures to estimate BHP/MMSCFD.
         </p>
       </div>
 
@@ -250,12 +250,15 @@
                 <div class="flex justify-between items-center mb-4">
                     <div>
                         <h2 class="text-lg font-bold text-gray-800 mb-0">Compression Abacus</h2>
-                        <p class="text-xs text-gray-500">Gire el disco interior (succi&oacute;n) o exterior (descarga) para alinear presiones</p>
+                        <p class="text-xs text-gray-500">Rotate the inner disc (suction) or outer disc (discharge) to align pressures</p>
                     </div>
                 </div>
 
                 <div class="abacus-wrapper" id="wrap">
-                    <svg class="pointer-arrow" width="30" height="40" viewBox="0 0 30 40">
+                    <svg class="pointer-arrow" width="30" height="160" viewBox="0 0 30 160">
+                        <!-- Linea delgada de alineación manual -->
+                        <line x1="15" y1="40" x2="15" y2="160" stroke="#D4E157" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.75"/>
+                        <!-- Triangulo apuntador principal -->
                         <polygon points="15,40 0,0 30,0" fill="#D4E157" stroke="#0F172A" stroke-width="2"/>
                     </svg>
 
@@ -299,7 +302,7 @@
                     </svg>
 
                     <div class="result-panel">
-                        <div class="res-label">Aprox. Requerido</div>
+                        <div class="res-label">Approx. Required</div>
                         <div class="res-value" id="val-bhp">--</div>
                         <div class="res-unit">HP / MMSCF/D</div>
                         <div class="res-divider"></div>
@@ -311,15 +314,15 @@
                 <!-- Dashboard below the abacus -->
                 <div class="dashboard">
                     <div class="dash-item">
-                        <div class="dash-label">Succi&oacute;n</div>
+                        <div class="dash-label">Suction</div>
                         <div class="dash-val"><input type="number" id="input-ps" class="dash-input" min="0" max="1000"> <span style="font-size:0.5em;color:#888">psig</span></div>
                     </div>
                     <div class="dash-item">
-                        <div class="dash-label">Descarga</div>
+                        <div class="dash-label">Discharge</div>
                         <div class="dash-val"><input type="number" id="input-pd" class="dash-input" min="0" max="4000"> <span style="font-size:0.5em;color:#888">psig</span></div>
                     </div>
                     <div class="dash-item">
-                        <div class="dash-label">Relaci&oacute;n (CR)</div>
+                        <div class="dash-label">Ratio (CR)</div>
                         <div class="dash-val" id="dash-cr" style="margin-top: 5px;">--</div>
                     </div>
                 </div>
@@ -332,20 +335,20 @@
             <div class="card">
                 <h2 class="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
                     <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    C&oacute;mo Usar
+                    How to Use
                 </h2>
                 <div class="space-y-3 text-sm text-gray-600">
                     <div class="flex items-start gap-3">
                         <span class="flex-shrink-0 w-6 h-6 rounded-full bg-[#0F172A] text-[#D4E157] text-xs font-bold flex items-center justify-center">1</span>
-                        <p><strong>Arrastre el disco exterior</strong> para ajustar la presi&oacute;n de descarga, o el <strong>disco interior</strong> para la presi&oacute;n de succi&oacute;n.</p>
+                        <p><strong>Drag the outer disc</strong> to adjust discharge pressure, or the <strong>inner disc</strong> for suction pressure.</p>
                     </div>
                     <div class="flex items-start gap-3">
                         <span class="flex-shrink-0 w-6 h-6 rounded-full bg-[#0F172A] text-[#D4E157] text-xs font-bold flex items-center justify-center">2</span>
-                        <p>Tambi&eacute;n puede <strong>digitar las presiones</strong> directamente en los campos inferiores.</p>
+                        <p>You can also <strong>type the pressures</strong> directly into the inputs below.</p>
                     </div>
                     <div class="flex items-start gap-3">
                         <span class="flex-shrink-0 w-6 h-6 rounded-full bg-[#0F172A] text-[#D4E157] text-xs font-bold flex items-center justify-center">3</span>
-                        <p>Los resultados se muestran en el <strong>panel central</strong>: BHP/MMSCFD, relaci&oacute;n de compresi&oacute;n y n&uacute;mero de etapas.</p>
+                        <p>Results are shown in the <strong>center panel</strong>: BHP/MMSCFD, compression ratio, and number of stages.</p>
                     </div>
                 </div>
             </div>
@@ -354,35 +357,35 @@
             <div class="card">
                 <h2 class="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
                     <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                    Referencia T&eacute;cnica
+                    Technical Reference
                 </h2>
                 <div class="space-y-0 text-sm">
                     <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                        <span class="text-gray-600 font-medium">Norma</span>
+                        <span class="text-gray-600 font-medium">Standard</span>
                         <span class="font-bold text-gray-800">GPSA Sec. 13.1</span>
                     </div>
                     <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                        <span class="text-gray-600 font-medium">P. Atmosf&eacute;rica</span>
+                        <span class="text-gray-600 font-medium">Atm. Pressure</span>
                         <span class="font-bold text-gray-800 font-mono">14.65 psia</span>
                     </div>
                     <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                        <span class="text-gray-600 font-medium">Grav. Espec&iacute;fica</span>
+                        <span class="text-gray-600 font-medium">Specific Gravity</span>
                         <span class="font-bold text-gray-800 font-mono">0.65</span>
                     </div>
                     <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                        <span class="text-gray-600 font-medium">Expo. Isent. (N)</span>
+                        <span class="text-gray-600 font-medium">Isent. Exp. (N)</span>
                         <span class="font-bold text-gray-800 font-mono">1.26</span>
                     </div>
                     <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                        <span class="text-gray-600 font-medium">T. Succi&oacute;n</span>
+                        <span class="text-gray-600 font-medium">Suction Temp</span>
                         <span class="font-bold text-gray-800 font-mono">80&deg;F</span>
                     </div>
                     <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                        <span class="text-gray-600 font-medium">T. Interetapa</span>
+                        <span class="text-gray-600 font-medium">Interstage Temp</span>
                         <span class="font-bold text-gray-800 font-mono">120&deg;F</span>
                     </div>
                     <div class="flex justify-between items-center py-2">
-                        <span class="text-gray-600 font-medium">CR M&aacute;x./Etapa</span>
+                        <span class="text-gray-600 font-medium">Max CR/Stage</span>
                         <span class="font-bold text-gray-800 font-mono">3.8</span>
                     </div>
                 </div>
@@ -392,10 +395,10 @@
             <div class="info-card">
                 <h3 class="text-sm font-bold text-blue-800 mb-2 flex items-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-                    F&oacute;rmula
+                    Formula
                 </h3>
                 <p class="text-xs text-blue-700 leading-relaxed">
-                    BHP/MMSCFD se calcula mediante la ecuaci&oacute;n isent&oacute;pica de GPSA con eficiencia del compresor de 77.5%. El n&uacute;mero de etapas se determina autom&aacute;ticamente cuando CR &gt; 3.8.
+                    BHP/MMSCFD is calculated using the GPSA isentropic equation with a compressor efficiency of 77.5%. The number of stages is automatically determined when CR &gt; 3.8.
                 </p>
             </div>
         </div>
@@ -797,9 +800,7 @@
             
             document.getElementById('val-bhp').textContent = r.bhp > 0 ? Math.round(r.bhp) : '--';
             document.getElementById('val-cr').textContent = 'CR: ' + r.cr.toFixed(2);
-            document.getElementById('val-stages').textContent = 
-                r.stages === 1 ? 'UNA ETAPA' : 
-                (r.stages === 2 ? 'DOS ETAPAS' : 'TRES ETAPAS');
+            document.getElementById('val-stages').textContent = r.stages + (r.stages === 1 ? ' stage' : ' stages');
             
             if (document.activeElement !== inputPs) inputPs.value = Math.round(Ps);
             if (document.activeElement !== inputPd) inputPd.value = Math.round(Pd);

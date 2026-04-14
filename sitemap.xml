@@ -19,32 +19,16 @@
 
   <!-- Herramienta: Calculadora MAWP -->
   <url>
-    <loc>https://freddyroa76.github.io/ingeniero/herramientas/00_mawp_calculator.html</loc>
-    <lastmod>2026-03-03</lastmod>
+    <loc>https://freddyroa76.github.io/ingeniero/herramientas/01_mawp_calculator.html</loc>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Herramienta: Espesores de Tubería -->
+  <!-- Herramienta: ASME B31.8 Master -->
   <url>
-    <loc>https://freddyroa76.github.io/ingeniero/herramientas/01_pipe_thickness.html</loc>
-    <lastmod>2026-03-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Herramienta: Esfuerzo Circunferencial -->
-  <url>
-    <loc>https://freddyroa76.github.io/ingeniero/herramientas/02_hoop_stress.html</loc>
-    <lastmod>2026-03-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Herramienta: Presión Máxima de Diseño -->
-  <url>
-    <loc>https://freddyroa76.github.io/ingeniero/herramientas/03_max_design_pressure.html</loc>
-    <lastmod>2026-03-03</lastmod>
+    <loc>https://freddyroa76.github.io/ingeniero/herramientas/02_asme_b318_calculator.html</loc>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -117,6 +101,22 @@
   <url>
     <loc>https://freddyroa76.github.io/ingeniero/herramientas/13_gas_flow_calculator.html</loc>
     <lastmod>2026-03-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Herramienta: Ábaco de Compresión -->
+  <url>
+    <loc>https://freddyroa76.github.io/ingeniero/herramientas/03_abaco_compresion_gas.html</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Herramienta: Tiempo de Venteo -->
+  <url>
+    <loc>https://freddyroa76.github.io/ingeniero/herramientas/04_blowdown_time.html</loc>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
