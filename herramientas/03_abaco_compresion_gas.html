@@ -255,11 +255,25 @@
                 </div>
 
                 <div class="abacus-wrapper" id="wrap">
-                    <svg class="pointer-arrow" width="30" height="160" viewBox="0 0 30 160">
-                        <!-- Linea delgada de alineación manual -->
-                        <line x1="15" y1="40" x2="15" y2="160" stroke="#D4E157" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.75"/>
-                        <!-- Triangulo apuntador principal -->
-                        <polygon points="15,40 0,0 30,0" fill="#D4E157" stroke="#0F172A" stroke-width="2"/>
+                    <svg class="pointer-arrow" width="40" height="40" viewBox="0 0 40 40" style="margin-top: -3px;">
+                        <defs>
+                            <filter id="emitterGlow" x="-50%" y="-50%" width="200%" height="200%">
+                                <feGaussianBlur stdDeviation="1.5" result="blur" />
+                                <feMerge>
+                                    <feMergeNode in="blur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        <!-- Laser emitter casing -->
+                        <path d="M 12,0 L 28,0 L 28,25 L 22,38 L 18,38 L 12,25 Z" fill="#1e293b" stroke="#0f172a" stroke-width="1.5"/>
+                        <!-- Emitter lens -->
+                        <circle cx="20" cy="38" r="3" fill="#ff0000" filter="url(#emitterGlow)" />
+                        <!-- Core diode -->
+                        <circle cx="20" cy="38" r="1.5" fill="#ffffff" />
+                        <!-- Warning/Power LEDs -->
+                        <rect x="15" y="8" width="10" height="3" fill="#ef4444" opacity="0.8" rx="1"/>
+                        <rect x="15" y="14" width="10" height="3" fill="#eab308" opacity="0.8" rx="1"/>
                     </svg>
 
                     <svg class="abacus-svg" id="svg" viewBox="0 0 800 800">
@@ -272,9 +286,25 @@
                             </filter>
                             <path id="curveOuter" d="M 50,400 A 350,350 0 1,1 750,400" />
                             <path id="curveInner" d="M 150,400 A 250,250 0 1,1 650,400" />
+                            
+                            <!-- Magnifier Clip -->
+                            <clipPath id="lupaClip">
+                                <circle cx="400" cy="108" r="80" />
+                            </clipPath>
+                            
+                            <!-- Lens Reflection Gradient -->
+                            <radialGradient id="glassGlare" cx="40%" cy="35%" r="65%">
+                                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.7"/>
+                                <stop offset="20%" stop-color="#ffffff" stop-opacity="0.1"/>
+                                <stop offset="65%" stop-color="#000000" stop-opacity="0.0"/>
+                                <stop offset="85%" stop-color="#000000" stop-opacity="0.2"/>
+                                <stop offset="100%" stop-color="#000000" stop-opacity="0.6"/>
+                            </radialGradient>
+                            
                         </defs>
 
-                        <g id="outerDisc">
+                        <g id="allDiscs">
+                            <g id="outerDisc">
                             <circle cx="400" cy="400" r="380" fill="var(--disc-outer)" stroke="var(--rim-color)" stroke-width="16" filter="url(#shadowOuter)"/>
                             <text font-family="'Outfit', sans-serif" font-size="14" font-weight="800" fill="var(--text-dark)" letter-spacing="1.5">
                                 <textPath href="#curveOuter" startOffset="75%" text-anchor="middle">DISCHARGE PRESSURE (PSIG)</textPath>
@@ -298,6 +328,39 @@
 
                             <circle cx="400" cy="400" r="25" fill="#e0e0e0" stroke="#999" stroke-width="2"/>
                             <circle cx="400" cy="400" r="8" fill="var(--rim-color)"/>
+                        </g>
+                        </g>
+
+                        <!-- MAGNIFYING GLASS EFFECT -->
+                        <g class="lupa-group" style="pointer-events: none;">
+                            <!-- White base to hide the smaller unscaled vectors under the lens -->
+                            <circle cx="400" cy="108" r="80" fill="#f8f9fa" />
+                            
+                            <!-- Scaled and clipped content -->
+                            <g clip-path="url(#lupaClip)">
+                                <!-- Escala de 1.3 anclada al centro geométrico -->
+                                <g transform="translate(400, 108) scale(1.3) translate(-400, -108)">
+                                    <use href="#allDiscs" />
+                                </g>
+                            </g>
+                            
+                            <!-- Glass surface reflection & shading -->
+                            <circle cx="400" cy="108" r="80" fill="url(#glassGlare)" />
+                            
+                            <!-- Frameless Beveled Glass Rim Effect -->
+                            <circle cx="400" cy="108" r="80" fill="none" stroke="rgba(215, 235, 245, 0.7)" stroke-width="5" filter="url(#shadowOuter)"/>
+                            <circle cx="400" cy="108" r="78" fill="none" stroke="rgba(0,0,0,0.15)" stroke-width="3" />
+                            <circle cx="400" cy="108" r="76" fill="none" stroke="rgba(255, 255, 255, 0.8)" stroke-width="2" />
+                        </g>
+
+                        <!-- HIGH TECH LASER BEAM -->
+                        <g style="pointer-events: none;">
+                            <!-- Ultra-thin glowing aura -->
+                            <line x1="400" y1="18" x2="400" y2="188" stroke="#ff0000" stroke-width="2.5" opacity="0.3" stroke-linecap="round"/>
+                            <!-- Razor thin solid red core -->
+                            <line x1="400" y1="18" x2="400" y2="188" stroke="#ff0000" stroke-width="0.8" opacity="1.0" />
+                            <!-- Micro-fine white-hot center -->
+                            <line x1="400" y1="18" x2="400" y2="188" stroke="#ffffff" stroke-width="0.3" opacity="1.0" />
                         </g>
                     </svg>
 
