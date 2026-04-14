@@ -186,6 +186,21 @@
               <h2 id="sec-op">Operational Parameters</h2>
               <div class="space-y-4">
                 <div class="input-group">
+                  <label id="lbl-tipo-flujo">Flow Type:</label>
+                  <select id="tipoFlujo" onchange="toggleFlujoLiquido()">
+                    <option value="monofasico">Monofásico (Gas Natural Seco)</option>
+                    <option value="bifasico">Bifásico</option>
+                  </select>
+                </div>
+                <div class="input-group" id="group-liq-flow" style="display: none;">
+                  <label id="lbl-liq-flow">Liquid Production <span class="units">(bbl/day)</span>:</label>
+                  <input type="number" id="flujoLiquido" placeholder="e.g. 100" />
+                </div>
+                <div class="input-group" id="group-liq-sg" style="display: none;">
+                  <label id="lbl-liq-sg">Liquid Spec. Gravity:</label>
+                  <input type="number" id="geLiquido" placeholder="e.g. 0.85" />
+                </div>
+                <div class="input-group">
                   <label id="lbl-pop">Operating P <span class="units">(psig)</span>:</label>
                   <input type="number" id="pOp" placeholder="Enter P" />
                 </div>
@@ -531,6 +546,9 @@
           lbl_pop: "Operating P",
           lbl_top: "Operating T",
           lbl_flow: "Flow Rate",
+          lbl_tipo_flujo: "Flow Type",
+          lbl_liq_flow: "Liquid Production",
+          lbl_liq_sg: "Liquid Spec. Gravity",
           lbl_c_const: "C-Constant",
           lbl_patm: "Atm. Pressure",
           lbl_nps: "Nominal Size",
@@ -558,6 +576,9 @@
           lbl_pop: "Presión Op.",
           lbl_top: "Temp. Op.",
           lbl_flow: "Flujo de Gas",
+          lbl_tipo_flujo: "Tipo de Flujo",
+          lbl_liq_flow: "Producción de Líquido",
+          lbl_liq_sg: "Gravedad Esp. (Líquido)",
           lbl_c_const: "Constante C",
           lbl_patm: "Presión Atm.",
           lbl_nps: "Tamaño Nominal",
@@ -1235,33 +1256,40 @@
       const T_STD = 519.67; // 60 deg F
       const P_STD = 14.696; // GPSA Standard Pressure usually 14.696 psia
 
-      function calculateDAK(Pr, Tr) {
-        // Dranchuk-Abou-Kassem coefficients
+      function calcularZ_DranchukAboukassem(Pr, Tr) {
         const A1 = 0.3265, A2 = -1.0700, A3 = -0.5339, A4 = 0.01569, A5 = -0.05165;
         const A6 = 0.5475, A7 = -0.7361, A8 = 0.1844, A9 = 0.1056, A10 = 0.6134, A11 = 0.7210;
-        
-        // Newton-Raphson iteration
-        let rho_r = 0.27 * Pr / Tr; // Initial guess
-        let iter = 0;
+
+        const R1 = A1 + A2/Tr + A3/Math.pow(Tr,3) + A4/Math.pow(Tr,4) + A5/Math.pow(Tr,5);
+        const R2 = A6 + A7/Tr + A8/Math.pow(Tr,2);
+        const R3 = A9 * (A7/Tr + A8/Math.pow(Tr,2));
+        const C = 0.27 * Pr / Tr;
+
+        let Z = 1.0;
         const maxIter = 100;
 
-        for(let i=0; i<maxIter; i++) {
-            const R1 = A1 + A2/Tr + A3/Math.pow(Tr,3) + A4/Math.pow(Tr,4) + A5/Math.pow(Tr,5);
-            const R2 = A6 + A7/Tr + A8/Math.pow(Tr,2);
-            const R3 = A9 * (A7/Tr + A8/Math.pow(Tr,2));
-            const R4 = A10 * (1 + A11*Math.pow(rho_r,2)) * (Math.pow(rho_r,2)/Math.pow(Tr,3)) * Math.exp(-A11*Math.pow(rho_r,2));
+        for (let i = 0; i < maxIter; i++) {
+            const y = C / Z;
+            const y2 = y * y;
+            const y4 = y2 * y2;
+            const expTerm = Math.exp(-A11 * y2);
+
+            const R4 = (A10 / Math.pow(Tr, 3)) * (1 + A11 * y2) * y2 * expTerm;
+            const fZ = Z - (1 + R1 * y + R2 * y2 - R3 * y * y4 + R4);
+
+            const dR4_dy = (2 * A10 * y / Math.pow(Tr, 3)) * expTerm * (1 + A11 * y2 - A11 * A11 * y4);
+            const df_dy = R1 + 2 * R2 * y - 5 * R3 * y4 + dR4_dy;
             
-            const f = R1*rho_r + R2*Math.pow(rho_r,2) - R3*Math.pow(rho_r,5) + R4 + 1 - (0.27 * Pr) / (rho_r * Tr);
-            const df = R1 + 2*R2*rho_r - 5*R3*Math.pow(rho_r,4) + (A10/Math.pow(Tr,3)) * Math.exp(-A11*Math.pow(rho_r,2)) * (2*rho_r + 2*A11*Math.pow(rho_r,3) - 2*A11*Math.pow(rho_r,3)*(1 + A11*Math.pow(rho_r,2))) + (0.27 * Pr) / (rho_r * rho_r * Tr);
-            
-            const delta = f / df;
-            rho_r = rho_r - delta;
-            
-            if (Math.abs(delta) < 1e-8) break;
-            if (rho_r < 0) rho_r = 1e-5; // Prevent negative density
+            const dfZ_dZ = 1 + (y / Z) * df_dy;
+
+            const delta = fZ / dfZ_dZ;
+            Z = Z - delta;
+
+             if (Math.abs(delta) < 1e-8) {
+                return Z;
+            }
         }
-        
-        return (0.27 * Pr) / (rho_r * Tr);
+        throw new Error("La iteración de la ecuación de Factor Z no converge tras 100 ciclos.");
       }
 
       function applyWichertAziz(Psc, Tsc, yCO2, yH2S) {
@@ -1333,26 +1361,66 @@
         const Pr = P_abs / pseudo.Psc;
         const Tr = T_abs / pseudo.Tsc;
 
+        if (Pr > 30 || Tr < 1.05) {
+            alert("Error: Parámetros fuera de rango para ecuación DAK (Pr: " + Pr.toFixed(2) + " > 30 o Tr: " + Tr.toFixed(2) + " < 1.05).");
+            return;
+        }
+
         // 4. Z-Factor (DAK)
         let Z = 1.0;
         try {
-            Z = calculateDAK(Pr, Tr);
-        } catch(e) { console.error(e); }
+            Z = calcularZ_DranchukAboukassem(Pr, Tr);
+        } catch(e) { 
+            alert("Error: " + e.message);
+            return;
+        }
 
-        // 5. Density
-        const rho = (P_abs * MW_mix) / (Z * R_UNIVERSAL * T_abs); // lb/ft3
-
-        // 6. Flow Conversion (MMSCFD -> ACFM)
-        // Qb (scf/day) = flow * 1e6
-        // Q_scfm = Qb / 1440
-        // Q_acfm = Q_scfm * (P_std / P_abs) * (T_abs / T_std) * Z
-        const q_scfm = (flow * 1e6) / 1440;
-        const q_acfm = q_scfm * (P_STD / P_abs) * (T_abs / T_STD) * Z;
-
-        // 7. Velocity (ft/s)
-        // v = Q_acfm / Area / 60
+        // 5. Motor Hidrodinámico - Density
         const area_sqft = (Math.PI / 4) * Math.pow(id / 12, 2);
-        const vFlow = q_acfm / (60 * area_sqft);
+        
+        // Gas basis
+        const rho_g = (P_abs * MW_mix) / (Z * R_UNIVERSAL * T_abs); // lb/ft3
+        const q_scfm = (flow * 1e6) / 1440;
+        const V_gas = q_scfm * (P_STD / P_abs) * (T_abs / T_STD) * Z; // Actual gas flow (ACFM) ft3/min
+
+        let rho = 0; 
+        let vFlow = 0;
+        let q_acfm = V_gas;
+
+        const tipoFlujoElement = document.getElementById("tipoFlujo");
+        const tipoFlujo = tipoFlujoElement ? tipoFlujoElement.value : "monofasico";
+
+        if (tipoFlujo === "bifasico") {
+            const flujoLiquido = parseFloat(document.getElementById("flujoLiquido").value) || 0;
+            const geLiquido = parseFloat(document.getElementById("geLiquido").value) || 0;
+            
+            // Liquid volume in ft3/min
+            const V_liq = (flujoLiquido * 5.61458) / 1440;
+            const V_total = V_gas + V_liq;
+            
+            // Mass flows (lb/min)
+            const W_gas = V_gas * rho_g;
+            const rho_liq = geLiquido * 62.4; 
+            const W_liq = V_liq * rho_liq;
+            const W_total = W_gas + W_liq;
+            
+            if (V_total <= 0) {
+                alert("Error: Volumen total es cero o negativo.");
+                return;
+            }
+            
+            rho = W_total / V_total; // Mezcla - rho_m
+            vFlow = V_total / (60 * area_sqft);
+            q_acfm = V_total;
+        } else {
+            rho = rho_g;
+            vFlow = V_gas / (60 * area_sqft);
+        }
+
+        if (rho <= 0) {
+            alert("Error: División por cero o densidad no válida (Densidad: " + rho.toFixed(4) + " <= 0).");
+            return;
+        }
 
         // 8. Erosional Velocity Limit (Ve)
         // Ve = C / sqrt(rho)
@@ -1457,6 +1525,21 @@
         document.getElementById("resultsCard").style.display = "none";
       }
 
+      function toggleFlujoLiquido() {
+          const tipo = document.getElementById("tipoFlujo").value;
+          const groupFlow = document.getElementById("group-liq-flow");
+          const groupSg = document.getElementById("group-liq-sg");
+          if (tipo === "bifasico") {
+              groupFlow.style.display = "block";
+              groupSg.style.display = "block";
+          } else {
+              groupFlow.style.display = "none";
+              groupSg.style.display = "none";
+              document.getElementById("flujoLiquido").value = "";
+              document.getElementById("geLiquido").value = "";
+          }
+      }
+
       document.addEventListener("DOMContentLoaded", () => {
         init();
 
@@ -1492,7 +1575,7 @@
           mobileLinks.forEach(link => {
             if (link.id !== "mobile-tools-toggle") {
               link.addEventListener("click", () => {
-                mobileMenu.classList.add("hidden");
+                mobileMenu.alizacion con classList.add("hidden");
                 menuIcon.classList.remove("hidden");
                 closeIcon.classList.add("hidden");
                 mobileMenuButton.setAttribute("aria-expanded", "false");
@@ -1503,9 +1586,3 @@
       });
     </script>
 </html>
-
-
-
-
-
-
