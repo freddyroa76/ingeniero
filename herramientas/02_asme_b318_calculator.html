@@ -41,16 +41,30 @@
     <script src="js/common.js"></script>
     <style>
         .target-radio:checked + div {
-            background-color: var(--checked-bg, white);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            background-color: white;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
             color: var(--checked-color, #2563eb);
-            border-color: var(--checked-border, #bfdbfe);
+            border-color: var(--checked-color, #bfdbfe);
+            transform: translateY(-2px);
+        }
+        .target-radio + div {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .progress-bar {
-            transition: width 0.5s ease-in-out, background-color 0.3s ease;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease;
         }
-        .input-highlight {
-            transition: all 0.3s ease;
+        .input-group {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); max-height: 0; overflow: hidden; margin: 0; }
+            to { opacity: 1; transform: translateY(0); max-height: 500px; }
+        }
+        .dynamic-hidden {
+            display: none !important;
+        }
+        .enhanced-input:focus {
+            box-shadow: 0 0 0 4px var(--ring-color, rgba(59, 130, 246, 0.1));
         }
     </style>
   </head>
@@ -133,30 +147,42 @@
           <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-200 mb-8 max-w-4xl mx-auto">
              <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3 px-2">Objective Variable (Solve for)</h3>
              <div class="flex flex-col sm:flex-row gap-3">
-                 <label class="flex-1 cursor-pointer">
+                 <label class="flex-1 cursor-pointer group relative">
                      <input type="radio" name="targetVar" value="thickness" class="target-radio sr-only" checked onchange="handleTargetChange(this.value)">
                      <div class="px-4 py-4 rounded-xl border-2 border-transparent text-center transition-all bg-gray-50 hover:bg-gray-100 text-gray-600" style="--checked-color: #2563eb; --checked-border: #bfdbfe;">
                          <svg class="w-6 h-6 mx-auto mb-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
                          <div class="font-bold">Wall Thickness (t)</div>
                          <div class="text-xs mt-1 opacity-75">Required vs Std Schedule</div>
                      </div>
+                     <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-[60] pointer-events-none text-left shadow-xl">
+                        <strong>Uso:</strong> Determinar el espesor mínimo de pared y el Schedule estándar recomendado para nuevas tuberías bajo una presión de diseño específica.
+                        <div class="absolute top-full left-1/2 transform -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900"></div>
+                     </div>
                  </label>
 
-                 <label class="flex-1 cursor-pointer">
+                 <label class="flex-1 cursor-pointer group relative">
                      <input type="radio" name="targetVar" value="pressure" class="target-radio sr-only" onchange="handleTargetChange(this.value)">
                      <div class="px-4 py-4 rounded-xl border-2 border-transparent text-center transition-all bg-gray-50 hover:bg-gray-100 text-gray-600" style="--checked-color: #059669; --checked-border: #a7f3d0;">
                          <svg class="w-6 h-6 mx-auto mb-2 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                          <div class="font-bold">Max Design Pressure (MAOP)</div>
                          <div class="text-xs mt-1 opacity-75">Calculate Internal Limit</div>
                      </div>
+                     <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-[60] pointer-events-none text-left shadow-xl">
+                        <strong>Uso:</strong> Calcular la Máxima Presión Operativa Permisible (MAOP) para una sección de tubería existente o de la que ya se conoce el Schedule y grado.
+                        <div class="absolute top-full left-1/2 transform -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900"></div>
+                     </div>
                  </label>
 
-                 <label class="flex-1 cursor-pointer">
+                 <label class="flex-1 cursor-pointer group relative">
                      <input type="radio" name="targetVar" value="hoop" class="target-radio sr-only" onchange="handleTargetChange(this.value)">
                      <div class="px-4 py-4 rounded-xl border-2 border-transparent text-center transition-all bg-gray-50 hover:bg-gray-100 text-gray-600" style="--checked-color: #7c3aed; --checked-border: #ddd6fe;">
                          <svg class="w-6 h-6 mx-auto mb-2 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                          <div class="font-bold">Hoop Stress (Sh)</div>
                          <div class="text-xs mt-1 opacity-75">Verify Compliance</div>
+                     </div>
+                     <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-[60] pointer-events-none text-left shadow-xl">
+                        <strong>Uso:</strong> Verificar que el esfuerzo circunferencial bajo ciertas condiciones de presión cumpla con el límite de seguridad (Utilización vs Límite) establecido por ASME B31.8.
+                        <div class="absolute top-full left-1/2 transform -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900"></div>
                      </div>
                  </label>
              </div>
@@ -175,26 +201,26 @@
                                 Pipe Properties
                              </h3>
                              
-                             <div class="input-highlight">
+                             <div class="input-group">
                                  <label for="pipeSize" class="block text-sm font-semibold text-gray-700 mb-1">NPS (Nominal Pipe Size) <span class="text-red-500">*</span></label>
-                                 <select id="pipeSize" class="w-full rounded-lg border-2 border-slate-200 focus:border-blue-500 py-2.5 px-3 transition-colors bg-white text-gray-900" required>
+                                 <select id="pipeSize" class="enhanced-input w-full rounded-lg border-2 border-slate-200 hover:border-blue-300 focus:border-blue-500 py-2.5 px-3 transition-all bg-white text-gray-900 outline-none" style="--ring-color: rgba(59, 130, 246, 0.15);" required>
                                      <option value="">Select Size</option>
                                      <!-- Populated via JS -->
                                  </select>
-                                 <div id="odBadge" class="hidden mt-1 text-xs font-semibold text-blue-600 bg-blue-50 py-1 px-2 rounded inline-block">OD: <span id="odVal">-</span></div>
+                                 <div id="odBadge" class="hidden mt-2 text-xs font-semibold text-blue-700 bg-blue-50 border border-blue-100 py-1.5 px-3 rounded-md shadow-sm inline-block">OD: <span id="odVal">-</span></div>
                              </div>
 
-                             <div id="scheduleWrapper" class="input-highlight opacity-50">
+                             <div id="scheduleWrapper" class="input-group dynamic-hidden">
                                  <label for="schedule" class="block text-sm font-semibold text-gray-700 mb-1">Schedule / Thickness <span class="text-red-500">*</span></label>
-                                 <select id="schedule" class="w-full rounded-lg border-2 border-slate-200 focus:border-blue-500 py-2.5 px-3 transition-colors bg-white text-gray-900 disabled:bg-gray-100" disabled>
+                                 <select id="schedule" class="enhanced-input w-full rounded-lg border-2 border-slate-200 hover:border-blue-300 focus:border-blue-500 py-2.5 px-3 transition-all bg-white text-gray-900 outline-none disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed" style="--ring-color: rgba(59, 130, 246, 0.15);" disabled>
                                      <option value="">Select Size First</option>
                                  </select>
-                                 <div id="tBadge" class="hidden mt-1 text-xs font-semibold text-blue-600 bg-blue-50 py-1 px-2 rounded inline-block">t: <span id="tVal">-</span></div>
+                                 <div id="tBadge" class="hidden mt-2 text-xs font-semibold text-blue-700 bg-blue-50 border border-blue-100 py-1.5 px-3 rounded-md shadow-sm inline-block">Thickness (t): <span id="tVal">-</span></div>
                              </div>
 
-                             <div class="input-highlight">
+                             <div class="input-group">
                                  <label for="pipeGrade" class="block text-sm font-semibold text-gray-700 mb-1">Material Grade (API 5L) <span class="text-red-500">*</span></label>
-                                 <select id="pipeGrade" class="w-full rounded-lg border-2 border-slate-200 focus:border-blue-500 py-2.5 px-3 transition-colors bg-white text-gray-900" required>
+                                 <select id="pipeGrade" class="enhanced-input w-full rounded-lg border-2 border-slate-200 hover:border-blue-300 focus:border-blue-500 py-2.5 px-3 transition-all bg-white text-gray-900 outline-none" style="--ring-color: rgba(59, 130, 246, 0.15);" required>
                                      <option value="">Select Grade</option>
                                      <option value="A">API Grade A</option>
                                      <option value="B">API Grade B</option>
@@ -204,7 +230,7 @@
                                      <option value="X65">API Grade X65</option>
                                      <option value="X70">API Grade X70</option>
                                  </select>
-                                 <div id="smysBadge" class="hidden mt-1 text-xs font-semibold text-blue-600 bg-blue-50 py-1 px-2 rounded inline-block">SMYS (S): <span id="smysVal">-</span></div>
+                                 <div id="smysBadge" class="hidden mt-2 text-xs font-semibold text-blue-700 bg-blue-50 border border-blue-100 py-1.5 px-3 rounded-md shadow-sm inline-block">SMYS (S): <span id="smysVal">-</span></div>
                              </div>
                          </div>
 
@@ -215,18 +241,46 @@
                                 Design & Factors
                              </h3>
 
-                             <div id="pressureWrapper" class="input-highlight">
+                             <div id="pressureWrapper" class="input-group">
                                  <label for="designPressure" class="block text-sm font-semibold text-gray-700 mb-1">Design Pressure (P) <span class="text-red-500">*</span></label>
                                  <div class="relative">
-                                     <input type="number" id="designPressure" placeholder="e.g. 1000" min="0" step="1" class="w-full rounded-lg border-2 border-slate-200 focus:border-emerald-500 py-2.5 pl-3 pr-12 transition-colors bg-white text-gray-900" required>
-                                     <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400 font-medium">psi</div>
+                                     <input type="number" id="designPressure" placeholder="e.g. 1000" min="0" step="1" class="enhanced-input w-full rounded-lg border-2 border-slate-200 hover:border-emerald-300 focus:border-emerald-500 py-2.5 pl-3 pr-12 transition-all bg-white text-gray-900 outline-none" style="--ring-color: rgba(16, 185, 129, 0.15);" required>
+                                     <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400 font-medium bg-gray-50 border-l border-slate-200 rounded-r-lg px-3">psi</div>
                                  </div>
                              </div>
 
-                             <div class="input-highlight flex gap-4">
-                                <div class="flex-1">
+                             <div class="input-group flex flex-col md:flex-row gap-4">
+                                <div class="flex-[3]">
+                                    <label for="facilityType" class="block text-sm font-semibold text-gray-700 mb-1">Facility Type <span class="text-red-500">*</span></label>
+                                    <select id="facilityType" class="enhanced-input w-full rounded-lg border-2 border-slate-200 hover:border-emerald-300 focus:border-emerald-500 py-2.5 px-3 transition-all bg-white text-gray-900 outline-none" style="--ring-color: rgba(16, 185, 129, 0.15);" required>
+                                        <option value="">Select Facility</option>
+                                        <option value="pipelines">Pipelines, mains, and service lines</option>
+                                        <optgroup label="Crossings without casing">
+                                            <option value="cross_uncased_private">(a) Private roads</option>
+                                            <option value="cross_uncased_unimproved">(b) Unimproved public roads</option>
+                                            <option value="cross_uncased_hard">(c) Roads, highways.. with hard surface</option>
+                                        </optgroup>
+                                        <optgroup label="Crossings with casing">
+                                            <option value="cross_cased_private">(a) Private roads</option>
+                                            <option value="cross_cased_unimproved">(b) Unimproved public roads</option>
+                                            <option value="cross_cased_hard">(c) Roads, highways.. with hard surface</option>
+                                        </optgroup>
+                                        <optgroup label="Parallel encroachment">
+                                            <option value="parallel_private">(a) Private roads</option>
+                                            <option value="parallel_unimproved">(b) Unimproved public roads</option>
+                                            <option value="parallel_hard">(c) Roads, highways.. with hard surface</option>
+                                        </optgroup>
+                                        <optgroup label="Other Facilities">
+                                            <option value="fabricated">Fabricated assemblies</option>
+                                            <option value="bridges">Pipelines on bridges</option>
+                                            <option value="compressor_station">Compressor station piping</option>
+                                            <option value="concentration_people">Near concentration of people</option>
+                                        </optgroup>
+                                    </select>
+                                </div>
+                                <div class="flex-[2]">
                                     <label for="locationClass" class="block text-sm font-semibold text-gray-700 mb-1">Location Class <span class="text-red-500">*</span></label>
-                                    <select id="locationClass" class="w-full rounded-lg border-2 border-slate-200 focus:border-emerald-500 py-2.5 px-3 transition-colors bg-white text-gray-900" required>
+                                    <select id="locationClass" class="enhanced-input w-full rounded-lg border-2 border-slate-200 hover:border-emerald-300 focus:border-emerald-500 py-2.5 px-3 transition-all bg-white text-gray-900 outline-none" style="--ring-color: rgba(16, 185, 129, 0.15);" required>
                                         <option value="">Select Class</option>
                                         <option value="1-div1">Class 1, Div 1</option>
                                         <option value="1-div2">Class 1, Div 2</option>
@@ -234,14 +288,14 @@
                                         <option value="3">Class 3</option>
                                         <option value="4">Class 4</option>
                                     </select>
-                                    <div id="fBadge" class="hidden mt-1 text-xs font-semibold text-emerald-600 bg-emerald-50 py-1 px-2 rounded inline-block">Factor (F): <span id="fVal">-</span></div>
+                                    <div id="fBadge" class="hidden mt-2 text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-100 py-1.5 px-3 rounded-md shadow-sm inline-block">Factor (F): <span id="fVal">-</span></div>
                                 </div>
                              </div>
                              
-                             <div class="flex gap-4">
+                             <div class="input-group flex gap-4">
                                  <div class="flex-1">
                                      <label for="jointFactor" class="block text-sm font-semibold text-gray-700 mb-1">Joint (E) <span class="text-red-500">*</span></label>
-                                     <select id="jointFactor" class="w-full rounded-lg border-2 border-slate-200 focus:border-emerald-500 py-2.5 px-3 text-sm transition-colors bg-white" required>
+                                     <select id="jointFactor" class="enhanced-input w-full rounded-lg border-2 border-slate-200 hover:border-emerald-300 focus:border-emerald-500 py-2.5 px-3 text-sm transition-all bg-white outline-none" style="--ring-color: rgba(16, 185, 129, 0.15);" required>
                                          <option value="1.00">1.00 (Seamless/ERW)</option>
                                          <option value="0.80">0.80 (Spiral Weld)</option>
                                          <option value="0.60">0.60 (Furnace Butt)</option>
@@ -249,7 +303,7 @@
                                  </div>
                                  <div class="flex-1">
                                      <label for="tempFactor" class="block text-sm font-semibold text-gray-700 mb-1">Temp (T) <span class="text-red-500">*</span></label>
-                                     <select id="tempFactor" class="w-full rounded-lg border-2 border-slate-200 focus:border-emerald-500 py-2.5 px-3 text-sm transition-colors bg-white" required>
+                                     <select id="tempFactor" class="enhanced-input w-full rounded-lg border-2 border-slate-200 hover:border-emerald-300 focus:border-emerald-500 py-2.5 px-3 text-sm transition-all bg-white outline-none" style="--ring-color: rgba(16, 185, 129, 0.15);" required>
                                          <option value="1.0">1.000 (≤ 250°F)</option>
                                          <option value="0.967">0.967 (300°F)</option>
                                          <option value="0.933">0.933 (350°F)</option>
@@ -312,7 +366,22 @@
     <script>
         // Database
         const materialGrades = { A: 30000, B: 35000, X42: 42000, X52: 52000, X60: 60000, X65: 65000, X70: 70000 };
-        const designFactors = { "1-div1": 0.80, "1-div2": 0.72, 2: 0.60, 3: 0.50, 4: 0.40 };
+        const designFactorMatrix = {
+            "pipelines": { "1-div1": 0.80, "1-div2": 0.72, "2": 0.60, "3": 0.50, "4": 0.40 },
+            "cross_uncased_private": { "1-div1": 0.80, "1-div2": 0.72, "2": 0.60, "3": 0.50, "4": 0.40 },
+            "cross_uncased_unimproved": { "1-div1": 0.60, "1-div2": 0.60, "2": 0.60, "3": 0.50, "4": 0.40 },
+            "cross_uncased_hard": { "1-div1": 0.60, "1-div2": 0.60, "2": 0.50, "3": 0.50, "4": 0.40 },
+            "cross_cased_private": { "1-div1": 0.80, "1-div2": 0.72, "2": 0.60, "3": 0.50, "4": 0.40 },
+            "cross_cased_unimproved": { "1-div1": 0.72, "1-div2": 0.72, "2": 0.60, "3": 0.50, "4": 0.40 },
+            "cross_cased_hard": { "1-div1": 0.72, "1-div2": 0.72, "2": 0.60, "3": 0.50, "4": 0.40 },
+            "parallel_private": { "1-div1": 0.80, "1-div2": 0.72, "2": 0.60, "3": 0.50, "4": 0.40 },
+            "parallel_unimproved": { "1-div1": 0.80, "1-div2": 0.72, "2": 0.60, "3": 0.50, "4": 0.40 },
+            "parallel_hard": { "1-div1": 0.60, "1-div2": 0.60, "2": 0.60, "3": 0.50, "4": 0.40 },
+            "fabricated": { "1-div1": 0.60, "1-div2": 0.60, "2": 0.60, "3": 0.50, "4": 0.40 },
+            "bridges": { "1-div1": 0.60, "1-div2": 0.60, "2": 0.60, "3": 0.50, "4": 0.40 },
+            "compressor_station": { "1-div1": 0.50, "1-div2": 0.50, "2": 0.50, "3": 0.50, "4": 0.40 },
+            "concentration_people": { "1-div1": 0.50, "1-div2": 0.50, "2": 0.50, "3": 0.50, "4": 0.40 }
+        };
         const pipeDimensions = {
             "0.125": { "OD": 0.405, "schedules": { "STD": { "t": 0.068 }, "40": { "t": 0.068 }, "XS": { "t": 0.095 }, "80": { "t": 0.095 } } },
             "0.25": { "OD": 0.54, "schedules": { "STD": { "t": 0.088 }, "40": { "t": 0.088 }, "XS": { "t": 0.119 }, "80": { "t": 0.119 } } },
@@ -356,6 +425,7 @@
             pipeGrade: document.getElementById('pipeGrade'),
             pressureWrapper: document.getElementById('pressureWrapper'),
             designPressure: document.getElementById('designPressure'),
+            facilityType: document.getElementById('facilityType'),
             locClass: document.getElementById('locationClass'),
             jointFactor: document.getElementById('jointFactor'),
             tempFactor: document.getElementById('tempFactor'),
@@ -387,39 +457,45 @@
         function handleTargetChange(target) {
             currentTarget = target;
             
+            // Hide all first for smooth re-flow, then conditionally show
+            DOM.scheduleWrapper.classList.add('dynamic-hidden');
+            DOM.pressureWrapper.classList.add('dynamic-hidden');
+
+            // Force reflow
+            void DOM.scheduleWrapper.offsetWidth;
+            void DOM.pressureWrapper.offsetWidth;
+
             // Reconfigure inputs based on target
             if (target === 'thickness') {
                 DOM.schedule.disabled = true;
                 DOM.schedule.required = false;
-                DOM.scheduleWrapper.classList.add('opacity-50');
                 
                 DOM.designPressure.disabled = false;
                 DOM.designPressure.required = true;
-                DOM.pressureWrapper.classList.remove('opacity-50');
+                DOM.pressureWrapper.classList.remove('dynamic-hidden');
             } else if (target === 'pressure') {
                 DOM.schedule.disabled = false;
                 DOM.schedule.required = true;
-                DOM.scheduleWrapper.classList.remove('opacity-50');
+                DOM.scheduleWrapper.classList.remove('dynamic-hidden');
                 
                 DOM.designPressure.disabled = true;
                 DOM.designPressure.required = false;
                 DOM.designPressure.value = '';
-                DOM.pressureWrapper.classList.add('opacity-50');
             } else if (target === 'hoop') {
                 DOM.schedule.disabled = false;
                 DOM.schedule.required = true;
-                DOM.scheduleWrapper.classList.remove('opacity-50');
+                DOM.scheduleWrapper.classList.remove('dynamic-hidden');
                 
                 DOM.designPressure.disabled = false;
                 DOM.designPressure.required = true;
-                DOM.pressureWrapper.classList.remove('opacity-50');
+                DOM.pressureWrapper.classList.remove('dynamic-hidden');
             }
             evaluateCalculation();
         }
 
         // Bind Events
         function setupEventListeners() {
-            const inputs = [DOM.pipeSize, DOM.schedule, DOM.pipeGrade, DOM.designPressure, DOM.locClass, DOM.jointFactor, DOM.tempFactor];
+            const inputs = [DOM.pipeSize, DOM.schedule, DOM.pipeGrade, DOM.designPressure, DOM.facilityType, DOM.locClass, DOM.jointFactor, DOM.tempFactor];
             inputs.forEach(input => {
                 input.addEventListener('input', updateBadgesAndCalculate);
                 input.addEventListener('change', updateBadgesAndCalculate);
@@ -457,9 +533,10 @@
             }
 
             const loc = DOM.locClass.value;
-            if (loc && designFactors[loc]) {
+            const fac = DOM.facilityType.value;
+            if (fac && loc && designFactorMatrix[fac] && designFactorMatrix[fac][loc]) {
                  DOM.badges.f.classList.remove('hidden');
-                 DOM.badges.fVal.textContent = designFactors[loc].toFixed(2);
+                 DOM.badges.fVal.textContent = designFactorMatrix[fac][loc].toFixed(2);
             } else {
                  DOM.badges.f.classList.add('hidden');
             }
@@ -510,14 +587,14 @@
 
         function evaluateCalculation() {
             // Check basics
-            if (!DOM.pipeSize.value || !DOM.pipeGrade.value || !DOM.locClass.value || !DOM.jointFactor.value || !DOM.tempFactor.value) {
+            if (!DOM.pipeSize.value || !DOM.pipeGrade.value || !DOM.facilityType.value || !DOM.locClass.value || !DOM.jointFactor.value || !DOM.tempFactor.value) {
                 hideResults();
                 return;
             }
 
             const D = pipeDimensions[DOM.pipeSize.value].OD;
             const S = materialGrades[DOM.pipeGrade.value];
-            const F = designFactors[DOM.locClass.value];
+            const F = designFactorMatrix[DOM.facilityType.value][DOM.locClass.value];
             const E = parseFloat(DOM.jointFactor.value);
             const T = parseFloat(DOM.tempFactor.value);
 
@@ -671,7 +748,7 @@
 
                 <div class="bg-slate-50 rounded-lg p-5 border border-slate-200 mb-8">
                     <div class="flex justify-between items-end mb-2">
-                        <div>
+                        <div class="text-left">
                             <p class="text-xs text-slate-500 font-bold uppercase tracking-wide">Utilization vs Allowable Limit</p>
                             <p class="text-2xl font-black ${colorClass}">${pct.toFixed(1)}%</p>
                         </div>
@@ -680,11 +757,20 @@
                              <p class="text-lg font-bold text-slate-600">${smysPct.toFixed(1)}%</p>
                         </div>
                     </div>
-                    <div class="w-full bg-slate-200 rounded-full h-3 overflow-hidden">
+                    <div class="w-full bg-slate-200 rounded-full h-3 overflow-hidden mb-3">
                         <div id="utilBar" class="progress-bar h-3 rounded-full ${barClass}" style="width: 0%" data-width="${Math.min(pct, 100)}"></div>
                     </div>
-                    <div class="mt-3 text-sm font-bold text-center ${colorClass}">
+                    <div class="text-sm font-bold text-center ${colorClass} mb-4">
                         ${isSafe ? 'COMPLIANT: Design meets ASME B31.8' : 'NON-COMPLIANT: Exceeds maximum allowable stress limit'}
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-slate-200">
+                        <div class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <div class="text-xs text-slate-600 leading-relaxed text-left">
+                                <p class="mb-2"><strong class="text-slate-800">Utilization:</strong> Indica la fracción del límite máximo de estrés que estás usando (calculado como <code class="bg-slate-100 px-1 rounded text-blue-700">Sh / Límite Permitido</code>). <b>Debe ser ≤ 100% para cumplir con la norma ASME B31.8.</b></p>
+                                <p><strong class="text-slate-800">SMYS %:</strong> Muestra qué tanto se está esforzando el tubo respecto a la resistencia pura del acero (calculado como <code class="bg-slate-100 px-1 rounded text-blue-700">Sh / SMYS</code>), eliminando del cálculo los factores de diseño, de junta o térmicos.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
