@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -228,7 +228,7 @@
                         <select id="jointFactor" required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-green-600 focus:ring-green-600 transition-all py-2.5 px-3 bg-white text-gray-900">
                             <option value="">Select joint factor</option>
                             <option value="1.00">1.00 - Seamless / ERW / DSAW / Flash Weld</option>
-                            <option value="0.80">0.80 - Spiral Weld (API 5L)</option>
+                            <option value="1.00">1.00 - Spiral Weld / Submerged-arc-welded (API 5L)</option>
                             <option value="0.60">0.60 - Furnace Butt Weld / Continuous Weld</option>
                             <option value="0.80">0.80 - Fusion Weld (ASTM A 134/A 139)</option>
                         </select>
@@ -265,13 +265,23 @@
                             <div class="text-xs text-indigo-900">
                                 <strong>MAWP Formula (ASME B31.8):</strong><br>
                                 <span class="font-mono bg-white px-2 py-1 rounded border border-indigo-100 inline-block mt-1">
-                                    P = (2 × SMYS × F × E × T × t) / D
+                                    P = (2 × SMYS × F × E × T × (t - CA)) / D
                                 </span>
                                 <p class="mt-2 text-[10px] text-indigo-700">
-                                    P = pressure (psi), SMYS (psi), F = design factor, E = joint factor, T = temp factor, t = wall thickness (in), D = outside diameter (in)
+                                    P = pressure (psi), SMYS (psi), F = design factor, E = joint factor, T = temp factor, t = wall thickness (in), D = outside diameter (in), CA = Corrosion Allowance (in)
                                 </p>
                             </div>
                         </div>
+                    </div>
+
+                    <div>
+                        <label for="corrosionAllowance" class="block text-sm font-semibold text-gray-700 mb-1">
+                            Corrosion Allowance / CA (in)
+                        </label>
+                        <input type="number" id="corrosionAllowance" placeholder="e.g. 0.0625" step="0.001" min="0" value="0.0625" class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-green-600 focus:ring-green-600 transition-all py-2.5 px-3 bg-white text-gray-900" />
+                        <p class="mt-1 text-[10px] text-gray-500 italic">
+                            Nota: ASME B31.8 usa el espesor nominal para el cálculo del MAWP. El CA se aplica como especificación interna del operador/cliente para la integridad a largo plazo.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -317,8 +327,29 @@
             </div>
             <button onclick="window.print()" class="text-sm font-medium text-blue-600 hover:text-blue-800 flex items-center gap-2 transition-colors print:hidden shrink-0 mt-1">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
-                Imprimir Memoria de C&aacute;lculo
+                Print Calculation Sheet
             </button>
+        </div>
+
+        <!-- Operation Mode & NPS Filter -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Operation Mode:</label>
+                <div class="flex flex-col gap-2">
+                    <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+                        <input type="radio" name="operationMode" value="mawp" checked class="text-blue-600 focus:ring-blue-500"> Pressure Check (Compute MAWP)
+                    </label>
+                    <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+                        <input type="radio" name="operationMode" value="design" class="text-blue-600 focus:ring-blue-500"> Required Thickness Design
+                    </label>
+                </div>
+            </div>
+            <div>
+                <label for="npsFilter" class="block text-sm font-semibold text-gray-700 mb-1">Diameter Filter (NPS):</label>
+                <select id="npsFilter" class="w-full rounded-lg border border-slate-300 py-2 px-3 bg-white text-gray-900 text-sm">
+                    <option value="all">View All</option>
+                </select>
+            </div>
         </div>
 
         <div class="legend">
@@ -333,6 +364,10 @@
           <div class="legend-item">
             <div class="legend-color grade-X42"></div>
             <span>X42 (42,000 psi)</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: #8da1b9;"></div>
+            <span>X46 (46,000 psi)</span>
           </div>
           <div class="legend-item">
             <div class="legend-color grade-X52"></div>
@@ -360,21 +395,22 @@
           </div>
         </div>
 
-        <div class="table-container">
-          <table id="pressureTable">
+        <div class="overflow-x-auto table-container">
+          <table id="pressureTable" class="w-full text-left min-w-max">
             <thead>
-              <tr class="sticky-header">
-                <th>NPS (in)</th>
-                <th>Outside Diameter (in)</th>
-                <th>Schedule</th>
-                <th>Wall Thickness (in)</th>
-                <th>Grade A</th>
-                <th>Grade B</th>
-                <th>X42</th>
-                <th>X52</th>
-                <th>X60</th>
-                <th>X65</th>
-                <th>X70</th>
+              <tr class="sticky-header" style="position: sticky; top: 0; z-index: 10; background-color: #ffffff; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
+                <th class="p-2 border">NPS (in)</th>
+                <th class="p-2 border">Outside Diameter (in)</th>
+                <th class="p-2 border">Schedule</th>
+                <th class="p-2 border">Wall Thickness (in)</th>
+                <th class="p-2 border">Grade A</th>
+                <th class="p-2 border">Grade B</th>
+                <th class="p-2 border">X42</th>
+                <th class="p-2 border">X46</th>
+                <th class="p-2 border">X52</th>
+                <th class="p-2 border">X60</th>
+                <th class="p-2 border">X65</th>
+                <th class="p-2 border">X70</th>
               </tr>
             </thead>
             <tbody></tbody>
@@ -1114,6 +1150,7 @@
         A: 30000,
         B: 35000,
         X42: 42000,
+        X46: 46000,
         X52: 52000,
         X60: 60000,
         X65: 65000,
@@ -1253,8 +1290,26 @@
         return ok;
       }
 
-      function calculateMaxPressure(SMYS_val, F, E, T, thickness, OD) {
-        return (2 * SMYS_val * F * E * T * thickness) / OD;
+      function calculateMaxPressure(SMYS_val, F, E, T, thickness, OD, CA) {
+        const t_calc = Math.max(0, thickness - CA);
+        return (2 * SMYS_val * F * E * T * t_calc) / OD;
+      }
+
+      function calculateRequiredThickness(SMYS_val, F, E, T, OD, P, CA) {
+        return ((P * OD) / (2 * SMYS_val * F * E * T)) + CA;
+      }
+
+      function initNPSFilter() {
+        const filter = document.getElementById("npsFilter");
+        if (!filter) return;
+        Object.keys(pipeDimensions)
+            .sort((a,b) => parseFloat(a) - parseFloat(b))
+            .forEach(size => {
+                const opt = document.createElement("option");
+                opt.value = size;
+                opt.textContent = formatNPS(size);
+                filter.appendChild(opt);
+            });
       }
 
       // Function to format NPS as fractions where appropriate
@@ -1289,12 +1344,14 @@
       }
 
       function generateTable() {
-        console.log("generateTable called");
-        if (!validateForm()) {
-          console.log("Validation failed");
-          return;
-        }
-        console.log("Validation passed");
+        try {
+            console.log("generateTable called");
+            if (!validateForm()) {
+              console.log("Validation failed");
+              alert("Aviso: Falta completar campos obligatorios en el formulario. Por favor seleccione el Facility Type, la Clase de Localidad y establezca la Presión de Diseño.");
+              return;
+            }
+            console.log("Validation passed");
 
         const F = calculateDesignFactor();
         const E = parseFloat(document.getElementById("jointFactor").value);
@@ -1302,6 +1359,32 @@
         const designPressure = parseFloat(
           document.getElementById("designPressure").value,
         );
+        const checkedMode = document.querySelector('input[name="operationMode"]:checked');
+        const opMode = checkedMode ? checkedMode.value : 'mawp';
+        const npsEl = document.getElementById("npsFilter");
+        const npsFilter = npsEl ? npsEl.value : 'all';
+        const caEl = document.getElementById("corrosionAllowance");
+        const rawCA = caEl ? parseFloat(caEl.value) : 0;
+        const CA = isNaN(rawCA) ? 0 : rawCA;
+
+        const theadTr = document.querySelector("#pressureTable thead tr");
+        if (theadTr) {
+            const suffix = opMode === "design" ? " t_req (in)" : "";
+            theadTr.innerHTML = `
+                <th class="p-2 border">NPS (in)</th>
+                <th class="p-2 border">Outside Diameter (in)</th>
+                <th class="p-2 border">Schedule</th>
+                <th class="p-2 border">Wall Thickness (in)</th>
+                <th class="p-2 border">Grade A${suffix}</th>
+                <th class="p-2 border">Grade B${suffix}</th>
+                <th class="p-2 border">X42${suffix}</th>
+                <th class="p-2 border">X46${suffix}</th>
+                <th class="p-2 border">X52${suffix}</th>
+                <th class="p-2 border">X60${suffix}</th>
+                <th class="p-2 border">X65${suffix}</th>
+                <th class="p-2 border">X70${suffix}</th>
+            `;
+        }
 
         console.log("F:", F, "E:", E, "T:", T, "designPressure:", designPressure);
 
@@ -1322,12 +1405,14 @@
         tbody.innerHTML = "";
 
         Object.keys(pipeDimensions)
-          .sort((a, b) => parseFloat(a) - parseFloat(b))  
+          .sort((a, b) => parseFloat(a) - parseFloat(b))
+          .filter(size => npsFilter === "all" || parseFloat(size) === parseFloat(npsFilter))
           .forEach((size) => {
               const pipe = pipeDimensions[size];
               const od = pipe.OD;
               
               // Sort schedules using scheduleOrder if possible
+              const scheduleOrder = ["5", "10", "20", "30", "STD", "40", "60", "XS", "80", "100", "120", "140", "160", "XXS"];
               const schedules = Object.keys(pipe.schedules).sort((a, b) => {
                   const idxA = scheduleOrder.indexOf(a);
                   const idxB = scheduleOrder.indexOf(b);
@@ -1340,22 +1425,25 @@
               schedules.forEach(schedule => {
                   const thickness = pipe.schedules[schedule];
                   const row = document.createElement("tr");
-                  row.innerHTML = `<td>${formatNPS(size)}</td><td>${od}</td><td>${schedule}</td><td>${thickness}</td>`;
+                  row.innerHTML = `<td class="p-2 border">${formatNPS(size)}</td><td class="p-2 border">${od.toFixed(3)}</td><td class="p-2 border">${schedule}</td><td class="p-2 border">${thickness.toFixed(3)}</td>`;
                   for (const [grade, SMYS_val] of Object.entries(SMYS)) {
-                    const p = calculateMaxPressure(
-                      SMYS_val,
-                      F,
-                      E,
-                      T,
-                      thickness,
-                      od,
-                    );
-                    const cls = p >= designPressure ? "pressure-ok" : "pressure-fail";
-                    row.innerHTML += `<td class="grade-${grade} ${cls}">${p.toFixed(0)}</td>`;
+                    if (opMode === "mawp") {
+                        const p = calculateMaxPressure(SMYS_val, F, E, T, thickness, od, CA);
+                        const cls = p >= designPressure ? "pressure-ok" : "pressure-fail";
+                        row.innerHTML += `<td class="p-2 border grade-${grade} ${cls}">${p.toFixed(0)}</td>`;
+                    } else {
+                        const t_req = calculateRequiredThickness(SMYS_val, F, E, T, od, designPressure, CA);
+                        const cls = thickness >= t_req ? "pressure-ok" : "pressure-fail";
+                        row.innerHTML += `<td class="p-2 border grade-${grade} ${cls}">${t_req.toFixed(3)}</td>`;
+                    }
                   }
                   tbody.appendChild(row);
               });
           });
+        } catch (error) {
+            console.error("Critical error in generateTable:", error);
+            alert("Error crítico al generar la tabla: " + error.message + ".\nPor favor notifica este error detallado.");
+        }
       }
 
       function updateFactorDescriptions() {
@@ -1404,6 +1492,7 @@
 
 
       document.addEventListener("DOMContentLoaded", function () {
+        initNPSFilter();
         updateSubFacilityOptions();
         updateFactorDescriptions();
 
@@ -1430,6 +1519,24 @@
         document
           .getElementById("calculateBtn")
           .addEventListener("click", generateTable);
+
+        // Actualización dinámica de filtros y modos de operación
+        const dynamicUpdate = () => {
+            // Solo generar la tabla si ya se había calculado previamente (evitar mensajes de error prematuros)
+            if (document.querySelector("#pressureTable tbody").childElementCount > 0) {
+                generateTable();
+            }
+        };
+
+        document.getElementById("npsFilter").addEventListener("change", dynamicUpdate);
+        
+        const radioBtns = document.querySelectorAll('input[name="operationMode"]');
+        for (let i = 0; i < radioBtns.length; i++) {
+            radioBtns[i].addEventListener("change", dynamicUpdate);
+        }
+        
+        const caInput = document.getElementById("corrosionAllowance");
+        if (caInput) caInput.addEventListener("input", dynamicUpdate);
 
         // Mobile Menu Toggle
         const mobileMenuButton = document.getElementById("mobile-menu-button");
@@ -1478,9 +1585,3 @@
       });
     </script>
 </html>
-
-
-
-
-
-
