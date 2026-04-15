@@ -566,6 +566,8 @@
           res_mw: "Mol. Weight",
           res_acfm: "Actual Flow",
           th_util: "% Utilization",
+          th_maf: "Max Flow (MMSCFD)",
+          tooltip_maf: "This value represents the maximum flow the pipe can handle before reaching the allowable erosional velocity limit for the selected C-factor.",
         },
         es: {
           title: "Calculadora de Velocidad Erosional",
@@ -596,6 +598,8 @@
           res_mw: "Peso Molecular",
           res_acfm: "Flujo Actual",
           th_util: "% Utilización",
+          th_maf: "Max Flow (MMSCFD)",
+          tooltip_maf: "Este valor representa el flujo máximo que la tubería puede transportar antes de alcanzar la velocidad límite recomendada por la norma para el factor C seleccionado.",
         },
       };
 
@@ -1019,6 +1023,10 @@
           const el = document.getElementById(k.replace("_", "-"));
           if (el) el.textContent = translations[lang][k];
         });
+        const thMaf = document.getElementById("th-maf");
+        if (thMaf && translations[lang]["tooltip_maf"]) {
+            thMaf.title = translations[lang]["tooltip_maf"];
+        }
       }
 
       function init() {
@@ -1476,6 +1484,11 @@
           const percent = (vFlow / ve_val) * 100;
           const isSafe = vFlow < ve_val;
           
+          let maf = "-";
+          if (flow > 0 && vFlow > 0) {
+              maf = ((ve_val / vFlow) * flow).toFixed(2);
+          }
+          
           let statusColor = "text-green-600";
           let statusText = "OK";
           
@@ -1495,6 +1508,7 @@
               <td class="p-3 border-r font-mono text-center">${c}${userMarker}</td>
               <td class="p-3 border-r font-mono text-center text-gray-600">${vFlow.toFixed(2)}</td>
               <td class="p-3 border-r font-mono text-center font-bold text-gray-800">${ve_val.toFixed(2)}</td>
+              <td class="p-3 border-r font-mono text-center font-bold text-blue-700">${maf}</td>
               <td class="p-3 text-center font-bold ${statusColor}">${percent.toFixed(1)}%</td>
           </tr>`;
         });
@@ -1506,6 +1520,7 @@
               <th class="p-3 border border-gray-200 bg-gray-100 text-gray-600 font-bold uppercase text-xs" id="th-c">Constant C</th>
               <th class="p-3 border border-gray-200 bg-gray-100 text-gray-600 font-bold uppercase text-xs" id="res-vel">V_flow (ft/s)</th>
               <th class="p-3 border border-gray-200 bg-gray-100 text-gray-600 font-bold uppercase text-xs" id="th-eros">V_erosion (ft/s)</th>
+              <th class="p-3 border border-gray-200 bg-gray-100 text-gray-600 font-bold uppercase text-xs cursor-help" id="th-maf">Max Flow (MMSCFD)</th>
               <th class="p-3 border border-gray-200 bg-gray-100 text-gray-600 font-bold uppercase text-xs" id="th-util">% Utilization</th>
             `;
         }
