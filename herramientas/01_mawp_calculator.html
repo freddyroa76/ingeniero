@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -1377,8 +1377,7 @@
                   const row = document.createElement("tr");
                   row.innerHTML = `<td class="p-2 border">${formatNPS(size)}</td><td class="p-2 border">${od.toFixed(3)}</td><td class="p-2 border">${schedule}</td><td class="p-2 border">${thickness.toFixed(3)}</td>`;
                   for (const [grade, SMYS_val] of Object.entries(SMYS)) {
-                    if (opMode ==
-                    = "mawp") {
+                    if (opMode === "mawp") {
                         const p = calculateMaxPressure(SMYS_val, F, E, T, thickness, od, CA);
                         const cls = p >= designPressure ? "pressure-ok" : "pressure-fail";
                         row.innerHTML += `<td class="p-2 border grade-${grade} ${cls}">${Math.floor(p)}</td>`;
