@@ -12,23 +12,15 @@
   <!-- Índice de Herramientas -->
   <url>
     <loc>https://freddyroa76.github.io/ingeniero/herramientas.html</loc>
-    <lastmod>2026-04-14</lastmod>
+    <lastmod>2026-04-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
-  <!-- Herramienta: Calculadora MAWP -->
+  <!-- Herramienta: ASME B31.8 Enterprise Suite -->
   <url>
-    <loc>https://freddyroa76.github.io/ingeniero/herramientas/01_mawp_calculator.html</loc>
-    <lastmod>2026-04-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Herramienta: ASME B31.8 Master -->
-  <url>
-    <loc>https://freddyroa76.github.io/ingeniero/herramientas/02_asme_b318_calculator.html</loc>
-    <lastmod>2026-04-14</lastmod>
+    <loc>https://freddyroa76.github.io/ingeniero/herramientas/01_asme_b318_calculator.html</loc>
+    <lastmod>2026-04-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
