@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -143,25 +143,43 @@
         </p>
       </div>
 
-      <div class="card p-8 bg-white shadow-lg rounded-2xl border border-gray-100">
-        <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-2 border-b border-gray-100 pb-4">
+      <div class="card p-6 bg-white shadow-sm rounded-xl border border-gray-200 mb-8">
+        <h2 class="text-xl font-bold mb-6 text-primary flex items-center gap-2 border-b border-gray-100 pb-4">
             <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/></svg>
             Design Parameters (ASME B31.8-2022)
         </h2>
         
         <form id="mawpForm" onsubmit="event.preventDefault();">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                <!-- Column 1: Facility & Location -->
-                <div class="space-y-5">
-                    <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-blue-500"></span> Facility Classification
-                    </h3>
-                    
+            <!-- Row 1: Global Settings -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 p-4 bg-gray-50 rounded-lg border border-gray-100">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Operation Mode:</label>
+                    <div class="flex flex-col gap-2">
+                        <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+                            <input type="radio" name="operationMode" value="mawp" checked class="text-blue-600 focus:ring-blue-500"> Pressure Check (Compute MAWP)
+                        </label>
+                        <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+                            <input type="radio" name="operationMode" value="design" class="text-blue-600 focus:ring-blue-500"> Required Thickness Design
+                        </label>
+                    </div>
+                </div>
+                <div>
+                    <label for="npsFilter" class="block text-sm font-semibold text-gray-700 mb-1">Diameter Filter (NPS):</label>
+                    <select id="npsFilter" class="w-full rounded-lg border border-slate-300 py-2 px-3 bg-white text-gray-900 text-sm">
+                        <option value="all">View All</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Row 2: Design Variables -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
+                <!-- Left Column -->
+                <div class="space-y-4">
                     <div>
                         <label for="facilityType" class="block text-sm font-semibold text-gray-700 mb-1">
-                            Facility Type <span class="text-red-500">*</span>
+                            Facility Type <span class="text-rose-500 text-xs">*</span>
                         </label>
-                        <select id="facilityType" required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-blue-600 focus:ring-blue-600 transition-all py-2.5 px-3 bg-white text-gray-900">
+                        <select id="facilityType" required class="w-full rounded-lg border border-slate-300 hover:border-slate-400 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-all py-2 px-3 bg-white text-gray-900 text-sm">
                             <option value="">Select facility type</option>
                             <option value="pipelines">Pipelines, mains, and service lines</option>
                             <option value="crossingsNoCasing">Crossings of roads, railroads without casing</option>
@@ -179,9 +197,9 @@
 
                     <div class="hidden" id="subFacilityGroup">
                         <label for="subFacilityType" id="subFacilityLabel" class="block text-sm font-semibold text-gray-700 mb-1">
-                            Subtype <span class="text-red-500">*</span>
+                            Subtype <span class="text-rose-500 text-xs">*</span>
                         </label>
-                        <select id="subFacilityType" required disabled class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-blue-600 focus:ring-blue-600 transition-all py-2.5 px-3 bg-white text-gray-900 disabled:bg-gray-100 disabled:text-gray-400">
+                        <select id="subFacilityType" required disabled class="w-full rounded-lg border border-slate-300 hover:border-slate-400 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-all py-2 px-3 bg-white text-gray-900 text-sm disabled:bg-gray-100">
                             <option value="">Select subtype</option>
                         </select>
                         <div class="error-message hidden text-red-600 text-xs mt-1" id="subFacilityTypeError">Select a subtype</div>
@@ -189,9 +207,9 @@
 
                     <div>
                         <label for="locationClass" class="block text-sm font-semibold text-gray-700 mb-1">
-                            Location Class <span class="text-red-500">*</span>
+                            Location Class <span class="text-rose-500 text-xs">*</span>
                         </label>
-                        <select id="locationClass" required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-blue-600 focus:ring-blue-600 transition-all py-2.5 px-3 bg-white text-gray-900">
+                        <select id="locationClass" required class="w-full rounded-lg border border-slate-300 hover:border-slate-400 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-all py-2 px-3 bg-white text-gray-900 text-sm">
                             <option value="">Select location class</option>
                             <option value="div1">Class 1, Division 1</option>
                             <option value="div2">Class 1, Division 2</option>
@@ -199,51 +217,45 @@
                             <option value="class3">Class 3</option>
                             <option value="class4">Class 4</option>
                         </select>
-                        <div class="mt-2 flex items-center justify-between text-xs text-gray-500 bg-gray-50 rounded px-2 py-1 border border-gray-100">
-                            <span>Design Factor (F):</span>
-                            <span id="designFactorValue" class="font-bold text-blue-600">Not computed</span>
+                        <div class="mt-1 flex justify-end text-[11px] text-gray-500">
+                            <span>Design Factor (F): <span id="designFactorValue" class="font-bold text-blue-600 ml-1">Not computed</span></span>
                         </div>
                         <div class="error-message hidden text-red-600 text-xs mt-1" id="locationClassError">Select a location class</div>
                     </div>
 
                     <div>
                         <label for="designPressure" class="block text-sm font-semibold text-gray-700 mb-1">
-                            Design Pressure (psi) <span class="text-red-500">*</span>
+                            Design Pressure (psi) <span class="text-rose-500 text-xs">*</span>
                         </label>
-                        <input type="number" id="designPressure" placeholder="Enter design pressure" min="0" step="50" required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-blue-600 focus:ring-blue-600 transition-all py-2.5 px-3 bg-white text-gray-900" />
+                        <input type="number" id="designPressure" placeholder="Enter design pressure" min="0" step="50" required class="w-full rounded-lg border border-slate-300 hover:border-slate-400 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-all py-2 px-3 bg-white text-gray-900 text-sm" />
                         <div class="error-message hidden text-red-600 text-xs mt-1" id="designPressureError">Enter a valid design pressure</div>
                     </div>
                 </div>
 
-                <!-- Column 2: Material & Temperature Factors -->
-                <div class="space-y-5">
-                    <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-green-500"></span> Material Properties
-                    </h3>
-                    
+                <!-- Right Column -->
+                <div class="space-y-4">
                     <div>
                         <label for="jointFactor" class="block text-sm font-semibold text-gray-700 mb-1">
-                            Longitudinal Weld Joint Quality Factor (E) <span class="text-red-500">*</span>
+                            Longitudinal Weld Joint Factor (E) <span class="text-rose-500 text-xs">*</span>
                         </label>
-                        <select id="jointFactor" required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-green-600 focus:ring-green-600 transition-all py-2.5 px-3 bg-white text-gray-900">
+                        <select id="jointFactor" required class="w-full rounded-lg border border-slate-300 hover:border-slate-400 focus:border-green-600 focus:ring-1 focus:ring-green-600 transition-all py-2 px-3 bg-white text-gray-900 text-sm">
                             <option value="">Select joint factor</option>
                             <option value="1.00">1.00 - Seamless / ERW / DSAW / Flash Weld</option>
                             <option value="1.00">1.00 - Spiral Weld / Submerged-arc-welded (API 5L)</option>
                             <option value="0.60">0.60 - Furnace Butt Weld / Continuous Weld</option>
                             <option value="0.80">0.80 - Fusion Weld (ASTM A 134/A 139)</option>
                         </select>
-                        <div class="mt-2 flex items-center justify-between text-xs text-gray-500 bg-gray-50 rounded px-2 py-1 border border-gray-100">
-                            <span>Joint Factor (E):</span>
-                            <span id="jointFactorValue" class="font-bold text-green-600">Not selected</span>
+                        <div class="mt-1 flex justify-end text-[11px] text-gray-500">
+                            <span>Joint Factor (E): <span id="jointFactorValue" class="font-bold text-green-600 ml-1">Not selected</span></span>
                         </div>
-                        <div class="error-message hidden text-red-600 text-xs mt-1" id="jointFactorError">Select a longitudinal weld joint factor</div>
+                        <div class="error-message hidden text-red-600 text-xs mt-1" id="jointFactorError">Select a joint factor</div>
                     </div>
 
                     <div>
                         <label for="tempFactor" class="block text-sm font-semibold text-gray-700 mb-1">
-                            Temperature Derating Factor (T) <span class="text-red-500">*</span>
+                            Temperature Derating Factor (T) <span class="text-rose-500 text-xs">*</span>
                         </label>
-                        <select id="tempFactor" required class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-green-600 focus:ring-green-600 transition-all py-2.5 px-3 bg-white text-gray-900">
+                        <select id="tempFactor" required class="w-full rounded-lg border border-slate-300 hover:border-slate-400 focus:border-green-600 focus:ring-1 focus:ring-green-600 transition-all py-2 px-3 bg-white text-gray-900 text-sm">
                             <option value="">Select temperature</option>
                             <option value="1.000">250°F (121°C) or lower (T = 1.000)</option>
                             <option value="0.967">300°F (149°C) (T = 0.967)</option>
@@ -251,166 +263,104 @@
                             <option value="0.900">400°F (204°C) (T = 0.900)</option>
                             <option value="0.867">450°F (232°C) (T = 0.867)</option>
                         </select>
-                        <div class="mt-2 flex items-center justify-between text-xs text-gray-500 bg-gray-50 rounded px-2 py-1 border border-gray-100">
-                            <span>Temp Factor (T):</span>
-                            <span id="tempFactorValue" class="font-bold text-green-600">Not selected</span>
+                        <div class="mt-1 flex justify-end text-[11px] text-gray-500">
+                            <span>Temp Factor (T): <span id="tempFactorValue" class="font-bold text-green-600 ml-1">Not selected</span></span>
                         </div>
-                        <div class="error-message hidden text-red-600 text-xs mt-1" id="tempFactorError">Select a temperature derating factor</div>
-                    </div>
-
-                    <!-- Formula Box -->
-                    <div class="bg-indigo-50 border border-indigo-100 rounded-lg p-4 mt-4">
-                        <div class="flex items-start gap-3">
-                            <svg class="w-5 h-5 text-indigo-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
-                            <div class="text-xs text-indigo-900">
-                                <strong>MAWP Formula (ASME B31.8):</strong><br>
-                                <span class="font-mono bg-white px-2 py-1 rounded border border-indigo-100 inline-block mt-1">
-                                    P = (2 × SMYS × F × E × T × (t - CA)) / D
-                                </span>
-                                <p class="mt-2 text-[10px] text-indigo-700">
-                                    P = pressure (psi), SMYS (psi), F = design factor, E = joint factor, T = temp factor, t = wall thickness (in), D = outside diameter (in), CA = Corrosion Allowance (in)
-                                </p>
-                            </div>
-                        </div>
+                        <div class="error-message hidden text-red-600 text-xs mt-1" id="tempFactorError">Select a temp factor</div>
                     </div>
 
                     <div>
                         <label for="corrosionAllowance" class="block text-sm font-semibold text-gray-700 mb-1">
                             Corrosion Allowance / CA (in)
                         </label>
-                        <input type="number" id="corrosionAllowance" placeholder="e.g. 0.0625" step="0.001" min="0" value="0.0625" class="w-full rounded-lg border-2 border-slate-300 hover:border-slate-400 shadow-sm focus:border-green-600 focus:ring-green-600 transition-all py-2.5 px-3 bg-white text-gray-900" />
+                        <input type="number" id="corrosionAllowance" placeholder="e.g. 0.0625" step="0.001" min="0" value="0.0625" class="w-full rounded-lg border border-slate-300 hover:border-slate-400 focus:border-green-600 focus:ring-1 focus:ring-green-600 transition-all py-2 px-3 bg-white text-gray-900 text-sm" />
                         <p class="mt-1 text-[10px] text-gray-500 italic">
-                            Nota: ASME B31.8 usa el espesor nominal para el cálculo del MAWP. El CA se aplica como especificación interna del operador/cliente para la integridad a largo plazo.
+                            Nota: ASME B31.8 usa el espesor nominal para el MAWP. El CA se aplica por especificación interna del operador para la integridad a largo plazo.
                         </p>
                     </div>
                 </div>
             </div>
 
-            <!-- Action Button -->
-            <div class="flex gap-4 pt-4 border-t border-gray-100">
-                <button type="button" id="calculateBtn" class="flex-1 bg-primary text-accent hover:bg-slate-800 text-base font-bold py-3.5 px-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 transform active:scale-95">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
-                    Compute Maximum Pressures
-                </button>
+            <!-- Row 2.5: Formula box (Discrete) -->
+            <div class="mb-6 border-l-2 border-indigo-300 pl-3 py-1">
+                <p class="text-[11px] text-gray-600">
+                    <span class="font-semibold text-gray-700">MAWP Formula:</span> P = (2 × SMYS × F × E × T × (t - CA)) / D
+                </p>
             </div>
-        </form>
 
-        <!-- Selected Values Summary -->
-        <div class="mt-6 pt-6 border-t border-gray-200">
-          <h3 class="text-sm font-bold text-gray-700 mb-3 uppercase tracking-wider">Computed Parameters</h3>
-          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="bg-blue-50 rounded-lg p-3 border border-blue-100">
-              <p class="text-xs text-gray-600 mb-1">Design Factor (F)</p>
-              <p id="summaryDesignFactorValue" class="text-lg font-bold text-blue-700">Not computed</p>
+            <!-- Row 3: Computed Parameters (Summary) -->
+            <div class="mb-6">
+                <h3 class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Computed Parameters</h3>
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                    <div class="bg-blue-50 rounded-lg p-2 border border-blue-100">
+                        <p class="text-[10px] text-gray-500">Design Factor (F)</p>
+                        <p id="summaryDesignFactorValue" class="text-sm font-bold text-blue-700">Not computed</p>
+                    </div>
+                    <div class="bg-green-50 rounded-lg p-2 border border-green-100">
+                        <p class="text-[10px] text-gray-500">Joint Factor (E)</p>
+                        <p id="summaryJointFactorValue" class="text-sm font-bold text-green-700">Not selected</p>
+                    </div>
+                    <div class="bg-purple-50 rounded-lg p-2 border border-purple-100">
+                        <p class="text-[10px] text-gray-500">Temp Factor (T)</p>
+                        <p id="summaryTempFactorValue" class="text-sm font-bold text-purple-700">Not selected</p>
+                    </div>
+                    <div class="bg-orange-50 rounded-lg p-2 border border-orange-100">
+                        <p class="text-[10px] text-gray-500">Design Pressure</p>
+                        <p id="summaryDesignPressureValue" class="text-sm font-bold text-orange-700">Not specified</p>
+                    </div>
+                </div>
             </div>
-            <div class="bg-green-50 rounded-lg p-3 border border-green-100">
-              <p class="text-xs text-gray-600 mb-1">Joint Factor (E)</p>
-              <p id="summaryJointFactorValue" class="text-lg font-bold text-green-700">Not selected</p>
-            </div>
-            <div class="bg-purple-50 rounded-lg p-3 border border-purple-100">
-              <p class="text-xs text-gray-600 mb-1">Temp Factor (T)</p>
-              <p id="summaryTempFactorValue" class="text-lg font-bold text-purple-700">Not selected</p>
-            </div>
-            <div class="bg-orange-50 rounded-lg p-3 border border-orange-100">
-              <p class="text-xs text-gray-600 mb-1">Design Pressure</p>
-              <p id="summaryDesignPressureValue" class="text-lg font-bold text-orange-700">Not specified</p>
-            </div>
-          </div>
-        </div>
+
+            <!-- Row 4: Action Button -->
+            <button type="button" id="calculateBtn" class="w-full bg-primary text-accent hover:bg-slate-800 text-sm md:text-base font-bold py-3 px-6 rounded-lg shadow hover:shadow-md transition-all flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                Compute Maximum Pressures
+            </button>
+        </form>
       </div>
 
-      <div class="card">
-        <div class="flex justify-between items-start gap-4 mb-2">
+      <!-- CARD 2: RESULTS -->
+      <div class="card p-6 bg-white shadow-sm rounded-xl border border-gray-200">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 border-b border-gray-100 pb-3">
             <div>
-                <h2>Results: Maximum Working Pressure (psi)</h2>
-                <p>NPS 1/8&quot; to 42&quot; &ndash; ASME B31.8-2022</p>
+                <h2 class="text-lg font-bold text-primary">Results: Pipeline Working Pressures</h2>
+                <p class="text-xs text-gray-500">NPS 1/8" to 42" &ndash; ASME B31.8-2022</p>
             </div>
-            <button onclick="window.print()" class="text-sm font-medium text-blue-600 hover:text-blue-800 flex items-center gap-2 transition-colors print:hidden shrink-0 mt-1">
+            <button onclick="window.print()" class="text-sm font-medium text-blue-600 hover:text-blue-800 flex items-center gap-2 transition-colors print:hidden shrink-0 bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-100 hover:bg-blue-100">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
                 Print Calculation Sheet
             </button>
         </div>
 
-        <!-- Operation Mode & NPS Filter -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Operation Mode:</label>
-                <div class="flex flex-col gap-2">
-                    <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
-                        <input type="radio" name="operationMode" value="mawp" checked class="text-blue-600 focus:ring-blue-500"> Pressure Check (Compute MAWP)
-                    </label>
-                    <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
-                        <input type="radio" name="operationMode" value="design" class="text-blue-600 focus:ring-blue-500"> Required Thickness Design
-                    </label>
-                </div>
-            </div>
-            <div>
-                <label for="npsFilter" class="block text-sm font-semibold text-gray-700 mb-1">Diameter Filter (NPS):</label>
-                <select id="npsFilter" class="w-full rounded-lg border border-slate-300 py-2 px-3 bg-white text-gray-900 text-sm">
-                    <option value="all">View All</option>
-                </select>
-            </div>
+        <div class="flex flex-wrap gap-x-4 gap-y-2 mb-4 text-xs">
+            <div class="flex items-center gap-1.5"><div class="w-3 h-3 rounded grade-A" style="background-color: #f1f8e9;"></div><span class="text-gray-700">Grade A</span></div>
+            <div class="flex items-center gap-1.5"><div class="w-3 h-3 rounded grade-B" style="background-color: #dcedc8;"></div><span class="text-gray-700">Grade B</span></div>
+            <div class="flex items-center gap-1.5"><div class="w-3 h-3 rounded grade-X42" style="background-color: #c5e1a5;"></div><span class="text-gray-700">X42</span></div>
+            <div class="flex items-center gap-1.5"><div class="w-3 h-3 rounded" style="background-color: #8da1b9;"></div><span class="text-gray-700">X46</span></div>
+            <div class="flex items-center gap-1.5"><div class="w-3 h-3 rounded grade-X52" style="background-color: #9ccc65;"></div><span class="text-gray-700">X52</span></div>
+            <div class="flex items-center gap-1.5"><div class="w-3 h-3 rounded grade-X60" style="background-color: #7cb342;"></div><span class="text-gray-700">X60</span></div>
+            <div class="flex items-center gap-1.5"><div class="w-3 h-3 rounded grade-X65" style="background-color: #558b2f;"></div><span class="text-gray-700">X65</span></div>
+            <div class="flex items-center gap-1.5"><div class="w-3 h-3 rounded grade-X70" style="background-color: #33691e;"></div><span class="text-gray-700">X70</span></div>
+            <div class="flex items-center gap-1.5 border-l border-gray-300 pl-3 ml-1"><div class="w-3 h-3 rounded pressure-ok" style="background-color: #e6ffe6;"></div><span class="text-gray-700">Pass</span></div>
+            <div class="flex items-center gap-1.5"><div class="w-3 h-3 rounded pressure-fail" style="background-color: #ffe6e6;"></div><span class="text-gray-700">Fail</span></div>
         </div>
 
-        <div class="legend">
-          <div class="legend-item">
-            <div class="legend-color grade-A"></div>
-            <span>Grade A (30,000 psi)</span>
-          </div>
-          <div class="legend-item">
-            <div class="legend-color grade-B"></div>
-            <span>Grade B (35,000 psi)</span>
-          </div>
-          <div class="legend-item">
-            <div class="legend-color grade-X42"></div>
-            <span>X42 (42,000 psi)</span>
-          </div>
-          <div class="legend-item">
-            <div class="legend-color" style="background-color: #8da1b9;"></div>
-            <span>X46 (46,000 psi)</span>
-          </div>
-          <div class="legend-item">
-            <div class="legend-color grade-X52"></div>
-            <span>X52 (52,000 psi)</span>
-          </div>
-          <div class="legend-item">
-            <div class="legend-color grade-X60"></div>
-            <span>X60 (60,000 psi)</span>
-          </div>
-          <div class="legend-item">
-            <div class="legend-color grade-X65"></div>
-            <span>X65 (65,000 psi)</span>
-          </div>
-          <div class="legend-item">
-            <div class="legend-color grade-X70"></div>
-            <span>X70 (70,000 psi)</span>
-          </div>
-          <div class="legend-item">
-            <div class="legend-color pressure-ok"></div>
-            <span>Meets design pressure</span>
-          </div>
-          <div class="legend-item">
-            <div class="legend-color pressure-fail"></div>
-            <span>Does not meet design pressure</span>
-          </div>
-        </div>
-
-        <div class="overflow-x-auto table-container">
-          <table id="pressureTable" class="w-full text-left min-w-max">
-            <thead>
-              <tr class="sticky-header" style="position: sticky; top: 0; z-index: 10; background-color: #ffffff; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
-                <th class="p-2 border">NPS (in)</th>
-                <th class="p-2 border">Outside Diameter (in)</th>
-                <th class="p-2 border">Schedule</th>
-                <th class="p-2 border">Wall Thickness (in)</th>
-                <th class="p-2 border">Grade A</th>
-                <th class="p-2 border">Grade B</th>
-                <th class="p-2 border">X42</th>
-                <th class="p-2 border">X46</th>
-                <th class="p-2 border">X52</th>
-                <th class="p-2 border">X60</th>
-                <th class="p-2 border">X65</th>
-                <th class="p-2 border">X70</th>
+        <div class="overflow-x-auto w-full border border-gray-200 rounded-lg">
+          <table id="pressureTable" class="w-full text-left min-w-max text-sm">
+            <thead class="bg-gray-50">
+              <tr class="sticky-header" style="position: sticky; top: 0; z-index: 10; background-color: #f9fafb; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                <th class="p-2 border-b border-r text-gray-700 font-semibold bg-gray-50">NPS (in)</th>
+                <th class="p-2 border-b border-r text-gray-700 font-semibold bg-gray-50">Outside Diameter (in)</th>
+                <th class="p-2 border-b border-r text-gray-700 font-semibold bg-gray-50">Schedule</th>
+                <th class="p-2 border-b border-r text-gray-700 font-semibold bg-gray-50">Wall Thickness (in)</th>
+                <th class="p-2 border-b border-r text-gray-700 font-semibold bg-gray-50">Grade A</th>
+                <th class="p-2 border-b border-r text-gray-700 font-semibold bg-gray-50">Grade B</th>
+                <th class="p-2 border-b border-r text-gray-700 font-semibold bg-gray-50">X42</th>
+                <th class="p-2 border-b border-r text-gray-700 font-semibold bg-gray-50">X46</th>
+                <th class="p-2 border-b border-r text-gray-700 font-semibold bg-gray-50">X52</th>
+                <th class="p-2 border-b border-r text-gray-700 font-semibold bg-gray-50">X60</th>
+                <th class="p-2 border-b border-r text-gray-700 font-semibold bg-gray-50">X65</th>
+                <th class="p-2 border-b border-r text-gray-700 font-semibold bg-gray-50">X70</th>
               </tr>
             </thead>
             <tbody></tbody>
@@ -1427,10 +1377,11 @@
                   const row = document.createElement("tr");
                   row.innerHTML = `<td class="p-2 border">${formatNPS(size)}</td><td class="p-2 border">${od.toFixed(3)}</td><td class="p-2 border">${schedule}</td><td class="p-2 border">${thickness.toFixed(3)}</td>`;
                   for (const [grade, SMYS_val] of Object.entries(SMYS)) {
-                    if (opMode === "mawp") {
+                    if (opMode ==
+                    = "mawp") {
                         const p = calculateMaxPressure(SMYS_val, F, E, T, thickness, od, CA);
                         const cls = p >= designPressure ? "pressure-ok" : "pressure-fail";
-                        row.innerHTML += `<td class="p-2 border grade-${grade} ${cls}">${p.toFixed(0)}</td>`;
+                        row.innerHTML += `<td class="p-2 border grade-${grade} ${cls}">${Math.floor(p)}</td>`;
                     } else {
                         const t_req = calculateRequiredThickness(SMYS_val, F, E, T, od, designPressure, CA);
                         const cls = thickness >= t_req ? "pressure-ok" : "pressure-fail";
