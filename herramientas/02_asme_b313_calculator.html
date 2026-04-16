@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0F172A" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Freddy Roa Monsalvo" />
+    <title>ASME B31.3 Process Piping Suite | Engineering Tools</title>
+    <link rel="icon" type="image/x-icon" href="../images/logos/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#0F172A",
+              secondary: "#0284c7", /* Changed secondary to signal B31.3 specific color */
+              accent: "#D4E157",
+              background: "#F8FAFC",
+              surface: "#ffffff",
+              "text-primary": "#334155",
+              "text-secondary": "#1E293B",
+            },
+            fontFamily: {
+              heading: ["Outfit", "sans-serif"],
+              sans: ["DM Sans", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="../tailwind_compiled.css" />
+    <link rel="stylesheet" href="../custom_styles.css" />
+    <style>
+        @media print {
+            header, footer, nav, .print-hidden { display: none !important; }
+            .print-only { display: block !important; }
+            body { background: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .print-break { page-break-before: always; }
+        }
+        .tab-active { 
+            border-bottom: 3px solid #0F172A; 
+            color: #0F172A; 
+            font-weight: bold; 
+            background-color: #f1f5f9;
+        }
+        .tab-inactive { 
+            color: #64748B; 
+            font-weight: 500; 
+            border-bottom: 3px solid transparent; 
+        }
+        .tab-inactive:hover { background-color: #f8fafc; }
+        .target-radio:checked + div {
+            background-color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            color: var(--checked-color, #2563eb);
+            border-color: var(--checked-color, #bfdbfe);
+        }
+    </style>
+  </head>
+  <body class="bg-background text-text-primary">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 shadow-md bg-surface print-hidden">
+      <div class="bg-[#0f172a] text-gray-300 text-xs py-2 border-b border-gray-800 hidden sm:block">
+         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center gap-6">
+            <span class="font-medium text-gray-300 tracking-wide">Ing. Mec Freddy Roa</span>
+            <div class="flex items-center gap-6">
+               <a href="mailto:freddy.roa76@gmail.com" class="hover:text-[#D4E157] transition-colors flex items-center gap-1">freddy.roa76@gmail.com</a>
+               <a href="https://wa.me/573112531330" class="hover:text-[#D4E157] transition-colors flex items-center gap-1">+57 311 253 1330</a>
+            </div>
+         </div>
+      </div>
+      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white/95 backdrop-blur-md">
+        <div class="flex items-center justify-end h-20">
+          <div class="hidden sm:flex items-center space-x-4">
+            <a href="../index.html" class="group-link">Inicio</a>
+            <a href="../herramientas.html" class="group-link text-[#0F172A] font-bold">Herramientas</a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main-content" class="pt-20">
+      <section class="bg-gray-50 min-h-screen pt-8 pb-12">
+        <div class="container mx-auto px-4 pt-2 pb-12 is-tool-content max-w-7xl">
+          <!-- Title -->
+          <div class="title-box mb-8 relative z-10 print-hidden">
+            <h1 class="text-3xl font-bold text-gray-900 tracking-tight">ASME B31.3 Process Piping Suite</h1>
+            <p class="text-gray-500 mt-2 text-sm font-medium">Unified Plant Piping Matrix Auditor & Solver (Sec. 304.1.2)</p>
+          </div>
+
+          <!-- Global Design Parameters -->
+          <div class="card bg-white shadow-md rounded-2xl border border-gray-200 mb-8 p-6 md:p-8">
+              <h2 class="text-xl font-bold mb-6 text-primary flex items-center gap-2 border-b border-gray-100 pb-3">
+                  <svg class="w-6 h-6 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                  B31.3 Global Design Parameters
+              </h2>
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                  <div class="lg:col-span-2">
+                       <label class="block text-sm font-semibold text-gray-700 mb-2">Design Pressure (P) [psi] <span class="text-red-500">*</span></label>
+                       <input type="number" id="designPressure" placeholder="e.g. 500" min="0" step="1" class="w-full rounded-xl border-2 border-slate-200 focus:border-cyan-500 hover:border-cyan-300 py-3 px-4 outline-none transition-colors" required>
+                       <p class="mt-1 text-[10px] text-gray-500 italic">Internal design gage pressure.</p>
+                  </div>
+                  <div>
+                      <label class="block text-sm font-semibold text-gray-700 mb-2">Quality Factor (E) <span class="text-red-500">*</span></label>
+                      <select id="qualityFactor" class="w-full rounded-xl border-2 border-slate-200 focus:border-cyan-500 hover:border-cyan-300 py-3 px-4 outline-none transition-colors" required>
+                          <option value="1.00">1.00 (Seamless / EFW 100% RT)</option>
+                          <option value="0.95">0.95 (EFW Double Sided, Spot RT)</option>
+                          <option value="0.90">0.90 (EFW Single Sided, 100% RT)</option>
+                          <option value="0.85">0.85 (ERW / EFW Spot RT)</option>
+                          <option value="0.80">0.80 (Furnace Butt / EFW No RT)</option>
+                          <option value="0.60">0.60 (API 5L Furnace Butt)</option>
+                      </select>
+                      <p class="mt-1 text-[10px] text-gray-500 italic">Table A-1A / A-1B. Based on pipe spec & radiography.</p>
+                  </div>
+                  <div>
+                      <label class="block text-sm font-semibold text-gray-700 mb-2">Weld Strength Red. (W) <span class="text-red-500">*</span></label>
+                      <select id="weldFactor" class="w-full rounded-xl border-2 border-slate-200 focus:border-cyan-500 hover:border-cyan-300 py-3 px-4 outline-none transition-colors" required>
+                          <option value="1.00">1.00 (T &le; 950&deg;F / 510&deg;C)</option>
+                          <option value="0.95">0.95 (T = 1000&deg;F / 538&deg;C)</option>
+                          <option value="0.91">0.91 (T = 1050&deg;F / 566&deg;C)</option>
+                          <option value="0.86">0.86 (T = 1100&deg;F / 593&deg;C)</option>
+                          <option value="0.82">0.82 (T = 1150&deg;F / 621&deg;C)</option>
+                          <option value="0.77">0.77 (T &ge; 1200&deg;F / 649&deg;C)</option>
+                      </select>
+                      <p class="mt-1 text-[10px] text-gray-500 italic">Sec. 302.3.5. Weld joint reduction in creep range.</p>
+                  </div>
+                  <div>
+                      <label class="block text-sm font-semibold text-gray-700 mb-2">Coefficient (Y) <span class="text-red-500">*</span></label>
+                      <select id="coefficientY" class="w-full rounded-xl border-2 border-slate-200 focus:border-cyan-500 hover:border-cyan-300 py-3 px-4 outline-none transition-colors" required>
+                          <option value="0.4">0.4 (Ferritic &le; 900&deg;F / Austenitic)</option>
+                          <option value="0.5">0.5 (Ferritic 950&deg;F)</option>
+                          <option value="0.7">0.7 (Ferritic &ge; 1000&deg;F)</option>
+                          <option value="0.0">0.0 (Cast Iron)</option>
+                      </select>
+                      <p class="mt-1 text-[10px] text-gray-500 italic">Table 304.1.1. Modifies D for high temps.</p>
+                  </div>
+                  <div class="lg:col-span-2">
+                       <label class="block text-sm font-semibold text-gray-700 mb-2">Corrosion/Mech Allowance (CA) [in]</label>
+                       <input type="number" id="corrosionAllowance" value="0.0625" min="0" step="0.001" class="w-full rounded-xl border-2 border-slate-200 focus:border-cyan-500 hover:border-cyan-300 py-3 px-4 outline-none transition-colors">
+                       <p class="mt-1 text-[10px] text-gray-500 italic">Sum of corrosion, erosion, and thread depth allowance.</p>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Navigation Tabs -->
+          <div class="flex border-b border-gray-200 mb-8 print-hidden overflow-x-auto select-none rounded-t-xl bg-white shadow-sm">
+            <button id="btnTabA" class="flex-1 px-6 py-4 text-center tab-active whitespace-nowrap focus:outline-none transition-all" onclick="switchTab('A')">Modo A: Single Pipe Analytics</button>
+            <button id="btnTabB" class="flex-1 px-6 py-4 text-center tab-inactive whitespace-nowrap focus:outline-none transition-all" onclick="switchTab('B')">Modo B: Matrix Auditor</button>
+          </div>
+
+          <!-- MODO A: SINGLE PIPE ANALYTICS -->
+          <div id="modeA" class="block animate-fadeIn">
+              <div class="card bg-white shadow-md rounded-2xl border border-gray-200 mb-8 p-6 md:p-8 print-hidden">
+                  <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                      <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37..."></path></svg>
+                      Specific Pipe Parameters
+                  </h3>
+                  
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                     <div>
+                         <label class="block text-sm font-semibold text-gray-700 mb-2">Nominal Pipe Size (NPS)</label>
+                         <select id="pipeSize" class="w-full rounded-xl border-2 border-slate-200 focus:border-blue-500 hover:border-blue-300 py-3 px-4 outline-none transition-colors" onchange="updateModeA()"></select>
+                         <div class="mt-2 text-xs font-semibold text-blue-700 bg-blue-50 py-1.5 px-3 rounded-lg w-max">OD: <span id="odBadgeVal">-</span></div>
+                     </div>
+                     <div>
+                         <label class="block text-sm font-semibold text-gray-700 mb-2">Schedule</label>
+                         <select id="pipeSchedule" class="w-full rounded-xl border-2 border-slate-200 focus:border-blue-500 hover:border-blue-300 py-3 px-4 outline-none transition-colors" disabled onchange="updateModeA()"></select>
+                         <div class="mt-2 text-xs font-semibold text-blue-700 bg-blue-50 py-1.5 px-3 rounded-lg w-max">Thickness: <span id="tBadgeVal">-</span></div>
+                     </div>
+                     <div>
+                         <label class="block text-sm font-semibold text-gray-700 mb-2">Material Grade</label>
+                         <select id="pipeGrade" class="w-full rounded-xl border-2 border-slate-200 focus:border-blue-500 hover:border-blue-300 py-3 px-4 outline-none transition-colors" onchange="updateModeA()">
+                             <option value="">Select Material</option>
+                             <option value="A106_B">ASTM A106 Gr. B</option>
+                             <option value="A53_B">ASTM A53 Gr. B</option>
+                             <option value="A333_6">ASTM A333 Gr. 6</option>
+                             <option value="A312_TP304L">ASTM A312 TP304L</option>
+                             <option value="A312_TP316L">ASTM A312 TP316L</option>
+                         </select>
+                         <div class="mt-2 text-xs font-semibold text-blue-700 bg-blue-50 py-1.5 px-3 rounded-lg w-max">Allowable Stress: <span id="sBadgeVal">-</span></div>
+                     </div>
+                  </div>
+
+                  <div class="border-t border-slate-100 pt-6">
+                      <p class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">Analysis Objective</p>
+                      <div class="flex flex-col sm:flex-row gap-4">
+                          <label class="flex-1 cursor-pointer group">
+                             <input type="radio" name="targetVar" value="thickness" class="target-radio sr-only" checked onchange="updateModeA()">
+                             <div class="px-4 py-5 rounded-xl border-2 border-transparent bg-slate-50 text-center transition-all group-hover:bg-slate-100" style="--checked-color: #2563eb; --checked-border: #bfdbfe;">
+                                <div class="font-bold">Required Thickness (t)</div>
+                                <div class="text-xs opacity-70 mt-1">Design for P</div>
+                             </div>
+                          </label>
+                          <label class="flex-1 cursor-pointer group">
+                             <input type="radio" name="targetVar" value="pressure" class="target-radio sr-only" onchange="updateModeA()">
+                             <div class="px-4 py-5 rounded-xl border-2 border-transparent bg-slate-50 text-center transition-all group-hover:bg-slate-100" style="--checked-color: #059669; --checked-border: #a7f3d0;">
+                                <div class="font-bold">Max Pressure (P_max)</div>
+                                <div class="text-xs opacity-70 mt-1">Maximum Internal Limit</div>
+                             </div>
+                          </label>
+                          <label class="flex-1 cursor-pointer group">
+                             <input type="radio" name="targetVar" value="stress" class="target-radio sr-only" onchange="updateModeA()">
+                             <div class="px-4 py-5 rounded-xl border-2 border-transparent bg-slate-50 text-center transition-all group-hover:bg-slate-100" style="--checked-color: #7c3aed; --checked-border: #ddd6fe;">
+                                <div class="font-bold">Design Stress (S_calc)</div>
+                                <div class="text-xs opacity-70 mt-1">Verify Allowable Limit</div>
+                             </div>
+                          </label>
+                      </div>
+                  </div>
+              </div>
+              <div id="modeAResultsContainer"></div>
+          </div>
+
+          <!-- MODO B: MATRIX AUDITOR -->
+          <div id="modeB" class="hidden animate-fadeIn">
+              <div class="card bg-white shadow-md rounded-2xl border border-gray-200 mb-8 p-6 print-hidden">
+                  <h3 class="text-lg font-bold text-slate-800 mb-4">Matrix Auditor Parameters</h3>
+                  <p class="text-sm text-gray-500 mb-6">Executes a batch cross-evaluation of the entire API 5L / ASME B36.10M matrix for B31.3 Compliance.</p>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-xl">
+                      <div>
+                          <label class="block text-sm font-semibold text-gray-700 mb-2">Matrix Mode</label>
+                          <select id="matrixMode" class="w-full rounded-xl border-2 border-slate-200 focus:border-indigo-500 hover:border-indigo-300 py-3 px-4 outline-none transition-colors" onchange="updateModeB()">
+                               <option value="mawp">Pressure Check (P_max)</option>
+                               <option value="design">Required Thickness Verification</option>
+                               <option value="stress">Stress Compliance (S_calc &le; S*E*W)</option>
+                          </select>
+                      </div>
+                      <div class="flex items-end">
+                           <button class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-xl shadow transition-colors" onclick="updateModeB()">
+                               Run Audit
+                           </button>
+                      </div>
+                  </div>
+              </div>
+              
+              <div class="card bg-white shadow-md rounded-2xl border border-gray-200 overflow-hidden">
+                  <div class="p-4 bg-gray-50 border-b border-gray-200 flex justify-between items-center print-hidden">
+                      <h3 class="font-bold text-gray-700">Audit Results</h3>
+                      <button onclick="window.print()" class="text-sm font-medium text-blue-600 bg-blue-100 px-3 py-1.5 rounded-lg border border-blue-200 hover:bg-blue-200 transition-colors">
+                          Print Report
+                      </button>
+                  </div>
+                  <div class="overflow-x-auto w-full p-0">
+                      <table class="w-full text-left min-w-max text-sm" id="matrixTable">
+                          <thead class="bg-slate-100 sticky top-0 shadow-sm z-10 text-slate-800">
+                              <tr>
+                                  <th class="p-3 border-r font-bold">NPS (in)</th>
+                                  <th class="p-3 border-r font-bold">OD (in)</th>
+                                  <th class="p-3 border-r font-bold">Schedule</th>
+                                  <th class="p-3 border-r font-bold">Thickness (in)</th>
+                                  <th class="p-3 border-r font-bold">A106 Gr B</th>
+                                  <th class="p-3 border-r font-bold">A53 Gr B</th>
+                                  <th class="p-3 border-r font-bold">A333 Gr 6</th>
+                                  <th class="p-3 border-r font-bold">A312 TP304L</th>
+                                  <th class="p-3">A312 TP316L</th>
+                              </tr>
+                          </thead>
+                          <tbody class="divide-y divide-gray-100 text-gray-700">
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bg-gray-900 text-white border-t-4 border-[#0284c7] print-hidden">
+      <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 text-center text-gray-500 text-sm">
+         &copy; 2026 Freddy Roa Monsalvo. Process Piping Compliance.
+      </div>
+    </footer>
+
+    <script>
+        // STATIC DICTIONARIES
+        const allowableStress = { 
+            A106_B: 20000, 
+            A53_B: 20000, 
+            A333_6: 20000, 
+            A312_TP304L: 16700, 
+            A312_TP316L: 16700 
+        };
+        const pipeDimensions = {
+            "0.125": { OD: 0.405, schedules: { STD: 0.068, 40: 0.068, XS: 0.095, 80: 0.095 } },
+            "0.25": { OD: 0.54, schedules: { STD: 0.088, 40: 0.088, XS: 0.119, 80: 0.119 } },
+            "0.375": { OD: 0.675, schedules: { STD: 0.091, 40: 0.091, XS: 0.126, 80: 0.126 } },
+            "0.5": { OD: 0.84, schedules: { STD: 0.109, 40: 0.109, XS: 0.147, 80: 0.147, 160: 0.187, XXS: 0.294 } },
+            "0.75": { OD: 1.05, schedules: { STD: 0.113, 40: 0.113, XS: 0.154, 80: 0.154, 160: 0.219, XXS: 0.308 } },
+            "1": { OD: 1.315, schedules: { STD: 0.133, 40: 0.133, XS: 0.179, 80: 0.179, 160: 0.25, XXS: 0.358 } },
+            "1.25": { OD: 1.66, schedules: { STD: 0.14, 40: 0.14, XS: 0.191, 80: 0.191, 160: 0.25, XXS: 0.382 } },
+            "1.5": { OD: 1.9, schedules: { STD: 0.145, 40: 0.145, XS: 0.2, 80: 0.2, 160: 0.281, XXS: 0.4 } },
+            "2": { OD: 2.375, schedules: { STD: 0.154, 40: 0.154, XS: 0.218, 80: 0.218, 160: 0.344, XXS: 0.436 } },
+            "2.5": { OD: 2.875, schedules: { STD: 0.203, 40: 0.203, XS: 0.276, 80: 0.276, 160: 0.375, XXS: 0.552 } },
+            "3": { OD: 3.5, schedules: { STD: 0.216, 40: 0.216, XS: 0.3, 80: 0.3, 160: 0.438, XXS: 0.6 } },
+            "3.5": { OD: 4.0, schedules: { STD: 0.226, 40: 0.226, XS: 0.318, 80: 0.318 } },
+            "4": { OD: 4.5, schedules: { STD: 0.237, 40: 0.237, XS: 0.337, 80: 0.337, 120: 0.438, 160: 0.531, XXS: 0.674 } },
+            "5": { OD: 5.563, schedules: { STD: 0.258, 40: 0.258, XS: 0.375, 80: 0.375, 120: 0.5, 160: 0.625, XXS: 0.75 } },
+            "6": { OD: 6.625, schedules: { STD: 0.28, 40: 0.28, XS: 0.432, 80: 0.432, 120: 0.562, 160: 0.719, XXS: 0.864 } },
+            "8": { OD: 8.625, schedules: { 10: 0.25, 20: 0.25, 30: 0.277, STD: 0.322, 40: 0.322, 60: 0.406, XS: 0.5, 80: 0.5, 100: 0.594, 120: 0.719, 140: 0.812, 160: 0.906 } },
+            "10": { OD: 10.75, schedules: { 10: 0.25, 20: 0.25, 30: 0.307, STD: 0.365, 40: 0.365, 60: 0.5, XS: 0.5, 80: 0.594, 100: 0.719, 120: 0.844, 140: 1.0, 160: 1.125 } },
+            "12": { OD: 12.75, schedules: { 10: 0.25, 20: 0.25, 30: 0.33, STD: 0.375, 40: 0.406, 60: 0.562, XS: 0.5, 80: 0.688, 100: 0.844, 120: 1.0, 140: 1.125, 160: 1.312 } },
+            "14": { OD: 14.0, schedules: { 10: 0.25, 20: 0.312, 30: 0.375, STD: 0.375, 40: 0.438, 60: 0.594, XS: 0.5, 80: 0.75, 100: 0.938, 120: 1.094, 140: 1.25, 160: 1.406 } },
+            "16": { OD: 16.0, schedules: { 10: 0.25, 20: 0.312, 30: 0.375, STD: 0.375, 40: 0.5, 60: 0.656, XS: 0.5, 80: 0.844 } },
+            "18": { OD: 18.0, schedules: { 10: 0.25, 20: 0.312, 30: 0.438, STD: 0.375, 40: 0.562, 60: 0.75, XS: 0.5, 80: 0.938, 100: 1.156, 120: 1.375, 140: 1.562, 160: 1.781 } },
+            "20": { OD: 20.0, schedules: { 10: 0.25, 20: 0.375, 30: 0.5, STD: 0.375, 40: 0.594, 60: 0.812, XS: 0.5, 80: 1.031, 100: 1.281, 120: 1.5, 140: 1.75, 160: 1.969 } },
+            "22": { OD: 22.0, schedules: { 10: 0.25, 20: 0.375, 30: 0.5, STD: 0.375, 40: 0.875, XS: 0.5, 80: 1.125, 100: 1.375, 120: 1.625, 140: 1.875, 160: 2.125 } },
+            "24": { OD: 24.0, schedules: { 10: 0.25, 20: 0.375, 30: 0.562, STD: 0.375, 40: 0.688, 60: 0.969, XS: 0.5, 80: 1.219, 100: 1.531, 120: 1.812, 140: 2.062, 160: 2.344 } },
+            "30": { OD: 30.0, schedules: { 10: 0.312, 20: 0.5, 30: 0.625, STD: 0.375, XS: 0.5 } },
+            "32": { OD: 32.0, schedules: { 10: 0.312, 20: 0.5, 30: 0.625, STD: 0.375, 40: 0.688 } },
+            "34": { OD: 34.0, schedules: { 10: 0.312, 20: 0.5, 30: 0.625, STD: 0.375, 40: 0.688 } },
+            "36": { OD: 36.0, schedules: { 10: 0.312, 20: 0.5, 30: 0.625, STD: 0.375, 40: 0.75 } },
+            "42": { OD: 42.0, schedules: { 20: 0.5, 30: 0.625, STD: 0.375, 40: 0.75 } }
+        };
+        const scheduleOrder = ["5", "10", "20", "30", "STD", "40", "60", "XS", "80", "100", "120", "140", "160", "XXS"];
+
+        let currentTab = 'A';
+        
+        // ASME B31.3 EQUATIONS
+        function calculateTReq(P, D, S, E, W, Y, CA) {
+            return Math.round((((P * D) / (2 * (S * E * W + P * Y))) + CA) * 1000) / 1000;
+        }
+        function calculateMaxP(S, E, W, Y, t, D, CA) {
+            const t_c = Math.max(0.001, t - CA);
+            const denom = D - (2 * Y * t_c);
+            if(denom <= 0) return 0;
+            return Math.round(((2 * S * E * W * t_c) / denom) * 1000) / 1000;
+        }
+        function calculateStress(P, D, Y, t, CA) {
+            const t_c = Math.max(0.001, t - CA);
+            return Math.round(((P * (D - 2 * Y * t_c)) / (2 * t_c)) * 1000) / 1000;
+        }
+
+        // TABS LOGIC
+        function switchTab(tab) {
+            if (tab === 'A') {
+                document.getElementById('modeA').classList.remove('hidden');
+                document.getElementById('modeB').classList.add('hidden');
+                document.getElementById('btnTabA').classList.replace('tab-inactive', 'tab-active');
+                document.getElementById('btnTabB').classList.replace('tab-active', 'tab-inactive');
+                currentTab = 'A';
+                updateModeA();
+            } else {
+                document.getElementById('modeA').classList.add('hidden');
+                document.getElementById('modeB').classList.remove('hidden');
+                document.getElementById('btnTabB').classList.replace('tab-inactive', 'tab-active');
+                document.getElementById('btnTabA').classList.replace('tab-active', 'tab-inactive');
+                currentTab = 'B';
+                updateModeB();
+            }
+        }
+
+        // DOM ELEMENTS AND INIT
+        function initApp() {
+            const ps = document.getElementById('pipeSize');
+            ps.innerHTML = '<option value="">Select Size</option>';
+            Object.keys(pipeDimensions).sort((a,b)=>parseFloat(a)-parseFloat(b)).forEach(size => {
+                let frac = size;
+                if(size==="0.125") frac="1/8"; else if(size==="0.25") frac="1/4"; else if(size==="0.375") frac="3/8"; 
+                else if(size==="0.5") frac="1/2"; else if(size==="0.75") frac="3/4"; else if(size==="1.25") frac="1-1/4"; 
+                else if(size==="1.5") frac="1-1/2"; else if(size==="2.5") frac="2-1/2"; else if(size==="3.5") frac="3-1/2";
+                ps.innerHTML += `<option value="${size}">${frac}"</option>`;
+            });
+
+            const globals = ['qualityFactor', 'weldFactor', 'coefficientY', 'designPressure', 'corrosionAllowance'];
+            globals.forEach(id => {
+                document.getElementById(id).addEventListener('input', () => {
+                    if(currentTab === 'A') updateModeA();
+                    else updateModeB();
+                });
+            });
+
+            document.getElementById('pipeSize').addEventListener('change', updateScheduleDropdown);
+        }
+
+        function getGlobalParams() {
+            const E = parseFloat(document.getElementById('qualityFactor').value);
+            const W = parseFloat(document.getElementById('weldFactor').value);
+            const Y = parseFloat(document.getElementById('coefficientY').value);
+            const P = parseFloat(document.getElementById('designPressure').value);
+            let CA = parseFloat(document.getElementById('corrosionAllowance').value);
+            if(isNaN(CA)) CA = 0;
+            return { E, W, Y, P, CA };
+        }
+
+        function updateScheduleDropdown() {
+            const size = document.getElementById('pipeSize').value;
+            const schEl = document.getElementById('pipeSchedule');
+            const currentSch = schEl.value;
+            schEl.innerHTML = '<option value="">Select Schedule</option>';
+            
+            if(size && pipeDimensions[size]) {
+                const od = pipeDimensions[size].OD;
+                document.getElementById('odBadgeVal').textContent = od.toFixed(3) + '"';
+                schEl.disabled = false;
+                
+                const av = Object.keys(pipeDimensions[size].schedules);
+                const ordered = scheduleOrder.filter(s => av.includes(s));
+                const others = av.filter(s => !scheduleOrder.includes(s)).sort((a,b)=>parseFloat(a)-parseFloat(b));
+                [...ordered, ...others].forEach(s => {
+                    schEl.innerHTML += `<option value="${s}">${s}</option>`;
+                });
+                if(currentSch && av.includes(currentSch)) schEl.value = currentSch;
+            } else {
+                schEl.disabled = true;
+                document.getElementById('odBadgeVal').textContent = '-';
+            }
+            updateModeA();
+        }
+
+        // MODO A LOGIC
+        function updateModeA() {
+            const size = document.getElementById('pipeSize').value;
+            const sch = document.getElementById('pipeSchedule').value;
+            const grade = document.getElementById('pipeGrade').value;
+            const target = document.querySelector('input[name="targetVar"]:checked').value;
+            
+            const dpInput = document.getElementById('designPressure');
+            const schInput = document.getElementById('pipeSchedule');
+            
+            if(target === 'thickness') {
+                dpInput.parentElement.classList.remove('opacity-50');
+                schInput.required = false; 
+                schInput.parentElement.classList.add('opacity-50');
+            } else if (target === 'pressure') {
+                dpInput.parentElement.classList.add('opacity-50'); 
+                schInput.required = true;
+                schInput.parentElement.classList.remove('opacity-50');
+            } else if (target === 'stress') {
+                dpInput.parentElement.classList.remove('opacity-50');
+                schInput.required = true;
+                schInput.parentElement.classList.remove('opacity-50');
+            }
+
+            if(size && sch && pipeDimensions[size].schedules[sch]) {
+                document.getElementById('tBadgeVal').textContent = pipeDimensions[size].schedules[sch].toFixed(3) + '"';
+            } else {
+                document.getElementById('tBadgeVal').textContent = '-';
+            }
+
+            if(grade && allowableStress[grade]) {
+                document.getElementById('sBadgeVal').textContent = allowableStress[grade].toLocaleString() + ' psi';
+            } else {
+                document.getElementById('sBadgeVal').textContent = '-';
+            }
+
+            const resDiv = document.getElementById('modeAResultsContainer');
+            const globals = getGlobalParams();
+            
+            if(!size || !grade || isNaN(globals.E) || isNaN(globals.W) || isNaN(globals.Y)) {
+                resDiv.innerHTML = '<div class="text-center p-6 text-gray-400">Complete all required global and specific parameters to view results.</div>';
+                return;
+            }
+
+            const D = pipeDimensions[size].OD;
+            const S = allowableStress[grade];
+            let t = size && sch ? pipeDimensions[size].schedules[sch] : 0;
+
+            if(target === 'thickness') {
+                if(!globals.P || isNaN(globals.P)) { resDiv.innerHTML = '<div class="text-center p-6 text-gray-400">Design Pressure missing.</div>'; return; }
+                const tReq = calculateTReq(globals.P, D, S, globals.E, globals.W, globals.Y, globals.CA);
+                let recSch = "-", recThick = 0;
+                let keys = Object.keys(pipeDimensions[size].schedules).sort((a,b)=>pipeDimensions[size].schedules[a]-pipeDimensions[size].schedules[b]);
+                for(let k of keys) {
+                    if(pipeDimensions[size].schedules[k] >= tReq) {
+                        recSch = k;
+                        recThick = pipeDimensions[size].schedules[k];
+                        break;
+                    }
+                }
+                resDiv.innerHTML = `
+                    <div class="bg-blue-50 border border-blue-200 p-6 rounded-xl flex flex-col md:flex-row gap-6 justify-between items-center">
+                        <div class="text-center md:text-left">
+                           <p class="text-xs font-bold text-blue-700 uppercase tracking-widest mb-1">Calculated t_req</p>
+                           <p class="text-4xl font-extrabold text-blue-900">${tReq.toFixed(3)}"</p>
+                        </div>
+                        <div class="text-center md:text-right border-l border-blue-100 pl-6">
+                           <p class="text-xs font-bold text-emerald-700 uppercase tracking-widest mb-1">Nearest Schedule</p>
+                           <p class="text-3xl font-extrabold text-emerald-800">${recSch} <span class="text-lg font-medium">(${recThick.toFixed(3)}")</span></p>
+                        </div>
+                    </div>
+                `;
+            } else if (target === 'pressure') {
+                if(!sch) { resDiv.innerHTML = '<div class="text-center p-6 text-gray-400">Select Schedule.</div>'; return; }
+                const pMax = calculateMaxP(S, globals.E, globals.W, globals.Y, t, D, globals.CA);
+                resDiv.innerHTML = `
+                    <div class="bg-emerald-50 border border-emerald-200 p-6 rounded-xl text-center">
+                        <p class="text-xs font-bold text-emerald-700 uppercase tracking-widest mb-1">Max Design Pressure (P_max)</p>
+                        <p class="text-5xl font-extrabold text-emerald-900">${Math.floor(pMax).toLocaleString()} <span class="text-2xl">psi</span></p>
+                    </div>
+                `;
+            } else if (target === 'stress') {
+                if(!sch || !globals.P || isNaN(globals.P)) { resDiv.innerHTML = '<div class="text-center p-6 text-gray-400">Select Schedule and enter Design Pressure.</div>'; return; }
+                const sCalc = calculateStress(globals.P, D, globals.Y, t, globals.CA);
+                const allowable = S * globals.E * globals.W;
+                const isSafe = sCalc <= allowable;
+                const color = isSafe ? 'emerald' : 'red';
+                const pct = Math.round((sCalc / allowable) * 1000)/10;
+                resDiv.innerHTML = `
+                    <div class="bg-${color}-50 border border-${color}-200 p-6 rounded-xl flex flex-col md:flex-row gap-6 justify-between items-center">
+                        <div class="text-center md:text-left">
+                           <p class="text-xs font-bold text-${color}-700 uppercase tracking-widest mb-1">Design Stress (S_calc)</p>
+                           <p class="text-4xl font-extrabold text-${color}-900">${Math.round(sCalc).toLocaleString()} <span class="text-xl">psi</span></p>
+                        </div>
+                        <div class="text-center md:text-right border-l border-${color}-100 pl-6">
+                           <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">vs Allowable Limit</p>
+                           <p class="text-3xl font-extrabold text-gray-800">${pct.toFixed(1)}% <span class="text-sm font-normal">/ Max: ${allowable.toLocaleString()} psi</span></p>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // MODO B LOGIC
+        function updateModeB() {
+            const globals = getGlobalParams();
+            const mode = document.getElementById('matrixMode').value;
+            const tbody = document.querySelector('#matrixTable tbody');
+            tbody.innerHTML = '';
+
+            if(isNaN(globals.E) || isNaN(globals.W) || isNaN(globals.Y)) {
+                tbody.innerHTML = '<tr><td colspan="9" class="p-6 text-center text-rose-500 font-bold">Please complete Quality (E), Weld (W), and Temp (Y) factors.</td></tr>';
+                return;
+            }
+            if((mode === 'design' || mode === 'stress') && (!globals.P || isNaN(globals.P))) {
+                tbody.innerHTML = '<tr><td colspan="9" class="p-6 text-center text-rose-500 font-bold">Please enter Design Pressure.</td></tr>';
+                return;
+            }
+
+            Object.keys(pipeDimensions).sort((a,b)=>parseFloat(a)-parseFloat(b)).forEach(size => {
+                const D = pipeDimensions[size].OD;
+                const schObj = pipeDimensions[size].schedules;
+                const av = Object.keys(schObj);
+                const ordered = scheduleOrder.filter(s => av.includes(s));
+                const others = av.filter(s => !scheduleOrder.includes(s)).sort((a,b)=>parseFloat(a)-parseFloat(b));
+                
+                [...ordered, ...others].forEach(sch => {
+                    const row = document.createElement('tr');
+                    const t = schObj[sch];
+                    
+                    let suffix = `"`;
+                    let frac = size;
+                    if(size==="0.125") frac="1/8"; else if(size==="0.25") frac="1/4"; else if(size==="0.375") frac="3/8"; 
+                    else if(size==="0.5") frac="1/2"; else if(size==="0.75") frac="3/4"; else if(size==="1.25") frac="1-1/4"; 
+                    else if(size==="1.5") frac="1-1/2"; else if(size==="2.5") frac="2-1/2"; else if(size==="3.5") frac="3-1/2";
+
+                    let html = `
+                        <td class="p-3 border-r font-medium">${frac}${suffix}</td>
+                        <td class="p-3 border-r">${D.toFixed(3)}</td>
+                        <td class="p-3 border-r">${sch}</td>
+                        <td class="p-3 border-r text-indigo-700 font-medium">${t.toFixed(3)}</td>
+                    `;
+
+                    Object.keys(allowableStress).forEach(grade => {
+                        const S = allowableStress[grade];
+                        if (mode === 'mawp') {
+                            const pMax = calculateMaxP(S, globals.E, globals.W, globals.Y, t, D, globals.CA);
+                            const safe = (!globals.P || isNaN(globals.P)) ? true : pMax >= globals.P;
+                            const cls = safe ? 'text-emerald-700 bg-emerald-50' : 'text-red-700 bg-red-50';
+                            html += `<td class="p-3 border-r ${cls}">${Math.floor(pMax)}</td>`;
+                        } else if (mode === 'design') {
+                            const tReq = calculateTReq(globals.P, D, S, globals.E, globals.W, globals.Y, globals.CA);
+                            const safe = t >= tReq;
+                            const cls = safe ? 'text-emerald-700 bg-emerald-50' : 'text-red-700 bg-red-50';
+                            html += `<td class="p-3 border-r ${cls}">${tReq.toFixed(3)}</td>`;
+                        } else if (mode === 'stress') {
+                            const sCalc = calculateStress(globals.P, D, globals.Y, t, globals.CA);
+                            const allowable = S * globals.E * globals.W;
+                            let pct = Math.round((sCalc / allowable)*1000)/10;
+                            const safe = sCalc <= allowable;
+                            const cls = safe ? 'text-emerald-700 bg-emerald-50' : 'text-red-700 bg-red-50';
+                            html += `<td class="p-3 border-r ${cls}">${pct.toFixed(1)}%</td>`;
+                        }
+                    });
+                    
+                    row.innerHTML = html;
+                    tbody.appendChild(row);
+                });
+            });
+        }
+
+        window.onload = initApp;
+    </script>
+  </body>
+</html>
