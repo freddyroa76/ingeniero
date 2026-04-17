@@ -100,50 +100,59 @@
                   <svg class="w-6 h-6 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
                   B31.3 Global Design Parameters
               </h2>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-                  <div class="lg:col-span-2">
-                       <label class="block text-sm font-semibold text-gray-700 mb-2">Design Pressure (P) [psi] <span class="text-red-500">*</span></label>
-                       <input type="number" id="designPressure" placeholder="e.g. 500" min="0" step="1" class="w-full rounded-xl border-2 border-slate-200 focus:border-cyan-500 hover:border-cyan-300 py-3 px-4 outline-none transition-colors" required>
-                       <p class="mt-1 text-[10px] text-gray-500 italic">Internal design gage pressure.</p>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  <div>
+                       <label class="block text-sm font-semibold text-gray-700 mb-2">Presión de Diseño (P) [psi] <span class="text-red-500">*</span></label>
+                       <input type="number" id="designPressure" placeholder="ej. 500" min="0" step="1" class="w-full rounded-xl border-2 border-slate-200 focus:border-cyan-500 hover:border-cyan-300 py-3 px-4 outline-none transition-colors font-medium text-lg" required>
+                       <p class="mt-2 text-[11px] text-gray-500 italic">Presión interna máxima de operación esperada.</p>
                   </div>
                   <div>
-                      <label class="block text-sm font-semibold text-gray-700 mb-2">Quality Factor (E) <span class="text-red-500">*</span></label>
-                      <select id="qualityFactor" class="w-full rounded-xl border-2 border-slate-200 focus:border-cyan-500 hover:border-cyan-300 py-3 px-4 outline-none transition-colors" required>
-                          <option value="1.00">1.00 (Seamless / EFW 100% RT)</option>
-                          <option value="0.95">0.95 (EFW Double Sided, Spot RT)</option>
-                          <option value="0.90">0.90 (EFW Single Sided, 100% RT)</option>
-                          <option value="0.85">0.85 (ERW / EFW Spot RT)</option>
-                          <option value="0.80">0.80 (Furnace Butt / EFW No RT)</option>
-                          <option value="0.60">0.60 (API 5L Furnace Butt)</option>
-                      </select>
-                      <p class="mt-1 text-[10px] text-gray-500 italic">Table A-1A / A-1B. Based on pipe spec & radiography.</p>
+                       <label class="block text-sm font-semibold text-gray-700 mb-2">Corrosión y Desgaste (CA) [in]</label>
+                       <input type="number" id="corrosionAllowance" value="0.0625" min="0" step="0.001" class="w-full rounded-xl border-2 border-slate-200 focus:border-cyan-500 hover:border-cyan-300 py-3 px-4 outline-none transition-colors font-medium text-lg">
+                       <p class="mt-2 text-[11px] text-gray-500 italic">Previsión para corrosión, erosión y reducción de espesor o rosca.</p>
                   </div>
-                  <div>
-                      <label class="block text-sm font-semibold text-gray-700 mb-2">Weld Strength Red. (W) <span class="text-red-500">*</span></label>
-                      <select id="weldFactor" class="w-full rounded-xl border-2 border-slate-200 focus:border-cyan-500 hover:border-cyan-300 py-3 px-4 outline-none transition-colors" required>
-                          <option value="1.00">1.00 (T &le; 950&deg;F / 510&deg;C)</option>
-                          <option value="0.95">0.95 (T = 1000&deg;F / 538&deg;C)</option>
-                          <option value="0.91">0.91 (T = 1050&deg;F / 566&deg;C)</option>
-                          <option value="0.86">0.86 (T = 1100&deg;F / 593&deg;C)</option>
-                          <option value="0.82">0.82 (T = 1150&deg;F / 621&deg;C)</option>
-                          <option value="0.77">0.77 (T &ge; 1200&deg;F / 649&deg;C)</option>
-                      </select>
-                      <p class="mt-1 text-[10px] text-gray-500 italic">Sec. 302.3.5. Weld joint reduction in creep range.</p>
-                  </div>
-                  <div>
-                      <label class="block text-sm font-semibold text-gray-700 mb-2">Coefficient (Y) <span class="text-red-500">*</span></label>
-                      <select id="coefficientY" class="w-full rounded-xl border-2 border-slate-200 focus:border-cyan-500 hover:border-cyan-300 py-3 px-4 outline-none transition-colors" required>
-                          <option value="0.4">0.4 (Ferritic &le; 900&deg;F / Austenitic)</option>
-                          <option value="0.5">0.5 (Ferritic 950&deg;F)</option>
-                          <option value="0.7">0.7 (Ferritic &ge; 1000&deg;F)</option>
-                          <option value="0.0">0.0 (Cast Iron)</option>
-                      </select>
-                      <p class="mt-1 text-[10px] text-gray-500 italic">Table 304.1.1. Modifies D for high temps.</p>
-                  </div>
-                  <div class="lg:col-span-2">
-                       <label class="block text-sm font-semibold text-gray-700 mb-2">Corrosion/Mech Allowance (CA) [in]</label>
-                       <input type="number" id="corrosionAllowance" value="0.0625" min="0" step="0.001" class="w-full rounded-xl border-2 border-slate-200 focus:border-cyan-500 hover:border-cyan-300 py-3 px-4 outline-none transition-colors">
-                       <p class="mt-1 text-[10px] text-gray-500 italic">Sum of corrosion, erosion, and thread depth allowance.</p>
+              </div>
+
+              <div class="bg-slate-50 border border-slate-200/60 rounded-xl p-5 shadow-inner">
+                  <h3 class="text-xs font-bold text-slate-700 mb-4 uppercase tracking-widest flex items-center gap-2">
+                       <svg class="w-4 h-4 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+                       Factores de Corrección Normativa B31.3
+                  </h3>
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div class="flex flex-col h-full">
+                          <label class="block text-sm font-semibold text-gray-700 mb-2">Calidad de Junta (E) <span class="text-red-500">*</span></label>
+                          <select id="qualityFactor" class="mt-auto w-full rounded-xl border-2 border-white shadow-sm focus:border-cyan-500 hover:border-cyan-300 py-2.5 px-3 outline-none transition-colors text-sm bg-white" required>
+                              <option value="1.00">1.00 - Tubo Sin Costura / EFW 100% RT</option>
+                              <option value="0.95">0.95 - EFW doble cara, RT parcial</option>
+                              <option value="0.90">0.90 - EFW una cara, 100% RT</option>
+                              <option value="0.85">0.85 - ERW / EFW con RT parcial</option>
+                              <option value="0.80">0.80 - EFW sin RT / Continuous Butt</option>
+                              <option value="0.60">0.60 - API 5L Furnace Butt Weld</option>
+                          </select>
+                          <p class="mt-2 text-[11px] text-gray-500 italic leading-snug">Tabla A-1A/1B. Penaliza el esfuerzo permisible en base al método de manufactura y control RT.</p>
+                      </div>
+                      <div class="flex flex-col h-full">
+                          <label class="block text-sm font-semibold text-gray-700 mb-2">Reducción Soldadura (W) <span class="text-red-500">*</span></label>
+                          <select id="weldFactor" class="mt-auto w-full rounded-xl border-2 border-white shadow-sm focus:border-cyan-500 hover:border-cyan-300 py-2.5 px-3 outline-none transition-colors text-sm bg-white" required>
+                              <option value="1.00">1.00 - Temperatura &le; 950&deg;F</option>
+                              <option value="0.95">0.95 - Temp a 1000&deg;F (538&deg;C)</option>
+                              <option value="0.91">0.91 - Temp a 1050&deg;F (566&deg;C)</option>
+                              <option value="0.86">0.86 - Temp a 1100&deg;F (593&deg;C)</option>
+                              <option value="0.82">0.82 - Temp a 1150&deg;F (621&deg;C)</option>
+                              <option value="0.77">0.77 - Temp &ge; 1200&deg;F (649&deg;C)</option>
+                          </select>
+                          <p class="mt-2 text-[11px] text-gray-500 italic leading-snug">Sec. 302.3.5. Reduce la resistencia de la unión cuando opera dentro del rango de fluencia térmica.</p>
+                      </div>
+                      <div class="flex flex-col h-full">
+                          <label class="block text-sm font-semibold text-gray-700 mb-2">Coeficiente Material (Y) <span class="text-red-500">*</span></label>
+                          <select id="coefficientY" class="mt-auto w-full rounded-xl border-2 border-white shadow-sm focus:border-cyan-500 hover:border-cyan-300 py-2.5 px-3 outline-none transition-colors text-sm bg-white" required>
+                              <option value="0.4">0.4 - Ferríticos &le;900&deg;F / Austeníticos</option>
+                              <option value="0.5">0.5 - Ferríticos a 950&deg;F</option>
+                              <option value="0.7">0.7 - Ferríticos a &ge;1000&deg;F</option>
+                              <option value="0.0">0.0 - Hierro Fundido (Cast Iron)</option>
+                          </select>
+                          <p class="mt-2 text-[11px] text-gray-500 italic leading-snug">Tabla 304.1.1. Modifica la ecuación de diámetro efectivo ante dilatación a elevadas temperaturas.</p>
+                      </div>
                   </div>
               </div>
           </div>
@@ -162,28 +171,40 @@
                       Specific Pipe Parameters
                   </h3>
                   
+                  <div class="bg-amber-50 border border-amber-200 text-amber-800 text-xs px-4 py-3 rounded-xl mb-6 flex items-start gap-3">
+                      <svg class="w-5 h-5 text-amber-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                      <p><strong>Nota:</strong> Los valores pre-cargados de Esfuerzo Permisible (S) aplican para temperaturas &le; 400&deg;F. Para temperaturas en el rango de fluencia (Factor W &lt; 1.0), seleccione <strong>"Custom"</strong> e ingrese el S correspondiente según la Tabla A-1.</p>
+                  </div>
+                  
                   <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                      <div>
                          <label class="block text-sm font-semibold text-gray-700 mb-2">Nominal Pipe Size (NPS)</label>
                          <select id="pipeSize" class="w-full rounded-xl border-2 border-slate-200 focus:border-blue-500 hover:border-blue-300 py-3 px-4 outline-none transition-colors" onchange="updateModeA()"></select>
                          <div class="mt-2 text-xs font-semibold text-blue-700 bg-blue-50 py-1.5 px-3 rounded-lg w-max">OD: <span id="odBadgeVal">-</span></div>
+                         <p class="mt-1 text-[10px] text-gray-500 italic">Diámetro nominal según B36.10M / B36.19M.</p>
                      </div>
                      <div>
                          <label class="block text-sm font-semibold text-gray-700 mb-2">Schedule</label>
                          <select id="pipeSchedule" class="w-full rounded-xl border-2 border-slate-200 focus:border-blue-500 hover:border-blue-300 py-3 px-4 outline-none transition-colors" disabled onchange="updateModeA()"></select>
                          <div class="mt-2 text-xs font-semibold text-blue-700 bg-blue-50 py-1.5 px-3 rounded-lg w-max">Thickness: <span id="tBadgeVal">-</span></div>
+                         <p class="mt-1 text-[10px] text-gray-500 italic">Espesor comercial estándar de pared.</p>
                      </div>
                      <div>
                          <label class="block text-sm font-semibold text-gray-700 mb-2">Material Grade</label>
-                         <select id="pipeGrade" class="w-full rounded-xl border-2 border-slate-200 focus:border-blue-500 hover:border-blue-300 py-3 px-4 outline-none transition-colors" onchange="updateModeA()">
+                         <select id="pipeGrade" class="w-full rounded-xl border-2 border-slate-200 focus:border-blue-500 hover:border-blue-300 py-3 px-4 outline-none transition-colors" onchange="toggleCustomStress(); updateModeA()">
                              <option value="">Select Material</option>
                              <option value="A106_B">ASTM A106 Gr. B</option>
                              <option value="A53_B">ASTM A53 Gr. B</option>
                              <option value="A333_6">ASTM A333 Gr. 6</option>
                              <option value="A312_TP304L">ASTM A312 TP304L</option>
                              <option value="A312_TP316L">ASTM A312 TP316L</option>
+                             <option value="CUSTOM">Custom (Ingresar Manual)</option>
                          </select>
-                         <div class="mt-2 text-xs font-semibold text-blue-700 bg-blue-50 py-1.5 px-3 rounded-lg w-max">Allowable Stress: <span id="sBadgeVal">-</span></div>
+                         <div id="customStressContainer" class="hidden mt-3">
+                             <input type="number" id="customStress" placeholder="S Value (psi)" min="1" step="1" class="w-full rounded-xl border-2 border-slate-200 focus:border-blue-500 hover:border-blue-300 py-2 px-3 outline-none transition-colors text-sm" oninput="updateModeA()">
+                         </div>
+                         <div id="sBadgeContainer" class="mt-2 text-xs font-semibold text-blue-700 bg-blue-50 py-1.5 px-3 rounded-lg w-max">Allowable Stress: <span id="sBadgeVal">-</span></div>
+                         <p class="mt-1 text-[10px] text-gray-500 italic">Esfuerzo permisible (S) según Tabla A-1.</p>
                      </div>
                   </div>
 
@@ -355,6 +376,20 @@
             }
         }
 
+        // UI TOGGLES
+        function toggleCustomStress() {
+            const grade = document.getElementById('pipeGrade').value;
+            const container = document.getElementById('customStressContainer');
+            const badgeContainer = document.getElementById('sBadgeContainer');
+            if (grade === 'CUSTOM') {
+                container.classList.remove('hidden');
+                badgeContainer.classList.add('hidden');
+            } else {
+                container.classList.add('hidden');
+                badgeContainer.classList.remove('hidden');
+            }
+        }
+
         // DOM ELEMENTS AND INIT
         function initApp() {
             const ps = document.getElementById('pipeSize');
@@ -443,8 +478,15 @@
                 document.getElementById('tBadgeVal').textContent = '-';
             }
 
-            if(grade && allowableStress[grade]) {
+            let S = 0;
+            if (grade === 'CUSTOM') {
+                const customS = parseFloat(document.getElementById('customStress').value);
+                if (!isNaN(customS) && customS > 0) {
+                    S = customS;
+                }
+            } else if (grade && allowableStress[grade]) {
                 document.getElementById('sBadgeVal').textContent = allowableStress[grade].toLocaleString() + ' psi';
+                S = allowableStress[grade];
             } else {
                 document.getElementById('sBadgeVal').textContent = '-';
             }
@@ -452,13 +494,12 @@
             const resDiv = document.getElementById('modeAResultsContainer');
             const globals = getGlobalParams();
             
-            if(!size || !grade || isNaN(globals.E) || isNaN(globals.W) || isNaN(globals.Y)) {
+            if(!size || !grade || (grade === 'CUSTOM' && !S) || isNaN(globals.E) || isNaN(globals.W) || isNaN(globals.Y)) {
                 resDiv.innerHTML = '<div class="text-center p-6 text-gray-400">Complete all required global and specific parameters to view results.</div>';
                 return;
             }
 
             const D = pipeDimensions[size].OD;
-            const S = allowableStress[grade];
             let t = size && sch ? pipeDimensions[size].schedules[sch] : 0;
 
             if(target === 'thickness') {
