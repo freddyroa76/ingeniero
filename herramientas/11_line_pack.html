@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -1213,8 +1213,15 @@
         if(isNaN(id)) { alert("Please select a pipe first."); return; }
         
         const vGeom = (Math.PI / 4) * Math.pow(id / 12, 2) * (L * 3.28084);
-        const vStd = vGeom * (pAvgAbs / 14.7) * (519.67 / tAvgR) * (1 / z);
-        const mass = (vStd * mw_mix) / 379.48; // lb
+        // Standard conditions: Pb = 14.696 psia (exact), Tb = 60°F = 519.67°R
+        // Using exact Pb ensures consistency with Vm = R·Tb/Pb = 10.7316·519.67/14.696 = 379.49 scf/lbmol
+        const Pb = 14.696; // psia — exact AGA/GPA standard base pressure
+        const Tb_R = 519.67; // °R — standard base temperature (60°F)
+        const R_psia = 10.7316; // psia·ft³/(lbmol·°R) — universal gas constant
+        const Vm_std = (R_psia * Tb_R) / Pb; // ≈ 379.49 scf/lbmol (derived, not hardcoded)
+
+        const vStd = vGeom * (pAvgAbs / Pb) * (Tb_R / tAvgR) * (1 / z);
+        const mass = (vStd * mw_mix) / Vm_std; // lb
 
         document.getElementById("resultsCard").style.display = "block";
         document.getElementById("vStdRes").textContent = vStd.toLocaleString(undefined, { maximumFractionDigits: 0 });
