@@ -370,9 +370,163 @@
     </a>
 
     <script>
-      // Initialize
+      // Global State
+      window.currentMethod = 'cnGA';
+
+      /**
+       * Switch between calculation methods
+       * @param {string} method - 'cnGA' or 'papay'
+       */
+      window.selectMethod = function(method) {
+        window.currentMethod = method;
+        
+        const btnCnGA = document.getElementById('btnCnGA');
+        const btnPapay = document.getElementById('btnPapay');
+        const rowCnGA = document.getElementById('rowCnGA');
+        const rowPpc = document.getElementById('rowPpc');
+        const rowTpc = document.getElementById('rowTpc');
+        const rowPpr = document.getElementById('rowPpr');
+        const rowTpr = document.getElementById('rowTpr');
+        const formulaBox = document.getElementById('formulaBox');
+
+        // Toggle Button Classes (Tailwind)
+        if (method === 'cnGA') {
+          btnCnGA.className = 'py-3 px-4 rounded-lg border-2 font-semibold text-sm transition-all duration-200 bg-[#008F4C] border-[#008F4C] text-white';
+          btnPapay.className = 'py-3 px-4 rounded-lg border-2 font-semibold text-sm transition-all duration-200 bg-white border-gray-200 text-gray-600 hover:border-gray-300';
+          
+          rowCnGA.classList.remove('hidden');
+          rowPpc.classList.add('hidden');
+          rowTpc.classList.add('hidden');
+          rowPpr.classList.add('hidden');
+          rowTpr.classList.add('hidden');
+
+          formulaBox.innerHTML = `
+            <h3 class="font-bold text-[#008F4C] text-sm mb-2">Fórmula CNGA</h3>
+            <p class="text-xs text-slate-700 font-mono bg-white rounded p-3 border border-gray-200 text-center">
+              Z = 1 / [1 + (P<sub>psig</sub> × 344400 × 10<sup>1.785×SG</sup>) / T<sub>°R</sub><sup>3.825</sup>]
+            </p>
+            <p class="text-xs text-gray-600 mt-2">Método empírico de California Gas Association. Válido para 100-1500 psig y 40-240°F.</p>
+          `;
+        } else {
+          btnPapay.className = 'py-3 px-4 rounded-lg border-2 font-semibold text-sm transition-all duration-200 bg-[#008F4C] border-[#008F4C] text-white';
+          btnCnGA.className = 'py-3 px-4 rounded-lg border-2 font-semibold text-sm transition-all duration-200 bg-white border-gray-200 text-gray-600 hover:border-gray-300';
+          
+          rowCnGA.classList.add('hidden');
+          rowPpc.classList.remove('hidden');
+          rowTpc.classList.remove('hidden');
+          rowPpr.classList.remove('hidden');
+          rowTpr.classList.remove('hidden');
+
+          formulaBox.innerHTML = `
+            <h3 class="font-bold text-[#008F4C] text-sm mb-2">Fórmula Papay (Standing)</h3>
+            <div class="space-y-2">
+              <p class="text-[10px] text-slate-700 font-mono bg-white rounded p-2 border border-gray-200 text-center">
+                Z = 1 - ((3.52·Ppr) / 10^{0.9813·Tpr}) + (0.274·Ppr² / 10^{0.8157·Tpr})
+              </p>
+              <p class="text-[10px] text-gray-600">Correlación de Papay usando propiedades pseudocríticas de Standing.</p>
+            </div>
+          `;
+        }
+        
+        window.calculateZ();
+      };
+
+      /**
+       * Main calculation engine
+       */
+      window.calculateZ = function() {
+        // Capture inputs
+        const pressureRaw = document.getElementById('pressure').value;
+        const temperatureRaw = document.getElementById('temperature').value;
+        const sgRaw = document.getElementById('sg').value.replace(',', '.');
+        
+        const P_val = parseFloat(pressureRaw);
+        const T_val = parseFloat(temperatureRaw);
+        const SG = parseFloat(sgRaw);
+        
+        const zValueEl = document.getElementById('zValue');
+        const internalIds = ['valPpsia', 'valTR', 'valSG', 'valExp', 'valPpc', 'valTpc', 'valPpr', 'valTpr'];
+        
+        // Basic Validation
+        if (isNaN(P_val) || isNaN(T_val) || isNaN(SG) || SG <= 0) {
+          zValueEl.textContent = '-';
+          internalIds.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = '-';
+          });
+          return;
+        }
+
+        const pUnit = document.getElementById('pUnit').value;
+        const tUnit = document.getElementById('tUnit').value;
+
+        // 1. Convert Pressure to absolute (psia) and manometric (psig)
+        let P_psia = 0;
+        let P_psig = 0;
+        
+        if (pUnit === 'psig') {
+          P_psig = P_val;
+          P_psia = P_val + 14.7;
+        } else if (pUnit === 'kPa') {
+          P_psig = P_val * 0.145038;
+          P_psia = P_psig + 14.7;
+        } else if (pUnit === 'bar') {
+          P_psig = P_val * 14.5038;
+          P_psia = P_psig + 14.7;
+        }
+
+        // 2. Convert Temperature to Rankine (°R)
+        let T_R = 0;
+        if (tUnit === 'F') {
+          T_R = T_val + 459.67;
+        } else {
+          // Celsius to Rankine: (C * 1.8) + 32 + 459.67
+          T_R = (T_val * 1.8) + 32 + 459.67;
+        }
+
+        // Display base values
+        document.getElementById('valPpsia').textContent = P_psia.toFixed(2);
+        document.getElementById('valTR').textContent = T_R.toFixed(2);
+        document.getElementById('valSG').textContent = SG.toFixed(2);
+
+        let Z = 0;
+
+        if (window.currentMethod === 'cnGA') {
+          // --- CNGA METHOD ---
+          // Factor exponencial: 10^(1.785 * SG)
+          const expFactor = Math.pow(10, 1.785 * SG);
+          // Z = 1 / [1 + (P_psig * 344400 * expFactor) / T_R^3.825]
+          Z = 1 / (1 + ((P_psig * 344400 * expFactor) / Math.pow(T_R, 3.825)));
+          
+          document.getElementById('valExp').textContent = expFactor.toFixed(4);
+        } else {
+          // --- PAPAY METHOD (Standing Correlation) ---
+          // Ppc = 706 - 51.7·SG - 11.1·SG^2
+          const Ppc = 706 - (51.7 * SG) - (11.1 * Math.pow(SG, 2));
+          // Tpc = 168 + 325·SG - 12.5·SG^2
+          const Tpc = 168 + (325 * SG) - (12.5 * Math.pow(SG, 2));
+          
+          const Ppr = P_psia / Ppc;
+          const Tpr = T_R / Tpc;
+          
+          // Papay Z: 1 - (3.52·Ppr / 10^(0.9813·Tpr)) + (0.274·Ppr^2 / 10^(0.8157·Tpr))
+          const term1 = (3.52 * Ppr) / Math.pow(10, 0.9813 * Tpr);
+          const term2 = (0.274 * Math.pow(Ppr, 2)) / Math.pow(10, 0.8157 * Tpr);
+          Z = 1 - term1 + term2;
+          
+          document.getElementById('valPpc').textContent = Ppc.toFixed(3);
+          document.getElementById('valTpc').textContent = Tpc.toFixed(3);
+          document.getElementById('valPpr').textContent = Ppr.toFixed(3);
+          document.getElementById('valTpr').textContent = Tpr.toFixed(3);
+        }
+
+        // Final result rendering
+        zValueEl.textContent = Z.toFixed(4);
+      };
+
+      // Lifecycle Management
       document.addEventListener('DOMContentLoaded', () => {
-        selectMethod('cnGA');
+        window.selectMethod('cnGA');
 
         // Header scroll effect
         const header = document.querySelector("header");
