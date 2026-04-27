@@ -7,7 +7,7 @@
     <meta name="robots" content="index, follow" />
     <meta name="author" content="Freddy Roa Monsalvo" />
     <title>Tiempo de Venteo (Blow Down) — Gasoductos | Freddy Roa Monsalvo</title>
-    <meta name="description" content="Calculadora de tiempo de venteo (blowdown) para gasoductos. Modelo Angulo-Bustillo (2020), Crammer (1984), GPSA y API 521. Incluye régimen sónico y subsónico." />
+    <meta name="description" content="Calculadora de tiempo de venteo (blowdown) para gasoductos, Crammer (1984), GPSA y API 521. Incluye régimen sónico y subsónico." />
     <link rel="icon" type="image/x-icon" href="../images/logos/favicon.ico">
     <!-- Professional Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -333,7 +333,7 @@
           <div>
             <h1 class="text-3xl font-bold text-white tracking-tight">Pipeline Blowdown Time Calculator</h1>
             <p class="text-gray-300 mt-2 text-sm font-medium">
-              Modelo Angulo-Bustillo (2020) · GPSA · API 521 — Régimen sónico + subsónico
+              Modelo GPSA · API 521 — Régimen sónico + subsónico
             </p>
           </div>
           <div class="flex items-center gap-3 bd-no-print">
@@ -626,7 +626,7 @@
             </div>
 
             <div class="mt-4 pt-3 border-t border-gray-100 text-xs text-gray-400 flex items-center justify-between">
-              <div><strong>Modelo:</strong> Angulo-Bustillo (2020) ec. 21+36 · Iterativo completo</div>
+              <div><strong>Modelo:</strong> Iterativo completo</div>
               <div class="italic">Z-Factor: Papay (1985) · Pseudo-críticas: Standing (1977)</div>
             </div>
           </div>
@@ -1183,8 +1183,8 @@ function runCalculation() {
 
   // Comparison table
   const cmpData = [
-    { method: 'Modelo iterativo completo (este reporte)', t: tMin, ref: 'Angulo-Bustillo (2020) ec. 21+36' },
-    { method: 'Ec. logarítmica simplificada (ec. 62)', t: tEq62/60, ref: 'Angulo-Bustillo (2020) ec. 62' },
+    { method: 'Modelo iterativo completo (este reporte)', t: tMin, ref: 'ec. 21+36' },
+    { method: 'Ec. logarítmica simplificada (ec. 62)', t: tEq62/60, ref: 'ec. 62' },
     { method: 'Crammer Jr. con corrección Z', t: tCrammer, ref: 'Crammer (1984) / Menon (2005)' },
     { method: 'Crammer Jr. sin corrección Z', t: tCrammerNoZ, ref: 'Crammer (1984) original' }
   ];
@@ -1198,7 +1198,7 @@ function runCalculation() {
     `t = 0.0889 · D²L / (Cd·d²·Z⁰·⁹) · √(G/T) · ln(1.2·P/Pₐ)  [segundos, SI]<br>` +
     `= 0.0889 · ${fmtN(D_m*D_m*L_m,3)} / (${Cd}·${fmtN(d1_m*d1_m,6)}·${fmtN(Z0,4)}⁰·⁹) · √(${G}/${fmtN(T_K,1)}) · ln(1.2·${fmtN(P_abs_Pa,0)}/${fmtN(Pa_Pa,0)})<br>` +
     `= <strong>${fmtN(tEq62,1)} s = ${fmtN(tEq62/60,2)} min</strong>`;
-  document.getElementById('eq-ref').textContent = 'Referencia: Angulo-Bustillo, MET&FLU 2020, Ecuación (62). L en metros, T en K.';
+  document.getElementById('eq-ref').textContent = 'MET&FLU 2020, Ecuación (62). L en metros, T en K.';
 
   // Memorial
   const memItems = [
